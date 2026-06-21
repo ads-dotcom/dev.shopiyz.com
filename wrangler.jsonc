@@ -1,0 +1,11 @@
+{
+  "$schema": "./node_modules/wrangler/config-schema.json",
+  "name": "dev-shopiyz-docs",
+  "compatibility_date": "2026-06-21",
+  "routes": [
+    {
+      "pattern": "dev.shopiyz.com",
+      "custom_domain": true
+    }
+  ]
+}
