@@ -7,7 +7,7 @@ info:
     Bu doküman şimdilik yalnızca Shopiyz geliştirici portalı tasarımını göstermek için
     hazırlanmıştır. Gerçek API endpointleri ve teknik mimari daha sonra eklenecektir.
 servers:
-  - url: https://developers.shopiyz.com
+  - url: https://dev.shopiyz.com
     description: Documentation preview
 paths:
   /docs/coming-soon:
