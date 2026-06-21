@@ -867,6 +867,208 @@
         color: #222222;
       }
 
+      .resource-reference {
+        padding: 62px 0 18px;
+        border-bottom: 1px solid var(--line);
+        scroll-margin-top: 100px;
+      }
+
+      .reference-head {
+        display: grid;
+        grid-template-columns: minmax(0, 0.82fr) minmax(320px, 0.58fr);
+        gap: 34px;
+        align-items: end;
+        margin-bottom: 24px;
+      }
+
+      .reference-head h2 {
+        margin-bottom: 12px;
+        color: var(--ink-strong);
+        font-size: 30px;
+        line-height: 1.18;
+      }
+
+      .reference-head p {
+        margin-bottom: 0;
+        color: #555555;
+        font-size: 16px;
+      }
+
+      .reference-note {
+        border: 1px solid var(--line);
+        border-radius: 8px;
+        background: #fafafa;
+        padding: 16px;
+        color: #555555;
+        font-size: 14px;
+      }
+
+      .reference-note strong {
+        display: block;
+        margin-bottom: 5px;
+        color: var(--ink);
+      }
+
+      .resource-stack {
+        display: grid;
+        gap: 18px;
+      }
+
+      .resource-group {
+        overflow: hidden;
+        border: 1px solid var(--line);
+        border-radius: 8px;
+        background: #ffffff;
+        scroll-margin-top: 100px;
+      }
+
+      .resource-group-head {
+        display: grid;
+        grid-template-columns: minmax(0, 1fr) auto;
+        gap: 18px;
+        align-items: start;
+        padding: 20px 22px;
+        border-bottom: 1px solid var(--line);
+        background: #fafafa;
+      }
+
+      .resource-group-head h3 {
+        margin: 0 0 6px;
+        color: var(--ink-strong);
+        font-size: 21px;
+        line-height: 1.25;
+      }
+
+      .resource-group-head p {
+        margin: 0;
+        color: #555555;
+        font-size: 14px;
+      }
+
+      .resource-tag {
+        display: inline-flex;
+        align-items: center;
+        min-height: 28px;
+        padding: 0 10px;
+        border: 1px solid var(--line-strong);
+        border-radius: 8px;
+        background: #ffffff;
+        color: #333333;
+        font-family: var(--mono);
+        font-size: 12px;
+        font-weight: 780;
+        white-space: nowrap;
+      }
+
+      .resource-items {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+
+      .resource-item {
+        min-width: 0;
+        padding: 19px 22px 20px;
+        border-right: 1px solid var(--line);
+        border-bottom: 1px solid var(--line);
+        scroll-margin-top: 100px;
+      }
+
+      .resource-item:nth-child(2n) {
+        border-right: 0;
+      }
+
+      .resource-item:nth-last-child(-n + 2) {
+        border-bottom: 1px solid var(--line);
+      }
+
+      .resource-item:last-child,
+      .resource-item:nth-child(odd):nth-last-child(2) {
+        border-bottom: 0;
+      }
+
+      .resource-item h4 {
+        margin: 0 0 7px;
+        color: var(--ink);
+        font-size: 16px;
+        line-height: 1.3;
+      }
+
+      .resource-item p {
+        margin: 0 0 13px;
+        color: #555555;
+        font-size: 14px;
+      }
+
+      .endpoint-chips {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 7px;
+        margin-bottom: 13px;
+      }
+
+      .endpoint-chip {
+        display: inline-flex;
+        max-width: 100%;
+        min-height: 28px;
+        align-items: center;
+        padding: 0 8px;
+        border: 1px solid var(--line);
+        border-radius: 7px;
+        background: #f7f7f7;
+        color: #222222;
+        font-family: var(--mono);
+        font-size: 12px;
+        overflow-wrap: anywhere;
+      }
+
+      .field-list {
+        display: grid;
+        gap: 6px;
+        margin: 0;
+        padding: 0;
+        list-style: none;
+      }
+
+      .field-list li {
+        position: relative;
+        padding-left: 17px;
+        color: #666666;
+        font-size: 13px;
+        line-height: 1.45;
+      }
+
+      .field-list li::before {
+        position: absolute;
+        top: 8px;
+        left: 1px;
+        width: 6px;
+        height: 6px;
+        border-radius: 50%;
+        background: #333333;
+        content: "";
+      }
+
+      .resource-example {
+        display: grid;
+        grid-template-columns: minmax(0, 1fr) minmax(360px, 0.9fr);
+        gap: 28px;
+        align-items: stretch;
+        margin-top: 26px;
+        padding-top: 26px;
+        border-top: 1px solid var(--line);
+      }
+
+      .resource-example h3 {
+        margin-bottom: 10px;
+        color: var(--ink-strong);
+        font-size: 22px;
+      }
+
+      .resource-example p {
+        color: #555555;
+        font-size: 15px;
+      }
+
       .footer-note {
         display: flex;
         flex-wrap: wrap;
@@ -921,6 +1123,11 @@
 
         .hero,
         .doc-section {
+          grid-template-columns: 1fr;
+        }
+
+        .reference-head,
+        .resource-example {
           grid-template-columns: 1fr;
         }
 
@@ -986,6 +1193,29 @@
         .doc-section {
           gap: 24px;
           padding: 46px 0;
+        }
+
+        .resource-reference {
+          padding-top: 46px;
+        }
+
+        .resource-items {
+          grid-template-columns: 1fr;
+        }
+
+        .resource-item,
+        .resource-item:nth-child(2n),
+        .resource-item:nth-last-child(-n + 2) {
+          border-right: 0;
+          border-bottom: 1px solid var(--line);
+        }
+
+        .resource-item:last-child {
+          border-bottom: 0;
+        }
+
+        .resource-group-head {
+          grid-template-columns: 1fr;
         }
 
         .endpoint-row {
@@ -1057,8 +1287,8 @@
       </a>
       <nav class="global-nav" aria-label="Ana dokuman navigasyonu">
         <a href="#overview">Guides</a>
-        <a href="#endpoints">API reference</a>
-        <a href="#authentication">Resources</a>
+        <a href="#resource-reference">API reference</a>
+        <a href="#products">Resources</a>
         <a href="./openapi/shopiyz-api.v1.yaml">OpenAPI</a>
       </nav>
       <div class="top-actions">
@@ -1114,12 +1344,76 @@
 
           <div class="nav-section secondary">
             <ul class="nav-list">
-              <li><a class="nav-link" href="#authentication"><span><svg viewBox="0 0 24 24" fill="none"><path d="M16 11V7a4 4 0 0 0-8 0v4M5 11h14v10H5V11Z" stroke="currentColor" stroke-width="2" stroke-linejoin="round" /></svg>Access</span><span>›</span></a></li>
-              <li><a class="nav-link" href="#endpoints"><span><svg viewBox="0 0 24 24" fill="none"><path d="M4 6h16M4 12h16M4 18h10" stroke="currentColor" stroke-width="2" stroke-linecap="round" /></svg>Catalog</span><span>›</span></a></li>
-              <li><a class="nav-link" href="#endpoints"><span><svg viewBox="0 0 24 24" fill="none"><path d="M7 7h14M7 12h14M7 17h14M3 7h.01M3 12h.01M3 17h.01" stroke="currentColor" stroke-width="2" stroke-linecap="round" /></svg>Orders</span><span>›</span></a></li>
-              <li><a class="nav-link" href="#endpoints"><span><svg viewBox="0 0 24 24" fill="none"><path d="M20 7 10 17l-5-5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" /></svg>Products</span><span>›</span></a></li>
-              <li><a class="nav-link" href="#rate-limits"><span><svg viewBox="0 0 24 24" fill="none"><path d="M12 6v6l4 2M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" /></svg>Rate limits</span><span>›</span></a></li>
-              <li><a class="nav-link" href="#status"><span><svg viewBox="0 0 24 24" fill="none"><path d="M12 9v4m0 4h.01M10.3 3.9 2.8 17a2 2 0 0 0 1.7 3h15a2 2 0 0 0 1.7-3L13.7 3.9a2 2 0 0 0-3.4 0Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" /></svg>Errors</span><span>›</span></a></li>
+              <li><a class="nav-link" href="#access" data-nav-link><span>Access</span><span>›</span></a></li>
+              <li><a class="nav-link" href="#billing" data-nav-link><span>Billing</span><span>›</span></a></li>
+              <li>
+                <a class="nav-link" href="#customers" data-nav-link><span>Customers</span><span>›</span></a>
+                <ul class="subnav">
+                  <li><a href="#customer-resource" data-nav-link>Customer</a></li>
+                  <li><a href="#customer-address-resource" data-nav-link>Customer Address</a></li>
+                </ul>
+              </li>
+              <li><a class="nav-link" href="#discounts" data-nav-link><span>Discounts</span><span>›</span></a></li>
+              <li><a class="nav-link" href="#events" data-nav-link><span>Events</span><span>›</span></a></li>
+              <li><a class="nav-link" href="#gift-cards" data-nav-link><span>Gift Cards</span><span>›</span></a></li>
+              <li>
+                <a class="nav-link" href="#inventory" data-nav-link><span>Inventory</span><span>›</span></a>
+                <ul class="subnav">
+                  <li><a href="#inventory-item-resource" data-nav-link>InventoryItem</a></li>
+                  <li><a href="#inventory-level-resource" data-nav-link>InventoryLevel</a></li>
+                  <li><a href="#location-resource" data-nav-link>Location</a></li>
+                </ul>
+              </li>
+              <li><a class="nav-link" href="#marketing-event" data-nav-link><span>Marketing Event</span><span>›</span></a></li>
+              <li><a class="nav-link" href="#metafield" data-nav-link><span>Metafield</span><span>›</span></a></li>
+              <li><a class="nav-link" href="#mobile-support" data-nav-link><span>Mobile Support</span><span>›</span></a></li>
+              <li><a class="nav-link" href="#online-store" data-nav-link><span>Online Store</span><span>›</span></a></li>
+              <li>
+                <a class="nav-link" href="#orders" data-nav-link><span>Orders</span><span>›</span></a>
+                <ul class="subnav">
+                  <li><a href="#abandoned-checkout-resource" data-nav-link>Abandoned checkouts</a></li>
+                  <li><a href="#draft-order-resource" data-nav-link>DraftOrder</a></li>
+                  <li><a href="#order-resource" data-nav-link>Order</a></li>
+                  <li><a href="#order-risk-resource" data-nav-link>Order Risk</a></li>
+                  <li><a href="#refund-resource" data-nav-link>Refund</a></li>
+                  <li><a href="#transaction-resource" data-nav-link>Transaction</a></li>
+                </ul>
+              </li>
+              <li><a class="nav-link" href="#plus" data-nav-link><span>Plus</span><span>›</span></a></li>
+              <li>
+                <a class="nav-link" href="#products" data-nav-link><span>Products</span><span>›</span></a>
+                <ul class="subnav">
+                  <li><a href="#collect-resource" data-nav-link>Collect</a></li>
+                  <li><a href="#collection-resource" data-nav-link>Collection</a></li>
+                  <li><a href="#custom-collection-resource" data-nav-link>CustomCollection</a></li>
+                  <li><a href="#product-resource" data-nav-link>Product</a></li>
+                  <li><a href="#product-image-resource" data-nav-link>Product Image</a></li>
+                  <li><a href="#product-variant-resource" data-nav-link>Product Variant</a></li>
+                  <li><a href="#smart-collection-resource" data-nav-link>SmartCollection</a></li>
+                </ul>
+              </li>
+              <li><a class="nav-link" href="#sales-channels" data-nav-link><span>Sales Channels</span><span>›</span></a></li>
+              <li>
+                <a class="nav-link" href="#shipping-fulfillment" data-nav-link><span>Shipping And Fulfillment</span><span>›</span></a>
+                <ul class="subnav">
+                  <li><a href="#assigned-fulfillment-order-resource" data-nav-link>AssignedFulfillmentOrder</a></li>
+                  <li><a href="#cancellation-request-resource" data-nav-link>CancellationRequest</a></li>
+                  <li><a href="#carrier-service-resource" data-nav-link>CarrierService</a></li>
+                  <li><a href="#fulfillment-resource" data-nav-link>Fulfillment</a></li>
+                  <li><a href="#fulfillment-event-resource" data-nav-link>FulfillmentEvent</a></li>
+                  <li><a href="#fulfillment-order-resource" data-nav-link>FulfillmentOrder</a></li>
+                  <li><a href="#fulfillment-request-resource" data-nav-link>FulfillmentRequest</a></li>
+                  <li><a href="#fulfillment-service-resource" data-nav-link>FulfillmentService</a></li>
+                  <li><a href="#locations-for-move-resource" data-nav-link>LocationsForMove</a></li>
+                </ul>
+              </li>
+              <li><a class="nav-link" href="#shopiyz-payments" data-nav-link><span>Shopiyz Payments</span><span>›</span></a></li>
+              <li><a class="nav-link" href="#store-properties" data-nav-link><span>Store Properties</span><span>›</span></a></li>
+              <li><a class="nav-link" href="#tender-transaction" data-nav-link><span>Tender Transaction</span><span>›</span></a></li>
+              <li><a class="nav-link" href="#webhooks" data-nav-link><span>Webhooks</span><span>›</span></a></li>
+              <li><a class="nav-link" href="#deprecated-api-calls" data-nav-link><span>Deprecated API Calls</span><span>›</span></a></li>
+              <li><a class="nav-link" href="#rate-limits" data-nav-link><span>Rate limits</span><span>›</span></a></li>
+              <li><a class="nav-link" href="#status" data-nav-link><span>Errors</span><span>›</span></a></li>
               <li><a class="nav-link" href="./openapi/shopiyz-api.v1.yaml"><span><svg viewBox="0 0 24 24" fill="none"><path d="M8 3h8l4 4v14H4V3h4Zm8 0v5h4" stroke="currentColor" stroke-width="2" stroke-linejoin="round" /></svg>OpenAPI YAML</span><span>›</span></a></li>
             </ul>
           </div>
@@ -1176,7 +1470,7 @@
               </div>
               <div class="button-row">
                 <a class="button primary" href="#authentication">Get started</a>
-                <a class="button" href="#endpoints">View endpoints</a>
+                <a class="button" href="#resource-reference">View resources</a>
               </div>
             </div>
 
@@ -1244,7 +1538,7 @@ $response = $client->get(
               <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h10" stroke="currentColor" stroke-width="2" stroke-linecap="round" /></svg>
               <h2>Endpoints and requests</h2>
               <p>Kaynaklar standart REST pathleri, JSON body ve cursor pagination ile tasarlanir.</p>
-              <a class="mini-button" href="#endpoints">Explore endpoints</a>
+              <a class="mini-button" href="#resource-reference">Explore resources</a>
             </article>
             <article class="overview-card">
               <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M12 6v6l4 2M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" /></svg>
@@ -1346,7 +1640,7 @@ $response = $client->get(
               <h2 id="endpoints-title">Endpoints and requests</h2>
               <p>
                 REST Admin API kaynaklari okunabilir pathler ve JSON yanitlariyla tasarlanir.
-                Ilk formatin hedefi Shopify kadar guclu ama daha az karmasik bir istek modeli kurmak.
+                Ilk formatin hedefi buyuk platformlar kadar guclu ama daha az karmasik bir istek modeli kurmak.
               </p>
               <p>
                 Planlanan endpoint deseni:
@@ -1470,6 +1764,884 @@ Retry-After: 2
             </div>
           </section>
 
+          <section class="resource-reference" id="resource-reference" aria-labelledby="resource-reference-title">
+            <div class="reference-head">
+              <div>
+                <h2 id="resource-reference-title">Resource reference</h2>
+                <p>
+                  Shopiyz Admin API kaynak haritasi genis platform mantiginda, ama ilk
+                  surum icin daha okunabilir ve REST odakli tutulur. Bu bolum kaynak
+                  ailelerini, planlanan pathleri ve dokumanlarda yer alacak temel alanlari
+                  gosterir.
+                </p>
+              </div>
+              <div class="reference-note">
+                <strong>Sadece dokuman taslagi</strong>
+                Bu sayfada API backend kodu yazilmadi. Pathler ve ornekler, gelistiricinin
+                nasil bir API bekleyecegini gosteren preview dokumanidir.
+              </div>
+            </div>
+
+            <div class="resource-stack">
+              <article class="resource-group" id="access">
+                <div class="resource-group-head">
+                  <div>
+                    <h3>Access</h3>
+                    <p>App kurulumu, magaza erisimi, token, scope ve izin kontrolleri.</p>
+                  </div>
+                  <span class="resource-tag">auth</span>
+                </div>
+                <div class="resource-items">
+                  <section class="resource-item" id="access-token-resource">
+                    <h4>Access token</h4>
+                    <p>Bir entegrasyonun hangi magazaya ve hangi kaynaklara erisecegini belirler.</p>
+                    <div class="endpoint-chips">
+                      <code class="endpoint-chip">GET /admin/api/v1/access_scopes.json</code>
+                      <code class="endpoint-chip">POST /admin/api/v1/oauth/token.json</code>
+                    </div>
+                    <ul class="field-list">
+                      <li>Scope: read_products, write_orders, read_customers.</li>
+                      <li>Tokenlar server veya worker tarafinda saklanir.</li>
+                      <li>Magaza bazli iptal ve yenileme akisi dokumanda yer alir.</li>
+                    </ul>
+                  </section>
+                  <section class="resource-item" id="permission-resource">
+                    <h4>Permission model</h4>
+                    <p>Admin panelindeki kullanici, app ve magaza yetkilerini API katmanina yansitir.</p>
+                    <div class="endpoint-chips">
+                      <code class="endpoint-chip">GET /admin/api/v1/permissions.json</code>
+                      <code class="endpoint-chip">GET /admin/api/v1/apps/current.json</code>
+                    </div>
+                    <ul class="field-list">
+                      <li>App sahibi, partner ve musteri rolleri ayrilir.</li>
+                      <li>Yetkisiz kaynaklar 403 cevabi ile kapanir.</li>
+                    </ul>
+                  </section>
+                </div>
+              </article>
+
+              <article class="resource-group" id="billing">
+                <div class="resource-group-head">
+                  <div>
+                    <h3>Billing</h3>
+                    <p>Abonelik, paket, fatura ve kullanim bazli ucretlendirme dokumanlari.</p>
+                  </div>
+                  <span class="resource-tag">billing</span>
+                </div>
+                <div class="resource-items">
+                  <section class="resource-item" id="billing-subscription-resource">
+                    <h4>Subscription</h4>
+                    <p>Magazanin aktif paketini, yenileme tarihini ve kullanim limitlerini okur.</p>
+                    <div class="endpoint-chips">
+                      <code class="endpoint-chip">GET /admin/api/v1/billing/subscription.json</code>
+                      <code class="endpoint-chip">GET /admin/api/v1/billing/usage.json</code>
+                    </div>
+                    <ul class="field-list">
+                      <li>plan_name, status, trial_ends_at, renews_at.</li>
+                      <li>Ilk surumda okuma odakli tasarlanir.</li>
+                    </ul>
+                  </section>
+                  <section class="resource-item" id="billing-invoice-resource">
+                    <h4>Invoice</h4>
+                    <p>Fatura gecmisi ve odeme durumlarini entegrasyonlara acmak icin kullanilir.</p>
+                    <div class="endpoint-chips">
+                      <code class="endpoint-chip">GET /admin/api/v1/billing/invoices.json</code>
+                      <code class="endpoint-chip">GET /admin/api/v1/billing/invoices/{invoice_id}.json</code>
+                    </div>
+                    <ul class="field-list">
+                      <li>invoice_number, total, currency, payment_status.</li>
+                      <li>PDF ve e-fatura baglantilari sonra genisletilir.</li>
+                    </ul>
+                  </section>
+                </div>
+              </article>
+
+              <article class="resource-group" id="customers">
+                <div class="resource-group-head">
+                  <div>
+                    <h3>Customers</h3>
+                    <p>Musteri profilleri, iletisim bilgileri, adresler ve pazarlama izinleri.</p>
+                  </div>
+                  <span class="resource-tag">crm</span>
+                </div>
+                <div class="resource-items">
+                  <section class="resource-item" id="customer-resource">
+                    <h4>Customer</h4>
+                    <p>Musteri kaydini arama, listeleme, olusturma ve guncelleme icin ana kaynak.</p>
+                    <div class="endpoint-chips">
+                      <code class="endpoint-chip">GET /admin/api/v1/customers.json</code>
+                      <code class="endpoint-chip">POST /admin/api/v1/customers.json</code>
+                      <code class="endpoint-chip">GET /admin/api/v1/customers/{customer_id}.json</code>
+                    </div>
+                    <ul class="field-list">
+                      <li>email, phone, first_name, last_name, tags.</li>
+                      <li>marketing_status ve consent alanlari ayri izlenir.</li>
+                      <li>Siparis sayisi ve toplam harcama read-only alan olur.</li>
+                    </ul>
+                  </section>
+                  <section class="resource-item" id="customer-address-resource">
+                    <h4>Customer Address</h4>
+                    <p>Musterinin teslimat ve fatura adreslerini magaza bazinda yonetir.</p>
+                    <div class="endpoint-chips">
+                      <code class="endpoint-chip">GET /admin/api/v1/customers/{customer_id}/addresses.json</code>
+                      <code class="endpoint-chip">POST /admin/api/v1/customers/{customer_id}/addresses.json</code>
+                    </div>
+                    <ul class="field-list">
+                      <li>address1, address2, city, province, country, zip.</li>
+                      <li>default adres secimi tekil tutulur.</li>
+                    </ul>
+                  </section>
+                </div>
+              </article>
+
+              <article class="resource-group" id="discounts">
+                <div class="resource-group-head">
+                  <div>
+                    <h3>Discounts</h3>
+                    <p>Indirim kodlari, fiyat kurallari ve kampanya kosullari.</p>
+                  </div>
+                  <span class="resource-tag">promo</span>
+                </div>
+                <div class="resource-items">
+                  <section class="resource-item" id="discount-code-resource">
+                    <h4>Discount code</h4>
+                    <p>Tekil kupon kodlarini listeleme, olusturma ve durdurma icin kullanilir.</p>
+                    <div class="endpoint-chips">
+                      <code class="endpoint-chip">GET /admin/api/v1/discounts.json</code>
+                      <code class="endpoint-chip">POST /admin/api/v1/discounts.json</code>
+                    </div>
+                    <ul class="field-list">
+                      <li>code, value_type, value, starts_at, ends_at.</li>
+                      <li>Minimum sepet ve urun/kategori kosullari kural olarak tutulur.</li>
+                    </ul>
+                  </section>
+                  <section class="resource-item" id="price-rule-resource">
+                    <h4>Price rule</h4>
+                    <p>Otomatik indirim ve hedefli kampanya kurallarini tanimlar.</p>
+                    <div class="endpoint-chips">
+                      <code class="endpoint-chip">GET /admin/api/v1/price_rules.json</code>
+                      <code class="endpoint-chip">PUT /admin/api/v1/price_rules/{rule_id}.json</code>
+                    </div>
+                    <ul class="field-list">
+                      <li>target_type, allocation_method, customer_selection.</li>
+                      <li>Kurallar once dokumanda model olarak netlestirilir.</li>
+                    </ul>
+                  </section>
+                </div>
+              </article>
+
+              <article class="resource-group" id="events">
+                <div class="resource-group-head">
+                  <div>
+                    <h3>Events</h3>
+                    <p>Magaza icinde olusan sistem ve kaynak olaylarini geriye donuk okumak icin log katmani.</p>
+                  </div>
+                  <span class="resource-tag">events</span>
+                </div>
+                <div class="resource-items">
+                  <section class="resource-item" id="event-resource">
+                    <h4>Event</h4>
+                    <p>Urun guncelleme, siparis olusturma, iade ve app islemlerini zaman sirali listeler.</p>
+                    <div class="endpoint-chips">
+                      <code class="endpoint-chip">GET /admin/api/v1/events.json</code>
+                      <code class="endpoint-chip">GET /admin/api/v1/events/{event_id}.json</code>
+                    </div>
+                    <ul class="field-list">
+                      <li>subject_type, subject_id, verb, created_at.</li>
+                      <li>Webhook kaciran entegrasyonlar icin guvenli geri okuma saglar.</li>
+                    </ul>
+                  </section>
+                </div>
+              </article>
+
+              <article class="resource-group" id="gift-cards">
+                <div class="resource-group-head">
+                  <div>
+                    <h3>Gift Cards</h3>
+                    <p>Hediye karti bakiyeleri, kullanim gecmisi ve durum bilgisi.</p>
+                  </div>
+                  <span class="resource-tag">gift</span>
+                </div>
+                <div class="resource-items">
+                  <section class="resource-item" id="gift-card-resource">
+                    <h4>Gift Card</h4>
+                    <p>Hediye kartlarini guvenli sekilde olusturma, listeleme ve pasife alma modeli.</p>
+                    <div class="endpoint-chips">
+                      <code class="endpoint-chip">GET /admin/api/v1/gift_cards.json</code>
+                      <code class="endpoint-chip">POST /admin/api/v1/gift_cards.json</code>
+                    </div>
+                    <ul class="field-list">
+                      <li>masked_code, initial_value, balance, expires_at.</li>
+                      <li>Tam kod degeri yalnizca olusturma aninda dondurulur.</li>
+                    </ul>
+                  </section>
+                </div>
+              </article>
+
+              <article class="resource-group" id="inventory">
+                <div class="resource-group-head">
+                  <div>
+                    <h3>Inventory</h3>
+                    <p>Stok karti, lokasyon ve stok seviyesi arasindaki iliskiyi yonetir.</p>
+                  </div>
+                  <span class="resource-tag">stock</span>
+                </div>
+                <div class="resource-items">
+                  <section class="resource-item" id="inventory-item-resource">
+                    <h4>InventoryItem</h4>
+                    <p>Bir varyantin stok takip edilen teknik kartidir.</p>
+                    <div class="endpoint-chips">
+                      <code class="endpoint-chip">GET /admin/api/v1/inventory_items.json</code>
+                      <code class="endpoint-chip">GET /admin/api/v1/inventory_items/{item_id}.json</code>
+                    </div>
+                    <ul class="field-list">
+                      <li>sku, tracked, cost, requires_shipping.</li>
+                      <li>Product Variant ile bire bir bag kurar.</li>
+                    </ul>
+                  </section>
+                  <section class="resource-item" id="inventory-level-resource">
+                    <h4>InventoryLevel</h4>
+                    <p>Bir stok kartinin belirli lokasyondaki miktarini tutar.</p>
+                    <div class="endpoint-chips">
+                      <code class="endpoint-chip">GET /admin/api/v1/inventory_levels.json</code>
+                      <code class="endpoint-chip">PUT /admin/api/v1/inventory_levels/adjust.json</code>
+                    </div>
+                    <ul class="field-list">
+                      <li>available, committed, incoming, location_id.</li>
+                      <li>ERP entegrasyonlari icin idempotency key desteklenir.</li>
+                    </ul>
+                  </section>
+                  <section class="resource-item" id="location-resource">
+                    <h4>Location</h4>
+                    <p>Depo, magaza, fulfillment merkezi veya sanal stok lokasyonlarini tanimlar.</p>
+                    <div class="endpoint-chips">
+                      <code class="endpoint-chip">GET /admin/api/v1/locations.json</code>
+                      <code class="endpoint-chip">GET /admin/api/v1/locations/{location_id}.json</code>
+                    </div>
+                    <ul class="field-list">
+                      <li>name, active, address, fulfills_online_orders.</li>
+                    </ul>
+                  </section>
+                </div>
+              </article>
+
+              <article class="resource-group" id="marketing-event">
+                <div class="resource-group-head">
+                  <div>
+                    <h3>Marketing Event</h3>
+                    <p>Kampanya, reklam ve kaynak atfini siparislerle iliskilendirir.</p>
+                  </div>
+                  <span class="resource-tag">marketing</span>
+                </div>
+                <div class="resource-items">
+                  <section class="resource-item" id="marketing-event-resource">
+                    <h4>Marketing Event</h4>
+                    <p>Harici kampanya sistemlerinin Shopiyz siparislerine atif bilgisi yazmasi icin model.</p>
+                    <div class="endpoint-chips">
+                      <code class="endpoint-chip">GET /admin/api/v1/marketing_events.json</code>
+                      <code class="endpoint-chip">POST /admin/api/v1/marketing_events.json</code>
+                    </div>
+                    <ul class="field-list">
+                      <li>utm_source, utm_campaign, channel, budget, starts_at.</li>
+                      <li>Raporlama icin siparis ve musteri iliskileri okunur.</li>
+                    </ul>
+                  </section>
+                </div>
+              </article>
+
+              <article class="resource-group" id="metafield">
+                <div class="resource-group-head">
+                  <div>
+                    <h3>Metafield</h3>
+                    <p>Urun, siparis, musteri ve magaza icin ozel alan modeli.</p>
+                  </div>
+                  <span class="resource-tag">custom data</span>
+                </div>
+                <div class="resource-items">
+                  <section class="resource-item" id="metafield-resource">
+                    <h4>Metafield</h4>
+                    <p>App ve entegrasyonlarin kaynaklara isim alanli ek veri baglamasini saglar.</p>
+                    <div class="endpoint-chips">
+                      <code class="endpoint-chip">GET /admin/api/v1/metafields.json</code>
+                      <code class="endpoint-chip">POST /admin/api/v1/metafields.json</code>
+                    </div>
+                    <ul class="field-list">
+                      <li>owner_type, owner_id, namespace, key, type, value.</li>
+                      <li>Tipli veri: string, number, boolean, json, reference.</li>
+                    </ul>
+                  </section>
+                </div>
+              </article>
+
+              <article class="resource-group" id="mobile-support">
+                <div class="resource-group-head">
+                  <div>
+                    <h3>Mobile Support</h3>
+                    <p>Mobil uygulama ve cihaz odakli entegrasyon notlari.</p>
+                  </div>
+                  <span class="resource-tag">mobile</span>
+                </div>
+                <div class="resource-items">
+                  <section class="resource-item" id="mobile-session-resource">
+                    <h4>Mobile Session</h4>
+                    <p>Mobil uygulama icin cihaz, oturum ve guvenli deep link akisini aciklar.</p>
+                    <div class="endpoint-chips">
+                      <code class="endpoint-chip">GET /admin/api/v1/mobile/sessions.json</code>
+                      <code class="endpoint-chip">POST /admin/api/v1/mobile/deep_links.json</code>
+                    </div>
+                    <ul class="field-list">
+                      <li>device_id, platform, app_version, last_seen_at.</li>
+                      <li>SDK dokumani daha sonraki surumde ayrilabilir.</li>
+                    </ul>
+                  </section>
+                </div>
+              </article>
+
+              <article class="resource-group" id="online-store">
+                <div class="resource-group-head">
+                  <div>
+                    <h3>Online Store</h3>
+                    <p>Vitrin icerigi, sayfalar, menuler, temalar ve yayinlama bilgileri.</p>
+                  </div>
+                  <span class="resource-tag">storefront</span>
+                </div>
+                <div class="resource-items">
+                  <section class="resource-item" id="page-resource">
+                    <h4>Page</h4>
+                    <p>Hakkimizda, kosullar ve ozel icerik sayfalari icin kaynak modeli.</p>
+                    <div class="endpoint-chips">
+                      <code class="endpoint-chip">GET /admin/api/v1/pages.json</code>
+                      <code class="endpoint-chip">POST /admin/api/v1/pages.json</code>
+                    </div>
+                    <ul class="field-list">
+                      <li>title, handle, body_html, published_at, seo.</li>
+                    </ul>
+                  </section>
+                  <section class="resource-item" id="theme-resource">
+                    <h4>Theme</h4>
+                    <p>Development store, tema sitesi ve musteri sitesi yayin akisi icin tema bilgisi.</p>
+                    <div class="endpoint-chips">
+                      <code class="endpoint-chip">GET /admin/api/v1/themes.json</code>
+                      <code class="endpoint-chip">GET /admin/api/v1/themes/{theme_id}.json</code>
+                    </div>
+                    <ul class="field-list">
+                      <li>role, preview_url, version, updated_at.</li>
+                      <li>Yayinlama islemleri once super admin akisiyla uyumlu tasarlanir.</li>
+                    </ul>
+                  </section>
+                </div>
+              </article>
+
+              <article class="resource-group" id="orders">
+                <div class="resource-group-head">
+                  <div>
+                    <h3>Orders</h3>
+                    <p>Siparis, taslak siparis, odeme, risk, iade ve terk edilen sepet kaynaklari.</p>
+                  </div>
+                  <span class="resource-tag">orders</span>
+                </div>
+                <div class="resource-items">
+                  <section class="resource-item" id="abandoned-checkout-resource">
+                    <h4>Abandoned checkouts</h4>
+                    <p>Tamamlanmayan sepetleri kampanya ve geri kazanma akislari icin listeler.</p>
+                    <div class="endpoint-chips">
+                      <code class="endpoint-chip">GET /admin/api/v1/abandoned_checkouts.json</code>
+                    </div>
+                    <ul class="field-list">
+                      <li>checkout_token, email, total_price, recovery_url.</li>
+                    </ul>
+                  </section>
+                  <section class="resource-item" id="draft-order-resource">
+                    <h4>DraftOrder</h4>
+                    <p>Panel disindan teklif, manuel siparis ve odeme linki olusturma modeli.</p>
+                    <div class="endpoint-chips">
+                      <code class="endpoint-chip">GET /admin/api/v1/draft_orders.json</code>
+                      <code class="endpoint-chip">POST /admin/api/v1/draft_orders.json</code>
+                    </div>
+                    <ul class="field-list">
+                      <li>line_items, customer, invoice_url, status.</li>
+                    </ul>
+                  </section>
+                  <section class="resource-item" id="order-resource">
+                    <h4>Order</h4>
+                    <p>Magazanin ana siparis kaydi; listeleme, detay ve durum guncellemeleri icin kullanilir.</p>
+                    <div class="endpoint-chips">
+                      <code class="endpoint-chip">GET /admin/api/v1/orders.json</code>
+                      <code class="endpoint-chip">GET /admin/api/v1/orders/{order_id}.json</code>
+                      <code class="endpoint-chip">PUT /admin/api/v1/orders/{order_id}.json</code>
+                    </div>
+                    <ul class="field-list">
+                      <li>financial_status, fulfillment_status, total_price, line_items.</li>
+                      <li>Cursor pagination ve tarih filtresi ilk dokumana girer.</li>
+                    </ul>
+                  </section>
+                  <section class="resource-item" id="order-risk-resource">
+                    <h4>Order Risk</h4>
+                    <p>Sipariste supheli odeme, adres veya manuel inceleme sinyallerini tutar.</p>
+                    <div class="endpoint-chips">
+                      <code class="endpoint-chip">GET /admin/api/v1/orders/{order_id}/risks.json</code>
+                      <code class="endpoint-chip">POST /admin/api/v1/orders/{order_id}/risks.json</code>
+                    </div>
+                    <ul class="field-list">
+                      <li>score, recommendation, source, message.</li>
+                    </ul>
+                  </section>
+                  <section class="resource-item" id="refund-resource">
+                    <h4>Refund</h4>
+                    <p>Iade hesaplama, iade kaydi ve stok geri alma adimlarini aciklar.</p>
+                    <div class="endpoint-chips">
+                      <code class="endpoint-chip">GET /admin/api/v1/orders/{order_id}/refunds.json</code>
+                      <code class="endpoint-chip">POST /admin/api/v1/orders/{order_id}/refunds.json</code>
+                    </div>
+                    <ul class="field-list">
+                      <li>refund_line_items, transactions, restock, note.</li>
+                    </ul>
+                  </section>
+                  <section class="resource-item" id="transaction-resource">
+                    <h4>Transaction</h4>
+                    <p>Odeme, provizyon, capture, void ve refund hareketlerini siparise baglar.</p>
+                    <div class="endpoint-chips">
+                      <code class="endpoint-chip">GET /admin/api/v1/orders/{order_id}/transactions.json</code>
+                      <code class="endpoint-chip">POST /admin/api/v1/orders/{order_id}/transactions.json</code>
+                    </div>
+                    <ul class="field-list">
+                      <li>kind, gateway, amount, currency, status.</li>
+                    </ul>
+                  </section>
+                </div>
+              </article>
+
+              <article class="resource-group" id="plus">
+                <div class="resource-group-head">
+                  <div>
+                    <h3>Plus</h3>
+                    <p>Buyuk magazalar icin gelismis limit, otomasyon ve kurumsal yetki dokumanlari.</p>
+                  </div>
+                  <span class="resource-tag">enterprise</span>
+                </div>
+                <div class="resource-items">
+                  <section class="resource-item" id="plus-resource">
+                    <h4>Plus settings</h4>
+                    <p>Kurumsal paketlere ozel ozelliklerin API dokumaninda ayrilacagi alan.</p>
+                    <div class="endpoint-chips">
+                      <code class="endpoint-chip">GET /admin/api/v1/plus/features.json</code>
+                      <code class="endpoint-chip">GET /admin/api/v1/plus/limits.json</code>
+                    </div>
+                    <ul class="field-list">
+                      <li>Ilk REST yayininda read-only baslamasi onerilir.</li>
+                      <li>Limitler standart magazalardan ayri dokumante edilir.</li>
+                    </ul>
+                  </section>
+                </div>
+              </article>
+
+              <article class="resource-group" id="products">
+                <div class="resource-group-head">
+                  <div>
+                    <h3>Products</h3>
+                    <p>Urun, varyant, koleksiyon, gorsel ve vitrin gruplama kaynaklari.</p>
+                  </div>
+                  <span class="resource-tag">catalog</span>
+                </div>
+                <div class="resource-items">
+                  <section class="resource-item" id="collect-resource">
+                    <h4>Collect</h4>
+                    <p>Urun ile manuel koleksiyon arasindaki bag kaydidir.</p>
+                    <div class="endpoint-chips">
+                      <code class="endpoint-chip">GET /admin/api/v1/collects.json</code>
+                      <code class="endpoint-chip">POST /admin/api/v1/collects.json</code>
+                    </div>
+                    <ul class="field-list">
+                      <li>product_id, collection_id, position.</li>
+                    </ul>
+                  </section>
+                  <section class="resource-item" id="collection-resource">
+                    <h4>Collection</h4>
+                    <p>Koleksiyonlarin ortak listeleme ve detay semasi.</p>
+                    <div class="endpoint-chips">
+                      <code class="endpoint-chip">GET /admin/api/v1/collections.json</code>
+                      <code class="endpoint-chip">GET /admin/api/v1/collections/{collection_id}.json</code>
+                    </div>
+                    <ul class="field-list">
+                      <li>title, handle, products_count, published_at.</li>
+                    </ul>
+                  </section>
+                  <section class="resource-item" id="custom-collection-resource">
+                    <h4>CustomCollection</h4>
+                    <p>Manuel siralanan ve urunleri tek tek secilen koleksiyon tipi.</p>
+                    <div class="endpoint-chips">
+                      <code class="endpoint-chip">GET /admin/api/v1/custom_collections.json</code>
+                      <code class="endpoint-chip">POST /admin/api/v1/custom_collections.json</code>
+                    </div>
+                    <ul class="field-list">
+                      <li>sort_order, body_html, image, seo.</li>
+                    </ul>
+                  </section>
+                  <section class="resource-item" id="product-resource">
+                    <h4>Product</h4>
+                    <p>Katalogun ana kaynagi; baslik, aciklama, fiyat, varyant ve yayin durumunu tasir.</p>
+                    <div class="endpoint-chips">
+                      <code class="endpoint-chip">GET /admin/api/v1/products.json</code>
+                      <code class="endpoint-chip">POST /admin/api/v1/products.json</code>
+                      <code class="endpoint-chip">PUT /admin/api/v1/products/{product_id}.json</code>
+                    </div>
+                    <ul class="field-list">
+                      <li>title, handle, status, vendor, product_type, tags.</li>
+                      <li>variants, images, options ve metafields ayri bloklar halinde anlatilir.</li>
+                    </ul>
+                  </section>
+                  <section class="resource-item" id="product-image-resource">
+                    <h4>Product Image</h4>
+                    <p>Urun gorsellerini yukleme, siralama ve alt metin bilgisiyle yonetir.</p>
+                    <div class="endpoint-chips">
+                      <code class="endpoint-chip">GET /admin/api/v1/products/{product_id}/images.json</code>
+                      <code class="endpoint-chip">POST /admin/api/v1/products/{product_id}/images.json</code>
+                    </div>
+                    <ul class="field-list">
+                      <li>src, alt, position, variant_ids.</li>
+                    </ul>
+                  </section>
+                  <section class="resource-item" id="product-variant-resource">
+                    <h4>Product Variant</h4>
+                    <p>Fiyat, SKU, barkod, secenek ve stok karti iliskisini tasir.</p>
+                    <div class="endpoint-chips">
+                      <code class="endpoint-chip">GET /admin/api/v1/products/{product_id}/variants.json</code>
+                      <code class="endpoint-chip">PUT /admin/api/v1/variants/{variant_id}.json</code>
+                    </div>
+                    <ul class="field-list">
+                      <li>price, compare_at_price, sku, barcode, option values.</li>
+                      <li>inventory_item_id stok API ile baglanir.</li>
+                    </ul>
+                  </section>
+                  <section class="resource-item" id="smart-collection-resource">
+                    <h4>SmartCollection</h4>
+                    <p>Kural tabanli otomatik koleksiyonlar icin model.</p>
+                    <div class="endpoint-chips">
+                      <code class="endpoint-chip">GET /admin/api/v1/smart_collections.json</code>
+                      <code class="endpoint-chip">POST /admin/api/v1/smart_collections.json</code>
+                    </div>
+                    <ul class="field-list">
+                      <li>rules, disjunctive, sort_order, published_at.</li>
+                    </ul>
+                  </section>
+                </div>
+              </article>
+
+              <article class="resource-group" id="sales-channels">
+                <div class="resource-group-head">
+                  <div>
+                    <h3>Sales Channels</h3>
+                    <p>Urun ve koleksiyonlarin farkli satis kanallarinda yayinlanma durumlari.</p>
+                  </div>
+                  <span class="resource-tag">channels</span>
+                </div>
+                <div class="resource-items">
+                  <section class="resource-item" id="publication-resource">
+                    <h4>Publication</h4>
+                    <p>Online store, pazar yeri, mobil veya diger kanallara yayinlama bilgisini tutar.</p>
+                    <div class="endpoint-chips">
+                      <code class="endpoint-chip">GET /admin/api/v1/publications.json</code>
+                      <code class="endpoint-chip">POST /admin/api/v1/publications/{channel_id}/publish.json</code>
+                    </div>
+                    <ul class="field-list">
+                      <li>channel_id, resource_type, resource_id, published_at.</li>
+                    </ul>
+                  </section>
+                </div>
+              </article>
+
+              <article class="resource-group" id="shipping-fulfillment">
+                <div class="resource-group-head">
+                  <div>
+                    <h3>Shipping And Fulfillment</h3>
+                    <p>Kargo, fulfillment servisi, teslimat istegi ve hareket olaylari.</p>
+                  </div>
+                  <span class="resource-tag">shipping</span>
+                </div>
+                <div class="resource-items">
+                  <section class="resource-item" id="assigned-fulfillment-order-resource">
+                    <h4>AssignedFulfillmentOrder</h4>
+                    <p>Bir fulfillment servisinin uzerine atanan siparis kalemlerini listeler.</p>
+                    <div class="endpoint-chips">
+                      <code class="endpoint-chip">GET /admin/api/v1/assigned_fulfillment_orders.json</code>
+                    </div>
+                    <ul class="field-list">
+                      <li>assignment_status, service_id, line_items.</li>
+                    </ul>
+                  </section>
+                  <section class="resource-item" id="cancellation-request-resource">
+                    <h4>CancellationRequest</h4>
+                    <p>Fulfillment veya kargo iptal taleplerinin durumunu izler.</p>
+                    <div class="endpoint-chips">
+                      <code class="endpoint-chip">POST /admin/api/v1/fulfillment_orders/{id}/cancellation_request.json</code>
+                    </div>
+                    <ul class="field-list">
+                      <li>reason, message, requested_by, status.</li>
+                    </ul>
+                  </section>
+                  <section class="resource-item" id="carrier-service-resource">
+                    <h4>CarrierService</h4>
+                    <p>Harici kargo fiyatlama servislerini Shopiyz checkout akisi ile baglar.</p>
+                    <div class="endpoint-chips">
+                      <code class="endpoint-chip">GET /admin/api/v1/carrier_services.json</code>
+                      <code class="endpoint-chip">POST /admin/api/v1/carrier_services.json</code>
+                    </div>
+                    <ul class="field-list">
+                      <li>name, callback_url, service_discovery, active.</li>
+                    </ul>
+                  </section>
+                  <section class="resource-item" id="fulfillment-resource">
+                    <h4>Fulfillment</h4>
+                    <p>Bir siparisin kargolanan veya teslimata hazirlanan parcasini temsil eder.</p>
+                    <div class="endpoint-chips">
+                      <code class="endpoint-chip">GET /admin/api/v1/orders/{order_id}/fulfillments.json</code>
+                      <code class="endpoint-chip">POST /admin/api/v1/fulfillments.json</code>
+                    </div>
+                    <ul class="field-list">
+                      <li>tracking_number, tracking_company, line_items, notify_customer.</li>
+                    </ul>
+                  </section>
+                  <section class="resource-item" id="fulfillment-event-resource">
+                    <h4>FulfillmentEvent</h4>
+                    <p>Kargo hareketlerini ve teslimat kilometre taslarini saklar.</p>
+                    <div class="endpoint-chips">
+                      <code class="endpoint-chip">GET /admin/api/v1/fulfillments/{id}/events.json</code>
+                      <code class="endpoint-chip">POST /admin/api/v1/fulfillments/{id}/events.json</code>
+                    </div>
+                    <ul class="field-list">
+                      <li>status, message, happened_at, city, country.</li>
+                    </ul>
+                  </section>
+                  <section class="resource-item" id="fulfillment-order-resource">
+                    <h4>FulfillmentOrder</h4>
+                    <p>Siparis kalemlerinin hangi lokasyon veya servis tarafindan hazirlanacagini belirler.</p>
+                    <div class="endpoint-chips">
+                      <code class="endpoint-chip">GET /admin/api/v1/fulfillment_orders.json</code>
+                      <code class="endpoint-chip">GET /admin/api/v1/fulfillment_orders/{id}.json</code>
+                    </div>
+                    <ul class="field-list">
+                      <li>assigned_location, destination, request_status, line_items.</li>
+                    </ul>
+                  </section>
+                  <section class="resource-item" id="fulfillment-request-resource">
+                    <h4>FulfillmentRequest</h4>
+                    <p>Harici fulfillment servisine hazirlama talebi gonderme modeli.</p>
+                    <div class="endpoint-chips">
+                      <code class="endpoint-chip">POST /admin/api/v1/fulfillment_orders/{id}/fulfillment_request.json</code>
+                    </div>
+                    <ul class="field-list">
+                      <li>message, notify_customer, selected_line_items.</li>
+                    </ul>
+                  </section>
+                  <section class="resource-item" id="fulfillment-service-resource">
+                    <h4>FulfillmentService</h4>
+                    <p>Depo, 3PL veya kargo hazirlama servislerini kaydeder.</p>
+                    <div class="endpoint-chips">
+                      <code class="endpoint-chip">GET /admin/api/v1/fulfillment_services.json</code>
+                      <code class="endpoint-chip">POST /admin/api/v1/fulfillment_services.json</code>
+                    </div>
+                    <ul class="field-list">
+                      <li>name, callback_url, inventory_management, tracking_support.</li>
+                    </ul>
+                  </section>
+                  <section class="resource-item" id="locations-for-move-resource">
+                    <h4>LocationsForMove</h4>
+                    <p>Bir fulfillment order'in tasinabilecegi uygun lokasyonlari listeler.</p>
+                    <div class="endpoint-chips">
+                      <code class="endpoint-chip">GET /admin/api/v1/fulfillment_orders/{id}/locations_for_move.json</code>
+                    </div>
+                    <ul class="field-list">
+                      <li>location_id, available, reason, distance_hint.</li>
+                    </ul>
+                  </section>
+                </div>
+              </article>
+
+              <article class="resource-group" id="shopiyz-payments">
+                <div class="resource-group-head">
+                  <div>
+                    <h3>Shopiyz Payments</h3>
+                    <p>Odeme saglayici hareketleri, payout ve mutabakat dokumanlari.</p>
+                  </div>
+                  <span class="resource-tag">payments</span>
+                </div>
+                <div class="resource-items">
+                  <section class="resource-item" id="payment-resource">
+                    <h4>Payment</h4>
+                    <p>Odeme kaydi, provizyon, tahsilat ve iade hareketlerinin ortak modeli.</p>
+                    <div class="endpoint-chips">
+                      <code class="endpoint-chip">GET /admin/api/v1/payments.json</code>
+                      <code class="endpoint-chip">GET /admin/api/v1/payments/{payment_id}.json</code>
+                    </div>
+                    <ul class="field-list">
+                      <li>provider, amount, currency, status, order_id.</li>
+                      <li>Hassas kart verisi API yanitlarinda yer almaz.</li>
+                    </ul>
+                  </section>
+                  <section class="resource-item" id="payout-resource">
+                    <h4>Payout</h4>
+                    <p>Saticiya aktarilan odeme toplamini ve mutabakat kalemlerini listeler.</p>
+                    <div class="endpoint-chips">
+                      <code class="endpoint-chip">GET /admin/api/v1/payouts.json</code>
+                      <code class="endpoint-chip">GET /admin/api/v1/payouts/{payout_id}.json</code>
+                    </div>
+                    <ul class="field-list">
+                      <li>amount, fees, net_amount, paid_at, bank_reference.</li>
+                    </ul>
+                  </section>
+                </div>
+              </article>
+
+              <article class="resource-group" id="store-properties">
+                <div class="resource-group-head">
+                  <div>
+                    <h3>Store Properties</h3>
+                    <p>Magaza kimligi, domain, para birimi, dil, market ve temel ayarlar.</p>
+                  </div>
+                  <span class="resource-tag">store</span>
+                </div>
+                <div class="resource-items">
+                  <section class="resource-item" id="shop-resource">
+                    <h4>Shop</h4>
+                    <p>Tokenin bagli oldugu magazanin temel bilgilerini donduren guvenli kontrol endpointi.</p>
+                    <div class="endpoint-chips">
+                      <code class="endpoint-chip">GET /admin/api/v1/shop.json</code>
+                      <code class="endpoint-chip">GET /admin/api/v1/store_properties.json</code>
+                    </div>
+                    <ul class="field-list">
+                      <li>name, domain, primary_locale, currency, timezone.</li>
+                      <li>Entegrasyonlarda ilk saglik kontrolu olarak kullanilir.</li>
+                    </ul>
+                  </section>
+                  <section class="resource-item" id="domain-resource">
+                    <h4>Domain</h4>
+                    <p>Magazaya bagli ana domain, development domain ve yonlendirme bilgileri.</p>
+                    <div class="endpoint-chips">
+                      <code class="endpoint-chip">GET /admin/api/v1/domains.json</code>
+                      <code class="endpoint-chip">GET /admin/api/v1/domains/{domain_id}.json</code>
+                    </div>
+                    <ul class="field-list">
+                      <li>host, role, ssl_status, primary.</li>
+                    </ul>
+                  </section>
+                </div>
+              </article>
+
+              <article class="resource-group" id="tender-transaction">
+                <div class="resource-group-head">
+                  <div>
+                    <h3>Tender Transaction</h3>
+                    <p>Siparis odemesinde kullanilan tender tiplerini read-only izleme kaynagi.</p>
+                  </div>
+                  <span class="resource-tag">ledger</span>
+                </div>
+                <div class="resource-items">
+                  <section class="resource-item" id="tender-transaction-resource">
+                    <h4>Tender Transaction</h4>
+                    <p>Kredi karti, havale, kapida odeme veya hediye karti gibi odeme kaynaklarini kaydeder.</p>
+                    <div class="endpoint-chips">
+                      <code class="endpoint-chip">GET /admin/api/v1/tender_transactions.json</code>
+                    </div>
+                    <ul class="field-list">
+                      <li>order_id, payment_method, amount, currency, processed_at.</li>
+                      <li>Muhasebe entegrasyonlari icin tutar ve tarih tutarliligi onemlidir.</li>
+                    </ul>
+                  </section>
+                </div>
+              </article>
+
+              <article class="resource-group" id="webhooks">
+                <div class="resource-group-head">
+                  <div>
+                    <h3>Webhooks</h3>
+                    <p>Urun, siparis, musteri ve stok olaylarini entegrasyonlara push eder.</p>
+                  </div>
+                  <span class="resource-tag">webhooks</span>
+                </div>
+                <div class="resource-items">
+                  <section class="resource-item" id="webhook-subscription-resource">
+                    <h4>Webhook Subscription</h4>
+                    <p>Entegrasyonun dinlemek istedigi konu ve teslim URL kaydini tutar.</p>
+                    <div class="endpoint-chips">
+                      <code class="endpoint-chip">GET /admin/api/v1/webhooks.json</code>
+                      <code class="endpoint-chip">POST /admin/api/v1/webhooks.json</code>
+                      <code class="endpoint-chip">DELETE /admin/api/v1/webhooks/{webhook_id}.json</code>
+                    </div>
+                    <ul class="field-list">
+                      <li>topic, address, format, secret, created_at.</li>
+                      <li>Imza dogrulama header'i ve retry politikasi dokumanda yer alir.</li>
+                    </ul>
+                  </section>
+                  <section class="resource-item" id="webhook-topic-resource">
+                    <h4>Webhook Topics</h4>
+                    <p>Ilk desteklenecek olay ailelerinin katalogu.</p>
+                    <div class="endpoint-chips">
+                      <code class="endpoint-chip">orders/create</code>
+                      <code class="endpoint-chip">products/update</code>
+                      <code class="endpoint-chip">inventory_levels/update</code>
+                    </div>
+                    <ul class="field-list">
+                      <li>Topic isimleri versiyonla birlikte sabitlenir.</li>
+                      <li>Payload ornekleri kaynak sayfalarina baglanir.</li>
+                    </ul>
+                  </section>
+                </div>
+              </article>
+
+              <article class="resource-group" id="deprecated-api-calls">
+                <div class="resource-group-head">
+                  <div>
+                    <h3>Deprecated API Calls</h3>
+                    <p>Eski veya kaldirilacak API davranislarini migration notlariyla takip eder.</p>
+                  </div>
+                  <span class="resource-tag">migration</span>
+                </div>
+                <div class="resource-items">
+                  <section class="resource-item" id="deprecated-resource">
+                    <h4>Deprecated calls</h4>
+                    <p>Versiyon degisikligi, alan tasima ve endpoint kapatma takviminin yayimlanacagi alan.</p>
+                    <div class="endpoint-chips">
+                      <code class="endpoint-chip">GET /admin/api/v1/deprecations.json</code>
+                      <code class="endpoint-chip">GET /admin/api/v1/migration_guide.json</code>
+                    </div>
+                    <ul class="field-list">
+                      <li>removed_at, replacement, impact, migration_steps.</li>
+                      <li>Ilk v1 preview yayininda bu liste bos baslayabilir.</li>
+                    </ul>
+                  </section>
+                </div>
+              </article>
+            </div>
+
+            <div class="resource-example" aria-label="Resource request example">
+              <div>
+                <h3>Common request pattern</h3>
+                <p>
+                  Tum kaynak aileleri ayni base URL, JSON body, token header ve cursor
+                  pagination desenini kullanacak. Boylece urun, siparis, musteri ve stok
+                  dokumanlari birbirinden farkli ezberler istemez.
+                </p>
+                <ul class="field-list">
+                  <li><span class="inline-code">limit</span> varsayilan 50, maksimum deger dokumanda belirtilecek.</li>
+                  <li><span class="inline-code">page_info</span> veya cursor degeri sonraki sayfa icin kullanilacak.</li>
+                  <li><span class="inline-code">updated_at_min</span> gibi tarih filtreleri senkronizasyon icin standart olacak.</li>
+                </ul>
+              </div>
+              <div class="code-card">
+                <div class="code-tabs">
+                  <button class="code-tab active" type="button">cURL</button>
+                  <button class="copy-button" type="button" data-copy="resourceCode" aria-label="Kaynak ornegini kopyala">
+                    <svg viewBox="0 0 24 24" width="17" height="17" fill="none"><path d="M8 8h11v13H8V8Zm-3 8H4a1 1 0 0 1-1-1V4h11a1 1 0 0 1 1 1v1" stroke="currentColor" stroke-width="2" stroke-linejoin="round" /></svg>
+                  </button>
+                </div>
+                <pre id="resourceCode"><code><span class="token-muted"># Planlanan ortak listeleme formati</span>
+curl -X GET <span class="token-string">"https://{store}.shopiyz.com/admin/api/v1/orders.json?limit=50&amp;updated_at_min=2026-01-01T00:00:00Z"</span> \
+  -H <span class="token-string">"Content-Type: application/json"</span> \
+  -H <span class="token-string">"X-Shopiyz-Access-Token: {access_token}"</span></code></pre>
+              </div>
+            </div>
+          </section>
+
           <div class="footer-note">
             <span>Shopiyz Developer Docs · dev.shopiyz.com</span>
             <a class="mini-button" href="./openapi/shopiyz-api.v1.yaml">OpenAPI YAML</a>
@@ -1525,7 +2697,36 @@ Retry-After: 2
       });
 
       const navLinks = Array.from(document.querySelectorAll("[data-nav-link]"));
-      const sections = ["overview", "libraries", "authentication", "endpoints", "rate-limits", "status"]
+      const sections = [
+        "overview",
+        "libraries",
+        "authentication",
+        "endpoints",
+        "rate-limits",
+        "status",
+        "resource-reference",
+        "access",
+        "billing",
+        "customers",
+        "discounts",
+        "events",
+        "gift-cards",
+        "inventory",
+        "marketing-event",
+        "metafield",
+        "mobile-support",
+        "online-store",
+        "orders",
+        "plus",
+        "products",
+        "sales-channels",
+        "shipping-fulfillment",
+        "shopiyz-payments",
+        "store-properties",
+        "tender-transaction",
+        "webhooks",
+        "deprecated-api-calls"
+      ]
         .map((id) => document.getElementById(id))
         .filter(Boolean);
 
