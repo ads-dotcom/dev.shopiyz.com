@@ -1069,6 +1069,146 @@
         font-size: 15px;
       }
 
+      .operation-catalog {
+        margin-top: 34px;
+        padding-top: 28px;
+        border-top: 1px solid var(--line);
+        scroll-margin-top: 100px;
+      }
+
+      .operation-head {
+        display: grid;
+        grid-template-columns: minmax(0, 1fr) auto;
+        gap: 20px;
+        align-items: end;
+        margin-bottom: 18px;
+      }
+
+      .operation-head h3 {
+        margin: 0 0 8px;
+        color: var(--ink-strong);
+        font-size: 24px;
+      }
+
+      .operation-head p {
+        margin: 0;
+        color: #555555;
+        font-size: 15px;
+      }
+
+      .operation-filter {
+        min-width: 260px;
+        min-height: 38px;
+        border: 1px solid var(--line);
+        border-radius: 8px;
+        background: #ffffff;
+        color: var(--ink);
+        padding: 0 12px;
+        outline: none;
+      }
+
+      .operation-summary {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px;
+        margin-bottom: 16px;
+      }
+
+      .operation-summary span {
+        display: inline-flex;
+        align-items: center;
+        min-height: 30px;
+        border: 1px solid var(--line);
+        border-radius: 8px;
+        background: #fafafa;
+        color: #333333;
+        padding: 0 10px;
+        font-size: 13px;
+        font-weight: 720;
+      }
+
+      .operation-list {
+        display: grid;
+        gap: 10px;
+      }
+
+      .operation-resource {
+        overflow: hidden;
+        border: 1px solid var(--line);
+        border-radius: 8px;
+        background: #ffffff;
+      }
+
+      .operation-resource summary {
+        display: grid;
+        grid-template-columns: minmax(0, 1fr) auto;
+        gap: 12px;
+        align-items: center;
+        min-height: 54px;
+        padding: 0 16px;
+        cursor: pointer;
+        color: var(--ink);
+        font-weight: 800;
+        list-style: none;
+      }
+
+      .operation-resource summary::-webkit-details-marker {
+        display: none;
+      }
+
+      .operation-resource summary span:last-child {
+        color: #666666;
+        font-size: 13px;
+        font-weight: 700;
+      }
+
+      .operation-table {
+        border-top: 1px solid var(--line);
+      }
+
+      .operation-row {
+        display: grid;
+        grid-template-columns: 86px minmax(0, 1fr) 118px;
+        gap: 12px;
+        align-items: center;
+        min-height: 44px;
+        padding: 9px 16px;
+        border-bottom: 1px solid var(--line);
+      }
+
+      .operation-row:last-child {
+        border-bottom: 0;
+      }
+
+      .method-badge {
+        display: inline-flex;
+        justify-content: center;
+        align-items: center;
+        min-height: 28px;
+        border: 1px solid var(--line-strong);
+        border-radius: 7px;
+        background: #f5f5f5;
+        color: #111111;
+        font-family: var(--mono);
+        font-size: 12px;
+        font-weight: 840;
+      }
+
+      .operation-path {
+        min-width: 0;
+        color: #333333;
+        font-family: var(--mono);
+        font-size: 12px;
+        overflow-wrap: anywhere;
+      }
+
+      .operation-label {
+        color: #666666;
+        font-size: 13px;
+        font-weight: 700;
+        text-align: right;
+      }
+
       .footer-note {
         display: flex;
         flex-wrap: wrap;
@@ -1127,7 +1267,8 @@
         }
 
         .reference-head,
-        .resource-example {
+        .resource-example,
+        .operation-head {
           grid-template-columns: 1fr;
         }
 
@@ -1216,6 +1357,20 @@
 
         .resource-group-head {
           grid-template-columns: 1fr;
+        }
+
+        .operation-filter {
+          min-width: 0;
+          width: 100%;
+        }
+
+        .operation-row {
+          grid-template-columns: 74px minmax(0, 1fr);
+        }
+
+        .operation-label {
+          grid-column: 2;
+          text-align: left;
         }
 
         .endpoint-row {
@@ -1338,6 +1493,7 @@
                 <li><a href="#endpoints" data-nav-link>Endpoints and requests</a></li>
                 <li><a href="#rate-limits" data-nav-link>Rate limits</a></li>
                 <li><a href="#status" data-nav-link>Status and error codes</a></li>
+                <li><a href="#operation-catalog" data-nav-link>Full operation catalog</a></li>
               </ul>
             </li>
           </ul>
@@ -2640,6 +2796,22 @@ curl -X GET <span class="token-string">"https://{store}.shopiyz.com/admin/api/v1
   -H <span class="token-string">"X-Shopiyz-Access-Token: {access_token}"</span></code></pre>
               </div>
             </div>
+
+            <div class="operation-catalog" id="operation-catalog" aria-labelledby="operation-catalog-title">
+              <div class="operation-head">
+                <div>
+                  <h3 id="operation-catalog-title">Full operation catalog</h3>
+                  <p>
+                    latest.zip icindeki REST kaynak dokumanlarindan cikarilan tum operasyon
+                    basliklari. Bu tablo API kodu degil; hangi islevlerin dokumana alinacagini
+                    eksiksiz izlemek icin kullanilir.
+                  </p>
+                </div>
+                <input class="operation-filter" id="operationFilter" type="search" placeholder="Filter operations" aria-label="Operasyon filtrele" />
+              </div>
+              <div class="operation-summary" id="operationSummary" aria-live="polite"></div>
+              <div class="operation-list" id="operationCatalog"></div>
+            </div>
           </section>
 
           <div class="footer-note">
@@ -2657,6 +2829,389 @@ curl -X GET <span class="token-string">"https://{store}.shopiyz.com/admin/api/v1
       const codeTabs = Array.from(document.querySelectorAll("[data-code-tab]"));
       const heroCode = document.getElementById("heroCode");
       const toast = document.getElementById("toast");
+      const operationCatalogRaw = `Abandoned checkouts	GET	/admin/api/v1/checkouts.json	Say
+Abandoned checkouts	GET	/admin/api/v1/checkouts.json	Listele
+AccessScope	GET	/admin/oauth/access_scopes.json	Listele
+ApplicationCharge	POST	/admin/api/v1/application_charges.json	Olustur
+ApplicationCharge	GET	/admin/api/v1/application_charges.json	Listele
+ApplicationCharge	GET	/admin/api/v1/application_charges/{application_charge_id}.json	Detay getir
+ApplicationCredit	GET	/admin/api/v1/application_credits.json	Listele
+ApplicationCredit	GET	/admin/api/v1/application_credits/{application_credit_id}.json	Detay getir
+Article	POST	/admin/api/v1/blogs/{blog_id}/articles.json	Olustur
+Article	GET	/admin/api/v1/articles/authors.json	Yazar listele
+Article	GET	/admin/api/v1/articles/tags.json	Etiket listele
+Article	GET	/admin/api/v1/blogs/{blog_id}/articles.json	Listele
+Article	GET	/admin/api/v1/blogs/{blog_id}/articles/{article_id}.json	Detay getir
+Article	GET	/admin/api/v1/blogs/{blog_id}/articles/count.json	Say
+Article	GET	/admin/api/v1/blogs/{blog_id}/articles/tags.json	Etiket listele
+Article	PUT	/admin/api/v1/blogs/{blog_id}/articles/{article_id}.json	Guncelle
+Article	DELETE	/admin/api/v1/blogs/{blog_id}/articles/{article_id}.json	Sil
+Asset	GET	/admin/api/v1/themes/{theme_id}/assets.json	Listele
+Asset	GET	/admin/api/v1/themes/{theme_id}/assets.json	Listele
+Asset	PUT	/admin/api/v1/themes/{theme_id}/assets.json	Guncelle
+Asset	DELETE	/admin/api/v1/themes/{theme_id}/assets.json	Sil
+AssignedFulfillmentOrder	GET	/admin/api/v1/assigned_fulfillment_orders.json	Listele
+Balance	GET	/admin/api/v1/shopiyz_payments/balance.json	Oku
+Blog	POST	/admin/api/v1/blogs.json	Olustur
+Blog	GET	/admin/api/v1/blogs.json	Listele
+Blog	GET	/admin/api/v1/blogs/{blog_id}.json	Detay getir
+Blog	GET	/admin/api/v1/blogs/count.json	Say
+Blog	PUT	/admin/api/v1/blogs/{blog_id}.json	Guncelle
+Blog	DELETE	/admin/api/v1/blogs/{blog_id}.json	Sil
+CancellationRequest	POST	/admin/api/v1/fulfillment_orders/{fulfillment_order_id}/cancellation_request.json	Olustur
+CancellationRequest	POST	/admin/api/v1/fulfillment_orders/{fulfillment_order_id}/cancellation_request/accept.json	Kabul et
+CancellationRequest	POST	/admin/api/v1/fulfillment_orders/{fulfillment_order_id}/cancellation_request/reject.json	Reddet
+CarrierService	POST	/admin/api/v1/carrier_services.json	Olustur
+CarrierService	GET	/admin/api/v1/carrier_services.json	Listele
+CarrierService	GET	/admin/api/v1/carrier_services/{carrier_service_id}.json	Detay getir
+CarrierService	PUT	/admin/api/v1/carrier_services/{carrier_service_id}.json	Guncelle
+CarrierService	DELETE	/admin/api/v1/carrier_services/{carrier_service_id}.json	Sil
+Checkout	POST	/admin/api/v1/checkouts.json	Olustur
+Checkout	POST	/admin/api/v1/checkouts/{token}/complete.json	Tamamla
+Checkout	GET	/admin/api/v1/checkouts/{token}.json	Detay getir
+Checkout	GET	/admin/api/v1/checkouts/{token}/shipping_rates.json	Kargo ucreti listele
+Checkout	PUT	/admin/api/v1/checkouts/{token}.json	Guncelle
+Collect	POST	/admin/api/v1/collects.json	Olustur
+Collect	GET	/admin/api/v1/collects.json	Listele
+Collect	GET	/admin/api/v1/collects/{collect_id}.json	Detay getir
+Collect	GET	/admin/api/v1/collects/count.json	Say
+Collect	DELETE	/admin/api/v1/collects/{collect_id}.json	Sil
+Collection	GET	/admin/api/v1/collections/{collection_id}.json	Detay getir
+Collection	GET	/admin/api/v1/collections/{collection_id}/products.json	Listele
+CollectionListing	GET	/admin/api/v1/collection_listings.json	Listele
+CollectionListing	GET	/admin/api/v1/collection_listings/{collection_listing_id}.json	Detay getir
+CollectionListing	GET	/admin/api/v1/collection_listings/{collection_listing_id}/product_ids.json	Urun ID listele
+CollectionListing	PUT	/admin/api/v1/collection_listings/{collection_listing_id}.json	Guncelle
+CollectionListing	DELETE	/admin/api/v1/collection_listings/{collection_listing_id}.json	Sil
+Comment	POST	/admin/api/v1/comments.json	Olustur
+Comment	POST	/admin/api/v1/comments/{comment_id}/approve.json	Onayla
+Comment	POST	/admin/api/v1/comments/{comment_id}/not_spam.json	Spam degil isaretle
+Comment	POST	/admin/api/v1/comments/{comment_id}/remove.json	Kaldir
+Comment	POST	/admin/api/v1/comments/{comment_id}/restore.json	Geri al
+Comment	POST	/admin/api/v1/comments/{comment_id}/spam.json	Spam isaretle
+Comment	GET	/admin/api/v1/comments.json	Listele
+Comment	GET	/admin/api/v1/comments/{comment_id}.json	Detay getir
+Comment	GET	/admin/api/v1/comments/count.json	Say
+Comment	PUT	/admin/api/v1/comments/{comment_id}.json	Guncelle
+Country	POST	/admin/api/v1/countries.json	Olustur
+Country	GET	/admin/api/v1/countries.json	Listele
+Country	GET	/admin/api/v1/countries/{country_id}.json	Detay getir
+Country	GET	/admin/api/v1/countries/count.json	Say
+Country	PUT	/admin/api/v1/countries/{country_id}.json	Guncelle
+Country	DELETE	/admin/api/v1/countries/{country_id}.json	Sil
+Currency	GET	/admin/api/v1/currencies.json	Listele
+CustomCollection	POST	/admin/api/v1/custom_collections.json	Olustur
+CustomCollection	GET	/admin/api/v1/custom_collections.json	Listele
+CustomCollection	GET	/admin/api/v1/custom_collections/{custom_collection_id}.json	Detay getir
+CustomCollection	GET	/admin/api/v1/custom_collections/count.json	Say
+CustomCollection	PUT	/admin/api/v1/custom_collections/{custom_collection_id}.json	Guncelle
+CustomCollection	DELETE	/admin/api/v1/custom_collections/{custom_collection_id}.json	Sil
+Customer Address	POST	/admin/api/v1/customers/{customer_id}/addresses.json	Olustur
+Customer Address	GET	/admin/api/v1/customers/{customer_id}/addresses.json	Listele
+Customer Address	GET	/admin/api/v1/customers/{customer_id}/addresses/{address_id}.json	Detay getir
+Customer Address	PUT	/admin/api/v1/customers/{customer_id}/addresses/{address_id}.json	Guncelle
+Customer Address	PUT	/admin/api/v1/customers/{customer_id}/addresses/{address_id}/default.json	Varsayilan yap
+Customer Address	PUT	/admin/api/v1/customers/{customer_id}/addresses/set.json	Toplu guncelle
+Customer Address	DELETE	/admin/api/v1/customers/{customer_id}/addresses/{address_id}.json	Sil
+Customer	POST	/admin/api/v1/customers.json	Olustur
+Customer	POST	/admin/api/v1/customers/{customer_id}/account_activation_url.json	Aktivasyon linki
+Customer	POST	/admin/api/v1/customers/{customer_id}/send_invite.json	Davet gonder
+Customer	GET	/admin/api/v1/customers.json	Listele
+Customer	GET	/admin/api/v1/customers/{customer_id}/orders.json	Listele
+Customer	GET	/admin/api/v1/customers/count.json	Say
+Customer	GET	/admin/api/v1/customers/search.json	Ara
+Customer	PUT	/admin/api/v1/customers/{customer_id}.json	Guncelle
+Deprecated API calls	GET	/admin/api/v1/deprecated_api_calls.json	Listele
+DiscountCode	POST	/admin/api/v1/price_rules/{price_rule_id}/batch.json	Olustur
+DiscountCode	POST	/admin/api/v1/price_rules/{price_rule_id}/discount_codes.json	Olustur
+DiscountCode	GET	/admin/api/v1/discount_codes/count.json	Say
+DiscountCode	GET	/admin/api/v1/discount_codes/lookup.json	Kod ara
+DiscountCode	GET	/admin/api/v1/price_rules/{price_rule_id}/batch/{batch_id}.json	Detay getir
+DiscountCode	GET	/admin/api/v1/price_rules/{price_rule_id}/batch/{batch_id}/discount_codes.json	Listele
+DiscountCode	GET	/admin/api/v1/price_rules/{price_rule_id}/discount_codes.json	Listele
+DiscountCode	GET	/admin/api/v1/price_rules/{price_rule_id}/discount_codes/{discount_code_id}.json	Detay getir
+DiscountCode	PUT	/admin/api/v1/price_rules/{price_rule_id}/discount_codes/{discount_code_id}.json	Guncelle
+DiscountCode	DELETE	/admin/api/v1/price_rules/{price_rule_id}/discount_codes/{discount_code_id}.json	Sil
+Dispute Evidence	GET	/admin/api/v1/shopiyz_payments/disputes/{dispute_id}/dispute_evidences.json	Listele
+Dispute Evidence	PUT	/admin/api/v1/shopiyz_payments/disputes/{dispute_id}/dispute_evidences.json	Guncelle
+Dispute File Upload	POST	/admin/api/v1/shopiyz_payments/disputes/{dispute_id}/dispute_file_uploads.json	Olustur
+Dispute File Upload	DELETE	/admin/api/v1/shopiyz_payments/disputes/{dispute_id}/dispute_file_uploads/{dispute_file_upload_id}.json	Sil
+Dispute	GET	/admin/api/v1/shopiyz_payments/disputes.json	Listele
+Dispute	GET	/admin/api/v1/shopiyz_payments/disputes/{dispute_id}.json	Detay getir
+DraftOrder	POST	/admin/api/v1/draft_orders.json	Olustur
+DraftOrder	POST	/admin/api/v1/draft_orders/{draft_order_id}/send_invoice.json	Fatura gonder
+DraftOrder	GET	/admin/api/v1/draft_orders.json	Listele
+DraftOrder	GET	/admin/api/v1/draft_orders/{draft_order_id}.json	Detay getir
+DraftOrder	GET	/admin/api/v1/draft_orders/count.json	Say
+DraftOrder	PUT	/admin/api/v1/draft_orders/{draft_order_id}.json	Guncelle
+DraftOrder	PUT	/admin/api/v1/draft_orders/{draft_order_id}/complete.json	Tamamla
+DraftOrder	DELETE	/admin/api/v1/draft_orders/{draft_order_id}.json	Sil
+Event	GET	/admin/api/v1/events.json	Listele
+Event	GET	/admin/api/v1/events/{event_id}.json	Detay getir
+Event	GET	/admin/api/v1/events/count.json	Say
+Fulfillment	POST	/admin/api/v1/fulfillments.json	Olustur
+Fulfillment	POST	/admin/api/v1/fulfillments/{fulfillment_id}/cancel.json	Iptal et
+Fulfillment	POST	/admin/api/v1/fulfillments/{fulfillment_id}/update_tracking.json	Takip guncelle
+Fulfillment	GET	/admin/api/v1/fulfillment_orders/{fulfillment_order_id}/fulfillments.json	Listele
+Fulfillment	GET	/admin/api/v1/orders/{order_id}/fulfillments.json	Listele
+Fulfillment	GET	/admin/api/v1/orders/{order_id}/fulfillments/{fulfillment_id}.json	Detay getir
+Fulfillment	GET	/admin/api/v1/orders/{order_id}/fulfillments/count.json	Say
+FulfillmentEvent	POST	/admin/api/v1/orders/{order_id}/fulfillments/{fulfillment_id}/events.json	Olustur
+FulfillmentEvent	GET	/admin/api/v1/orders/{order_id}/fulfillments/{fulfillment_id}/events.json	Listele
+FulfillmentEvent	GET	/admin/api/v1/orders/{order_id}/fulfillments/{fulfillment_id}/events/{event_id}.json	Detay getir
+FulfillmentEvent	DELETE	/admin/api/v1/orders/{order_id}/fulfillments/{fulfillment_id}/events/{event_id}.json	Sil
+FulfillmentOrder	POST	/admin/api/v1/fulfillment_orders/{fulfillment_order_id}/cancel.json	Iptal et
+FulfillmentOrder	POST	/admin/api/v1/fulfillment_orders/{fulfillment_order_id}/close.json	Kapat
+FulfillmentOrder	POST	/admin/api/v1/fulfillment_orders/{fulfillment_order_id}/hold.json	Beklet
+FulfillmentOrder	POST	/admin/api/v1/fulfillment_orders/{fulfillment_order_id}/move.json	Tasi
+FulfillmentOrder	POST	/admin/api/v1/fulfillment_orders/{fulfillment_order_id}/open.json	Yeniden ac
+FulfillmentOrder	POST	/admin/api/v1/fulfillment_orders/{fulfillment_order_id}/release_hold.json	Bekletmeyi kaldir
+FulfillmentOrder	POST	/admin/api/v1/fulfillment_orders/{fulfillment_order_id}/reschedule.json	Yeniden zamanla
+FulfillmentOrder	POST	/admin/api/v1/fulfillment_orders/set_fulfillment_orders_deadline.json	Sure belirle
+FulfillmentOrder	GET	/admin/api/v1/fulfillment_orders/{fulfillment_order_id}.json	Detay getir
+FulfillmentOrder	GET	/admin/api/v1/orders/{order_id}/fulfillment_orders.json	Listele
+FulfillmentRequest	POST	/admin/api/v1/fulfillment_orders/{fulfillment_order_id}/fulfillment_request.json	Olustur
+FulfillmentRequest	POST	/admin/api/v1/fulfillment_orders/{fulfillment_order_id}/fulfillment_request/accept.json	Kabul et
+FulfillmentRequest	POST	/admin/api/v1/fulfillment_orders/{fulfillment_order_id}/fulfillment_request/reject.json	Reddet
+FulfillmentService	POST	/admin/api/v1/fulfillment_services.json	Olustur
+FulfillmentService	GET	/admin/api/v1/fulfillment_services.json	Listele
+FulfillmentService	GET	/admin/api/v1/fulfillment_services/{fulfillment_service_id}.json	Detay getir
+FulfillmentService	PUT	/admin/api/v1/fulfillment_services/{fulfillment_service_id}.json	Guncelle
+FulfillmentService	DELETE	/admin/api/v1/fulfillment_services/{fulfillment_service_id}.json	Sil
+Gift Card	POST	/admin/api/v1/gift_cards.json	Olustur
+Gift Card	POST	/admin/api/v1/gift_cards/{gift_card_id}/disable.json	Pasife al
+Gift Card	GET	/admin/api/v1/gift_cards.json	Listele
+Gift Card	GET	/admin/api/v1/gift_cards/{gift_card_id}.json	Detay getir
+Gift Card	GET	/admin/api/v1/gift_cards/count.json	Say
+Gift Card	GET	/admin/api/v1/gift_cards/search.json	Ara
+Gift Card	PUT	/admin/api/v1/gift_cards/{gift_card_id}.json	Guncelle
+InventoryItem	GET	/admin/api/v1/inventory_items.json	Listele
+InventoryItem	GET	/admin/api/v1/inventory_items/{inventory_item_id}.json	Detay getir
+InventoryItem	PUT	/admin/api/v1/inventory_items/{inventory_item_id}.json	Guncelle
+InventoryLevel	POST	/admin/api/v1/inventory_levels/adjust.json	Olustur
+InventoryLevel	POST	/admin/api/v1/inventory_levels/connect.json	Olustur
+InventoryLevel	POST	/admin/api/v1/inventory_levels/set.json	Toplu guncelle
+InventoryLevel	GET	/admin/api/v1/inventory_levels.json	Listele
+InventoryLevel	DELETE	/admin/api/v1/inventory_levels.json	Sil
+Location	GET	/admin/api/v1/locations.json	Listele
+Location	GET	/admin/api/v1/locations/{location_id}.json	Detay getir
+Location	GET	/admin/api/v1/locations/{location_id}/inventory_levels.json	Listele
+Location	GET	/admin/api/v1/locations/count.json	Say
+LocationsForMove	GET	/admin/api/v1/fulfillment_orders/{fulfillment_order_id}/locations_for_move.json	Oku
+MarketingEvent	POST	/admin/api/v1/marketing_events.json	Olustur
+MarketingEvent	POST	/admin/api/v1/marketing_events/{marketing_event_id}/engagements.json	Etkilesim ekle
+MarketingEvent	GET	/admin/api/v1/marketing_events.json	Listele
+MarketingEvent	GET	/admin/api/v1/marketing_events/{marketing_event_id}.json	Detay getir
+MarketingEvent	GET	/admin/api/v1/marketing_events/count.json	Say
+MarketingEvent	PUT	/admin/api/v1/marketing_events/{marketing_event_id}.json	Guncelle
+MarketingEvent	DELETE	/admin/api/v1/marketing_events/{marketing_event_id}.json	Sil
+Metafield	POST	/admin/api/v1/blogs/{blog_id}/metafields.json	Olustur
+Metafield	GET	/admin/api/v1/blogs/{blog_id}/metafields.json	Listele
+Metafield	GET	/admin/api/v1/blogs/{blog_id}/metafields/{metafield_id}.json	Detay getir
+Metafield	GET	/admin/api/v1/blogs/{blog_id}/metafields/count.json	Say
+Metafield	PUT	/admin/api/v1/blogs/{blog_id}/metafields/{metafield_id}.json	Guncelle
+Metafield	DELETE	/admin/api/v1/blogs/{blog_id}/metafields/{metafield_id}.json	Sil
+MobilePlatformApplication	POST	/admin/api/v1/mobile_platform_applications.json	Olustur
+MobilePlatformApplication	GET	/admin/api/v1/mobile_platform_applications.json	Listele
+MobilePlatformApplication	GET	/admin/api/v1/mobile_platform_applications/{mobile_platform_application_id}.json	Detay getir
+MobilePlatformApplication	PUT	/admin/api/v1/mobile_platform_applications/{mobile_platform_application_id}.json	Guncelle
+MobilePlatformApplication	DELETE	/admin/api/v1/mobile_platform_applications/{mobile_platform_application_id}.json	Sil
+Order Risk	POST	/admin/api/v1/orders/{order_id}/risks.json	Olustur
+Order Risk	GET	/admin/api/v1/orders/{order_id}/risks.json	Listele
+Order Risk	GET	/admin/api/v1/orders/{order_id}/risks/{risk_id}.json	Detay getir
+Order Risk	PUT	/admin/api/v1/orders/{order_id}/risks/{risk_id}.json	Guncelle
+Order Risk	DELETE	/admin/api/v1/orders/{order_id}/risks/{risk_id}.json	Sil
+Order	POST	/admin/api/v1/orders.json	Olustur
+Order	POST	/admin/api/v1/orders/{order_id}/cancel.json	Iptal et
+Order	POST	/admin/api/v1/orders/{order_id}/close.json	Kapat
+Order	POST	/admin/api/v1/orders/{order_id}/open.json	Yeniden ac
+Order	GET	/admin/api/v1/orders.json	Listele
+Order	GET	/admin/api/v1/orders/{order_id}.json	Detay getir
+Order	GET	/admin/api/v1/orders/count.json	Say
+Order	PUT	/admin/api/v1/orders/{order_id}.json	Guncelle
+Order	DELETE	/admin/api/v1/orders/{order_id}.json	Sil
+Page	POST	/admin/api/v1/pages.json	Olustur
+Page	GET	/admin/api/v1/pages.json	Listele
+Page	GET	/admin/api/v1/pages/{page_id}.json	Detay getir
+Page	GET	/admin/api/v1/pages/count.json	Say
+Page	PUT	/admin/api/v1/pages/{page_id}.json	Guncelle
+Page	DELETE	/admin/api/v1/pages/{page_id}.json	Sil
+Payment	POST	/admin/api/v1/checkouts/{token}/payments.json	Olustur
+Payment	GET	/admin/api/v1/checkouts/{token}/payments/{payment_id}.json	Detay getir
+Payouts	GET	/admin/api/v1/shopiyz_payments/payouts.json	Listele
+Payouts	GET	/admin/api/v1/shopiyz_payments/payouts/{payout_id}.json	Detay getir
+Policy	GET	/admin/api/v1/policies.json	Listele
+PriceRule	POST	/admin/api/v1/price_rules.json	Olustur
+PriceRule	GET	/admin/api/v1/price_rules.json	Listele
+PriceRule	GET	/admin/api/v1/price_rules/{price_rule_id}.json	Detay getir
+PriceRule	GET	/admin/api/v1/price_rules/count.json	Say
+PriceRule	PUT	/admin/api/v1/price_rules/{price_rule_id}.json	Guncelle
+PriceRule	DELETE	/admin/api/v1/price_rules/{price_rule_id}.json	Sil
+Product Image	POST	/admin/api/v1/products/{product_id}/images.json	Olustur
+Product Image	GET	/admin/api/v1/products/{product_id}/images.json	Listele
+Product Image	GET	/admin/api/v1/products/{product_id}/images/{image_id}.json	Detay getir
+Product Image	GET	/admin/api/v1/products/{product_id}/images/count.json	Say
+Product Image	PUT	/admin/api/v1/products/{product_id}/images/{image_id}.json	Guncelle
+Product Image	DELETE	/admin/api/v1/products/{product_id}/images/{image_id}.json	Sil
+Product ResourceFeedback	POST	/admin/api/v1/products/{product_id}/resource_feedback.json	Olustur
+Product ResourceFeedback	GET	/admin/api/v1/products/{product_id}/resource_feedback.json	Oku
+Product Variant	POST	/admin/api/v1/products/{product_id}/variants.json	Olustur
+Product Variant	GET	/admin/api/v1/products/{product_id}/variants.json	Listele
+Product Variant	GET	/admin/api/v1/products/{product_id}/variants/count.json	Say
+Product Variant	GET	/admin/api/v1/variants/{variant_id}.json	Detay getir
+Product Variant	PUT	/admin/api/v1/variants/{variant_id}.json	Guncelle
+Product Variant	DELETE	/admin/api/v1/products/{product_id}/variants/{variant_id}.json	Sil
+Product	POST	/admin/api/v1/products.json	Olustur
+Product	GET	/admin/api/v1/products.json	Listele
+Product	GET	/admin/api/v1/products/{product_id}.json	Detay getir
+Product	GET	/admin/api/v1/products/count.json	Say
+Product	PUT	/admin/api/v1/products/{product_id}.json	Guncelle
+Product	DELETE	/admin/api/v1/products/{product_id}.json	Sil
+ProductListing	GET	/admin/api/v1/product_listings.json	Listele
+ProductListing	GET	/admin/api/v1/product_listings/{product_listing_id}.json	Detay getir
+ProductListing	GET	/admin/api/v1/product_listings/count.json	Say
+ProductListing	GET	/admin/api/v1/product_listings/product_ids.json	Urun ID listele
+ProductListing	PUT	/admin/api/v1/product_listings/{product_listing_id}.json	Guncelle
+ProductListing	DELETE	/admin/api/v1/product_listings/{product_listing_id}.json	Sil
+Province	GET	/admin/api/v1/countries/{country_id}/provinces.json	Listele
+Province	GET	/admin/api/v1/countries/{country_id}/provinces/{province_id}.json	Detay getir
+Province	GET	/admin/api/v1/countries/{country_id}/provinces/count.json	Say
+Province	PUT	/admin/api/v1/countries/{country_id}/provinces/{province_id}.json	Guncelle
+RecurringApplicationCharge	POST	/admin/api/v1/recurring_application_charges.json	Olustur
+RecurringApplicationCharge	GET	/admin/api/v1/recurring_application_charges.json	Listele
+RecurringApplicationCharge	GET	/admin/api/v1/recurring_application_charges/{recurring_application_charge_id}.json	Detay getir
+RecurringApplicationCharge	PUT	/admin/api/v1/recurring_application_charges/{recurring_application_charge_id}/customize.json	Limit guncelle
+RecurringApplicationCharge	DELETE	/admin/api/v1/recurring_application_charges/{recurring_application_charge_id}.json	Sil
+Redirect	POST	/admin/api/v1/redirects.json	Olustur
+Redirect	GET	/admin/api/v1/redirects.json	Listele
+Redirect	GET	/admin/api/v1/redirects/{redirect_id}.json	Detay getir
+Redirect	GET	/admin/api/v1/redirects/count.json	Say
+Redirect	PUT	/admin/api/v1/redirects/{redirect_id}.json	Guncelle
+Redirect	DELETE	/admin/api/v1/redirects/{redirect_id}.json	Sil
+Refund	POST	/admin/api/v1/orders/{order_id}/refunds.json	Olustur
+Refund	POST	/admin/api/v1/orders/{order_id}/refunds/calculate.json	Hesapla
+Refund	GET	/admin/api/v1/orders/{order_id}/refunds.json	Listele
+Refund	GET	/admin/api/v1/orders/{order_id}/refunds/{refund_id}.json	Detay getir
+ResourceFeedback	POST	/admin/api/v1/resource_feedback.json	Olustur
+ResourceFeedback	GET	/admin/api/v1/resource_feedback.json	Oku
+ScriptTag	POST	/admin/api/v1/script_tags.json	Olustur
+ScriptTag	GET	/admin/api/v1/script_tags.json	Listele
+ScriptTag	GET	/admin/api/v1/script_tags/{script_tag_id}.json	Detay getir
+ScriptTag	GET	/admin/api/v1/script_tags/count.json	Say
+ScriptTag	PUT	/admin/api/v1/script_tags/{script_tag_id}.json	Guncelle
+ScriptTag	DELETE	/admin/api/v1/script_tags/{script_tag_id}.json	Sil
+ShippingZone	GET	/admin/api/v1/shipping_zones.json	Listele
+Shop	GET	/admin/api/v1/shop.json	Oku
+SmartCollection	POST	/admin/api/v1/smart_collections.json	Olustur
+SmartCollection	GET	/admin/api/v1/smart_collections.json	Listele
+SmartCollection	GET	/admin/api/v1/smart_collections/{smart_collection_id}.json	Detay getir
+SmartCollection	GET	/admin/api/v1/smart_collections/count.json	Say
+SmartCollection	PUT	/admin/api/v1/smart_collections/{smart_collection_id}.json	Guncelle
+SmartCollection	PUT	/admin/api/v1/smart_collections/{smart_collection_id}/order.json	Sirala
+SmartCollection	DELETE	/admin/api/v1/smart_collections/{smart_collection_id}.json	Sil
+StorefrontAccessToken	POST	/admin/api/v1/storefront_access_tokens.json	Olustur
+StorefrontAccessToken	GET	/admin/api/v1/storefront_access_tokens.json	Listele
+StorefrontAccessToken	DELETE	/admin/api/v1/storefront_access_tokens/{storefront_access_token_id}.json	Sil
+TenderTransaction	GET	/admin/api/v1/tender_transactions.json	Listele
+Theme	POST	/admin/api/v1/themes.json	Olustur
+Theme	GET	/admin/api/v1/themes.json	Listele
+Theme	GET	/admin/api/v1/themes/{theme_id}.json	Detay getir
+Theme	PUT	/admin/api/v1/themes/{theme_id}.json	Guncelle
+Theme	DELETE	/admin/api/v1/themes/{theme_id}.json	Sil
+Transaction	POST	/admin/api/v1/orders/{order_id}/transactions.json	Olustur
+Transaction	GET	/admin/api/v1/orders/{order_id}/transactions.json	Listele
+Transaction	GET	/admin/api/v1/orders/{order_id}/transactions/{transaction_id}.json	Detay getir
+Transaction	GET	/admin/api/v1/orders/{order_id}/transactions/count.json	Say
+Transactions	GET	/admin/api/v1/shopiyz_payments/balance/transactions.json	Listele
+UsageCharge	POST	/admin/api/v1/recurring_application_charges/{recurring_application_charge_id}/usage_charges.json	Olustur
+UsageCharge	GET	/admin/api/v1/recurring_application_charges/{recurring_application_charge_id}/usage_charges.json	Listele
+UsageCharge	GET	/admin/api/v1/recurring_application_charges/{recurring_application_charge_id}/usage_charges/{usage_charge_id}.json	Detay getir
+User	GET	/admin/api/v1/users.json	Listele
+User	GET	/admin/api/v1/users/{user_id}.json	Detay getir
+User	GET	/admin/api/v1/users/current.json	Oku
+Webhook	POST	/admin/api/v1/webhooks.json	Olustur
+Webhook	GET	/admin/api/v1/webhooks.json	Listele
+Webhook	GET	/admin/api/v1/webhooks/{webhook_id}.json	Detay getir
+Webhook	GET	/admin/api/v1/webhooks/count.json	Say
+Webhook	PUT	/admin/api/v1/webhooks/{webhook_id}.json	Guncelle
+Webhook	DELETE	/admin/api/v1/webhooks/{webhook_id}.json	Sil`;
+
+      const operationRows = operationCatalogRaw
+        .trim()
+        .split("\n")
+        .map((line) => {
+          const [resource, method, path, label] = line.split("\t");
+          return { resource, method, path, label };
+        });
+
+      function groupedOperations(rows) {
+        return rows.reduce((groups, row) => {
+          if (!groups.has(row.resource)) groups.set(row.resource, []);
+          groups.get(row.resource).push(row);
+          return groups;
+        }, new Map());
+      }
+
+      function renderOperationCatalog(query = "") {
+        const catalog = document.getElementById("operationCatalog");
+        const summary = document.getElementById("operationSummary");
+        if (!catalog || !summary) return;
+        const normalized = query.trim().toLowerCase();
+        const rows = normalized
+          ? operationRows.filter((row) =>
+              `${row.resource} ${row.method} ${row.path} ${row.label}`.toLowerCase().includes(normalized)
+            )
+          : operationRows;
+        const groups = groupedOperations(rows);
+        catalog.replaceChildren();
+
+        for (const [resource, operations] of groups) {
+          const details = document.createElement("details");
+          details.className = "operation-resource";
+          details.open = normalized.length > 0 || catalog.children.length < 6;
+
+          const summaryEl = document.createElement("summary");
+          const title = document.createElement("span");
+          title.textContent = resource;
+          const count = document.createElement("span");
+          count.textContent = `${operations.length} operations`;
+          summaryEl.append(title, count);
+
+          const table = document.createElement("div");
+          table.className = "operation-table";
+          operations.forEach((operation) => {
+            const row = document.createElement("div");
+            row.className = "operation-row";
+            const method = document.createElement("span");
+            method.className = "method-badge";
+            method.textContent = operation.method;
+            const path = document.createElement("code");
+            path.className = "operation-path";
+            path.textContent = operation.path;
+            const label = document.createElement("span");
+            label.className = "operation-label";
+            label.textContent = operation.label;
+            row.append(method, path, label);
+            table.append(row);
+          });
+
+          details.append(summaryEl, table);
+          catalog.append(details);
+        }
+
+        summary.replaceChildren();
+        const summaryItems = [
+          `${groups.size} resources`,
+          `${rows.length} operations`,
+          "docs only",
+          "REST v1 preview"
+        ];
+        summaryItems.forEach((item) => {
+          const pill = document.createElement("span");
+          pill.textContent = item;
+          summary.append(pill);
+        });
+      }
 
       function activeCodeText() {
         const active = codePanels.find((panel) => !panel.hidden);
@@ -2705,6 +3260,7 @@ curl -X GET <span class="token-string">"https://{store}.shopiyz.com/admin/api/v1
         "rate-limits",
         "status",
         "resource-reference",
+        "operation-catalog",
         "access",
         "billing",
         "customers",
@@ -2753,6 +3309,11 @@ curl -X GET <span class="token-string">"https://{store}.shopiyz.com/admin/api/v1
           const match = link.textContent.toLowerCase().includes(query);
           link.parentElement.style.display = !query || match ? "" : "none";
         });
+      });
+
+      renderOperationCatalog();
+      document.getElementById("operationFilter")?.addEventListener("input", (event) => {
+        renderOperationCatalog(event.currentTarget.value);
       });
 
       const globalSearch = document.getElementById("globalSearch");
