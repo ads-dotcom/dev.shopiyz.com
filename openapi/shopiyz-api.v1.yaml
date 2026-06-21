@@ -1,0 +1,39 @@
+openapi: 3.1.0
+info:
+  title: Shopiyz Developer Docs
+  version: 0.1.0
+  summary: API reference placeholder.
+  description: |
+    Bu doküman şimdilik yalnızca Shopiyz geliştirici portalı tasarımını göstermek için
+    hazırlanmıştır. Gerçek API endpointleri ve teknik mimari daha sonra eklenecektir.
+servers:
+  - url: https://developers.shopiyz.com
+    description: Documentation preview
+paths:
+  /docs/coming-soon:
+    get:
+      tags:
+        - Coming Soon
+      summary: API reference placeholder
+      operationId: docsComingSoon
+      description: |
+        Bu endpoint gerçek bir API değildir. Scalar arayüzünde doküman tasarımını
+        göstermek için geçici olarak eklenmiştir.
+      responses:
+        "200":
+          description: Documentation placeholder.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                  message:
+                    type: string
+              example:
+                status: preview
+                message: Shopiyz API dokümanları yakında.
+tags:
+  - name: Coming Soon
+    description: Placeholder section for the future Shopiyz API reference.

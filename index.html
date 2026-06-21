@@ -1,0 +1,316 @@
+<!doctype html>
+<html lang="tr">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Shopiyz Developer Docs</title>
+    <meta name="description" content="Shopiyz developer documentation preview." />
+    <link rel="icon" href="./favicon.svg" />
+    <style>
+      :root {
+        color-scheme: light;
+        --shopiyz-green: #16a34a;
+        --shopiyz-ink: #111827;
+        --shopiyz-muted: #6b7280;
+        --shopiyz-line: #e5e7eb;
+        --shopiyz-panel: #ffffff;
+        --shopiyz-page: #f8fafc;
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      html,
+      body,
+      #app {
+        min-height: 100%;
+      }
+
+      body {
+        margin: 0;
+        background: var(--shopiyz-page);
+        color: var(--shopiyz-ink);
+        font-family:
+          Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI",
+          sans-serif;
+      }
+
+      .portal-shell {
+        min-height: 100vh;
+        background:
+          radial-gradient(circle at top left, rgba(22, 163, 74, 0.08), transparent 34rem),
+          linear-gradient(180deg, #ffffff 0, #f8fafc 42rem);
+      }
+
+      .portal-topbar {
+        position: sticky;
+        top: 0;
+        z-index: 30;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 24px;
+        min-height: 64px;
+        padding: 0 28px;
+        border-bottom: 1px solid rgba(229, 231, 235, 0.86);
+        background: rgba(255, 255, 255, 0.86);
+        backdrop-filter: blur(16px);
+      }
+
+      .brand {
+        display: inline-flex;
+        align-items: center;
+        gap: 12px;
+        min-width: 0;
+        color: inherit;
+        text-decoration: none;
+      }
+
+      .brand-mark {
+        display: grid;
+        width: 34px;
+        height: 34px;
+        place-items: center;
+        border-radius: 10px;
+        background: #121826;
+        color: #ffffff;
+        font-size: 17px;
+        font-weight: 800;
+        letter-spacing: 0;
+        box-shadow: 0 10px 24px rgba(17, 24, 39, 0.14);
+      }
+
+      .brand-copy {
+        display: grid;
+        gap: 1px;
+      }
+
+      .brand-name {
+        font-size: 14px;
+        font-weight: 760;
+        letter-spacing: 0;
+        line-height: 1.1;
+      }
+
+      .brand-subtitle {
+        color: var(--shopiyz-muted);
+        font-size: 12px;
+        font-weight: 500;
+        line-height: 1.2;
+      }
+
+      .portal-actions {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+      }
+
+      .portal-link {
+        display: inline-flex;
+        align-items: center;
+        min-height: 36px;
+        padding: 0 12px;
+        border: 1px solid var(--shopiyz-line);
+        border-radius: 8px;
+        background: #ffffff;
+        color: #374151;
+        font-size: 13px;
+        font-weight: 640;
+        line-height: 1;
+        text-decoration: none;
+        transition:
+          border-color 140ms ease,
+          color 140ms ease,
+          transform 140ms ease;
+      }
+
+      .portal-link:hover {
+        border-color: rgba(22, 163, 74, 0.46);
+        color: #0f7a35;
+        transform: translateY(-1px);
+      }
+
+      .portal-link.primary {
+        border-color: #121826;
+        background: #121826;
+        color: #ffffff;
+      }
+
+      .portal-intro {
+        display: grid;
+        grid-template-columns: minmax(0, 1fr) auto;
+        gap: 32px;
+        align-items: end;
+        padding: 36px 28px 26px;
+        border-bottom: 1px solid rgba(229, 231, 235, 0.72);
+      }
+
+      .portal-intro h1 {
+        max-width: 820px;
+        margin: 0;
+        color: #111827;
+        font-size: clamp(32px, 4vw, 56px);
+        font-weight: 780;
+        letter-spacing: 0;
+        line-height: 1.02;
+      }
+
+      .portal-intro p {
+        max-width: 760px;
+        margin: 16px 0 0;
+        color: #475569;
+        font-size: 16px;
+        line-height: 1.7;
+      }
+
+      .quick-panel {
+        width: min(360px, 100%);
+        padding: 18px;
+        border: 1px solid #e5e7eb;
+        border-radius: 8px;
+        background: rgba(255, 255, 255, 0.8);
+        box-shadow: 0 18px 42px rgba(15, 23, 42, 0.08);
+      }
+
+      .quick-panel strong {
+        display: block;
+        margin-bottom: 10px;
+        color: #111827;
+        font-size: 13px;
+        font-weight: 760;
+      }
+
+      .quick-panel code {
+        display: block;
+        overflow-x: auto;
+        padding: 12px;
+        border-radius: 7px;
+        background: #0f172a;
+        color: #d1fae5;
+        font-family: "JetBrains Mono", "SFMono-Regular", Consolas, monospace;
+        font-size: 12px;
+        line-height: 1.6;
+        white-space: pre;
+      }
+
+      .reference-wrap {
+        min-height: 78vh;
+        background: #ffffff;
+      }
+
+      @media (max-width: 860px) {
+        .portal-topbar {
+          align-items: flex-start;
+          flex-direction: column;
+          padding: 16px 18px;
+        }
+
+        .portal-actions {
+          width: 100%;
+          overflow-x: auto;
+          padding-bottom: 2px;
+        }
+
+        .portal-link {
+          flex: 0 0 auto;
+        }
+
+        .portal-intro {
+          grid-template-columns: 1fr;
+          padding: 28px 18px 20px;
+        }
+
+        .portal-intro h1 {
+          font-size: 34px;
+          line-height: 1.06;
+        }
+
+        .quick-panel {
+          width: 100%;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <main class="portal-shell">
+      <header class="portal-topbar">
+        <a class="brand" href="./" aria-label="Shopiyz Developer Docs">
+          <span class="brand-mark">S</span>
+          <span class="brand-copy">
+            <span class="brand-name">Shopiyz Developers</span>
+            <span class="brand-subtitle">Documentation Preview</span>
+          </span>
+        </a>
+        <nav class="portal-actions" aria-label="Developer links">
+          <a class="portal-link" href="#introduction">Başlangıç</a>
+          <a class="portal-link" href="#authentication">Authentication</a>
+          <a class="portal-link" href="#coming-soon">API Reference</a>
+          <a class="portal-link primary" href="./openapi/shopiyz-api.v1.yaml">OpenAPI YAML</a>
+        </nav>
+      </header>
+
+      <section class="portal-intro">
+        <div>
+          <h1>Shopiyz geliştirici dokümanları için sade bir başlangıç.</h1>
+          <p>
+            Bu repo şimdilik yalnızca doküman arayüzünü taşır. Gerçek API endpointleri,
+            mimari kararlar ve entegrasyon detayları daha sonra OpenAPI dosyasına eklenecek.
+          </p>
+        </div>
+        <aside class="quick-panel" aria-label="Quick start example">
+          <strong>Yayın mantığı</strong>
+          <code>Yeni repo
+GitHub Pages
+Actions yok
+Statik HTML</code>
+        </aside>
+      </section>
+
+      <section class="reference-wrap" aria-label="API reference">
+        <div id="app"></div>
+      </section>
+    </main>
+
+    <script src="https://cdn.jsdelivr.net/npm/@scalar/api-reference"></script>
+    <script>
+      Scalar.createApiReference("#app", {
+        url: "./openapi/shopiyz-api.v1.yaml",
+        layout: "modern",
+        theme: "default",
+        hideDarkModeToggle: false,
+        showDeveloperTools: "never",
+        operationTitleSource: "summary",
+        defaultHttpClient: {
+          targetKey: "shell",
+          clientKey: "curl",
+        },
+        authentication: {
+          preferredSecurityScheme: "AdminBearer",
+        },
+        metaData: {
+          title: "Shopiyz Developer Docs",
+          description: "Shopiyz developer documentation preview.",
+        },
+        customCss: `
+          .light-mode {
+            --scalar-color-accent: #16a34a;
+            --scalar-color-accent-hover: #15803d;
+            --scalar-color-accent-active: #166534;
+          }
+          .dark-mode {
+            --scalar-color-accent: #22c55e;
+            --scalar-color-accent-hover: #4ade80;
+            --scalar-color-accent-active: #86efac;
+          }
+          .scalar-api-reference {
+            --scalar-radius: 8px;
+          }
+          .scalar-api-reference .references-layout {
+            border-top: 1px solid #e5e7eb;
+          }
+        `,
+      });
+    </script>
+  </body>
+</html>
