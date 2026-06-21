@@ -2,6 +2,8 @@
 
 Static Scalar/OpenAPI documentation preview for Shopiyz.
 
+Live site: https://dev.shopiyz.com/
+
 ## Publish without GitHub Actions
 
 This project is intentionally build-free. GitHub Pages can serve it directly from the `main` branch root:
@@ -20,4 +22,4 @@ Cloudflare Pages can also connect to this repository with:
 
 - `index.html` renders the Scalar documentation page.
 - `openapi/shopiyz-api.v1.yaml` is a placeholder OpenAPI document.
-Custom domain can be added later from repository Pages settings.
+- `CNAME` binds GitHub Pages to `dev.shopiyz.com`.
