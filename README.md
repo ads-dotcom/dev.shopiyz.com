@@ -20,4 +20,4 @@ Cloudflare Pages can also connect to this repository with:
 
 - `index.html` renders the Scalar documentation page.
 - `openapi/shopiyz-api.v1.yaml` is a placeholder OpenAPI document.
-- `CNAME` points GitHub Pages to `developers.shopiyz.com`.
+Custom domain can be added later from repository Pages settings.
