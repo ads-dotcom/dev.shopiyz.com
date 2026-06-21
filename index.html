@@ -3,58 +3,83 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Shopiyz Developer Docs</title>
-    <meta name="description" content="Shopiyz developer documentation preview." />
-    <link rel="icon" href="./favicon.svg" />
+    <title>Shopiyz Admin API Overview</title>
+    <meta
+      name="description"
+      content="Shopiyz Admin API icin baslangic dokumanlari, kimlik dogrulama, istek formati, limitler ve hata kodlari."
+    />
+    <link rel="icon" type="image/svg+xml" href="./favicon.svg" />
     <style>
       :root {
         color-scheme: light;
-        --shopiyz-green: #16a34a;
-        --shopiyz-ink: #111827;
-        --shopiyz-muted: #6b7280;
-        --shopiyz-line: #e5e7eb;
-        --shopiyz-panel: #ffffff;
-        --shopiyz-page: #f8fafc;
+        --bg: #ffffff;
+        --page: #f7f8fa;
+        --surface: #ffffff;
+        --surface-soft: #f3f6f4;
+        --surface-green: #eef9f0;
+        --ink: #101828;
+        --ink-strong: #07130c;
+        --muted: #667085;
+        --subtle: #8a95a3;
+        --line: #e4e7ec;
+        --line-strong: #d0d5dd;
+        --green: #16a34a;
+        --green-dark: #087a2d;
+        --green-soft: #dcfce7;
+        --teal-900: #06292f;
+        --teal-800: #0d3e47;
+        --code: #d8f8e6;
+        --pink: #f43f8c;
+        --yellow: #fde68a;
+        --shadow: 0 18px 48px rgba(16, 24, 40, 0.08);
+        --mono: "SFMono-Regular", "Cascadia Code", "JetBrains Mono", Consolas, monospace;
+        --sans:
+          Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI",
+          sans-serif;
       }
 
       * {
         box-sizing: border-box;
       }
 
-      html,
-      body,
-      #app {
-        min-height: 100%;
+      html {
+        scroll-behavior: smooth;
       }
 
       body {
         margin: 0;
-        background: var(--shopiyz-page);
-        color: var(--shopiyz-ink);
-        font-family:
-          Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI",
-          sans-serif;
+        background: var(--bg);
+        color: var(--ink);
+        font-family: var(--sans);
+        font-size: 15px;
+        line-height: 1.6;
+        letter-spacing: 0;
       }
 
-      .portal-shell {
-        min-height: 100vh;
-        background:
-          radial-gradient(circle at top left, rgba(22, 163, 74, 0.08), transparent 34rem),
-          linear-gradient(180deg, #ffffff 0, #f8fafc 42rem);
+      a {
+        color: inherit;
       }
 
-      .portal-topbar {
+      button,
+      input {
+        font: inherit;
+      }
+
+      code,
+      pre {
+        font-family: var(--mono);
+      }
+
+      .topbar {
         position: sticky;
         top: 0;
-        z-index: 30;
-        display: flex;
+        z-index: 50;
+        display: grid;
+        grid-template-columns: 300px minmax(0, 1fr) auto;
         align-items: center;
-        justify-content: space-between;
-        gap: 24px;
-        min-height: 64px;
-        padding: 0 28px;
-        border-bottom: 1px solid rgba(229, 231, 235, 0.86);
-        background: rgba(255, 255, 255, 0.86);
+        min-height: 74px;
+        border-bottom: 1px solid var(--line);
+        background: rgba(255, 255, 255, 0.94);
         backdrop-filter: blur(16px);
       }
 
@@ -63,253 +88,1467 @@
         align-items: center;
         gap: 12px;
         min-width: 0;
-        color: inherit;
+        height: 100%;
+        padding: 0 28px;
+        color: var(--ink-strong);
+        font-weight: 780;
         text-decoration: none;
       }
 
-      .brand-mark {
-        display: grid;
+      .brand img {
         width: 34px;
         height: 34px;
-        place-items: center;
-        border-radius: 10px;
-        background: #121826;
-        color: #ffffff;
-        font-size: 17px;
-        font-weight: 800;
-        letter-spacing: 0;
-        box-shadow: 0 10px 24px rgba(17, 24, 39, 0.14);
+        flex: 0 0 auto;
       }
 
-      .brand-copy {
-        display: grid;
-        gap: 1px;
+      .brand span {
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
       }
 
-      .brand-name {
-        font-size: 14px;
-        font-weight: 760;
-        letter-spacing: 0;
-        line-height: 1.1;
+      .brand strong {
+        color: var(--green);
       }
 
-      .brand-subtitle {
-        color: var(--shopiyz-muted);
-        font-size: 12px;
-        font-weight: 500;
-        line-height: 1.2;
-      }
-
-      .portal-actions {
+      .global-nav {
         display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 8px;
+        min-width: 0;
+        padding: 0 18px;
+      }
+
+      .global-nav a,
+      .top-action {
+        display: inline-flex;
+        align-items: center;
+        gap: 7px;
+        min-height: 36px;
+        padding: 0 12px;
+        border-radius: 8px;
+        color: #344054;
+        font-size: 14px;
+        font-weight: 650;
+        line-height: 1;
+        text-decoration: none;
+      }
+
+      .global-nav a:hover,
+      .top-action:hover {
+        background: #f2f4f7;
+        color: var(--green-dark);
+      }
+
+      .top-actions {
+        display: flex;
+        align-items: center;
+        justify-content: flex-end;
+        gap: 10px;
+        padding: 0 24px 0 12px;
+      }
+
+      .search {
+        position: relative;
+        width: min(240px, 28vw);
+      }
+
+      .search svg {
+        position: absolute;
+        top: 50%;
+        left: 11px;
+        width: 16px;
+        height: 16px;
+        transform: translateY(-50%);
+        color: #98a2b3;
+      }
+
+      .search input,
+      .sidebar-filter {
+        width: 100%;
+        min-height: 38px;
+        border: 1px solid var(--line);
+        border-radius: 8px;
+        background: #ffffff;
+        color: var(--ink);
+        outline: none;
+      }
+
+      .search input {
+        padding: 0 40px 0 34px;
+        font-size: 14px;
+      }
+
+      .search kbd {
+        position: absolute;
+        top: 50%;
+        right: 9px;
+        min-width: 28px;
+        transform: translateY(-50%);
+        border-radius: 6px;
+        background: #f2f4f7;
+        color: #667085;
+        font-family: var(--sans);
+        font-size: 12px;
+        font-weight: 650;
+        line-height: 22px;
+        text-align: center;
+      }
+
+      .shell {
+        display: grid;
+        grid-template-columns: 300px minmax(0, 1fr);
+        min-height: calc(100vh - 74px);
+      }
+
+      .sidebar {
+        position: sticky;
+        top: 74px;
+        align-self: start;
+        height: calc(100vh - 74px);
+        overflow-y: auto;
+        border-right: 1px solid var(--line);
+        background: #f8faf9;
+        padding: 22px 22px 28px;
+      }
+
+      .api-title {
+        display: grid;
+        gap: 8px;
+        margin-bottom: 18px;
+      }
+
+      .api-title strong {
+        color: var(--green-dark);
+        font-size: 15px;
+        font-weight: 820;
+        letter-spacing: 0.01em;
+        text-transform: uppercase;
+      }
+
+      .version-row {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        color: #475467;
+        font-size: 14px;
+      }
+
+      .version-pill {
+        display: inline-flex;
+        align-items: center;
+        min-height: 26px;
+        padding: 0 9px;
+        border-radius: 7px;
+        background: var(--green-soft);
+        color: var(--green-dark);
+        font-weight: 780;
+      }
+
+      .filter-wrap {
+        position: relative;
+        margin-bottom: 18px;
+      }
+
+      .filter-wrap svg {
+        position: absolute;
+        top: 50%;
+        left: 12px;
+        width: 16px;
+        height: 16px;
+        transform: translateY(-50%);
+        color: #98a2b3;
+      }
+
+      .sidebar-filter {
+        padding: 0 12px 0 36px;
+      }
+
+      .nav-list,
+      .subnav,
+      .cards,
+      .library-list,
+      .status-list {
+        margin: 0;
+        padding: 0;
+        list-style: none;
+      }
+
+      .nav-section {
+        margin-top: 16px;
+        padding-top: 16px;
+        border-top: 1px solid var(--line);
+      }
+
+      .nav-link,
+      .subnav a {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        min-height: 34px;
+        border-radius: 8px;
+        color: #475467;
+        font-size: 14px;
+        font-weight: 650;
+        text-decoration: none;
+      }
+
+      .nav-link {
+        justify-content: space-between;
+        padding: 0 9px;
+      }
+
+      .nav-link span:first-child {
+        display: inline-flex;
         align-items: center;
         gap: 10px;
       }
 
-      .portal-link {
-        display: inline-flex;
-        align-items: center;
-        min-height: 36px;
-        padding: 0 12px;
-        border: 1px solid var(--shopiyz-line);
+      .nav-link svg,
+      .subnav svg {
+        width: 17px;
+        height: 17px;
+        color: #6b8494;
+      }
+
+      .nav-link:hover,
+      .subnav a:hover,
+      .nav-link.active {
+        background: #ecfdf3;
+        color: var(--green-dark);
+      }
+
+      .nav-link.active {
+        box-shadow: inset 3px 0 0 var(--green);
+      }
+
+      .subnav {
+        display: grid;
+        gap: 2px;
+        margin: 6px 0 0 34px;
+      }
+
+      .subnav a {
+        padding: 0 8px;
+        font-size: 13px;
+        font-weight: 600;
+      }
+
+      .subnav a.active {
+        color: var(--green-dark);
+      }
+
+      .help-panel {
+        margin-top: 24px;
+        padding: 16px;
+        border: 1px solid var(--line);
         border-radius: 8px;
         background: #ffffff;
-        color: #374151;
+        box-shadow: 0 10px 28px rgba(16, 24, 40, 0.06);
+      }
+
+      .help-panel strong {
+        display: block;
+        margin-bottom: 4px;
+        color: var(--ink);
         font-size: 13px;
-        font-weight: 640;
-        line-height: 1;
-        text-decoration: none;
-        transition:
-          border-color 140ms ease,
-          color 140ms ease,
-          transform 140ms ease;
       }
 
-      .portal-link:hover {
-        border-color: rgba(22, 163, 74, 0.46);
-        color: #0f7a35;
-        transform: translateY(-1px);
-      }
-
-      .portal-link.primary {
-        border-color: #121826;
-        background: #121826;
-        color: #ffffff;
-      }
-
-      .portal-intro {
-        display: grid;
-        grid-template-columns: minmax(0, 1fr) auto;
-        gap: 32px;
-        align-items: end;
-        padding: 36px 28px 26px;
-        border-bottom: 1px solid rgba(229, 231, 235, 0.72);
-      }
-
-      .portal-intro h1 {
-        max-width: 820px;
+      .help-panel p {
         margin: 0;
-        color: #111827;
-        font-size: clamp(32px, 4vw, 56px);
-        font-weight: 780;
-        letter-spacing: 0;
-        line-height: 1.02;
+        color: var(--muted);
+        font-size: 13px;
+        line-height: 1.5;
       }
 
-      .portal-intro p {
+      .content {
+        min-width: 0;
+        background: #ffffff;
+      }
+
+      .content-inner {
+        max-width: 1240px;
+        margin: 0 auto;
+        padding: 22px 28px 80px;
+      }
+
+      .notice {
+        display: flex;
+        gap: 12px;
+        align-items: flex-start;
+        margin-bottom: 22px;
+        padding: 15px 16px;
+        border: 1px solid var(--line-strong);
+        border-radius: 8px;
+        background: #ffffff;
+        color: #344054;
+      }
+
+      .notice svg {
+        width: 22px;
+        height: 22px;
+        flex: 0 0 auto;
+        color: var(--green);
+      }
+
+      .notice p {
+        margin: 0;
+      }
+
+      .notice a {
+        color: var(--green-dark);
+        font-weight: 760;
+        text-decoration-color: rgba(8, 122, 45, 0.32);
+        text-underline-offset: 3px;
+      }
+
+      .hero {
+        display: grid;
+        grid-template-columns: minmax(0, 0.95fr) minmax(390px, 1.05fr);
+        gap: 36px;
+        align-items: stretch;
+        min-height: 420px;
+        padding: 34px 34px 28px;
+        border: 1px solid var(--line);
+        border-radius: 8px;
+        background:
+          linear-gradient(135deg, rgba(236, 253, 243, 0.9), rgba(255, 255, 255, 0) 38%),
+          #ffffff;
+      }
+
+      .hero-copy {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        min-width: 0;
+      }
+
+      h1,
+      h2,
+      h3,
+      p {
+        margin-top: 0;
+      }
+
+      h1 {
         max-width: 760px;
-        margin: 16px 0 0;
-        color: #475569;
-        font-size: 16px;
+        margin-bottom: 18px;
+        color: var(--ink-strong);
+        font-size: 42px;
+        font-weight: 820;
+        line-height: 1.06;
+        letter-spacing: 0;
+      }
+
+      .lead {
+        max-width: 690px;
+        margin-bottom: 24px;
+        color: #475467;
+        font-size: 17px;
         line-height: 1.7;
       }
 
-      .quick-panel {
-        width: min(360px, 100%);
-        padding: 18px;
-        border: 1px solid #e5e7eb;
-        border-radius: 8px;
-        background: rgba(255, 255, 255, 0.8);
-        box-shadow: 0 18px 42px rgba(15, 23, 42, 0.08);
+      .hero-points {
+        display: grid;
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        gap: 18px;
+        margin: 0 0 28px;
       }
 
-      .quick-panel strong {
+      .point {
+        min-width: 0;
+      }
+
+      .point svg {
+        width: 30px;
+        height: 30px;
+        margin-bottom: 12px;
+        color: var(--green);
+      }
+
+      .point strong {
         display: block;
-        margin-bottom: 10px;
-        color: #111827;
+        color: var(--ink);
+        font-size: 14px;
+        line-height: 1.35;
+      }
+
+      .point span {
+        display: block;
+        margin-top: 5px;
+        color: var(--muted);
+        font-size: 13px;
+        line-height: 1.45;
+      }
+
+      .button-row {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px;
+      }
+
+      .button {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        min-height: 40px;
+        padding: 0 15px;
+        border: 1px solid var(--line-strong);
+        border-radius: 8px;
+        background: #ffffff;
+        color: #344054;
+        font-size: 14px;
+        font-weight: 760;
+        line-height: 1;
+        text-decoration: none;
+      }
+
+      .button.primary {
+        border-color: var(--green);
+        background: var(--green);
+        color: #ffffff;
+      }
+
+      .button:hover {
+        border-color: var(--green);
+        color: var(--green-dark);
+      }
+
+      .button.primary:hover {
+        background: var(--green-dark);
+        color: #ffffff;
+      }
+
+      .code-card {
+        display: flex;
+        flex-direction: column;
+        min-width: 0;
+        overflow: hidden;
+        border: 1px solid #c9d8dc;
+        border-radius: 8px;
+        background: var(--teal-900);
+        box-shadow: var(--shadow);
+      }
+
+      .code-tabs {
+        display: flex;
+        align-items: center;
+        min-height: 44px;
+        gap: 4px;
+        padding: 0 8px;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        background: #ffffff;
+      }
+
+      .code-tab {
+        display: inline-flex;
+        align-items: center;
+        min-height: 32px;
+        padding: 0 11px;
+        border: 0;
+        border-radius: 7px;
+        background: transparent;
+        color: #667085;
+        cursor: pointer;
         font-size: 13px;
         font-weight: 760;
       }
 
-      .quick-panel code {
-        display: block;
-        overflow-x: auto;
-        padding: 12px;
-        border-radius: 7px;
-        background: #0f172a;
-        color: #d1fae5;
-        font-family: "JetBrains Mono", "SFMono-Regular", Consolas, monospace;
-        font-size: 12px;
-        line-height: 1.6;
-        white-space: pre;
+      .code-tab.active {
+        background: #ecfdf3;
+        color: var(--green-dark);
       }
 
-      .reference-wrap {
-        min-height: 78vh;
+      .copy-button {
+        display: inline-grid;
+        place-items: center;
+        width: 34px;
+        height: 34px;
+        margin-left: auto;
+        border: 1px solid var(--line);
+        border-radius: 8px;
+        background: #ffffff;
+        color: #475467;
+        cursor: pointer;
+      }
+
+      .copy-button:hover {
+        border-color: var(--green);
+        color: var(--green-dark);
+      }
+
+      pre {
+        margin: 0;
+        overflow: auto;
+        padding: 22px;
+        color: var(--code);
+        font-size: 13px;
+        line-height: 1.7;
+        tab-size: 2;
+      }
+
+      .token-muted {
+        color: #8fb3ba;
+      }
+
+      .token-string {
+        color: #a7f3d0;
+      }
+
+      .token-key {
+        color: #f9a8d4;
+      }
+
+      .token-method {
+        color: #fde68a;
+      }
+
+      .overview-grid {
+        display: grid;
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        margin-top: 26px;
+        border-top: 1px solid var(--line);
+        border-left: 1px solid var(--line);
+      }
+
+      .overview-card {
+        min-width: 0;
+        padding: 28px 30px;
+        border-right: 1px solid var(--line);
+        border-bottom: 1px solid var(--line);
         background: #ffffff;
       }
 
-      @media (max-width: 860px) {
-        .portal-topbar {
-          align-items: flex-start;
-          flex-direction: column;
-          padding: 16px 18px;
+      .overview-card svg {
+        width: 28px;
+        height: 28px;
+        margin-bottom: 15px;
+        color: var(--green);
+      }
+
+      .overview-card h2 {
+        margin-bottom: 8px;
+        color: var(--green-dark);
+        font-size: 18px;
+        line-height: 1.3;
+      }
+
+      .overview-card p {
+        margin-bottom: 16px;
+        color: var(--muted);
+        font-size: 14px;
+      }
+
+      .mini-button {
+        display: inline-flex;
+        align-items: center;
+        min-height: 34px;
+        padding: 0 12px;
+        border: 1px solid var(--line-strong);
+        border-radius: 7px;
+        background: #ffffff;
+        color: #344054;
+        font-size: 13px;
+        font-weight: 760;
+        text-decoration: none;
+      }
+
+      .doc-section {
+        display: grid;
+        grid-template-columns: minmax(0, 0.9fr) minmax(350px, 0.82fr);
+        gap: 42px;
+        padding: 62px 0;
+        border-bottom: 1px solid var(--line);
+        scroll-margin-top: 100px;
+      }
+
+      .doc-section.single {
+        grid-template-columns: minmax(0, 1fr);
+      }
+
+      .section-copy h2 {
+        margin-bottom: 12px;
+        color: var(--ink-strong);
+        font-size: 30px;
+        line-height: 1.18;
+      }
+
+      .section-copy p {
+        color: #475467;
+        font-size: 16px;
+      }
+
+      .section-copy ul {
+        display: grid;
+        gap: 9px;
+        margin: 18px 0 0;
+        padding: 0;
+        list-style: none;
+      }
+
+      .section-copy li {
+        position: relative;
+        padding-left: 24px;
+        color: #475467;
+      }
+
+      .section-copy li::before {
+        position: absolute;
+        top: 9px;
+        left: 2px;
+        width: 8px;
+        height: 8px;
+        border-radius: 50%;
+        background: var(--green);
+        content: "";
+      }
+
+      .library-list {
+        border-top: 1px solid var(--line);
+      }
+
+      .library-item {
+        border-bottom: 1px solid var(--line);
+      }
+
+      .library-toggle {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        width: 100%;
+        min-height: 52px;
+        border: 0;
+        background: transparent;
+        color: var(--ink);
+        cursor: pointer;
+        font-size: 15px;
+        font-weight: 780;
+        text-align: left;
+      }
+
+      .library-toggle span {
+        display: inline-flex;
+        align-items: center;
+        gap: 10px;
+      }
+
+      .library-toggle svg {
+        width: 20px;
+        height: 20px;
+        color: var(--green);
+      }
+
+      .library-body {
+        display: none;
+        padding: 0 0 18px 30px;
+        color: var(--muted);
+        font-size: 14px;
+      }
+
+      .library-item.open .library-body {
+        display: block;
+      }
+
+      .inline-code {
+        display: inline-flex;
+        max-width: 100%;
+        padding: 2px 6px;
+        border: 1px solid var(--line);
+        border-radius: 6px;
+        background: #f8fafc;
+        color: #0f172a;
+        font-family: var(--mono);
+        font-size: 0.92em;
+        overflow-wrap: anywhere;
+      }
+
+      .endpoint-box,
+      .table-box {
+        overflow: hidden;
+        border: 1px solid var(--line);
+        border-radius: 8px;
+        background: #ffffff;
+      }
+
+      .endpoint-row {
+        display: grid;
+        grid-template-columns: 92px minmax(0, 1fr);
+        border-bottom: 1px solid var(--line);
+      }
+
+      .endpoint-row:last-child {
+        border-bottom: 0;
+      }
+
+      .method {
+        display: grid;
+        place-items: center;
+        background: #ecfdf3;
+        color: var(--green-dark);
+        font-size: 12px;
+        font-weight: 860;
+      }
+
+      .endpoint-path {
+        min-width: 0;
+        padding: 15px 17px;
+        color: #344054;
+        font-family: var(--mono);
+        font-size: 13px;
+        overflow-wrap: anywhere;
+      }
+
+      table {
+        width: 100%;
+        border-collapse: collapse;
+      }
+
+      th,
+      td {
+        padding: 14px 16px;
+        border-bottom: 1px solid var(--line);
+        text-align: left;
+        vertical-align: top;
+      }
+
+      th {
+        background: #f8fafc;
+        color: #344054;
+        font-size: 13px;
+        font-weight: 820;
+      }
+
+      td {
+        color: #475467;
+        font-size: 14px;
+      }
+
+      tr:last-child td {
+        border-bottom: 0;
+      }
+
+      .status-code {
+        display: inline-flex;
+        align-items: center;
+        min-height: 26px;
+        padding: 0 8px;
+        border-radius: 7px;
+        background: #f2f4f7;
+        color: #344054;
+        font-family: var(--mono);
+        font-size: 12px;
+        font-weight: 800;
+      }
+
+      .status-code.ok {
+        background: #ecfdf3;
+        color: var(--green-dark);
+      }
+
+      .status-code.warn {
+        background: #fff7ed;
+        color: #b45309;
+      }
+
+      .status-code.bad {
+        background: #fef2f2;
+        color: #b42318;
+      }
+
+      .footer-note {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 12px;
+        align-items: center;
+        justify-content: space-between;
+        padding-top: 28px;
+        color: var(--muted);
+        font-size: 14px;
+      }
+
+      .toast {
+        position: fixed;
+        right: 18px;
+        bottom: 18px;
+        z-index: 100;
+        transform: translateY(12px);
+        opacity: 0;
+        pointer-events: none;
+        transition:
+          opacity 160ms ease,
+          transform 160ms ease;
+        border-radius: 8px;
+        background: #101828;
+        color: #ffffff;
+        padding: 11px 14px;
+        font-size: 13px;
+        font-weight: 720;
+      }
+
+      .toast.show {
+        transform: translateY(0);
+        opacity: 1;
+      }
+
+      @media (max-width: 1180px) {
+        .topbar {
+          grid-template-columns: 270px minmax(0, 1fr);
         }
 
-        .portal-actions {
-          width: 100%;
+        .top-actions {
+          display: none;
+        }
+
+        .shell {
+          grid-template-columns: 270px minmax(0, 1fr);
+        }
+
+        .sidebar {
+          padding-inline: 18px;
+        }
+
+        .hero,
+        .doc-section {
+          grid-template-columns: 1fr;
+        }
+
+        .hero {
+          min-height: 0;
+        }
+      }
+
+      @media (max-width: 900px) {
+        .topbar {
+          grid-template-columns: 1fr;
+          align-items: start;
+          min-height: auto;
+        }
+
+        .brand {
+          height: 60px;
+          padding: 0 18px;
+        }
+
+        .global-nav {
+          justify-content: flex-start;
           overflow-x: auto;
-          padding-bottom: 2px;
+          padding: 0 18px 14px;
         }
 
-        .portal-link {
+        .global-nav a {
           flex: 0 0 auto;
         }
 
-        .portal-intro {
+        .shell {
           grid-template-columns: 1fr;
-          padding: 28px 18px 20px;
         }
 
-        .portal-intro h1 {
+        .sidebar {
+          position: static;
+          height: auto;
+          border-right: 0;
+          border-bottom: 1px solid var(--line);
+        }
+
+        .nav-section.secondary {
+          display: none;
+        }
+
+        .content-inner {
+          padding: 20px 18px 56px;
+        }
+
+        .hero {
+          padding: 26px 20px;
+        }
+
+        h1 {
           font-size: 34px;
-          line-height: 1.06;
         }
 
-        .quick-panel {
-          width: 100%;
+        .hero-points,
+        .overview-grid {
+          grid-template-columns: 1fr;
+        }
+
+        .doc-section {
+          gap: 24px;
+          padding: 46px 0;
+        }
+
+        .endpoint-row {
+          grid-template-columns: 74px minmax(0, 1fr);
+        }
+      }
+
+      @media (max-width: 560px) {
+        body {
+          font-size: 14px;
+        }
+
+        .brand {
+          gap: 10px;
+        }
+
+        .brand img {
+          width: 30px;
+          height: 30px;
+        }
+
+        .global-nav a {
+          min-height: 34px;
+          padding-inline: 9px;
+          font-size: 13px;
+        }
+
+        .notice {
+          padding: 13px;
+        }
+
+        h1 {
+          font-size: 30px;
+        }
+
+        .lead {
+          font-size: 15px;
+        }
+
+        .code-tabs {
+          overflow-x: auto;
+        }
+
+        .code-tab {
+          flex: 0 0 auto;
+        }
+
+        pre {
+          padding: 18px;
+          font-size: 12px;
+        }
+
+        .section-copy h2 {
+          font-size: 25px;
+        }
+
+        th,
+        td {
+          padding: 12px;
         }
       }
     </style>
   </head>
   <body>
-    <main class="portal-shell">
-      <header class="portal-topbar">
-        <a class="brand" href="./" aria-label="Shopiyz Developer Docs">
-          <span class="brand-mark">S</span>
-          <span class="brand-copy">
-            <span class="brand-name">Shopiyz Developers</span>
-            <span class="brand-subtitle">Documentation Preview</span>
-          </span>
-        </a>
-        <nav class="portal-actions" aria-label="Developer links">
-          <a class="portal-link" href="#introduction">Başlangıç</a>
-          <a class="portal-link" href="#authentication">Authentication</a>
-          <a class="portal-link" href="#coming-soon">API Reference</a>
-          <a class="portal-link primary" href="./openapi/shopiyz-api.v1.yaml">OpenAPI YAML</a>
-        </nav>
-      </header>
+    <header class="topbar">
+      <a class="brand" href="./" aria-label="Shopiyz Docs">
+        <img src="./favicon.svg" alt="" />
+        <span>Shopiyz <strong>Docs</strong></span>
+      </a>
+      <nav class="global-nav" aria-label="Ana dokuman navigasyonu">
+        <a href="#overview">Guides</a>
+        <a href="#endpoints">API reference</a>
+        <a href="#authentication">Resources</a>
+        <a href="./openapi/shopiyz-api.v1.yaml">OpenAPI</a>
+      </nav>
+      <div class="top-actions">
+        <label class="search" aria-label="Dokumanlarda ara">
+          <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+            <path d="m21 21-4.3-4.3m1.3-5.2a6.5 6.5 0 1 1-13 0 6.5 6.5 0 0 1 13 0Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" />
+          </svg>
+          <input id="globalSearch" type="search" placeholder="Search" />
+          <kbd>/</kbd>
+        </label>
+        <a class="top-action" href="#status">Help</a>
+      </div>
+    </header>
 
-      <section class="portal-intro">
-        <div>
-          <h1>Shopiyz geliştirici dokümanları için sade bir başlangıç.</h1>
-          <p>
-            Bu repo şimdilik yalnızca doküman arayüzünü taşır. Gerçek API endpointleri,
-            mimari kararlar ve entegrasyon detayları daha sonra OpenAPI dosyasına eklenecek.
-          </p>
+    <div class="shell">
+      <aside class="sidebar" aria-label="REST Admin API navigasyonu">
+        <div class="api-title">
+          <strong>Admin API</strong>
+          <div class="version-row">
+            <span class="version-pill">REST</span>
+            <span>v1 preview</span>
+          </div>
         </div>
-        <aside class="quick-panel" aria-label="Quick start example">
-          <strong>Yayın mantığı</strong>
-          <code>Yeni repo
-GitHub Pages
-Actions yok
-Statik HTML</code>
-        </aside>
-      </section>
 
-      <section class="reference-wrap" aria-label="API reference">
-        <div id="app"></div>
-      </section>
-    </main>
+        <label class="filter-wrap" aria-label="Bolum filtrele">
+          <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+            <path d="m21 21-4.3-4.3m1.3-5.2a6.5 6.5 0 1 1-13 0 6.5 6.5 0 0 1 13 0Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" />
+          </svg>
+          <input class="sidebar-filter" id="sectionFilter" type="search" placeholder="Filter sections" />
+        </label>
 
-    <script src="https://cdn.jsdelivr.net/npm/@scalar/api-reference"></script>
+        <nav>
+          <ul class="nav-list">
+            <li>
+              <a class="nav-link active" href="#overview" data-nav-link>
+                <span>
+                  <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                    <path d="m3 11 9-8 9 8v9a1 1 0 0 1-1 1h-5v-6H9v6H4a1 1 0 0 1-1-1v-9Z" stroke="currentColor" stroke-width="2" stroke-linejoin="round" />
+                  </svg>
+                  Overview
+                </span>
+              </a>
+              <ul class="subnav">
+                <li><a href="#what-is" data-nav-link>What is the Admin API?</a></li>
+                <li><a href="#libraries" data-nav-link>Client libraries</a></li>
+                <li><a href="#authentication" data-nav-link>Authentication</a></li>
+                <li><a href="#endpoints" data-nav-link>Endpoints and requests</a></li>
+                <li><a href="#rate-limits" data-nav-link>Rate limits</a></li>
+                <li><a href="#status" data-nav-link>Status and error codes</a></li>
+              </ul>
+            </li>
+          </ul>
+
+          <div class="nav-section secondary">
+            <ul class="nav-list">
+              <li><a class="nav-link" href="#authentication"><span><svg viewBox="0 0 24 24" fill="none"><path d="M16 11V7a4 4 0 0 0-8 0v4M5 11h14v10H5V11Z" stroke="currentColor" stroke-width="2" stroke-linejoin="round" /></svg>Access</span><span>›</span></a></li>
+              <li><a class="nav-link" href="#endpoints"><span><svg viewBox="0 0 24 24" fill="none"><path d="M4 6h16M4 12h16M4 18h10" stroke="currentColor" stroke-width="2" stroke-linecap="round" /></svg>Catalog</span><span>›</span></a></li>
+              <li><a class="nav-link" href="#endpoints"><span><svg viewBox="0 0 24 24" fill="none"><path d="M7 7h14M7 12h14M7 17h14M3 7h.01M3 12h.01M3 17h.01" stroke="currentColor" stroke-width="2" stroke-linecap="round" /></svg>Orders</span><span>›</span></a></li>
+              <li><a class="nav-link" href="#endpoints"><span><svg viewBox="0 0 24 24" fill="none"><path d="M20 7 10 17l-5-5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" /></svg>Products</span><span>›</span></a></li>
+              <li><a class="nav-link" href="#rate-limits"><span><svg viewBox="0 0 24 24" fill="none"><path d="M12 6v6l4 2M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" /></svg>Rate limits</span><span>›</span></a></li>
+              <li><a class="nav-link" href="#status"><span><svg viewBox="0 0 24 24" fill="none"><path d="M12 9v4m0 4h.01M10.3 3.9 2.8 17a2 2 0 0 0 1.7 3h15a2 2 0 0 0 1.7-3L13.7 3.9a2 2 0 0 0-3.4 0Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" /></svg>Errors</span><span>›</span></a></li>
+              <li><a class="nav-link" href="./openapi/shopiyz-api.v1.yaml"><span><svg viewBox="0 0 24 24" fill="none"><path d="M8 3h8l4 4v14H4V3h4Zm8 0v5h4" stroke="currentColor" stroke-width="2" stroke-linejoin="round" /></svg>OpenAPI YAML</span><span>›</span></a></li>
+            </ul>
+          </div>
+        </nav>
+
+        <div class="help-panel">
+          <strong>Dokuman notu</strong>
+          <p>Bu sayfa ilk REST Admin API yapisini anlatir. Endpointler yayina alindikca referans bolumu genisleyecek.</p>
+        </div>
+      </aside>
+
+      <main class="content">
+        <div class="content-inner">
+          <div class="notice" role="note">
+            <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+              <path d="M12 8v5m0 3h.01M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" />
+            </svg>
+            <p>
+              Shopiyz Admin API dokumanlari preview asamasinda. Ilk yayin REST odakli olacak;
+              GraphQL daha sonra ayri bir referans olarak degerlendirilecek.
+              <a href="./openapi/shopiyz-api.v1.yaml">OpenAPI taslagini incele</a>.
+            </p>
+          </div>
+
+          <section class="hero" id="overview" aria-labelledby="overview-title">
+            <div class="hero-copy" id="what-is">
+              <h1 id="overview-title">Shopiyz Admin API overview</h1>
+              <p class="lead">
+                Magaza, urun, siparis, musteri ve stok verilerini Shopiyz paneli disinda
+                guvenli sekilde yonetmek icin REST tabanli ilk API katmani.
+              </p>
+              <div class="hero-points" aria-label="API ozellikleri">
+                <div class="point">
+                  <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                    <path d="m12 3 8 4.5v9L12 21l-8-4.5v-9L12 3Zm0 0v9m8-4.5-8 4.5m-8-4.5 8 4.5" stroke="currentColor" stroke-width="2" stroke-linejoin="round" />
+                  </svg>
+                  <strong>Magaza bazli erisim</strong>
+                  <span>Her musteri magazasi kendi token, scope ve limitleriyle ayrilir.</span>
+                </div>
+                <div class="point">
+                  <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                    <path d="M12 3 5 6v5c0 4.6 2.9 8.4 7 10 4.1-1.6 7-5.4 7-10V6l-7-3Z" stroke="currentColor" stroke-width="2" stroke-linejoin="round" />
+                  </svg>
+                  <strong>Yetki kontrollu</strong>
+                  <span>Tokenlar yalnizca verilen kaynaklara ve islemlere erisebilir.</span>
+                </div>
+                <div class="point">
+                  <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                    <path d="M5 19c6-1 10-5 12-12m0 0H9m8 0v8" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                  </svg>
+                  <strong>Olceklenebilir baslangic</strong>
+                  <span>Pagination, filtreleme ve rate limitler ilk surumun parcasi olacak.</span>
+                </div>
+              </div>
+              <div class="button-row">
+                <a class="button primary" href="#authentication">Get started</a>
+                <a class="button" href="#endpoints">View endpoints</a>
+              </div>
+            </div>
+
+            <div class="code-card" aria-label="API request example">
+              <div class="code-tabs">
+                <button class="code-tab active" type="button" data-code-tab="curl">cURL</button>
+                <button class="code-tab" type="button" data-code-tab="javascript">JavaScript</button>
+                <button class="code-tab" type="button" data-code-tab="node">Node.js</button>
+                <button class="code-tab" type="button" data-code-tab="php">PHP</button>
+                <button class="copy-button" type="button" data-copy="heroCode" aria-label="Kod ornegini kopyala">
+                  <svg viewBox="0 0 24 24" width="17" height="17" fill="none" aria-hidden="true">
+                    <path d="M8 8h11v13H8V8Zm-3 8H4a1 1 0 0 1-1-1V4h11a1 1 0 0 1 1 1v1" stroke="currentColor" stroke-width="2" stroke-linejoin="round" />
+                  </svg>
+                </button>
+              </div>
+              <pre id="heroCode"><code data-code-panel="curl"><span class="token-muted"># Aktif urunleri listele</span>
+curl -X GET <span class="token-string">"https://{store}.shopiyz.com/admin/api/v1/products.json?limit=10&amp;status=active"</span> \
+  -H <span class="token-string">"Content-Type: application/json"</span> \
+  -H <span class="token-string">"X-Shopiyz-Access-Token: {access_token}"</span></code><code data-code-panel="javascript" hidden><span class="token-muted">// Browser veya worker icinden urunleri listele</span>
+const response = await fetch(
+  <span class="token-string">"https://{store}.shopiyz.com/admin/api/v1/products.json?limit=10&amp;status=active"</span>,
+  {
+    headers: {
+      <span class="token-key">"Content-Type"</span>: <span class="token-string">"application/json"</span>,
+      <span class="token-key">"X-Shopiyz-Access-Token"</span>: <span class="token-string">"{access_token}"</span>
+    }
+  }
+);
+const products = await response.json();</code><code data-code-panel="node" hidden><span class="token-muted">// Node.js servisinden urunleri listele</span>
+const response = await fetch(
+  <span class="token-string">"https://{store}.shopiyz.com/admin/api/v1/products.json?limit=10"</span>,
+  {
+    headers: {
+      <span class="token-key">"X-Shopiyz-Access-Token"</span>: process.env.SHOPIYZ_ADMIN_TOKEN
+    }
+  }
+);
+console.log(await response.json());</code><code data-code-panel="php" hidden><span class="token-muted">// PHP ile basit GET istegi</span>
+$client = new GuzzleHttp\Client();
+$response = $client->get(
+  <span class="token-string">'https://{store}.shopiyz.com/admin/api/v1/products.json'</span>,
+  [
+    <span class="token-key">'headers'</span> => [
+      <span class="token-key">'X-Shopiyz-Access-Token'</span> => <span class="token-string">'{access_token}'</span>
+    ]
+  ]
+);</code></pre>
+            </div>
+          </section>
+
+          <section class="overview-grid" aria-label="Overview links">
+            <article class="overview-card">
+              <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="m8 17-5-5 5-5m8 10 5-5-5-5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" /></svg>
+              <h2>Client libraries</h2>
+              <p>cURL ile baslayin; JavaScript, Node.js ve PHP ornekleri dokuman boyunca kullanilir.</p>
+              <a class="mini-button" href="#libraries">View guide</a>
+            </article>
+            <article class="overview-card">
+              <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M16 11V7a4 4 0 0 0-8 0v4M5 11h14v10H5V11Z" stroke="currentColor" stroke-width="2" stroke-linejoin="round" /></svg>
+              <h2>Authentication</h2>
+              <p>Admin token, scope ve magaza bazli yetkiler ile API erisimini kontrol edin.</p>
+              <a class="mini-button" href="#authentication">View authentication</a>
+            </article>
+            <article class="overview-card">
+              <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h10" stroke="currentColor" stroke-width="2" stroke-linecap="round" /></svg>
+              <h2>Endpoints and requests</h2>
+              <p>Kaynaklar standart REST pathleri, JSON body ve cursor pagination ile tasarlanir.</p>
+              <a class="mini-button" href="#endpoints">Explore endpoints</a>
+            </article>
+            <article class="overview-card">
+              <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M12 6v6l4 2M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" /></svg>
+              <h2>Rate limits</h2>
+              <p>Limitler app ve magaza bazinda uygulanir; yogun GET akislari cache ile ayrilir.</p>
+              <a class="mini-button" href="#rate-limits">View limits</a>
+            </article>
+            <article class="overview-card">
+              <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M12 9v4m0 4h.01M10.3 3.9 2.8 17a2 2 0 0 0 1.7 3h15a2 2 0 0 0 1.7-3L13.7 3.9a2 2 0 0 0-3.4 0Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" /></svg>
+              <h2>Status and error codes</h2>
+              <p>Basarili yanitlar, dogrulama hatalari ve rate limit durumlari ayni hata semasini kullanir.</p>
+              <a class="mini-button" href="#status">View codes</a>
+            </article>
+            <article class="overview-card">
+              <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M8 3h8l4 4v14H4V3h4Zm8 0v5h4" stroke="currentColor" stroke-width="2" stroke-linejoin="round" /></svg>
+              <h2>OpenAPI</h2>
+              <p>Endpointler kesinlestikce OpenAPI dosyasi API referansi icin tek kaynak olacak.</p>
+              <a class="mini-button" href="./openapi/shopiyz-api.v1.yaml">Open YAML</a>
+            </article>
+          </section>
+
+          <section class="doc-section" id="libraries" aria-labelledby="libraries-title">
+            <div class="section-copy">
+              <h2 id="libraries-title">Client libraries</h2>
+              <p>
+                Ilk dokumanlarda resmi SDK yerine HTTP uzerinden acik ve okunabilir ornekler
+                kullanilir. Bu sayede endpoint yapisi netlesmeden gelistiriciyi bir kutuphaneye
+                kilitlemeyiz.
+              </p>
+              <ul>
+                <li>cURL ornekleri terminalden hizli deneme icin temel kabul edilir.</li>
+                <li>JavaScript ve Node.js ornekleri uygulama ve worker senaryolarini kapsar.</li>
+                <li>PHP ornekleri Turkiye e-ticaret ekosistemindeki klasik entegrasyonlar icin tutulur.</li>
+              </ul>
+            </div>
+            <div>
+              <ul class="library-list">
+                <li class="library-item open">
+                  <button class="library-toggle" type="button">
+                    <span><svg viewBox="0 0 24 24" fill="none"><path d="m8 17-5-5 5-5m8 10 5-5-5-5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" /></svg>cURL</span>
+                    <span>−</span>
+                  </button>
+                  <div class="library-body">API davranisini dogrudan gormek ve token/header sorunlarini ayiklamak icin en yalın baslangic.</div>
+                </li>
+                <li class="library-item">
+                  <button class="library-toggle" type="button">
+                    <span><svg viewBox="0 0 24 24" fill="none"><path d="M12 2v20M5 7l7-5 7 5M5 17l7 5 7-5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" /></svg>JavaScript</span>
+                    <span>+</span>
+                  </button>
+                  <div class="library-body">Dashboard, backoffice ve edge worker icinden standart <span class="inline-code">fetch</span> kullanimi.</div>
+                </li>
+                <li class="library-item">
+                  <button class="library-toggle" type="button">
+                    <span><svg viewBox="0 0 24 24" fill="none"><path d="M6 9v6m4-6v6m4-6v6m4-6v6M4 5h16v14H4V5Z" stroke="currentColor" stroke-width="2" stroke-linejoin="round" /></svg>Node.js</span>
+                    <span>+</span>
+                  </button>
+                  <div class="library-body">Server-side entegrasyonlar, cron isleri ve partner uygulamalari icin tokeni guvenli ortam degiskeninde tutar.</div>
+                </li>
+                <li class="library-item">
+                  <button class="library-toggle" type="button">
+                    <span><svg viewBox="0 0 24 24" fill="none"><path d="M4 8h16v8H4V8Zm4 0v8m8-8v8" stroke="currentColor" stroke-width="2" stroke-linejoin="round" /></svg>PHP</span>
+                    <span>+</span>
+                  </button>
+                  <div class="library-body">ERP, muhasebe, ajans panelleri ve klasik hosting entegrasyonlari icin basit HTTP client ornekleri.</div>
+                </li>
+              </ul>
+            </div>
+          </section>
+
+          <section class="doc-section" id="authentication" aria-labelledby="authentication-title">
+            <div class="section-copy">
+              <h2 id="authentication-title">Authentication</h2>
+              <p>
+                Admin API istekleri magaza bazli uretilen access token ile calisir. Token,
+                istekte <span class="inline-code">X-Shopiyz-Access-Token</span> header'i olarak
+                gonderilir.
+              </p>
+              <ul>
+                <li>Her token tek bir magaza veya izin verilen magaza grubu ile sinirlanir.</li>
+                <li>Scope mantigi <span class="inline-code">read_products</span>, <span class="inline-code">write_orders</span> gibi kaynak/aksiyon ayrimi yapar.</li>
+                <li>Tokenlar frontend koduna gomulmez; server, worker veya guvenli entegrasyon katmaninda saklanir.</li>
+              </ul>
+            </div>
+            <div class="code-card">
+              <div class="code-tabs">
+                <button class="code-tab active" type="button">cURL</button>
+                <button class="copy-button" type="button" data-copy="authCode" aria-label="Authentication kodunu kopyala">
+                  <svg viewBox="0 0 24 24" width="17" height="17" fill="none"><path d="M8 8h11v13H8V8Zm-3 8H4a1 1 0 0 1-1-1V4h11a1 1 0 0 1 1 1v1" stroke="currentColor" stroke-width="2" stroke-linejoin="round" /></svg>
+                </button>
+              </div>
+              <pre id="authCode"><code>curl -X GET <span class="token-string">"https://{store}.shopiyz.com/admin/api/v1/shop.json"</span> \
+  -H <span class="token-string">"Content-Type: application/json"</span> \
+  -H <span class="token-string">"X-Shopiyz-Access-Token: {access_token}"</span></code></pre>
+            </div>
+          </section>
+
+          <section class="doc-section" id="endpoints" aria-labelledby="endpoints-title">
+            <div class="section-copy">
+              <h2 id="endpoints-title">Endpoints and requests</h2>
+              <p>
+                REST Admin API kaynaklari okunabilir pathler ve JSON yanitlariyla tasarlanir.
+                Ilk formatin hedefi Shopify kadar guclu ama daha az karmasik bir istek modeli kurmak.
+              </p>
+              <p>
+                Planlanan endpoint deseni:
+                <span class="inline-code">https://{store_domain}/admin/api/v1/{resource}.json</span>
+              </p>
+              <ul>
+                <li>Liste endpointleri <span class="inline-code">limit</span>, <span class="inline-code">cursor</span> ve kaynak filtrelerini destekler.</li>
+                <li>Yazma isteklerinde JSON body kullanilir.</li>
+                <li>Versiyon sabit kaldigi surece davranis geriye donuk uyumlu tutulur.</li>
+              </ul>
+            </div>
+            <div class="endpoint-box">
+              <div class="endpoint-row">
+                <div class="method">GET</div>
+                <div class="endpoint-path">/admin/api/v1/products.json</div>
+              </div>
+              <div class="endpoint-row">
+                <div class="method">POST</div>
+                <div class="endpoint-path">/admin/api/v1/products.json</div>
+              </div>
+              <div class="endpoint-row">
+                <div class="method">GET</div>
+                <div class="endpoint-path">/admin/api/v1/orders.json?status=open</div>
+              </div>
+              <div class="endpoint-row">
+                <div class="method">PUT</div>
+                <div class="endpoint-path">/admin/api/v1/inventory_levels/{inventory_item_id}.json</div>
+              </div>
+            </div>
+          </section>
+
+          <section class="doc-section" id="rate-limits" aria-labelledby="rate-limits-title">
+            <div class="section-copy">
+              <h2 id="rate-limits-title">Rate limits</h2>
+              <p>
+                Admin API trafiği musteri magazasindan bagimsiz bir entegrasyon katmaninda
+                sinirlandirilir. Boylece yogun API kullanimi storefront sayfa yukunu dogrudan
+                artirmaz.
+              </p>
+              <ul>
+                <li>Limitler app + magaza bazinda hesaplanir.</li>
+                <li>GET agirlikli public/storefront istekleri cache ve CDN katmanina ayrilabilir.</li>
+                <li>Limit asildiginda <span class="inline-code">429 Too Many Requests</span> ve <span class="inline-code">Retry-After</span> doner.</li>
+              </ul>
+            </div>
+            <div class="code-card">
+              <div class="code-tabs">
+                <button class="code-tab active" type="button">Headers</button>
+                <button class="copy-button" type="button" data-copy="limitCode" aria-label="Rate limit headerlarini kopyala">
+                  <svg viewBox="0 0 24 24" width="17" height="17" fill="none"><path d="M8 8h11v13H8V8Zm-3 8H4a1 1 0 0 1-1-1V4h11a1 1 0 0 1 1 1v1" stroke="currentColor" stroke-width="2" stroke-linejoin="round" /></svg>
+                </button>
+              </div>
+              <pre id="limitCode"><code>HTTP/1.1 <span class="token-method">429 Too Many Requests</span>
+X-Shopiyz-Api-Call-Limit: 60/60
+Retry-After: 2
+
+{
+  <span class="token-key">"error"</span>: {
+    <span class="token-key">"code"</span>: <span class="token-string">"rate_limited"</span>,
+    <span class="token-key">"message"</span>: <span class="token-string">"Too many requests. Retry after 2 seconds."</span>
+  }
+}</code></pre>
+            </div>
+          </section>
+
+          <section class="doc-section single" id="status" aria-labelledby="status-title">
+            <div class="section-copy">
+              <h2 id="status-title">Status and error codes</h2>
+              <p>
+                Tum hata yanitlari ayni JSON semasini kullanir. Bu bolum API yayina
+                hazirlandikca daha ayrintili hata kataloguna donusecek.
+              </p>
+            </div>
+            <div class="table-box">
+              <table>
+                <thead>
+                  <tr>
+                    <th>Kod</th>
+                    <th>Anlam</th>
+                    <th>Ne zaman doner?</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td><span class="status-code ok">200</span></td>
+                    <td>OK</td>
+                    <td>Listeleme, detay ve basarili guncelleme yanitlari.</td>
+                  </tr>
+                  <tr>
+                    <td><span class="status-code ok">201</span></td>
+                    <td>Created</td>
+                    <td>Yeni kaynak basariyla olusturuldugunda.</td>
+                  </tr>
+                  <tr>
+                    <td><span class="status-code warn">400</span></td>
+                    <td>Bad Request</td>
+                    <td>Parametre veya JSON formati hatali oldugunda.</td>
+                  </tr>
+                  <tr>
+                    <td><span class="status-code bad">401</span></td>
+                    <td>Unauthorized</td>
+                    <td>Token eksik, gecersiz veya suresi dolmus oldugunda.</td>
+                  </tr>
+                  <tr>
+                    <td><span class="status-code bad">403</span></td>
+                    <td>Forbidden</td>
+                    <td>Token var ama gerekli scope veya magaza yetkisi yoksa.</td>
+                  </tr>
+                  <tr>
+                    <td><span class="status-code warn">422</span></td>
+                    <td>Unprocessable Entity</td>
+                    <td>Kaynak dogrulama kurallarini gecemediginde.</td>
+                  </tr>
+                  <tr>
+                    <td><span class="status-code warn">429</span></td>
+                    <td>Too Many Requests</td>
+                    <td>Rate limit doldugunda ve bekleme suresi gerektiginde.</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </section>
+
+          <div class="footer-note">
+            <span>Shopiyz Developer Docs · dev.shopiyz.com</span>
+            <a class="mini-button" href="./openapi/shopiyz-api.v1.yaml">OpenAPI YAML</a>
+          </div>
+        </div>
+      </main>
+    </div>
+
+    <div class="toast" id="toast" role="status" aria-live="polite">Copied</div>
+
     <script>
-      Scalar.createApiReference("#app", {
-        url: "./openapi/shopiyz-api.v1.yaml",
-        layout: "modern",
-        theme: "default",
-        hideDarkModeToggle: false,
-        showDeveloperTools: "never",
-        operationTitleSource: "summary",
-        defaultHttpClient: {
-          targetKey: "shell",
-          clientKey: "curl",
+      const codePanels = Array.from(document.querySelectorAll("[data-code-panel]"));
+      const codeTabs = Array.from(document.querySelectorAll("[data-code-tab]"));
+      const heroCode = document.getElementById("heroCode");
+      const toast = document.getElementById("toast");
+
+      function activeCodeText() {
+        const active = codePanels.find((panel) => !panel.hidden);
+        return active ? active.innerText.trim() : "";
+      }
+
+      codeTabs.forEach((tab) => {
+        tab.addEventListener("click", () => {
+          const key = tab.dataset.codeTab;
+          codeTabs.forEach((item) => item.classList.toggle("active", item === tab));
+          codePanels.forEach((panel) => {
+            panel.hidden = panel.dataset.codePanel !== key;
+          });
+        });
+      });
+
+      document.querySelectorAll("[data-copy]").forEach((button) => {
+        button.addEventListener("click", async () => {
+          const target = document.getElementById(button.dataset.copy);
+          const text = target === heroCode ? activeCodeText() : target.innerText.trim();
+          try {
+            await navigator.clipboard.writeText(text);
+            toast.textContent = "Copied";
+          } catch {
+            toast.textContent = "Copy failed";
+          }
+          toast.classList.add("show");
+          window.setTimeout(() => toast.classList.remove("show"), 1400);
+        });
+      });
+
+      document.querySelectorAll(".library-toggle").forEach((button) => {
+        button.addEventListener("click", () => {
+          const item = button.closest(".library-item");
+          const isOpen = item.classList.toggle("open");
+          button.lastElementChild.textContent = isOpen ? "−" : "+";
+        });
+      });
+
+      const navLinks = Array.from(document.querySelectorAll("[data-nav-link]"));
+      const sections = ["overview", "libraries", "authentication", "endpoints", "rate-limits", "status"]
+        .map((id) => document.getElementById(id))
+        .filter(Boolean);
+
+      const observer = new IntersectionObserver(
+        (entries) => {
+          const visible = entries
+            .filter((entry) => entry.isIntersecting)
+            .sort((a, b) => b.intersectionRatio - a.intersectionRatio)[0];
+          if (!visible) return;
+          const id = visible.target.id;
+          navLinks.forEach((link) => {
+            link.classList.toggle("active", link.getAttribute("href") === `#${id}`);
+          });
         },
-        authentication: {
-          preferredSecurityScheme: "AdminBearer",
-        },
-        metaData: {
-          title: "Shopiyz Developer Docs",
-          description: "Shopiyz developer documentation preview.",
-        },
-        customCss: `
-          .light-mode {
-            --scalar-color-accent: #16a34a;
-            --scalar-color-accent-hover: #15803d;
-            --scalar-color-accent-active: #166534;
-          }
-          .dark-mode {
-            --scalar-color-accent: #22c55e;
-            --scalar-color-accent-hover: #4ade80;
-            --scalar-color-accent-active: #86efac;
-          }
-          .scalar-api-reference {
-            --scalar-radius: 8px;
-          }
-          .scalar-api-reference .references-layout {
-            border-top: 1px solid #e5e7eb;
-          }
-        `,
+        { rootMargin: "-18% 0px -68% 0px", threshold: [0.05, 0.2, 0.5] }
+      );
+      sections.forEach((section) => observer.observe(section));
+
+      const filterInput = document.getElementById("sectionFilter");
+      const searchableLinks = Array.from(document.querySelectorAll(".sidebar .nav-link, .sidebar .subnav a"));
+      filterInput.addEventListener("input", () => {
+        const query = filterInput.value.trim().toLowerCase();
+        searchableLinks.forEach((link) => {
+          const match = link.textContent.toLowerCase().includes(query);
+          link.parentElement.style.display = !query || match ? "" : "none";
+        });
+      });
+
+      const globalSearch = document.getElementById("globalSearch");
+      window.addEventListener("keydown", (event) => {
+        if (event.key === "/" && document.activeElement !== globalSearch && document.activeElement !== filterInput) {
+          event.preventDefault();
+          globalSearch?.focus();
+        }
       });
     </script>
   </body>
