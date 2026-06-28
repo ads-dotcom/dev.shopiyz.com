@@ -1,39 +1,809 @@
 openapi: 3.1.0
 info:
-  title: Shopiyz Developer Docs
-  version: 0.1.0
-  summary: API reference placeholder.
+  title: Shopiyz Admin REST API
+  version: 1.0.0
+  summary: Shopiyz Admin REST API reference.
   description: |
-    Bu doküman şimdilik yalnızca Shopiyz geliştirici portalı tasarımını göstermek için
-    hazırlanmıştır. Gerçek API endpointleri ve teknik mimari daha sonra eklenecektir.
+    Shopiyz Admin REST API mağaza verilerini panel dışındaki güvenli sistemlerden
+    okumak ve onaylı işlemlerle yönetmek için kullanılır. Yanıt yapısı Shopify REST
+    API'ye yakın tutulur: liste endpointleri `products`, `orders`, `collections`
+    gibi root key'lerle döner; detay endpointleri tekil root key kullanır.
 servers:
-  - url: https://dev.shopiyz.com
-    description: Documentation preview
+  - url: https://{store}.shopiyz.com/admin/api/{api_version}
+    description: Store Admin API
+    variables:
+      store:
+        default: development
+        description: Store subdomain or custom store host.
+      api_version:
+        default: "2026-01"
+        enum:
+          - v1
+          - latest
+          - "2026-01"
+security:
+  - shopiyzAccessToken: []
+  - bearerAuth: []
+tags:
+  - name: Products
+  - name: Product Variants
+  - name: Product Images
+  - name: Collections
+  - name: Customers
+  - name: Orders
 paths:
-  /docs/coming-soon:
+  /products.json:
     get:
-      tags:
-        - Coming Soon
-      summary: API reference placeholder
-      operationId: docsComingSoon
-      description: |
-        Bu endpoint gerçek bir API değildir. Scalar arayüzünde doküman tasarımını
-        göstermek için geçici olarak eklenmiştir.
+      tags: [Products]
+      summary: Retrieve a list of products
+      operationId: listProducts
+      parameters:
+        - $ref: "#/components/parameters/Limit"
+        - $ref: "#/components/parameters/Offset"
+        - $ref: "#/components/parameters/Fields"
+        - $ref: "#/components/parameters/Ids"
+        - name: handle
+          in: query
+          schema: { type: string }
+        - name: collection_id
+          in: query
+          schema: { type: string }
+        - name: status
+          in: query
+          schema: { type: string, enum: [active, draft, archived] }
+        - name: vendor
+          in: query
+          schema: { type: string }
+        - name: product_type
+          in: query
+          schema: { type: string }
+        - name: search
+          in: query
+          schema: { type: string }
+        - name: created_at_min
+          in: query
+          schema: { type: string, format: date-time }
+        - name: created_at_max
+          in: query
+          schema: { type: string, format: date-time }
+        - name: updated_at_min
+          in: query
+          schema: { type: string, format: date-time }
+        - name: updated_at_max
+          in: query
+          schema: { type: string, format: date-time }
       responses:
         "200":
-          description: Documentation placeholder.
+          description: Products list.
           content:
             application/json:
               schema:
                 type: object
                 properties:
-                  status:
-                    type: string
-                  message:
-                    type: string
-              example:
-                status: preview
-                message: Shopiyz API dokümanları yakında.
-tags:
-  - name: Coming Soon
-    description: Placeholder section for the future Shopiyz API reference.
+                  products:
+                    type: array
+                    items: { $ref: "#/components/schemas/Product" }
+    post:
+      tags: [Products]
+      summary: Create a product
+      operationId: createProduct
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [product]
+              properties:
+                product: { $ref: "#/components/schemas/ProductInput" }
+      responses:
+        "201":
+          description: Product created.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  product: { $ref: "#/components/schemas/Product" }
+  /products/count.json:
+    get:
+      tags: [Products]
+      summary: Count products
+      operationId: countProducts
+      parameters:
+        - name: status
+          in: query
+          schema: { type: string }
+        - name: collection_id
+          in: query
+          schema: { type: string }
+        - name: search
+          in: query
+          schema: { type: string }
+      responses:
+        "200": { $ref: "#/components/responses/CountResponse" }
+  /products/{product_id}.json:
+    get:
+      tags: [Products]
+      summary: Retrieve a product
+      operationId: getProduct
+      parameters:
+        - $ref: "#/components/parameters/ProductId"
+        - $ref: "#/components/parameters/Fields"
+      responses:
+        "200":
+          description: Product detail.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  product: { $ref: "#/components/schemas/Product" }
+    put:
+      tags: [Products]
+      summary: Update a product
+      operationId: updateProduct
+      parameters:
+        - $ref: "#/components/parameters/ProductId"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [product]
+              properties:
+                product: { $ref: "#/components/schemas/ProductInput" }
+      responses:
+        "200":
+          description: Product updated.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  product: { $ref: "#/components/schemas/Product" }
+    delete:
+      tags: [Products]
+      summary: Delete a product
+      operationId: deleteProduct
+      parameters:
+        - $ref: "#/components/parameters/ProductId"
+      responses:
+        "200": { $ref: "#/components/responses/EmptyObjectResponse" }
+  /products/{product_id}/variants.json:
+    get:
+      tags: [Product Variants]
+      summary: Retrieve product variants
+      operationId: listProductVariants
+      parameters:
+        - $ref: "#/components/parameters/ProductId"
+        - $ref: "#/components/parameters/Limit"
+        - $ref: "#/components/parameters/Offset"
+      responses:
+        "200":
+          description: Variants list.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  variants:
+                    type: array
+                    items: { $ref: "#/components/schemas/ProductVariant" }
+    post:
+      tags: [Product Variants]
+      summary: Create a product variant
+      operationId: createProductVariant
+      parameters:
+        - $ref: "#/components/parameters/ProductId"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [variant]
+              properties:
+                variant: { $ref: "#/components/schemas/ProductVariantInput" }
+      responses:
+        "201":
+          description: Variant created.
+  /products/{product_id}/variants/count.json:
+    get:
+      tags: [Product Variants]
+      summary: Count product variants
+      operationId: countProductVariants
+      parameters:
+        - $ref: "#/components/parameters/ProductId"
+      responses:
+        "200": { $ref: "#/components/responses/CountResponse" }
+  /variants/{variant_id}.json:
+    get:
+      tags: [Product Variants]
+      summary: Retrieve a variant
+      operationId: getProductVariant
+      parameters:
+        - $ref: "#/components/parameters/VariantId"
+      responses:
+        "200":
+          description: Variant detail.
+    put:
+      tags: [Product Variants]
+      summary: Update a variant
+      operationId: updateProductVariant
+      parameters:
+        - $ref: "#/components/parameters/VariantId"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [variant]
+              properties:
+                variant: { $ref: "#/components/schemas/ProductVariantInput" }
+      responses:
+        "200":
+          description: Variant updated.
+    delete:
+      tags: [Product Variants]
+      summary: Delete a variant
+      operationId: deleteProductVariant
+      parameters:
+        - $ref: "#/components/parameters/VariantId"
+      responses:
+        "200": { $ref: "#/components/responses/EmptyObjectResponse" }
+  /products/{product_id}/images.json:
+    get:
+      tags: [Product Images]
+      summary: Retrieve product images
+      operationId: listProductImages
+      parameters:
+        - $ref: "#/components/parameters/ProductId"
+      responses:
+        "200":
+          description: Images list.
+    post:
+      tags: [Product Images]
+      summary: Create a product image
+      operationId: createProductImage
+      parameters:
+        - $ref: "#/components/parameters/ProductId"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [image]
+              properties:
+                image: { $ref: "#/components/schemas/ProductImageInput" }
+      responses:
+        "201":
+          description: Image created.
+  /products/{product_id}/images/count.json:
+    get:
+      tags: [Product Images]
+      summary: Count product images
+      operationId: countProductImages
+      parameters:
+        - $ref: "#/components/parameters/ProductId"
+      responses:
+        "200": { $ref: "#/components/responses/CountResponse" }
+  /products/{product_id}/images/{image_id}.json:
+    get:
+      tags: [Product Images]
+      summary: Retrieve a product image
+      operationId: getProductImage
+      parameters:
+        - $ref: "#/components/parameters/ProductId"
+        - $ref: "#/components/parameters/ImageId"
+      responses:
+        "200":
+          description: Image detail.
+    put:
+      tags: [Product Images]
+      summary: Update a product image
+      operationId: updateProductImage
+      parameters:
+        - $ref: "#/components/parameters/ProductId"
+        - $ref: "#/components/parameters/ImageId"
+      responses:
+        "200":
+          description: Image updated.
+    delete:
+      tags: [Product Images]
+      summary: Delete a product image
+      operationId: deleteProductImage
+      parameters:
+        - $ref: "#/components/parameters/ProductId"
+        - $ref: "#/components/parameters/ImageId"
+      responses:
+        "200": { $ref: "#/components/responses/EmptyObjectResponse" }
+  /collections.json:
+    get:
+      tags: [Collections]
+      summary: Retrieve collections
+      operationId: listCollections
+      parameters:
+        - $ref: "#/components/parameters/Limit"
+        - name: search
+          in: query
+          schema: { type: string }
+      responses:
+        "200":
+          description: Collections list.
+  /collections/{collection_id}.json:
+    get:
+      tags: [Collections]
+      summary: Retrieve a collection
+      operationId: getCollection
+      parameters:
+        - $ref: "#/components/parameters/CollectionId"
+      responses:
+        "200":
+          description: Collection detail.
+  /collections/{collection_id}/products.json:
+    get:
+      tags: [Collections, Products]
+      summary: Retrieve products in a collection
+      operationId: listCollectionProducts
+      parameters:
+        - $ref: "#/components/parameters/CollectionId"
+        - $ref: "#/components/parameters/Limit"
+      responses:
+        "200":
+          description: Products in collection.
+  /categories.json:
+    get:
+      tags: [Collections]
+      summary: Retrieve category aliases
+      operationId: listCategories
+      responses:
+        "200":
+          description: Category list.
+  /custom_collections.json:
+    get:
+      tags: [Collections]
+      summary: Retrieve custom collections
+      operationId: listCustomCollections
+      responses:
+        "200":
+          description: Custom collections list.
+    post:
+      tags: [Collections]
+      summary: Create a custom collection
+      operationId: createCustomCollection
+      responses:
+        "201":
+          description: Custom collection created.
+  /custom_collections/count.json:
+    get:
+      tags: [Collections]
+      summary: Count custom collections
+      operationId: countCustomCollections
+      responses:
+        "200": { $ref: "#/components/responses/CountResponse" }
+  /custom_collections/{collection_id}.json:
+    get:
+      tags: [Collections]
+      summary: Retrieve a custom collection
+      operationId: getCustomCollection
+      parameters:
+        - $ref: "#/components/parameters/CollectionId"
+      responses:
+        "200":
+          description: Custom collection detail.
+    put:
+      tags: [Collections]
+      summary: Update a custom collection
+      operationId: updateCustomCollection
+      parameters:
+        - $ref: "#/components/parameters/CollectionId"
+      responses:
+        "200":
+          description: Custom collection updated.
+    delete:
+      tags: [Collections]
+      summary: Delete a custom collection
+      operationId: deleteCustomCollection
+      parameters:
+        - $ref: "#/components/parameters/CollectionId"
+      responses:
+        "200": { $ref: "#/components/responses/EmptyObjectResponse" }
+  /smart_collections.json:
+    get:
+      tags: [Collections]
+      summary: Retrieve smart collections
+      operationId: listSmartCollections
+      responses:
+        "200":
+          description: Smart collections list.
+    post:
+      tags: [Collections]
+      summary: Create a smart collection
+      operationId: createSmartCollection
+      responses:
+        "201":
+          description: Smart collection created.
+  /smart_collections/count.json:
+    get:
+      tags: [Collections]
+      summary: Count smart collections
+      operationId: countSmartCollections
+      responses:
+        "200": { $ref: "#/components/responses/CountResponse" }
+  /smart_collections/{collection_id}.json:
+    get:
+      tags: [Collections]
+      summary: Retrieve a smart collection
+      operationId: getSmartCollection
+      parameters:
+        - $ref: "#/components/parameters/CollectionId"
+      responses:
+        "200":
+          description: Smart collection detail.
+    put:
+      tags: [Collections]
+      summary: Update a smart collection
+      operationId: updateSmartCollection
+      parameters:
+        - $ref: "#/components/parameters/CollectionId"
+      responses:
+        "200":
+          description: Smart collection updated.
+    delete:
+      tags: [Collections]
+      summary: Delete a smart collection
+      operationId: deleteSmartCollection
+      parameters:
+        - $ref: "#/components/parameters/CollectionId"
+      responses:
+        "200": { $ref: "#/components/responses/EmptyObjectResponse" }
+  /smart_collections/{collection_id}/order.json:
+    put:
+      tags: [Collections]
+      summary: Reorder products in a smart collection
+      operationId: reorderSmartCollection
+      parameters:
+        - $ref: "#/components/parameters/CollectionId"
+      responses:
+        "200": { $ref: "#/components/responses/EmptyObjectResponse" }
+  /collects.json:
+    get:
+      tags: [Collections]
+      summary: Retrieve product collection assignments
+      operationId: listCollects
+      responses:
+        "200":
+          description: Collects list.
+    post:
+      tags: [Collections]
+      summary: Attach a product to a collection
+      operationId: createCollect
+      responses:
+        "201":
+          description: Collect created.
+  /collects/count.json:
+    get:
+      tags: [Collections]
+      summary: Count collects
+      operationId: countCollects
+      responses:
+        "200": { $ref: "#/components/responses/CountResponse" }
+  /collects/{collect_id}.json:
+    get:
+      tags: [Collections]
+      summary: Retrieve a collect
+      operationId: getCollect
+      parameters:
+        - name: collect_id
+          in: path
+          required: true
+          schema: { type: string }
+      responses:
+        "200":
+          description: Collect detail.
+    delete:
+      tags: [Collections]
+      summary: Remove a product from a collection
+      operationId: deleteCollect
+      parameters:
+        - name: collect_id
+          in: path
+          required: true
+          schema: { type: string }
+      responses:
+        "200": { $ref: "#/components/responses/EmptyObjectResponse" }
+  /customers.json:
+    get:
+      tags: [Customers]
+      summary: Retrieve customers
+      operationId: listCustomers
+      parameters:
+        - $ref: "#/components/parameters/Limit"
+        - $ref: "#/components/parameters/Offset"
+        - name: search
+          in: query
+          schema: { type: string }
+      responses:
+        "200":
+          description: Customers list.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  customers:
+                    type: array
+                    items: { $ref: "#/components/schemas/Customer" }
+  /orders.json:
+    get:
+      tags: [Orders]
+      summary: Retrieve orders
+      operationId: listOrders
+      parameters:
+        - $ref: "#/components/parameters/Limit"
+        - $ref: "#/components/parameters/Offset"
+        - $ref: "#/components/parameters/Fields"
+        - $ref: "#/components/parameters/Ids"
+        - name: status
+          in: query
+          schema: { type: string, enum: [open, archived, cancelled, any] }
+        - name: financial_status
+          in: query
+          schema: { type: string }
+        - name: fulfillment_status
+          in: query
+          schema: { type: string }
+        - name: customer_id
+          in: query
+          schema: { type: string }
+        - name: email
+          in: query
+          schema: { type: string }
+        - name: search
+          in: query
+          schema: { type: string }
+        - name: created_at_min
+          in: query
+          schema: { type: string, format: date-time }
+        - name: created_at_max
+          in: query
+          schema: { type: string, format: date-time }
+      responses:
+        "200":
+          description: Orders list.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  orders:
+                    type: array
+                    items: { $ref: "#/components/schemas/Order" }
+  /orders/count.json:
+    get:
+      tags: [Orders]
+      summary: Count orders
+      operationId: countOrders
+      parameters:
+        - name: status
+          in: query
+          schema: { type: string }
+        - name: financial_status
+          in: query
+          schema: { type: string }
+        - name: fulfillment_status
+          in: query
+          schema: { type: string }
+      responses:
+        "200": { $ref: "#/components/responses/CountResponse" }
+  /orders/{order_id}.json:
+    get:
+      tags: [Orders]
+      summary: Retrieve an order
+      operationId: getOrder
+      parameters:
+        - name: order_id
+          in: path
+          required: true
+          schema: { type: string }
+        - $ref: "#/components/parameters/Fields"
+      responses:
+        "200":
+          description: Order detail.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  order: { $ref: "#/components/schemas/Order" }
+components:
+  securitySchemes:
+    shopiyzAccessToken:
+      type: apiKey
+      in: header
+      name: X-Shopiyz-Access-Token
+    bearerAuth:
+      type: http
+      scheme: bearer
+  parameters:
+    Limit:
+      name: limit
+      in: query
+      schema:
+        type: integer
+        minimum: 1
+        maximum: 250
+        default: 50
+    Offset:
+      name: offset
+      in: query
+      schema:
+        type: integer
+        minimum: 0
+        default: 0
+    Fields:
+      name: fields
+      in: query
+      schema:
+        type: string
+      description: Comma-separated field list.
+    Ids:
+      name: ids
+      in: query
+      schema:
+        type: string
+      description: Comma-separated IDs.
+    ProductId:
+      name: product_id
+      in: path
+      required: true
+      schema: { type: string }
+    VariantId:
+      name: variant_id
+      in: path
+      required: true
+      schema: { type: string }
+    ImageId:
+      name: image_id
+      in: path
+      required: true
+      schema: { type: string }
+    CollectionId:
+      name: collection_id
+      in: path
+      required: true
+      schema: { type: string }
+  responses:
+    CountResponse:
+      description: Count response.
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              count:
+                type: integer
+    EmptyObjectResponse:
+      description: Empty object response.
+      content:
+        application/json:
+          schema:
+            type: object
+  schemas:
+    Product:
+      type: object
+      properties:
+        id: { type: string }
+        title: { type: string }
+        body_html: { type: string }
+        vendor: { type: string }
+        product_type: { type: string }
+        handle: { type: string }
+        status: { type: string }
+        tags: { type: string }
+        variants:
+          type: array
+          items: { $ref: "#/components/schemas/ProductVariant" }
+        images:
+          type: array
+          items: { $ref: "#/components/schemas/ProductImage" }
+        image:
+          anyOf:
+            - $ref: "#/components/schemas/ProductImage"
+            - type: "null"
+    ProductInput:
+      type: object
+      properties:
+        title: { type: string }
+        body_html: { type: string }
+        vendor: { type: string }
+        product_type: { type: string }
+        handle: { type: string }
+        status: { type: string }
+        tags:
+          oneOf:
+            - type: string
+            - type: array
+              items: { type: string }
+        variants:
+          type: array
+          items: { $ref: "#/components/schemas/ProductVariantInput" }
+        images:
+          type: array
+          items: { $ref: "#/components/schemas/ProductImageInput" }
+    ProductVariant:
+      type: object
+      properties:
+        id: { type: string }
+        product_id: { type: string }
+        title: { type: string }
+        sku: { type: string }
+        price: { type: string }
+        inventory_quantity: { type: integer }
+    ProductVariantInput:
+      type: object
+      properties:
+        title: { type: string }
+        sku: { type: string }
+        price: { type: string }
+        compare_at_price: { type: string }
+        inventory_quantity: { type: integer }
+        option1: { type: string }
+        option2: { type: string }
+        option3: { type: string }
+    ProductImage:
+      type: object
+      properties:
+        id: { type: string }
+        product_id: { type: string }
+        src: { type: string }
+        alt: { type: string }
+        position: { type: integer }
+    ProductImageInput:
+      type: object
+      properties:
+        src: { type: string }
+        alt: { type: string }
+        position: { type: integer }
+    Collection:
+      type: object
+      properties:
+        id: { type: string }
+        handle: { type: string }
+        title: { type: string }
+        body_html: { type: string }
+        products_count: { type: integer }
+    Customer:
+      type: object
+      properties:
+        id: { type: string }
+        firstName: { type: string }
+        lastName: { type: string }
+        email: { type: string }
+        phone: { type: string }
+        ordersCount: { type: integer }
+        totalSpent: { type: number }
+    Order:
+      type: object
+      properties:
+        id: { type: string }
+        name: { type: string }
+        order_number: {}
+        created_at: { type: string }
+        updated_at: { type: string }
+        financial_status: { type: string }
+        fulfillment_status: { type: string }
+        currency: { type: string }
+        total_price: { type: string }
+        customer:
+          type:
+            - object
+            - "null"
+        line_items:
+          type: array
+          items:
+            type: object
