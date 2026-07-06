@@ -2160,6 +2160,19 @@ Retry-After: 2
                       <li>Magaza bazli iptal ve yenileme akisi dokumanda yer alir.</li>
                     </ul>
                   </section>
+                  <section class="resource-item" id="api-catalog-resource">
+                    <h4>API catalog</h4>
+                    <p>Musteri ekranlarinda gosterilecek Admin API kaynak listesini, ozellikleri ve desteklenen operasyonlari salt-okuma dondurur.</p>
+                    <div class="endpoint-chips">
+                      <code class="endpoint-chip">GET /admin/api/v1/api_catalog.json</code>
+                      <code class="endpoint-chip">GET /api/public/admin-api-catalog</code>
+                    </div>
+                    <ul class="field-list">
+                      <li>resources dizisi kaynak adi, kategori, aciklama, features ve operations alanlarini icerir.</li>
+                      <li>Admin API endpointi token ile, public endpoint ise musteri/panel tanitim gorunumu icin token olmadan okunur.</li>
+                      <li>POST, PUT veya DELETE yoktur; sadece liste ve ozellik bilgisi verir.</li>
+                    </ul>
+                  </section>
                   <section class="resource-item" id="permission-resource">
                     <h4>Permission model</h4>
                     <p>Admin panelindeki kullanici, app ve magaza yetkilerini API katmanina yansitir.</p>
@@ -3199,6 +3212,8 @@ ApplicationCharge	GET	/admin/api/v1/application_charges.json	Listele
 ApplicationCharge	GET	/admin/api/v1/application_charges/{application_charge_id}.json	Detay getir
 ApplicationCredit	GET	/admin/api/v1/application_credits.json	Listele
 ApplicationCredit	GET	/admin/api/v1/application_credits/{application_credit_id}.json	Detay getir
+API Catalog	GET	/admin/api/v1/api_catalog.json	API kaynak listesini ve ozelliklerini oku
+API Catalog	GET	/api/public/admin-api-catalog	Public API kaynak listesini ve ozelliklerini oku
 Apps	GET	/admin/api/v1/apps.json	Listele
 Apps	GET	/admin/api/v1/apps/{handle}.json	Detay getir
 Apps	GET	/admin/api/v1/apps/{handle}/settings.json	Ayar oku

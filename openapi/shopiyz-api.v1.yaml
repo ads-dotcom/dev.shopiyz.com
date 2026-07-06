@@ -34,6 +34,7 @@ tags:
   - name: Collections
   - name: Customers
   - name: Orders
+  - name: API Catalog
   - name: Apps
   - name: Product Tab Manager
   - name: Product FAQ Studio
@@ -44,6 +45,37 @@ tags:
   - name: Digital Downloads
   - name: Insert Code Studio
 paths:
+  /api_catalog.json:
+    get:
+      tags: [API Catalog]
+      summary: Retrieve Admin API resource catalog
+      operationId: getApiCatalog
+      responses:
+        "200":
+          description: API resources, features and operations.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  api_catalog: { $ref: "#/components/schemas/ApiCatalog" }
+  /api/public/admin-api-catalog:
+    get:
+      tags: [API Catalog]
+      summary: Retrieve public Admin API catalog for customer-facing screens
+      operationId: getPublicAdminApiCatalog
+      servers:
+        - url: https://{store}.shopiyz.com
+          variables:
+            store:
+              default: development
+      security: []
+      responses:
+        "200":
+          description: Public API resources, features and operations.
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/ApiCatalog" }
   /products.json:
     get:
       tags: [Products]
@@ -1503,6 +1535,62 @@ components:
           anyOf:
             - type: string
             - type: "null"
+    ApiCatalogOperation:
+      type: object
+      properties:
+        method: { type: string, enum: [GET, POST, PUT, PATCH, DELETE, HEAD] }
+        path: { type: string, example: "/products.json" }
+        action: { type: string, example: "Listele" }
+        description: { type: string }
+        requiredScopes:
+          type: array
+          items: { type: string }
+    ApiCatalogResource:
+      type: object
+      properties:
+        id: { type: string, example: products }
+        name: { type: string, example: Products }
+        category: { type: string, example: Catalog }
+        description: { type: string }
+        features:
+          type: array
+          items: { type: string }
+        requiredScopes:
+          type: array
+          items: { type: string }
+        readOnly: { type: boolean }
+        operations:
+          type: array
+          items: { $ref: "#/components/schemas/ApiCatalogOperation" }
+    ApiCatalog:
+      type: object
+      properties:
+        generatedAt: { type: string, format: date-time }
+        version: { type: string, example: "2026-07-07" }
+        basePath: { type: string, example: "/admin/api/v1" }
+        docsUrl: { type: string, format: uri }
+        openApiUrl: { type: string, format: uri }
+        authentication:
+          type: object
+          properties:
+            schemes:
+              type: array
+              items: { type: string }
+            readScopes:
+              type: array
+              items: { type: string }
+            writeScopes:
+              type: array
+              items: { type: string }
+        summary:
+          type: object
+          properties:
+            resources: { type: integer }
+            operations: { type: integer }
+            readOnlyResources: { type: integer }
+        resources:
+          type: array
+          items: { $ref: "#/components/schemas/ApiCatalogResource" }
     ProductTab:
       type: object
       properties:
