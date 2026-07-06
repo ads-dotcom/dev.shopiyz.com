@@ -1676,6 +1676,9 @@
                 <ul class="subnav">
                   <li><a href="#product-tab-manager-resource" data-nav-link>Product Tab Manager</a></li>
                   <li><a href="#product-faq-studio-resource" data-nav-link>Product FAQ Studio</a></li>
+                  <li><a href="#xml-product-import-resource" data-nav-link>XML Product Import</a></li>
+                  <li><a href="#shopify-connection-resource" data-nav-link>Shopify Connection</a></li>
+                  <li><a href="#shopify-checkout-resource" data-nav-link>Shopify Checkout</a></li>
                 </ul>
               </li>
               <li>
@@ -2126,7 +2129,7 @@ Retry-After: 2
               </div>
               <div class="reference-note">
                 <strong>Apps endpointleri ayri kartlarda</strong>
-                Product Tab Manager ve Product FAQ Studio ayni Apps basligi altinda, ama farkli uygulamalardir.
+                Product Tab Manager, Product FAQ Studio, XML Product Import, Shopify Connection ve Shopify Checkout ayni Apps basligi altinda, ama farkli uygulamalardir.
                 Her uygulamanin pathleri kendi kartinda durur; diger kaynak aileleri kapsam genisledikce canli hale gelir.
               </div>
             </div>
@@ -2264,6 +2267,53 @@ Retry-After: 2
                       <li>FAQ alanlari: id, question, answer, group, status, source, assignmentMode, productIds, collectionIds, tags, vendors.</li>
                       <li>Inbox alanlari: productTitle, customerName, customerEmail, question, status, createdAt.</li>
                       <li>Settings: displayMode, schemaEnabled, askQuestionEnabled, aiGenerationEnabled, aeoModeEnabled, liveSearchEnabled.</li>
+                    </ul>
+                  </section>
+                  <section class="resource-item" id="xml-product-import-resource">
+                    <h4>XML Product Import</h4>
+                    <p>Tedarikci XML kaynaklarini, alan eslestirmelerini, fiyat kurallarini, AI onerilerini ve kontrollu urun import akislarini yonetir.</p>
+                    <div class="endpoint-chips">
+                      <code class="endpoint-chip">PATCH /admin/api/v1/apps/xml-product-import/profile.json</code>
+                      <code class="endpoint-chip">POST /admin/api/v1/apps/xml-product-import/scan.json</code>
+                      <code class="endpoint-chip">POST /admin/api/v1/apps/xml-product-import/preview.json</code>
+                      <code class="endpoint-chip">POST /admin/api/v1/apps/xml-product-import/import.json</code>
+                      <code class="endpoint-chip">POST /admin/api/v1/apps/xml-product-import/ai-match.json</code>
+                    </div>
+                    <ul class="field-list">
+                      <li>Profil alanlari: title, supplierName, warehouseName, xmlUrl, sourceFiles, fetchMode, authMode, xsltEnabled, scheduleMode, status.</li>
+                      <li>Eslestirmeler: fieldMappings, collectionMappings, vendorMappings, optionMappings, attributeMappings, taxMappings, metafieldMappings.</li>
+                      <li>Aksiyon cevaplari success, message, summary, run, job, pricePreview ve profile objesiyle doner.</li>
+                    </ul>
+                  </section>
+                  <section class="resource-item" id="shopify-connection-resource">
+                    <h4>Shopify Connection</h4>
+                    <p>Legacy Admin API token veya Client ID + Secret akisi ile Shopify magazasindan katalog import eder ve otomatik senkronizasyonu yonetir.</p>
+                    <div class="endpoint-chips">
+                      <code class="endpoint-chip">GET /admin/api/v1/apps/shopify-connection/connection.json</code>
+                      <code class="endpoint-chip">PATCH /admin/api/v1/apps/shopify-connection/connection.json</code>
+                      <code class="endpoint-chip">POST /admin/api/v1/apps/shopify-connection/verify.json</code>
+                      <code class="endpoint-chip">PATCH /admin/api/v1/apps/shopify-connection/sync-settings.json</code>
+                      <code class="endpoint-chip">POST /admin/api/v1/apps/shopify-connection/sync.json</code>
+                    </div>
+                    <ul class="field-list">
+                      <li>Baglanti alanlari: shopUrl, authMode, accessToken, clientId, clientSecret, sessionToken; gizli degerler sadece preview olarak doner.</li>
+                      <li>Sync ayarlari: enabled ve intervalMinutes; sync cevabi products, collections, variants ve images sayaclarini icerir.</li>
+                      <li>Client credentials modunda token exchange icin Shopify sessionToken zorunludur.</li>
+                    </ul>
+                  </section>
+                  <section class="resource-item" id="shopify-checkout-resource">
+                    <h4>Shopify Checkout</h4>
+                    <p>Shopiyz sepetini Shopify cart checkout URL'ine cevirir; yonetim tarafinda baglanti dogrulama, vitrinde checkout baslatma API'si sunar.</p>
+                    <div class="endpoint-chips">
+                      <code class="endpoint-chip">GET /admin/api/v1/apps/shopify-checkout/connection.json</code>
+                      <code class="endpoint-chip">PATCH /admin/api/v1/apps/shopify-checkout/connection.json</code>
+                      <code class="endpoint-chip">POST /admin/api/v1/apps/shopify-checkout/verify.json</code>
+                      <code class="endpoint-chip">POST /api/storefront/shopify-checkout?storeId={store_id}</code>
+                    </div>
+                    <ul class="field-list">
+                      <li>Baglanti alanlari: shopUrl, clientId, clientSecret, sessionToken, accessTokenPreview, refreshTokenPreview, tokenExpiresAt.</li>
+                      <li>Storefront body: items array'i productId veya id, variantId, shopifyVariantId, sku, optionLabel ve quantity alanlarini kabul eder.</li>
+                      <li>Basarili cevap redirectUrl, lineCount ve itemCount doner; eklenti aktif veya dogrulanmis degilse istek reddedilir.</li>
                     </ul>
                   </section>
                 </div>
@@ -3115,6 +3165,20 @@ Product FAQ Studio	POST	/admin/api/v1/apps/product-faq-studio/inbox.json	Inbox s
 Product FAQ Studio	PUT	/admin/api/v1/apps/product-faq-studio/inbox/{inbox_id}.json	Inbox guncelle
 Product FAQ Studio	DELETE	/admin/api/v1/apps/product-faq-studio/inbox/{inbox_id}.json	Inbox sil
 Product FAQ Studio	POST	/admin/api/v1/apps/product-faq-studio/inbox/{inbox_id}/publish.json	Inbox sorusunu yayinla
+XML Product Import	PATCH	/admin/api/v1/apps/xml-product-import/profile.json	Profil kaydet
+XML Product Import	POST	/admin/api/v1/apps/xml-product-import/scan.json	XML etiketlerini tara
+XML Product Import	POST	/admin/api/v1/apps/xml-product-import/preview.json	Import onizlemesi al
+XML Product Import	POST	/admin/api/v1/apps/xml-product-import/import.json	Urun importu baslat
+XML Product Import	POST	/admin/api/v1/apps/xml-product-import/ai-match.json	AI eslestirme oner veya uygula
+Shopify Connection	GET	/admin/api/v1/apps/shopify-connection/connection.json	Baglanti durumunu oku
+Shopify Connection	PATCH	/admin/api/v1/apps/shopify-connection/connection.json	Baglanti bilgilerini kaydet
+Shopify Connection	POST	/admin/api/v1/apps/shopify-connection/verify.json	Baglantiyi dogrula
+Shopify Connection	PATCH	/admin/api/v1/apps/shopify-connection/sync-settings.json	Otomatik import ayarlarini kaydet
+Shopify Connection	POST	/admin/api/v1/apps/shopify-connection/sync.json	Shopify urunlerini ice aktar
+Shopify Checkout	GET	/admin/api/v1/apps/shopify-checkout/connection.json	Checkout baglantisini oku
+Shopify Checkout	PATCH	/admin/api/v1/apps/shopify-checkout/connection.json	Checkout baglantisini kaydet
+Shopify Checkout	POST	/admin/api/v1/apps/shopify-checkout/verify.json	Checkout baglantisini dogrula
+Shopify Checkout	POST	/api/storefront/shopify-checkout?storeId={store_id}	Storefront checkout URL olustur
 Article	POST	/admin/api/v1/blogs/{blog_id}/articles.json	Olustur
 Article	GET	/admin/api/v1/articles/authors.json	Yazar listele
 Article	GET	/admin/api/v1/articles/tags.json	Etiket listele

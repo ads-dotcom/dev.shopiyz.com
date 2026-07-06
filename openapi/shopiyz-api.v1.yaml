@@ -37,6 +37,9 @@ tags:
   - name: Apps
   - name: Product Tab Manager
   - name: Product FAQ Studio
+  - name: XML Product Import
+  - name: Shopify Connection
+  - name: Shopify Checkout
 paths:
   /products.json:
     get:
@@ -663,7 +666,7 @@ paths:
         - name: handle
           in: path
           required: true
-          schema: { type: string, enum: [product-tab-manager, product-faq-studio] }
+          schema: { type: string, enum: [product-tab-manager, product-faq-studio, xml-product-import, shopify-connection, shopify-checkout] }
       responses:
         "200":
           description: App detail.
@@ -676,7 +679,7 @@ paths:
         - name: handle
           in: path
           required: true
-          schema: { type: string, enum: [product-tab-manager, product-faq-studio] }
+          schema: { type: string, enum: [product-tab-manager, product-faq-studio, xml-product-import, shopify-connection, shopify-checkout] }
       responses:
         "200":
           description: App settings.
@@ -689,7 +692,7 @@ paths:
         - name: handle
           in: path
           required: true
-          schema: { type: string, enum: [product-tab-manager, product-faq-studio] }
+          schema: { type: string, enum: [product-tab-manager, product-faq-studio, xml-product-import, shopify-connection, shopify-checkout] }
       requestBody:
         required: true
         content:
@@ -895,6 +898,234 @@ paths:
       responses:
         "201":
           description: FAQ created from inbox question.
+  /apps/xml-product-import/profile.json:
+    patch:
+      tags: [XML Product Import]
+      summary: Save the XML import profile
+      description: Updates supplier source URLs, fetch/auth settings, mappings, update policy, metafield mappings, marketplace channels and price rules.
+      operationId: saveXmlProductImportProfile
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: "#/components/schemas/XmlImportProfileInput" }
+      responses:
+        "200":
+          description: Saved XML import profile.
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/XmlImportProfileResponse" }
+        "400":
+          description: Profile could not be saved.
+  /apps/xml-product-import/scan.json:
+    post:
+      tags: [XML Product Import]
+      summary: Scan XML tags and sample values
+      operationId: scanXmlProductImport
+      requestBody:
+        content:
+          application/json:
+            schema: { $ref: "#/components/schemas/XmlImportProfileActionRequest" }
+      responses:
+        "200":
+          description: Scan result with detected tags and summary.
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/XmlImportActionResponse" }
+  /apps/xml-product-import/preview.json:
+    post:
+      tags: [XML Product Import]
+      summary: Preview XML import without writing products
+      operationId: previewXmlProductImport
+      requestBody:
+        content:
+          application/json:
+            schema: { $ref: "#/components/schemas/XmlImportProfileActionRequest" }
+      responses:
+        "200":
+          description: Preview result including pricePreview rows when available.
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/XmlImportActionResponse" }
+  /apps/xml-product-import/import.json:
+    post:
+      tags: [XML Product Import]
+      summary: Start XML product import
+      operationId: runXmlProductImport
+      requestBody:
+        content:
+          application/json:
+            schema:
+              allOf:
+                - $ref: "#/components/schemas/XmlImportProfileActionRequest"
+                - type: object
+                  properties:
+                    trigger: { type: string, enum: [manual, scheduled], default: manual }
+      responses:
+        "200":
+          description: Import started or completed, depending on background sync configuration.
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/XmlImportActionResponse" }
+  /apps/xml-product-import/ai-match.json:
+    post:
+      tags: [XML Product Import]
+      summary: Generate or apply AI mapping suggestions
+      operationId: runXmlProductImportAiMatch
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: "#/components/schemas/XmlImportAiMatchRequest" }
+      responses:
+        "200":
+          description: AI suggestions or applied mapping result.
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/XmlImportAiMatchResponse" }
+  /apps/shopify-connection/connection.json:
+    get:
+      tags: [Shopify Connection]
+      summary: Retrieve Shopify connection state
+      operationId: getShopifyConnection
+      responses:
+        "200":
+          description: Shopify connection payload.
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/ShopifyConnectionPayload" }
+    patch:
+      tags: [Shopify Connection]
+      summary: Save Shopify connection credentials
+      operationId: saveShopifyConnection
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: "#/components/schemas/ShopifyConnectionInput" }
+      responses:
+        "200":
+          description: Connection saved and marked pending.
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/ShopifyConnectionActionResponse" }
+  /apps/shopify-connection/verify.json:
+    post:
+      tags: [Shopify Connection]
+      summary: Verify Shopify connection
+      description: In client_credentials mode a Shopify sessionToken is required for offline access token exchange.
+      operationId: verifyShopifyConnection
+      requestBody:
+        content:
+          application/json:
+            schema: { $ref: "#/components/schemas/ShopifyConnectionInput" }
+      responses:
+        "200":
+          description: Verification result.
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/ShopifyConnectionActionResponse" }
+  /apps/shopify-connection/sync-settings.json:
+    patch:
+      tags: [Shopify Connection]
+      summary: Update automatic Shopify import settings
+      operationId: saveShopifySyncSettings
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: "#/components/schemas/ShopifySyncSettingsInput" }
+      responses:
+        "200":
+          description: Sync settings saved.
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/ShopifyConnectionActionResponse" }
+  /apps/shopify-connection/sync.json:
+    post:
+      tags: [Shopify Connection]
+      summary: Import Shopify products, collections, variants and images
+      operationId: runShopifyConnectionSync
+      requestBody:
+        content:
+          application/json:
+            schema: { $ref: "#/components/schemas/ShopifySyncRequest" }
+      responses:
+        "200":
+          description: Shopify import run result.
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/ShopifySyncResponse" }
+  /apps/shopify-checkout/connection.json:
+    get:
+      tags: [Shopify Checkout]
+      summary: Retrieve Shopify Checkout connection state
+      operationId: getShopifyCheckoutConnection
+      responses:
+        "200":
+          description: Checkout connection payload.
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/ShopifyCheckoutConnectionPayload" }
+    patch:
+      tags: [Shopify Checkout]
+      summary: Save Shopify Checkout connection credentials
+      operationId: saveShopifyCheckoutConnection
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: "#/components/schemas/ShopifyCheckoutConnectionInput" }
+      responses:
+        "200":
+          description: Checkout connection saved.
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/ShopifyCheckoutActionResponse" }
+  /apps/shopify-checkout/verify.json:
+    post:
+      tags: [Shopify Checkout]
+      summary: Verify Shopify Checkout token exchange and GraphQL access
+      operationId: verifyShopifyCheckoutConnection
+      requestBody:
+        content:
+          application/json:
+            schema: { $ref: "#/components/schemas/ShopifyCheckoutConnectionInput" }
+      responses:
+        "200":
+          description: Checkout verification result.
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/ShopifyCheckoutActionResponse" }
+  /api/storefront/shopify-checkout:
+    post:
+      tags: [Shopify Checkout]
+      summary: Create a Shopify cart checkout redirect for a Shopiyz storefront cart
+      operationId: createStorefrontShopifyCheckout
+      servers:
+        - url: https://{store}.shopiyz.com
+          variables:
+            store:
+              default: development
+      security: []
+      parameters:
+        - name: storeId
+          in: query
+          required: true
+          schema: { type: string }
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: "#/components/schemas/StorefrontShopifyCheckoutRequest" }
+      responses:
+        "200":
+          description: Shopify checkout redirect URL.
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/StorefrontShopifyCheckoutResponse" }
+        "400":
+          description: Checkout cannot be started.
 components:
   securitySchemes:
     shopiyzAccessToken:
@@ -1039,6 +1270,461 @@ components:
         question: { type: string }
         status: { type: string, enum: [pending, answered, hidden] }
         createdAt: { type: string }
+    XmlImportProfileInput:
+      type: object
+      properties:
+        id: { type: string, description: Existing profile id. Omit to use the store default profile. }
+        title: { type: string }
+        supplierName: { type: string }
+        warehouseName: { type: string }
+        xmlUrl: { type: string, format: uri }
+        fetchMode: { type: string, enum: [direct, staticProxy] }
+        staticIpEnabled: { type: boolean }
+        staticIpAddress: { type: string }
+        relayUrl: { type: string }
+        authMode: { type: string, enum: [none, basic, bearer, basariApi] }
+        authUsername: { type: string }
+        authPassword: { type: string, writeOnly: true }
+        clearAuthPassword: { type: boolean }
+        sourceFiles:
+          type: array
+          items: { $ref: "#/components/schemas/XmlImportSourceFile" }
+        manifestUrl: { type: string }
+        priceUrl: { type: string }
+        stockUrl: { type: string }
+        descriptionUrl: { type: string }
+        deltaEnabled: { type: boolean }
+        scheduleMode: { type: string, enum: [manual, interval] }
+        xsltEnabled: { type: boolean }
+        xsltTemplate: { type: string }
+        status: { type: string, enum: [active, draft, paused] }
+        syncIntervalMinutes: { type: integer, minimum: 5 }
+        fieldMappings:
+          type: array
+          items: { $ref: "#/components/schemas/XmlImportFieldMapping" }
+        updatePolicy: { $ref: "#/components/schemas/XmlImportUpdatePolicy" }
+        collectionMappings:
+          type: array
+          items: { $ref: "#/components/schemas/XmlImportValueMapping" }
+        vendorMappings:
+          type: array
+          items: { $ref: "#/components/schemas/XmlImportValueMapping" }
+        optionMappings:
+          type: array
+          items: { $ref: "#/components/schemas/XmlImportValueMapping" }
+        attributeMappings:
+          type: array
+          items: { $ref: "#/components/schemas/XmlImportValueMapping" }
+        taxMappings:
+          type: array
+          items: { $ref: "#/components/schemas/XmlImportValueMapping" }
+        metafieldMappings:
+          type: array
+          items: { $ref: "#/components/schemas/XmlImportMetafieldMapping" }
+        marketplaceChannels:
+          type: array
+          items: { type: string }
+        priceRules:
+          type: array
+          items: { $ref: "#/components/schemas/XmlImportPriceRule" }
+    XmlImportSourceFile:
+      type: object
+      properties:
+        id: { type: string }
+        title: { type: string }
+        kind: { type: string, enum: [full, fullWithDesc, price, stock, description, delta, manifest] }
+        url: { type: string }
+        enabled: { type: boolean }
+        recordCount: { type: integer }
+        pageNumber: { type: integer }
+        updatedAt: { type: string }
+    XmlImportFieldMapping:
+      type: object
+      properties:
+        id: { type: string }
+        target:
+          type: string
+          enum: [sourceId, title, sku, barcode, modelCode, description, price, compareAtPrice, stockQuantity, vendor, categoryPath, imageUrl, taxRate, weight, status]
+        sourcePath: { type: string }
+        fallback: { type: string }
+        required: { type: boolean }
+    XmlImportValueMapping:
+      type: object
+      properties:
+        id: { type: string }
+        sourceName: { type: string }
+        sourceValue: { type: string }
+        targetName: { type: string }
+        targetValue: { type: string }
+        targetId: { type: string }
+        autoCreate: { type: boolean }
+        updatedAt: { type: string }
+    XmlImportMetafieldMapping:
+      allOf:
+        - $ref: "#/components/schemas/XmlImportValueMapping"
+        - type: object
+          properties:
+            sourcePath: { type: string }
+            sampleValue: { type: string }
+            namespace: { type: string }
+            key: { type: string }
+            type: { type: string, example: single_line_text_field }
+    XmlImportUpdatePolicy:
+      type: object
+      properties:
+        updateTitle: { type: boolean }
+        updateDescription: { type: boolean }
+        updateSku: { type: boolean }
+        updateBarcode: { type: boolean }
+        updatePrices: { type: boolean }
+        updateStock: { type: boolean }
+        updateVendor: { type: boolean }
+        updateCollections: { type: boolean }
+        updateAttributes: { type: boolean }
+        updateStatus: { type: boolean }
+        archiveWhenOutOfStock: { type: boolean }
+        archiveWhenPriceMissing: { type: boolean }
+        archiveWhenCollectionMissing: { type: boolean }
+        archiveWhenImageMissing: { type: boolean }
+        archiveWhenMissingFromXml: { type: boolean }
+        missingProductAction: { type: string, enum: [none, archive, zeroStock] }
+        createMissingCollections: { type: boolean }
+        createMissingVendors: { type: boolean }
+    XmlImportPriceRule:
+      type: object
+      properties:
+        id: { type: string }
+        title: { type: string }
+        scope: { type: string, enum: [global, collection, vendor] }
+        scopeValue: { type: string }
+        scopeTargetId: { type: string }
+        targetPrice: { type: string, enum: [price, compareAtPrice, both] }
+        minAmount: { type: number }
+        maxAmount: { type: number }
+        value: { type: number }
+        valueType: { type: string, enum: [amount, percentage] }
+        direction: { type: string, enum: [increase, decrease] }
+        priority: { type: integer }
+        enabled: { type: boolean }
+        roundTo: { type: string, enum: [none, integer, ending-99, ending-90] }
+    XmlImportSummary:
+      type: object
+      properties:
+        detected: { type: integer }
+        created: { type: integer }
+        updated: { type: integer }
+        skipped: { type: integer }
+        failed: { type: integer }
+        fileSizeBytes: { type: integer }
+        collections: { type: integer }
+        vendors: { type: integer }
+        variants: { type: integer }
+        attributes: { type: integer }
+        priceRulesApplied: { type: integer }
+        notes:
+          type: array
+          items: { type: string }
+    XmlImportProfile:
+      allOf:
+        - $ref: "#/components/schemas/XmlImportProfileInput"
+        - type: object
+          properties:
+            id: { type: string }
+            storeId: { type: string }
+            authPasswordPreview: { type: string }
+            hasAuthPassword: { type: boolean }
+            lastFileSizeBytes: { type: integer }
+            lastDetectedCount: { type: integer }
+            previousDetectedCount: { type: integer }
+            totalRunCount: { type: integer }
+            lastRunStatus: { type: string, enum: [idle, running, success, failed] }
+            lastRunMessage: { type: string }
+            lastRunStartedAt: { type: string }
+            lastRunFinishedAt: { type: string }
+            nextRunAt: { type: string }
+            lastSummary: { type: object, additionalProperties: true }
+            createdAt: { type: string }
+            updatedAt: { type: string }
+    XmlImportRun:
+      type: object
+      properties:
+        id: { type: string }
+        profileId: { type: string }
+        status: { type: string, enum: [idle, running, success, failed] }
+        trigger: { type: string, enum: [manual, scheduled, preview, scan] }
+        detectedCount: { type: integer }
+        createdCount: { type: integer }
+        updatedCount: { type: integer }
+        skippedCount: { type: integer }
+        failedCount: { type: integer }
+        fileSizeBytes: { type: integer }
+        message: { type: string }
+        summary: { type: object, additionalProperties: true }
+        startedAt: { type: string }
+        finishedAt: { type: string }
+        createdAt: { type: string }
+    XmlImportJob:
+      type: object
+      properties:
+        id: { type: string }
+        connector: { type: string }
+        storeId: { type: string }
+        storeName: { type: string }
+        status: { type: string, enum: [queued, running, paused, cancelled, completed, failed] }
+        totals: { type: object, additionalProperties: true }
+        totalItems: { type: integer }
+        processedItems: { type: integer }
+        failedItems: { type: integer }
+        percentage: { type: number }
+        lastMessage: { type: string }
+        lastError: { type: string }
+    XmlImportPricePreview:
+      type: object
+      properties:
+        productTitle: { type: string }
+        sku: { type: string }
+        vendor: { type: string }
+        collection: { type: string }
+        originalPrice: { type: number }
+        finalPrice: { type: number }
+        originalCompareAtPrice: { type: number }
+        finalCompareAtPrice: { type: number }
+        appliedRules:
+          type: array
+          items: { type: string }
+    XmlImportProfileActionRequest:
+      type: object
+      properties:
+        profileId: { type: string }
+    XmlImportProfileResponse:
+      type: object
+      properties:
+        store: { type: object, additionalProperties: true }
+        profile: { $ref: "#/components/schemas/XmlImportProfile" }
+    XmlImportActionResponse:
+      allOf:
+        - $ref: "#/components/schemas/XmlImportProfileResponse"
+        - type: object
+          properties:
+            success: { type: boolean }
+            message: { type: string }
+            summary: { $ref: "#/components/schemas/XmlImportSummary" }
+            run: { $ref: "#/components/schemas/XmlImportRun" }
+            job: { $ref: "#/components/schemas/XmlImportJob" }
+            pricePreview:
+              type: array
+              items: { $ref: "#/components/schemas/XmlImportPricePreview" }
+    XmlImportAiSuggestion:
+      type: object
+      properties:
+        id: { type: string }
+        type: { type: string, enum: [collection, vendor, tax, metafield] }
+        mappingId: { type: string }
+        sourceName: { type: string }
+        sourceValue: { type: string }
+        sourcePath: { type: string }
+        targetId: { type: string }
+        targetName: { type: string }
+        targetValue: { type: string }
+        namespace: { type: string }
+        key: { type: string }
+        fieldType: { type: string }
+        createMetafield: { type: boolean }
+        confidence: { type: number }
+        reason: { type: string }
+    XmlImportAiMatchRequest:
+      type: object
+      properties:
+        profileId: { type: string }
+        action: { type: string, enum: [suggest, apply], default: suggest }
+        suggestions:
+          type: array
+          items: { $ref: "#/components/schemas/XmlImportAiSuggestion" }
+    XmlImportAiMatchResponse:
+      allOf:
+        - $ref: "#/components/schemas/XmlImportProfileResponse"
+        - type: object
+          properties:
+            success: { type: boolean }
+            message: { type: string }
+            mode: { type: string, enum: [suggest, apply] }
+            applied: { type: integer }
+            suggestions:
+              type: array
+              items: { $ref: "#/components/schemas/XmlImportAiSuggestion" }
+            tokenCost: { type: integer }
+            tokenAccount:
+              type: object
+              properties:
+                balance: { type: integer }
+                totalUsed: { type: integer }
+            transaction:
+              type: object
+              properties:
+                id: { type: string }
+                tokenDelta: { type: integer }
+                balanceAfter: { type: integer }
+    ShopifyConnectionInput:
+      type: object
+      properties:
+        shopUrl: { type: string, example: "https://example.myshopify.com" }
+        authMode: { type: string, enum: [admin_token, client_credentials] }
+        accessToken: { type: string, writeOnly: true }
+        clientId: { type: string, writeOnly: true }
+        clientSecret: { type: string, writeOnly: true }
+        sessionToken: { type: string, writeOnly: true }
+    ShopifyConnection:
+      type: object
+      properties:
+        id: { type: string }
+        storeId: { type: string }
+        shopUrl: { type: string }
+        shopDomain: { type: string }
+        authMode: { type: string, enum: [admin_token, client_credentials] }
+        accessTokenPreview: { type: string }
+        clientIdPreview: { type: string }
+        clientSecretPreview: { type: string }
+        hasAccessToken: { type: boolean }
+        hasClientCredentials: { type: boolean }
+        status: { type: string, enum: [missing, pending, connected, failed] }
+        lastCheckedAt: { type: string }
+        lastSuccessfulCheckAt: { type: string }
+        lastErrorMessage: { type: string }
+        syncEnabled: { type: boolean }
+        syncIntervalMinutes: { type: integer }
+        syncLastStatus: { type: string, enum: [idle, running, success, failed] }
+        syncLastMessage: { type: string }
+        syncLastSummary: { type: object, additionalProperties: true }
+        syncLastRunAt: { type: string }
+        syncLastSuccessfulRunAt: { type: string }
+        syncNextRunAt: { type: string }
+        createdAt: { type: string }
+        updatedAt: { type: string }
+    ShopifyConnectionPayload:
+      type: object
+      properties:
+        store: { type: object, additionalProperties: true }
+        connection:
+          anyOf:
+            - $ref: "#/components/schemas/ShopifyConnection"
+            - type: "null"
+    ShopifyConnectionActionResponse:
+      allOf:
+        - $ref: "#/components/schemas/ShopifyConnectionPayload"
+        - type: object
+          properties:
+            success: { type: boolean }
+            message: { type: string }
+    ShopifySyncSettingsInput:
+      type: object
+      required: [enabled, intervalMinutes]
+      properties:
+        enabled: { type: boolean }
+        intervalMinutes: { type: integer, minimum: 5, default: 60 }
+    ShopifySyncRequest:
+      type: object
+      properties:
+        trigger: { type: string, enum: [manual, scheduled], default: manual }
+        sessionToken: { type: string, writeOnly: true }
+    ShopifySyncCounter:
+      type: object
+      properties:
+        total: { type: integer }
+        created: { type: integer }
+        updated: { type: integer }
+        skipped: { type: integer }
+        failed: { type: integer }
+    ShopifySyncSummary:
+      type: object
+      properties:
+        startedAt: { type: string }
+        finishedAt: { type: string }
+        apiVersion: { type: string }
+        products: { $ref: "#/components/schemas/ShopifySyncCounter" }
+        collections: { $ref: "#/components/schemas/ShopifySyncCounter" }
+        variants: { $ref: "#/components/schemas/ShopifySyncCounter" }
+        images: { $ref: "#/components/schemas/ShopifySyncCounter" }
+        notes:
+          type: array
+          items: { type: string }
+    ShopifySyncResponse:
+      allOf:
+        - $ref: "#/components/schemas/ShopifyConnectionActionResponse"
+        - type: object
+          properties:
+            accepted: { type: boolean }
+            summary: { $ref: "#/components/schemas/ShopifySyncSummary" }
+    ShopifyCheckoutConnectionInput:
+      type: object
+      properties:
+        shopUrl: { type: string, example: "https://example.myshopify.com" }
+        clientId: { type: string, writeOnly: true }
+        clientSecret: { type: string, writeOnly: true }
+        sessionToken: { type: string, writeOnly: true }
+    ShopifyCheckoutConnection:
+      type: object
+      properties:
+        id: { type: string }
+        storeId: { type: string }
+        shopUrl: { type: string }
+        shopDomain: { type: string }
+        clientIdPreview: { type: string }
+        clientSecretPreview: { type: string }
+        accessTokenPreview: { type: string }
+        refreshTokenPreview: { type: string }
+        hasClientCredentials: { type: boolean }
+        hasAccessToken: { type: boolean }
+        hasRefreshToken: { type: boolean }
+        tokenExpiresAt: { type: string }
+        refreshTokenExpiresAt: { type: string }
+        scope: { type: string }
+        status: { type: string, enum: [missing, pending, connected, failed] }
+        lastCheckedAt: { type: string }
+        lastSuccessfulCheckAt: { type: string }
+        lastErrorMessage: { type: string }
+        createdAt: { type: string }
+        updatedAt: { type: string }
+    ShopifyCheckoutConnectionPayload:
+      type: object
+      properties:
+        store: { type: object, additionalProperties: true }
+        connection:
+          anyOf:
+            - $ref: "#/components/schemas/ShopifyCheckoutConnection"
+            - type: "null"
+    ShopifyCheckoutActionResponse:
+      allOf:
+        - $ref: "#/components/schemas/ShopifyCheckoutConnectionPayload"
+        - type: object
+          properties:
+            success: { type: boolean }
+            message: { type: string }
+    StorefrontShopifyCheckoutItem:
+      type: object
+      properties:
+        id: { type: string, description: Local Shopiyz product id alias. }
+        productId: { type: string, description: Local Shopiyz product id. }
+        variantId: { type: string, description: Local Shopiyz variant id. }
+        shopifyVariantId: { type: string, description: Shopify variant id or gid. }
+        title: { type: string }
+        sku: { type: string }
+        optionLabel: { type: string, example: "M / Siyah" }
+        quantity: { type: integer, minimum: 1, maximum: 99, default: 1 }
+    StorefrontShopifyCheckoutRequest:
+      type: object
+      required: [items]
+      properties:
+        source: { type: string, default: shopiyz }
+        items:
+          type: array
+          maxItems: 100
+          items: { $ref: "#/components/schemas/StorefrontShopifyCheckoutItem" }
+    StorefrontShopifyCheckoutResponse:
+      type: object
+      properties:
+        redirectUrl: { type: string, format: uri }
+        lineCount: { type: integer }
+        itemCount: { type: integer }
     Product:
       type: object
       properties:
