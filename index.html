@@ -338,6 +338,10 @@
         margin: 6px 0 0 34px;
       }
 
+      .nav-list li:not(.nav-open) > .subnav {
+        display: none;
+      }
+
       .subnav a {
         padding: 0 8px;
         font-size: 13px;
@@ -405,11 +409,44 @@
         margin: 0;
       }
 
+      .notice-content {
+        display: grid;
+        gap: 8px;
+        min-width: 0;
+      }
+
+      .notice-content strong {
+        display: block;
+        color: var(--ink-strong);
+        font-size: 14px;
+        line-height: 1.35;
+      }
+
+      .notice-actions {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px;
+      }
+
       .notice a {
+        display: inline-flex;
+        align-items: center;
+        min-height: 30px;
+        padding: 0 10px;
+        border: 1px solid var(--line-strong);
+        border-radius: 7px;
+        background: #ffffff;
         color: var(--accent-strong);
+        font-size: 13px;
         font-weight: 760;
-        text-decoration-color: rgba(0, 0, 0, 0.26);
-        text-underline-offset: 3px;
+        line-height: 1;
+        text-decoration: none;
+      }
+
+      .notice a.primary-link {
+        border-color: var(--accent);
+        background: var(--accent);
+        color: #ffffff;
       }
 
       .hero {
@@ -761,6 +798,36 @@
         display: block;
       }
 
+      .token-guide {
+        display: grid;
+        gap: 9px;
+        margin-top: 20px;
+        padding: 16px;
+        border: 1px solid var(--line);
+        border-radius: 8px;
+        background: #fafafa;
+      }
+
+      .token-guide h3,
+      .token-guide p {
+        margin: 0;
+      }
+
+      .token-guide h3 {
+        color: var(--ink-strong);
+        font-size: 16px;
+        line-height: 1.35;
+      }
+
+      .token-guide p {
+        color: #555555;
+        font-size: 14px;
+      }
+
+      .token-guide .button-row {
+        margin-top: 2px;
+      }
+
       .inline-code {
         display: inline-flex;
         max-width: 100%;
@@ -922,17 +989,25 @@
         scroll-margin-top: 100px;
       }
 
+      .resource-group:not(.open) .resource-items {
+        display: none;
+      }
+
       .resource-group-head {
         display: grid;
-        grid-template-columns: minmax(0, 1fr) auto;
+        grid-template-columns: minmax(0, 1fr) auto auto;
         gap: 18px;
         align-items: start;
         padding: 20px 22px;
         border-bottom: 1px solid var(--line);
         background: #fafafa;
+        cursor: pointer;
       }
 
       .resource-group-head h3 {
+        display: flex;
+        align-items: center;
+        gap: 10px;
         margin: 0 0 6px;
         color: var(--ink-strong);
         font-size: 21px;
@@ -958,6 +1033,42 @@
         font-size: 12px;
         font-weight: 780;
         white-space: nowrap;
+      }
+
+      .resource-icon {
+        display: inline-grid;
+        width: 34px;
+        height: 34px;
+        flex: 0 0 auto;
+        place-items: center;
+        border: 1px solid var(--line-strong);
+        border-radius: 8px;
+        background: #ffffff;
+        color: var(--ink-strong);
+        font-family: var(--mono);
+        font-size: 10px;
+        font-weight: 860;
+        line-height: 1;
+      }
+
+      .resource-toggle {
+        display: inline-grid;
+        width: 32px;
+        height: 32px;
+        place-items: center;
+        border: 1px solid var(--line);
+        border-radius: 8px;
+        background: #ffffff;
+        color: #333333;
+        cursor: pointer;
+        font-size: 18px;
+        font-weight: 760;
+        line-height: 1;
+      }
+
+      .resource-group.open .resource-toggle {
+        background: #111111;
+        color: #ffffff;
       }
 
       .resource-items {
@@ -997,6 +1108,52 @@
         margin: 0 0 13px;
         color: #555555;
         font-size: 14px;
+      }
+
+      #apps .resource-items {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 14px;
+        padding: 16px;
+        background: #ffffff;
+      }
+
+      #apps .resource-item {
+        border: 1px solid var(--line);
+        border-radius: 8px;
+        background: #fafafa;
+      }
+
+      #apps .resource-item:first-child {
+        grid-column: 1 / -1;
+        background: #ffffff;
+      }
+
+      #product-tab-manager-resource,
+      #product-faq-studio-resource {
+        position: relative;
+      }
+
+      #product-tab-manager-resource::before,
+      #product-faq-studio-resource::before {
+        display: inline-flex;
+        min-height: 26px;
+        align-items: center;
+        margin-bottom: 10px;
+        padding: 0 9px;
+        border: 1px solid var(--line-strong);
+        border-radius: 7px;
+        background: #ffffff;
+        color: #333333;
+        font-size: 12px;
+        font-weight: 780;
+      }
+
+      #product-tab-manager-resource::before {
+        content: "Tab app";
+      }
+
+      #product-faq-studio-resource::before {
+        content: "FAQ app";
       }
 
       .endpoint-chips {
@@ -1344,6 +1501,14 @@
           grid-template-columns: 1fr;
         }
 
+        #apps .resource-items {
+          grid-template-columns: 1fr;
+        }
+
+        #apps .resource-item:first-child {
+          grid-column: auto;
+        }
+
         .resource-item,
         .resource-item:nth-child(2n),
         .resource-item:nth-last-child(-n + 2) {
@@ -1356,7 +1521,11 @@
         }
 
         .resource-group-head {
-          grid-template-columns: 1fr;
+          grid-template-columns: 1fr auto;
+        }
+
+        .resource-group-head .resource-tag {
+          justify-self: start;
         }
 
         .operation-filter {
@@ -1477,7 +1646,7 @@
 
         <nav>
           <ul class="nav-list">
-            <li>
+            <li class="nav-open">
               <a class="nav-link active" href="#overview" data-nav-link>
                 <span>
                   <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
@@ -1594,11 +1763,17 @@
             <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
               <path d="M12 8v5m0 3h.01M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" />
             </svg>
-            <p>
-              Shopiyz Admin API dokumanlari preview asamasinda. Ilk yayin REST odakli olacak;
-              GraphQL daha sonra ayri bir referans olarak degerlendirilecek.
-              <a href="./openapi/shopiyz-api.v1.yaml">OpenAPI taslagini incele</a>.
-            </p>
+            <div class="notice-content">
+              <strong>API dokumanlari preview asamasinda.</strong>
+              <p>
+                Ilk yayin REST odakli olacak; GraphQL daha sonra ayri bir referans olarak degerlendirilecek.
+                Token almak icin Shopiyz panelinde <span class="inline-code">Ayarlar &gt; Admin API</span> ekranini kullanin.
+              </p>
+              <div class="notice-actions" aria-label="API hizli baglantilari">
+                <a class="primary-link" href="https://accounts.shopiyz.com/dashboard">Shopiyz hesabini ac</a>
+                <a href="./openapi/shopiyz-api.v1.yaml">OpenAPI YAML dosyasini ac</a>
+              </div>
+            </div>
           </div>
 
           <section class="hero" id="overview" aria-labelledby="overview-title">
@@ -1739,10 +1914,10 @@ $response = $client->get(
             </div>
             <div>
               <ul class="library-list">
-                <li class="library-item open">
+                <li class="library-item">
                   <button class="library-toggle" type="button">
                     <span><svg viewBox="0 0 24 24" fill="none"><path d="m8 17-5-5 5-5m8 10 5-5-5-5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" /></svg>cURL</span>
-                    <span>−</span>
+                    <span>+</span>
                   </button>
                   <div class="library-body">API davranisini dogrudan gormek ve token/header sorunlarini ayiklamak icin en yalın baslangic.</div>
                 </li>
@@ -1784,6 +1959,17 @@ $response = $client->get(
                 <li>Scope mantigi <span class="inline-code">read_products</span>, <span class="inline-code">write_orders</span> gibi kaynak/aksiyon ayrimi yapar.</li>
                 <li>Tokenlar frontend koduna gomulmez; server, worker veya guvenli entegrasyon katmaninda saklanir.</li>
               </ul>
+              <div class="token-guide">
+                <h3>Token nereden alinir?</h3>
+                <p>
+                  Shopiyz hesabindan magazayi acin, sonra admin panelinde <span class="inline-code">Ayarlar &gt; Admin API</span>
+                  bolumune gidip Admin veya Storefront token olusturun. Token sadece olusturuldugu anda tam gosterilir.
+                </p>
+                <div class="button-row">
+                  <a class="button primary" href="https://accounts.shopiyz.com/dashboard">Hesabi ac</a>
+                  <a class="button" href="https://development.shopiyz.com/admin/settings/api">Development token ekrani</a>
+                </div>
+              </div>
             </div>
             <div class="code-card">
               <div class="code-tabs">
@@ -1939,9 +2125,9 @@ Retry-After: 2
                 </p>
               </div>
               <div class="reference-note">
-                <strong>Apps endpointleri canli</strong>
-                Product Tab Manager ve Product FAQ Studio kaynaklari Admin API worker
-                tarafinda calisir. Diger kaynak aileleri kapsam genisledikce canli hale gelir.
+                <strong>Apps endpointleri ayri kartlarda</strong>
+                Product Tab Manager ve Product FAQ Studio ayni Apps basligi altinda, ama farkli uygulamalardir.
+                Her uygulamanin pathleri kendi kartinda durur; diger kaynak aileleri kapsam genisledikce canli hale gelir.
               </div>
             </div>
 
@@ -3260,7 +3446,7 @@ Webhook	DELETE	/admin/api/v1/webhooks/{webhook_id}.json	Sil`;
         for (const [resource, operations] of groups) {
           const details = document.createElement("details");
           details.className = "operation-resource";
-          details.open = normalized.length > 0 || catalog.children.length < 6;
+          details.open = normalized.length > 0;
 
           const summaryEl = document.createElement("summary");
           const title = document.createElement("span");
@@ -3343,7 +3529,92 @@ Webhook	DELETE	/admin/api/v1/webhooks/{webhook_id}.json	Sil`;
         });
       });
 
+      const resourceIconLabels = {
+        access: "KEY",
+        billing: "TRY",
+        apps: "APP",
+        customers: "CRM",
+        discounts: "%",
+        events: "EVT",
+        "gift-cards": "GFT",
+        inventory: "INV",
+        "marketing-event": "MKT",
+        metafield: "MF",
+        "mobile-support": "MOB",
+        "online-store": "WEB",
+        orders: "ORD",
+        plus: "PLUS",
+        products: "PRD",
+        "sales-channels": "CH",
+        "shipping-fulfillment": "SHP",
+        "shopiyz-payments": "PAY",
+        "store-properties": "STR",
+        "tender-transaction": "TND",
+        webhooks: "WH",
+        "deprecated-api-calls": "OLD"
+      };
+
+      const resourceGroups = Array.from(document.querySelectorAll(".resource-group"));
+      function setResourceGroupOpen(group, open) {
+        group.classList.toggle("open", open);
+        const toggle = group.querySelector(".resource-toggle");
+        if (toggle) {
+          toggle.textContent = open ? "−" : "+";
+          toggle.setAttribute("aria-expanded", String(open));
+        }
+      }
+
+      resourceGroups.forEach((group) => {
+        const head = group.querySelector(".resource-group-head");
+        const title = head?.querySelector("h3");
+        if (!head || !title) return;
+
+        if (!title.querySelector(".resource-icon")) {
+          const icon = document.createElement("span");
+          icon.className = "resource-icon";
+          icon.textContent = resourceIconLabels[group.id] || "API";
+          title.prepend(icon);
+        }
+
+        const toggle = document.createElement("button");
+        toggle.className = "resource-toggle";
+        toggle.type = "button";
+        toggle.setAttribute("aria-label", `${title.textContent.trim()} bolumunu ac veya kapat`);
+        head.append(toggle);
+        head.setAttribute("role", "button");
+        head.setAttribute("tabindex", "0");
+
+        setResourceGroupOpen(group, false);
+
+        const toggleGroup = () => setResourceGroupOpen(group, !group.classList.contains("open"));
+        head.addEventListener("click", (event) => {
+          if (event.target.closest("a, button")) return;
+          toggleGroup();
+        });
+        toggle.addEventListener("click", (event) => {
+          event.stopPropagation();
+          toggleGroup();
+        });
+        head.addEventListener("keydown", (event) => {
+          if (event.key !== "Enter" && event.key !== " ") return;
+          event.preventDefault();
+          toggleGroup();
+        });
+      });
+
+      function openResourceGroupForHash(hash) {
+        const id = String(hash || "").replace(/^#/, "");
+        if (!id) return;
+        const target = document.getElementById(id);
+        const group = target?.closest?.(".resource-group");
+        if (group) setResourceGroupOpen(group, true);
+      }
+
+      openResourceGroupForHash(window.location.hash);
+      window.addEventListener("hashchange", () => openResourceGroupForHash(window.location.hash));
+
       const navLinks = Array.from(document.querySelectorAll("[data-nav-link]"));
+      const topNavItems = Array.from(document.querySelectorAll(".sidebar .nav-list > li"));
       const sections = [
         "overview",
         "libraries",
@@ -3389,18 +3660,22 @@ Webhook	DELETE	/admin/api/v1/webhooks/{webhook_id}.json	Sil`;
           navLinks.forEach((link) => {
             link.classList.toggle("active", link.getAttribute("href") === `#${id}`);
           });
+          topNavItems.forEach((item) => item.classList.remove("nav-open"));
+          const activeLink = navLinks.find((link) => link.getAttribute("href") === `#${id}`);
+          const activeItem = activeLink?.closest(".sidebar .nav-list > li");
+          if (activeItem) activeItem.classList.add("nav-open");
         },
         { rootMargin: "-18% 0px -68% 0px", threshold: [0.05, 0.2, 0.5] }
       );
       sections.forEach((section) => observer.observe(section));
 
       const filterInput = document.getElementById("sectionFilter");
-      const searchableLinks = Array.from(document.querySelectorAll(".sidebar .nav-link, .sidebar .subnav a"));
       filterInput.addEventListener("input", () => {
         const query = filterInput.value.trim().toLowerCase();
-        searchableLinks.forEach((link) => {
-          const match = link.textContent.toLowerCase().includes(query);
-          link.parentElement.style.display = !query || match ? "" : "none";
+        topNavItems.forEach((item) => {
+          const match = item.textContent.toLowerCase().includes(query);
+          item.style.display = !query || match ? "" : "none";
+          if (query && match) item.classList.add("nav-open");
         });
       });
 
