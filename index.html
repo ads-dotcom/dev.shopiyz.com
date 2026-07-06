@@ -1679,6 +1679,9 @@
                   <li><a href="#xml-product-import-resource" data-nav-link>XML Product Import</a></li>
                   <li><a href="#shopify-connection-resource" data-nav-link>Shopify Connection</a></li>
                   <li><a href="#shopify-checkout-resource" data-nav-link>Shopify Checkout</a></li>
+                  <li><a href="#faprika-connection-resource" data-nav-link>Faprika Connection</a></li>
+                  <li><a href="#digital-downloads-resource" data-nav-link>Digital Downloads</a></li>
+                  <li><a href="#insert-code-resource" data-nav-link>Insert Code Studio</a></li>
                 </ul>
               </li>
               <li>
@@ -2129,7 +2132,7 @@ Retry-After: 2
               </div>
               <div class="reference-note">
                 <strong>Apps endpointleri ayri kartlarda</strong>
-                Product Tab Manager, Product FAQ Studio, XML Product Import, Shopify Connection ve Shopify Checkout ayni Apps basligi altinda, ama farkli uygulamalardir.
+                Product Tab Manager, Product FAQ Studio, XML Product Import, Shopify Connection, Shopify Checkout, Faprika Connection, Digital Downloads ve Insert Code Studio ayni Apps basligi altinda, ama farkli uygulamalardir.
                 Her uygulamanin pathleri kendi kartinda durur; diger kaynak aileleri kapsam genisledikce canli hale gelir.
               </div>
             </div>
@@ -2314,6 +2317,58 @@ Retry-After: 2
                       <li>Baglanti alanlari: shopUrl, clientId, clientSecret, sessionToken, accessTokenPreview, refreshTokenPreview, tokenExpiresAt.</li>
                       <li>Storefront body: items array'i productId veya id, variantId, shopifyVariantId, sku, optionLabel ve quantity alanlarini kabul eder.</li>
                       <li>Basarili cevap redirectUrl, lineCount ve itemCount doner; eklenti aktif veya dogrulanmis degilse istek reddedilir.</li>
+                    </ul>
+                  </section>
+                  <section class="resource-item" id="faprika-connection-resource">
+                    <h4>Faprika Connection</h4>
+                    <p>Faprika merkez paneliyle urun, kategori, musteri, siparis ve stok akisini baglar; arka plan transfer job'larini yonetir.</p>
+                    <div class="endpoint-chips">
+                      <code class="endpoint-chip">GET /admin/api/v1/apps/faprika-connection/connection.json</code>
+                      <code class="endpoint-chip">PATCH /admin/api/v1/apps/faprika-connection/connection.json</code>
+                      <code class="endpoint-chip">POST /admin/api/v1/apps/faprika-connection/verify.json</code>
+                      <code class="endpoint-chip">PATCH /admin/api/v1/apps/faprika-connection/sync-settings.json</code>
+                      <code class="endpoint-chip">POST /admin/api/v1/apps/faprika-connection/sync.json</code>
+                      <code class="endpoint-chip">GET /admin/api/v1/apps/faprika-connection/sync-jobs.json</code>
+                      <code class="endpoint-chip">GET /admin/api/v1/apps/faprika-connection/sync-jobs/{job_id}.json</code>
+                      <code class="endpoint-chip">POST /admin/api/v1/apps/faprika-connection/sync-jobs/{job_id}/actions.json</code>
+                    </div>
+                    <ul class="field-list">
+                      <li>Baglanti alanlari: baseUrl, apiKey, securityKey, apiUserIdentifier, apiUserSecret; gizli degerler preview olarak doner.</li>
+                      <li>Sync kapsamlari: syncProductsEnabled, syncCategoriesEnabled, syncCustomersEnabled, syncOrdersEnabled, exportOrdersEnabled.</li>
+                      <li>Job aksiyonlari pause, resume ve cancel; job cevabi processedItems, failedItems, percentage ve lastMessage alanlarini icerir.</li>
+                    </ul>
+                  </section>
+                  <section class="resource-item" id="digital-downloads-resource">
+                    <h4>Digital Downloads</h4>
+                    <p>Dijital dosyalari guvenli depolar, urune baglar, siparise gore indirme hakki ve tek kullanim token linkleri uretir.</p>
+                    <div class="endpoint-chips">
+                      <code class="endpoint-chip">GET /admin/api/v1/apps/digital-downloads/overview.json</code>
+                      <code class="endpoint-chip">POST /admin/api/v1/apps/digital-downloads/upload.json</code>
+                      <code class="endpoint-chip">POST /admin/api/v1/apps/digital-downloads/actions.json</code>
+                      <code class="endpoint-chip">GET /downloads/digital/{token}</code>
+                      <code class="endpoint-chip">HEAD /downloads/digital/{token}</code>
+                    </div>
+                    <ul class="field-list">
+                      <li>Overview cevabi settings, summary, products, assets ve entitlements listelerini doner.</li>
+                      <li>Upload multipart/form-data ile file, productId, variantId, title, deliveryType ve downloadLimit kabul eder.</li>
+                      <li>Actions: setAssetStatus, deleteAsset, setEntitlementStatus, resendEmail, updateEmail, viewLink, syncOrder, sendFileUpdate.</li>
+                    </ul>
+                  </section>
+                  <section class="resource-item" id="insert-code-resource">
+                    <h4>Insert Code Studio</h4>
+                    <p>Header, body start ve footer kodlarini tum storefront'a veya belirli sayfa, path, urun ve koleksiyon hedeflerine uygular.</p>
+                    <div class="endpoint-chips">
+                      <code class="endpoint-chip">GET /admin/api/v1/apps/insert-code/overview.json</code>
+                      <code class="endpoint-chip">POST /admin/api/v1/apps/insert-code/snippets.json</code>
+                      <code class="endpoint-chip">PATCH /admin/api/v1/apps/insert-code/snippets/{snippet_id}.json</code>
+                      <code class="endpoint-chip">DELETE /admin/api/v1/apps/insert-code/snippets/{snippet_id}.json</code>
+                      <code class="endpoint-chip">GET /admin/api/v1/apps/insert-code/settings.json</code>
+                      <code class="endpoint-chip">PUT /admin/api/v1/apps/insert-code/settings.json</code>
+                    </div>
+                    <ul class="field-list">
+                      <li>Snippet alanlari: title, status, targetMode, pageTypes, pathRules, productHandles, collectionSlugs, sortOrder.</li>
+                      <li>Kod alanlari: headCode, bodyStartCode, footerCode; kayitta en az bir kod alani dolu olmalidir.</li>
+                      <li>targetMode custom ise en az bir pageType, pathRule, productHandle veya collectionSlug gerekir.</li>
                     </ul>
                   </section>
                 </div>
@@ -3179,6 +3234,23 @@ Shopify Checkout	GET	/admin/api/v1/apps/shopify-checkout/connection.json	Checkou
 Shopify Checkout	PATCH	/admin/api/v1/apps/shopify-checkout/connection.json	Checkout baglantisini kaydet
 Shopify Checkout	POST	/admin/api/v1/apps/shopify-checkout/verify.json	Checkout baglantisini dogrula
 Shopify Checkout	POST	/api/storefront/shopify-checkout?storeId={store_id}	Storefront checkout URL olustur
+Faprika Connection	GET	/admin/api/v1/apps/faprika-connection/connection.json	Baglanti durumunu oku
+Faprika Connection	PATCH	/admin/api/v1/apps/faprika-connection/connection.json	Baglanti bilgilerini kaydet
+Faprika Connection	POST	/admin/api/v1/apps/faprika-connection/verify.json	Baglantiyi dogrula
+Faprika Connection	PATCH	/admin/api/v1/apps/faprika-connection/sync-settings.json	Senkron ayarlarini kaydet
+Faprika Connection	POST	/admin/api/v1/apps/faprika-connection/sync.json	Transfer isi baslat
+Faprika Connection	GET	/admin/api/v1/apps/faprika-connection/sync-jobs.json	Transfer islerini listele
+Faprika Connection	GET	/admin/api/v1/apps/faprika-connection/sync-jobs/{job_id}.json	Transfer isi detay getir
+Faprika Connection	POST	/admin/api/v1/apps/faprika-connection/sync-jobs/{job_id}/actions.json	Transfer isine aksiyon uygula
+Digital Downloads	GET	/admin/api/v1/apps/digital-downloads/overview.json	Genel durumu oku
+Digital Downloads	POST	/admin/api/v1/apps/digital-downloads/upload.json	Dijital dosya yukle
+Digital Downloads	POST	/admin/api/v1/apps/digital-downloads/actions.json	Dosya veya indirme hakki aksiyonu calistir
+Digital Downloads	GET	/downloads/digital/{token}	Dijital dosya indir
+Digital Downloads	HEAD	/downloads/digital/{token}	Dijital dosya indirme bilgisini oku
+Insert Code Studio	GET	/admin/api/v1/apps/insert-code/overview.json	Kod snippetlerini listele
+Insert Code Studio	POST	/admin/api/v1/apps/insert-code/snippets.json	Kod snippet olustur
+Insert Code Studio	PATCH	/admin/api/v1/apps/insert-code/snippets/{snippet_id}.json	Kod snippet guncelle
+Insert Code Studio	DELETE	/admin/api/v1/apps/insert-code/snippets/{snippet_id}.json	Kod snippet sil
 Article	POST	/admin/api/v1/blogs/{blog_id}/articles.json	Olustur
 Article	GET	/admin/api/v1/articles/authors.json	Yazar listele
 Article	GET	/admin/api/v1/articles/tags.json	Etiket listele

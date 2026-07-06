@@ -40,6 +40,9 @@ tags:
   - name: XML Product Import
   - name: Shopify Connection
   - name: Shopify Checkout
+  - name: Faprika Connection
+  - name: Digital Downloads
+  - name: Insert Code Studio
 paths:
   /products.json:
     get:
@@ -666,7 +669,7 @@ paths:
         - name: handle
           in: path
           required: true
-          schema: { type: string, enum: [product-tab-manager, product-faq-studio, xml-product-import, shopify-connection, shopify-checkout] }
+          schema: { type: string, enum: [product-tab-manager, product-faq-studio, xml-product-import, shopify-connection, shopify-checkout, faprika-connection, digital-downloads, insert-code] }
       responses:
         "200":
           description: App detail.
@@ -679,7 +682,7 @@ paths:
         - name: handle
           in: path
           required: true
-          schema: { type: string, enum: [product-tab-manager, product-faq-studio, xml-product-import, shopify-connection, shopify-checkout] }
+          schema: { type: string, enum: [product-tab-manager, product-faq-studio, xml-product-import, shopify-connection, shopify-checkout, faprika-connection, digital-downloads, insert-code] }
       responses:
         "200":
           description: App settings.
@@ -692,7 +695,7 @@ paths:
         - name: handle
           in: path
           required: true
-          schema: { type: string, enum: [product-tab-manager, product-faq-studio, xml-product-import, shopify-connection, shopify-checkout] }
+          schema: { type: string, enum: [product-tab-manager, product-faq-studio, xml-product-import, shopify-connection, shopify-checkout, faprika-connection, digital-downloads, insert-code] }
       requestBody:
         required: true
         content:
@@ -1126,6 +1129,288 @@ paths:
               schema: { $ref: "#/components/schemas/StorefrontShopifyCheckoutResponse" }
         "400":
           description: Checkout cannot be started.
+  /apps/faprika-connection/connection.json:
+    get:
+      tags: [Faprika Connection]
+      summary: Retrieve Faprika connection state
+      operationId: getFaprikaConnection
+      responses:
+        "200":
+          description: Faprika connection payload.
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/FaprikaConnectionPayload" }
+    patch:
+      tags: [Faprika Connection]
+      summary: Save Faprika connection credentials
+      operationId: saveFaprikaConnection
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: "#/components/schemas/FaprikaConnectionInput" }
+      responses:
+        "200":
+          description: Connection saved and marked pending.
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/FaprikaConnectionActionResponse" }
+  /apps/faprika-connection/verify.json:
+    post:
+      tags: [Faprika Connection]
+      summary: Verify Faprika API connection
+      operationId: verifyFaprikaConnection
+      requestBody:
+        content:
+          application/json:
+            schema: { $ref: "#/components/schemas/FaprikaConnectionInput" }
+      responses:
+        "200":
+          description: Verification result.
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/FaprikaConnectionActionResponse" }
+  /apps/faprika-connection/sync-settings.json:
+    patch:
+      tags: [Faprika Connection]
+      summary: Update automatic Faprika sync settings
+      operationId: saveFaprikaSyncSettings
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: "#/components/schemas/FaprikaSyncSettingsInput" }
+      responses:
+        "200":
+          description: Sync settings saved.
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/FaprikaConnectionActionResponse" }
+  /apps/faprika-connection/sync.json:
+    post:
+      tags: [Faprika Connection]
+      summary: Start Faprika background sync job
+      operationId: runFaprikaSync
+      requestBody:
+        content:
+          application/json:
+            schema: { $ref: "#/components/schemas/FaprikaSyncRequest" }
+      responses:
+        "200":
+          description: Sync job accepted or rejected.
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/FaprikaSyncRunResponse" }
+  /apps/faprika-connection/sync-jobs.json:
+    get:
+      tags: [Faprika Connection]
+      summary: List Faprika sync jobs
+      operationId: listFaprikaSyncJobs
+      responses:
+        "200":
+          description: Sync jobs.
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/FaprikaSyncJobsPayload" }
+  /apps/faprika-connection/sync-jobs/{job_id}.json:
+    get:
+      tags: [Faprika Connection]
+      summary: Retrieve a Faprika sync job
+      operationId: getFaprikaSyncJob
+      parameters:
+        - name: job_id
+          in: path
+          required: true
+          schema: { type: string }
+      responses:
+        "200":
+          description: Sync job detail.
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/FaprikaSyncJobPayload" }
+  /apps/faprika-connection/sync-jobs/{job_id}/actions.json:
+    post:
+      tags: [Faprika Connection]
+      summary: Pause, resume or cancel a Faprika sync job
+      operationId: runFaprikaSyncJobAction
+      parameters:
+        - name: job_id
+          in: path
+          required: true
+          schema: { type: string }
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [action]
+              properties:
+                action: { type: string, enum: [pause, resume, cancel] }
+      responses:
+        "200":
+          description: Updated job.
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/FaprikaSyncJobPayload" }
+  /apps/digital-downloads/overview.json:
+    get:
+      tags: [Digital Downloads]
+      summary: Retrieve digital download assets, entitlements and settings
+      operationId: getDigitalDownloadsOverview
+      responses:
+        "200":
+          description: Digital downloads overview.
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/DigitalDownloadsOverview" }
+  /apps/digital-downloads/upload.json:
+    post:
+      tags: [Digital Downloads]
+      summary: Upload a digital file and attach it to a product or variant
+      operationId: uploadDigitalDownloadAsset
+      requestBody:
+        required: true
+        content:
+          multipart/form-data:
+            schema: { $ref: "#/components/schemas/DigitalDownloadUploadRequest" }
+      responses:
+        "201":
+          description: File uploaded and overview returned.
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/DigitalDownloadsOverview" }
+  /apps/digital-downloads/actions.json:
+    post:
+      tags: [Digital Downloads]
+      summary: Run a digital download management action
+      operationId: runDigitalDownloadsAction
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: "#/components/schemas/DigitalDownloadsActionRequest" }
+      responses:
+        "200":
+          description: Updated overview and optional generated link.
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/DigitalDownloadsActionResponse" }
+  /downloads/digital/{token}:
+    get:
+      tags: [Digital Downloads]
+      summary: Download a digital file by secure token
+      operationId: downloadDigitalFile
+      servers:
+        - url: https://{store}.shopiyz.com
+          variables:
+            store:
+              default: development
+      security: []
+      parameters:
+        - name: token
+          in: path
+          required: true
+          schema: { type: string }
+        - name: Range
+          in: header
+          required: false
+          schema: { type: string, example: bytes=0-1048575 }
+      responses:
+        "200":
+          description: Full file response.
+        "206":
+          description: Partial file response for Range requests.
+        "403":
+          description: Link disabled or file metadata mismatch.
+        "410":
+          description: Link expired or download limit reached.
+    head:
+      tags: [Digital Downloads]
+      summary: Retrieve digital file headers by secure token
+      operationId: headDigitalFile
+      servers:
+        - url: https://{store}.shopiyz.com
+          variables:
+            store:
+              default: development
+      security: []
+      parameters:
+        - name: token
+          in: path
+          required: true
+          schema: { type: string }
+      responses:
+        "200":
+          description: File headers.
+        "206":
+          description: Partial file headers.
+  /apps/insert-code/overview.json:
+    get:
+      tags: [Insert Code Studio]
+      summary: Retrieve Insert Code snippets and settings
+      operationId: getInsertCodeOverview
+      responses:
+        "200":
+          description: Insert Code overview.
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/InsertCodeOverview" }
+  /apps/insert-code/snippets.json:
+    post:
+      tags: [Insert Code Studio]
+      summary: Create a storefront code snippet
+      operationId: createInsertCodeSnippet
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: "#/components/schemas/InsertCodeSnippetInput" }
+      responses:
+        "201":
+          description: Snippet created.
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/InsertCodeSnippetResponse" }
+  /apps/insert-code/snippets/{snippet_id}.json:
+    patch:
+      tags: [Insert Code Studio]
+      summary: Update a storefront code snippet
+      operationId: updateInsertCodeSnippet
+      parameters:
+        - name: snippet_id
+          in: path
+          required: true
+          schema: { type: string }
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: "#/components/schemas/InsertCodeSnippetInput" }
+      responses:
+        "200":
+          description: Snippet updated.
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/InsertCodeSnippetResponse" }
+    delete:
+      tags: [Insert Code Studio]
+      summary: Delete a storefront code snippet
+      operationId: deleteInsertCodeSnippet
+      parameters:
+        - name: snippet_id
+          in: path
+          required: true
+          schema: { type: string }
+      responses:
+        "200":
+          description: Snippet deleted.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  ok: { type: boolean }
 components:
   securitySchemes:
     shopiyzAccessToken:
@@ -1725,6 +2010,384 @@ components:
         redirectUrl: { type: string, format: uri }
         lineCount: { type: integer }
         itemCount: { type: integer }
+    FaprikaConnectionInput:
+      type: object
+      properties:
+        baseUrl: { type: string, example: "https://magazam.faprika.com" }
+        apiKey: { type: string, writeOnly: true }
+        securityKey: { type: string, writeOnly: true }
+        apiUserIdentifier: { type: string }
+        apiUserSecret: { type: string, writeOnly: true }
+    FaprikaConnection:
+      type: object
+      properties:
+        id: { type: string }
+        storeId: { type: string }
+        baseUrl: { type: string }
+        apiKeyPreview: { type: string }
+        securityKeyPreview: { type: string }
+        apiUserIdentifier: { type: string }
+        hasPrimaryCredentials: { type: boolean }
+        hasAdvancedCredentials: { type: boolean }
+        status: { type: string, enum: [missing, pending, connected, failed] }
+        authMode: { type: string }
+        resolvedApiUrl: { type: string }
+        lastCheckedAt: { type: string }
+        lastSuccessfulCheckAt: { type: string }
+        lastErrorMessage: { type: string }
+        syncEnabled: { type: boolean }
+        syncIntervalMinutes: { type: integer }
+        syncProductsEnabled: { type: boolean }
+        syncCategoriesEnabled: { type: boolean }
+        syncCustomersEnabled: { type: boolean }
+        syncOrdersEnabled: { type: boolean }
+        exportOrdersEnabled: { type: boolean }
+        syncLastStatus: { type: string, enum: [idle, running, paused, cancelled, success, failed] }
+        syncLastMessage: { type: string }
+        syncLastSummary: { type: object, additionalProperties: true }
+        syncLastRunAt: { type: string }
+        syncLastSuccessfulRunAt: { type: string }
+        syncNextRunAt: { type: string }
+        createdAt: { type: string }
+        updatedAt: { type: string }
+    FaprikaConnectionPayload:
+      type: object
+      properties:
+        store: { type: object, additionalProperties: true }
+        connection:
+          anyOf:
+            - $ref: "#/components/schemas/FaprikaConnection"
+            - type: "null"
+    FaprikaConnectionActionResponse:
+      allOf:
+        - $ref: "#/components/schemas/FaprikaConnectionPayload"
+        - type: object
+          properties:
+            success: { type: boolean }
+            message: { type: string }
+    FaprikaSyncSettingsInput:
+      type: object
+      required: [enabled, intervalMinutes, syncProductsEnabled, syncCategoriesEnabled, syncCustomersEnabled, syncOrdersEnabled, exportOrdersEnabled]
+      properties:
+        enabled: { type: boolean }
+        intervalMinutes: { type: integer, enum: [5, 15, 30, 60, 360, 720, 1440], default: 60 }
+        syncProductsEnabled: { type: boolean }
+        syncCategoriesEnabled: { type: boolean }
+        syncCustomersEnabled: { type: boolean }
+        syncOrdersEnabled: { type: boolean }
+        exportOrdersEnabled: { type: boolean }
+    FaprikaSyncRequest:
+      type: object
+      properties:
+        trigger: { type: string, enum: [manual, scheduled], default: manual }
+        syncProductsEnabled: { type: boolean }
+        syncCategoriesEnabled: { type: boolean }
+        syncCustomersEnabled: { type: boolean }
+        syncOrdersEnabled: { type: boolean }
+    FaprikaCounter:
+      type: object
+      properties:
+        total: { type: integer }
+        created: { type: integer }
+        updated: { type: integer }
+        deleted: { type: integer }
+        skipped: { type: integer }
+    FaprikaSyncSummary:
+      type: object
+      properties:
+        startedAt: { type: string }
+        finishedAt: { type: string }
+        apiRoot: { type: string }
+        progress:
+          type: object
+          properties:
+            stage: { type: string }
+            label: { type: string }
+            current: { type: integer }
+            total: { type: integer }
+            percentage: { type: number }
+        products: { $ref: "#/components/schemas/FaprikaCounter" }
+        productVariants: { $ref: "#/components/schemas/FaprikaCounter" }
+        collections: { $ref: "#/components/schemas/FaprikaCounter" }
+        collectionAssignments: { $ref: "#/components/schemas/FaprikaCounter" }
+        customers: { $ref: "#/components/schemas/FaprikaCounter" }
+        orders: { $ref: "#/components/schemas/FaprikaCounter" }
+        orderLineItems: { $ref: "#/components/schemas/FaprikaCounter" }
+        productAttributes: { $ref: "#/components/schemas/FaprikaCounter" }
+        specificationAttributes: { $ref: "#/components/schemas/FaprikaCounter" }
+        notes:
+          type: array
+          items: { type: string }
+    FaprikaSyncJob:
+      type: object
+      properties:
+        id: { type: string }
+        connector: { type: string }
+        storeId: { type: string }
+        storeName: { type: string }
+        status: { type: string, enum: [queued, running, paused, cancelled, completed, failed] }
+        totals: { type: object, additionalProperties: true }
+        totalItems: { type: integer }
+        processedItems: { type: integer }
+        failedItems: { type: integer }
+        percentage: { type: number }
+        lastMessage: { type: string }
+        lastError: { type: string }
+        createdAt: { type: string }
+        updatedAt: { type: string }
+        startedAt: { type: string }
+        completedAt: { type: string }
+    FaprikaSyncJobsPayload:
+      type: object
+      properties:
+        jobs:
+          type: array
+          items: { $ref: "#/components/schemas/FaprikaSyncJob" }
+    FaprikaSyncJobPayload:
+      type: object
+      properties:
+        job: { $ref: "#/components/schemas/FaprikaSyncJob" }
+        connection:
+          anyOf:
+            - $ref: "#/components/schemas/FaprikaConnection"
+            - type: "null"
+        events:
+          type: array
+          items: { type: object, additionalProperties: true }
+    FaprikaSyncRunResponse:
+      allOf:
+        - $ref: "#/components/schemas/FaprikaConnectionActionResponse"
+        - type: object
+          properties:
+            accepted: { type: boolean }
+            summary: { $ref: "#/components/schemas/FaprikaSyncSummary" }
+            job: { $ref: "#/components/schemas/FaprikaSyncJob" }
+    DigitalDownloadsSettings:
+      type: object
+      properties:
+        enabled: { type: boolean }
+        defaultDeliveryType: { type: string, enum: [automatic, manual] }
+        defaultDownloadLimit: { type: integer, minimum: 0 }
+        readyEmailSubject: { type: string }
+        updateEmailSubject: { type: string }
+        sendUpdateEmails: { type: boolean }
+    DigitalDownloadProductOption:
+      type: object
+      properties:
+        id: { type: string }
+        title: { type: string }
+        handle: { type: string }
+        status: { type: string }
+        requiresShipping: { type: boolean }
+        variants:
+          type: array
+          items:
+            type: object
+            properties:
+              id: { type: string }
+              title: { type: string }
+              sku: { type: string }
+              requiresShipping: { type: boolean }
+    DigitalDownloadAsset:
+      type: object
+      properties:
+        id: { type: string }
+        storeId: { type: string }
+        productId: { type: string }
+        variantId: { type: string }
+        productTitle: { type: string }
+        productHandle: { type: string }
+        variantTitle: { type: string }
+        title: { type: string }
+        fileName: { type: string }
+        mimeType: { type: string }
+        sizeBytes: { type: integer }
+        status: { type: string, enum: [active, disabled] }
+        deliveryType: { type: string, enum: [automatic, manual] }
+        downloadLimit: { type: integer }
+        orderCount: { type: integer }
+        downloadedCount: { type: integer }
+        createdAt: { type: string }
+        updatedAt: { type: string }
+    DigitalDownloadEvent:
+      type: object
+      properties:
+        id: { type: string }
+        type: { type: string, enum: [entitlement_created, email_sent, email_skipped, downloaded, blocked, disabled, enabled, email_updated, file_updated, link_viewed] }
+        label: { type: string }
+        message: { type: string }
+        ipAddress: { type: string }
+        userAgent: { type: string }
+        referrer: { type: string }
+        metadata: { type: object, additionalProperties: true }
+        createdAt: { type: string }
+    DigitalDownloadEntitlement:
+      type: object
+      properties:
+        id: { type: string }
+        storeId: { type: string }
+        orderId: { type: string }
+        orderNumber: { type: string }
+        lineItemId: { type: string }
+        assetId: { type: string }
+        productId: { type: string }
+        variantId: { type: string }
+        customerName: { type: string }
+        customerEmail: { type: string, format: email }
+        productTitle: { type: string }
+        variantTitle: { type: string }
+        assetTitle: { type: string }
+        fileName: { type: string }
+        status: { type: string, enum: [active, disabled, expired] }
+        deliveryType: { type: string, enum: [automatic, manual] }
+        downloadLimit: { type: integer }
+        downloadedCount: { type: integer }
+        firstSentAt: { type: string }
+        lastSentAt: { type: string }
+        disabledAt: { type: string }
+        expiresAt: { type: string }
+        orderCreatedAt: { type: string }
+        createdAt: { type: string }
+        updatedAt: { type: string }
+        events:
+          type: array
+          items: { $ref: "#/components/schemas/DigitalDownloadEvent" }
+    DigitalDownloadsOverview:
+      type: object
+      properties:
+        settings: { $ref: "#/components/schemas/DigitalDownloadsSettings" }
+        summary:
+          type: object
+          properties:
+            assetCount: { type: integer }
+            activeAssetCount: { type: integer }
+            entitlementCount: { type: integer }
+            downloadCount: { type: integer }
+            emailSentCount: { type: integer }
+        products:
+          type: array
+          items: { $ref: "#/components/schemas/DigitalDownloadProductOption" }
+        assets:
+          type: array
+          items: { $ref: "#/components/schemas/DigitalDownloadAsset" }
+        entitlements:
+          type: array
+          items: { $ref: "#/components/schemas/DigitalDownloadEntitlement" }
+    DigitalDownloadUploadRequest:
+      type: object
+      required: [file, productId]
+      properties:
+        file: { type: string, format: binary }
+        productId: { type: string }
+        variantId: { type: string }
+        title: { type: string }
+        deliveryType: { type: string, enum: [automatic, manual], default: automatic }
+        downloadLimit: { type: integer, minimum: 0, default: 0 }
+    DigitalDownloadsActionRequest:
+      oneOf:
+        - type: object
+          required: [action, id, status]
+          properties:
+            action: { type: string, enum: [setAssetStatus] }
+            id: { type: string }
+            status: { type: string, enum: [active, disabled] }
+        - type: object
+          required: [action, id]
+          properties:
+            action: { type: string, enum: [deleteAsset] }
+            id: { type: string }
+        - type: object
+          required: [action, id, status]
+          properties:
+            action: { type: string, enum: [setEntitlementStatus] }
+            id: { type: string }
+            status: { type: string, enum: [active, disabled, expired] }
+        - type: object
+          required: [action, entitlementId]
+          properties:
+            action: { type: string, enum: [resendEmail, viewLink] }
+            entitlementId: { type: string }
+        - type: object
+          required: [action, orderId, email]
+          properties:
+            action: { type: string, enum: [updateEmail] }
+            orderId: { type: string }
+            email: { type: string, format: email }
+        - type: object
+          required: [action, orderId]
+          properties:
+            action: { type: string, enum: [syncOrder] }
+            orderId: { type: string }
+        - type: object
+          required: [action, assetId]
+          properties:
+            action: { type: string, enum: [sendFileUpdate] }
+            assetId: { type: string }
+    DigitalDownloadsActionResponse:
+      allOf:
+        - $ref: "#/components/schemas/DigitalDownloadsOverview"
+        - type: object
+          properties:
+            downloadUrl: { type: string, format: uri }
+            message: { type: string }
+    InsertCodeSnippetInput:
+      type: object
+      properties:
+        title: { type: string }
+        status: { type: string, enum: [enabled, disabled] }
+        targetMode: { type: string, enum: [all, custom] }
+        pageTypes:
+          type: array
+          items:
+            type: string
+            enum: [home, product, collection, blog-category, blog-post, cart, not-found, login, register, account, account-orders, account-addresses]
+        pathRules:
+          type: array
+          items: { type: string, example: "/kampanya/*" }
+        productHandles:
+          type: array
+          items: { type: string }
+        collectionSlugs:
+          type: array
+          items: { type: string }
+        headCode: { type: string }
+        bodyStartCode: { type: string }
+        footerCode: { type: string }
+        sortOrder: { type: integer }
+    InsertCodeSnippet:
+      allOf:
+        - $ref: "#/components/schemas/InsertCodeSnippetInput"
+        - type: object
+          properties:
+            id: { type: string }
+            createdAt: { type: string }
+            updatedAt: { type: string }
+    InsertCodeOverview:
+      type: object
+      properties:
+        store: { type: object, additionalProperties: true }
+        snippets:
+          type: array
+          items: { $ref: "#/components/schemas/InsertCodeSnippet" }
+        summary:
+          type: object
+          properties:
+            total: { type: integer }
+            enabled: { type: integer }
+            disabled: { type: integer }
+            global: { type: integer }
+            custom: { type: integer }
+            headCount: { type: integer }
+            bodyCount: { type: integer }
+            footerCount: { type: integer }
+        settings:
+          type: object
+          properties:
+            injectInPreview: { type: boolean }
+    InsertCodeSnippetResponse:
+      type: object
+      properties:
+        snippet: { $ref: "#/components/schemas/InsertCodeSnippet" }
     Product:
       type: object
       properties:
