@@ -1613,7 +1613,7 @@
         <a href="#overview">Guides</a>
         <a href="#resource-reference">API reference</a>
         <a href="#products">Resources</a>
-        <a href="./openapi/shopiyz-api.v1.yaml">OpenAPI</a>
+        <a href="./openapi/shopiyz-api.yaml">OpenAPI</a>
       </nav>
       <div class="top-actions">
         <label class="search" aria-label="Dokumanlarda ara">
@@ -1752,7 +1752,7 @@
               <li><a class="nav-link" href="#deprecated-api-calls" data-nav-link><span>Deprecated API Calls</span><span>›</span></a></li>
               <li><a class="nav-link" href="#rate-limits" data-nav-link><span>Rate limits</span><span>›</span></a></li>
               <li><a class="nav-link" href="#status" data-nav-link><span>Errors</span><span>›</span></a></li>
-              <li><a class="nav-link" href="./openapi/shopiyz-api.v1.yaml"><span><svg viewBox="0 0 24 24" fill="none"><path d="M8 3h8l4 4v14H4V3h4Zm8 0v5h4" stroke="currentColor" stroke-width="2" stroke-linejoin="round" /></svg>OpenAPI YAML</span><span>›</span></a></li>
+              <li><a class="nav-link" href="./openapi/shopiyz-api.yaml"><span><svg viewBox="0 0 24 24" fill="none"><path d="M8 3h8l4 4v14H4V3h4Zm8 0v5h4" stroke="currentColor" stroke-width="2" stroke-linejoin="round" /></svg>OpenAPI YAML</span><span>›</span></a></li>
             </ul>
           </div>
         </nav>
@@ -1777,7 +1777,7 @@
               </p>
               <div class="notice-actions" aria-label="API hizli baglantilari">
                 <a class="primary-link" href="https://accounts.shopiyz.com/dashboard">Shopiyz hesabini ac</a>
-                <a href="./openapi/shopiyz-api.v1.yaml">OpenAPI YAML dosyasini ac</a>
+                <a href="./openapi/shopiyz-api.yaml">OpenAPI YAML dosyasini ac</a>
               </div>
             </div>
           </div>
@@ -1831,11 +1831,11 @@
                 </button>
               </div>
               <pre id="heroCode"><code data-code-panel="curl"><span class="token-muted"># Aktif urunleri listele</span>
-curl -X GET <span class="token-string">"https://{store}.shopiyz.com/admin/api/v1/products.json?limit=10&amp;status=active"</span> \
+curl -X GET <span class="token-string">"https://{store}.shopiyz.com/admin/api/products.json?limit=10&amp;status=active"</span> \
   -H <span class="token-string">"Content-Type: application/json"</span> \
   -H <span class="token-string">"X-Shopiyz-Access-Token: {access_token}"</span></code><code data-code-panel="javascript" hidden><span class="token-muted">// Browser veya worker icinden urunleri listele</span>
 const response = await fetch(
-  <span class="token-string">"https://{store}.shopiyz.com/admin/api/v1/products.json?limit=10&amp;status=active"</span>,
+  <span class="token-string">"https://{store}.shopiyz.com/admin/api/products.json?limit=10&amp;status=active"</span>,
   {
     headers: {
       <span class="token-key">"Content-Type"</span>: <span class="token-string">"application/json"</span>,
@@ -1845,7 +1845,7 @@ const response = await fetch(
 );
 const products = await response.json();</code><code data-code-panel="node" hidden><span class="token-muted">// Node.js servisinden urunleri listele</span>
 const response = await fetch(
-  <span class="token-string">"https://{store}.shopiyz.com/admin/api/v1/products.json?limit=10"</span>,
+  <span class="token-string">"https://{store}.shopiyz.com/admin/api/products.json?limit=10"</span>,
   {
     headers: {
       <span class="token-key">"X-Shopiyz-Access-Token"</span>: process.env.SHOPIYZ_ADMIN_TOKEN
@@ -1855,7 +1855,7 @@ const response = await fetch(
 console.log(await response.json());</code><code data-code-panel="php" hidden><span class="token-muted">// PHP ile basit GET istegi</span>
 $client = new GuzzleHttp\Client();
 $response = $client->get(
-  <span class="token-string">'https://{store}.shopiyz.com/admin/api/v1/products.json'</span>,
+  <span class="token-string">'https://{store}.shopiyz.com/admin/api/products.json'</span>,
   [
     <span class="token-key">'headers'</span> => [
       <span class="token-key">'X-Shopiyz-Access-Token'</span> => <span class="token-string">'{access_token}'</span>
@@ -1900,7 +1900,7 @@ $response = $client->get(
               <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M8 3h8l4 4v14H4V3h4Zm8 0v5h4" stroke="currentColor" stroke-width="2" stroke-linejoin="round" /></svg>
               <h2>OpenAPI</h2>
               <p>Endpointler kesinlestikce OpenAPI dosyasi API referansi icin tek kaynak olacak.</p>
-              <a class="mini-button" href="./openapi/shopiyz-api.v1.yaml">Open YAML</a>
+              <a class="mini-button" href="./openapi/shopiyz-api.yaml">Open YAML</a>
             </article>
           </section>
 
@@ -1984,7 +1984,7 @@ $response = $client->get(
                   <svg viewBox="0 0 24 24" width="17" height="17" fill="none"><path d="M8 8h11v13H8V8Zm-3 8H4a1 1 0 0 1-1-1V4h11a1 1 0 0 1 1 1v1" stroke="currentColor" stroke-width="2" stroke-linejoin="round" /></svg>
                 </button>
               </div>
-              <pre id="authCode"><code>curl -X GET <span class="token-string">"https://{store}.shopiyz.com/admin/api/v1/shop.json"</span> \
+              <pre id="authCode"><code>curl -X GET <span class="token-string">"https://{store}.shopiyz.com/admin/api/shop.json"</span> \
   -H <span class="token-string">"Content-Type: application/json"</span> \
   -H <span class="token-string">"X-Shopiyz-Access-Token: {access_token}"</span></code></pre>
             </div>
@@ -1999,30 +1999,30 @@ $response = $client->get(
               </p>
               <p>
                 Planlanan endpoint deseni:
-                <span class="inline-code">https://{store_domain}/admin/api/v1/{resource}.json</span>
+                <span class="inline-code">https://{store_domain}/admin/api/{resource}.json</span>
               </p>
               <ul>
                 <li>Liste endpointleri <span class="inline-code">limit</span>, <span class="inline-code">cursor</span> ve kaynak filtrelerini destekler.</li>
                 <li>Yazma isteklerinde JSON body kullanilir.</li>
-                <li>Versiyon sabit kaldigi surece davranis geriye donuk uyumlu tutulur.</li>
+                <li>Tek Admin API yolu kullanilir; endpoint davranisi ayni kalir.</li>
               </ul>
             </div>
             <div class="endpoint-box">
               <div class="endpoint-row">
                 <div class="method">GET</div>
-                <div class="endpoint-path">/admin/api/v1/products.json</div>
+                <div class="endpoint-path">/admin/api/products.json</div>
               </div>
               <div class="endpoint-row">
                 <div class="method">POST</div>
-                <div class="endpoint-path">/admin/api/v1/products.json</div>
+                <div class="endpoint-path">/admin/api/products.json</div>
               </div>
               <div class="endpoint-row">
                 <div class="method">GET</div>
-                <div class="endpoint-path">/admin/api/v1/orders.json?status=open</div>
+                <div class="endpoint-path">/admin/api/orders.json?status=open</div>
               </div>
               <div class="endpoint-row">
                 <div class="method">PUT</div>
-                <div class="endpoint-path">/admin/api/v1/inventory_levels/{inventory_item_id}.json</div>
+                <div class="endpoint-path">/admin/api/inventory_levels/{inventory_item_id}.json</div>
               </div>
             </div>
           </section>
@@ -2151,8 +2151,8 @@ Retry-After: 2
                     <h4>Access token</h4>
                     <p>Bir entegrasyonun hangi magazaya ve hangi kaynaklara erisecegini belirler.</p>
                     <div class="endpoint-chips">
-                      <code class="endpoint-chip">GET /admin/api/v1/access_scopes.json</code>
-                      <code class="endpoint-chip">POST /admin/api/v1/oauth/token.json</code>
+                      <code class="endpoint-chip">GET /admin/api/access_scopes.json</code>
+                      <code class="endpoint-chip">POST /admin/api/oauth/token.json</code>
                     </div>
                     <ul class="field-list">
                       <li>Scope: read_products, write_orders, read_customers.</li>
@@ -2164,7 +2164,7 @@ Retry-After: 2
                     <h4>API catalog</h4>
                     <p>Musteri ekranlarinda gosterilecek Admin API kaynak listesini, ozellikleri ve desteklenen operasyonlari salt-okuma dondurur.</p>
                     <div class="endpoint-chips">
-                      <code class="endpoint-chip">GET /admin/api/v1/api_catalog.json</code>
+                      <code class="endpoint-chip">GET /admin/api/api_catalog.json</code>
                       <code class="endpoint-chip">GET /api/public/admin-api-catalog</code>
                     </div>
                     <ul class="field-list">
@@ -2177,8 +2177,8 @@ Retry-After: 2
                     <h4>Permission model</h4>
                     <p>Admin panelindeki kullanici, app ve magaza yetkilerini API katmanina yansitir.</p>
                     <div class="endpoint-chips">
-                      <code class="endpoint-chip">GET /admin/api/v1/permissions.json</code>
-                      <code class="endpoint-chip">GET /admin/api/v1/apps/current.json</code>
+                      <code class="endpoint-chip">GET /admin/api/permissions.json</code>
+                      <code class="endpoint-chip">GET /admin/api/apps/current.json</code>
                     </div>
                     <ul class="field-list">
                       <li>App sahibi, partner ve musteri rolleri ayrilir.</li>
@@ -2201,8 +2201,8 @@ Retry-After: 2
                     <h4>Subscription</h4>
                     <p>Magazanin aktif paketini, yenileme tarihini ve kullanim limitlerini okur.</p>
                     <div class="endpoint-chips">
-                      <code class="endpoint-chip">GET /admin/api/v1/billing/subscription.json</code>
-                      <code class="endpoint-chip">GET /admin/api/v1/billing/usage.json</code>
+                      <code class="endpoint-chip">GET /admin/api/billing/subscription.json</code>
+                      <code class="endpoint-chip">GET /admin/api/billing/usage.json</code>
                     </div>
                     <ul class="field-list">
                       <li>plan_name, status, trial_ends_at, renews_at.</li>
@@ -2213,8 +2213,8 @@ Retry-After: 2
                     <h4>Invoice</h4>
                     <p>Fatura gecmisi ve odeme durumlarini entegrasyonlara acmak icin kullanilir.</p>
                     <div class="endpoint-chips">
-                      <code class="endpoint-chip">GET /admin/api/v1/billing/invoices.json</code>
-                      <code class="endpoint-chip">GET /admin/api/v1/billing/invoices/{invoice_id}.json</code>
+                      <code class="endpoint-chip">GET /admin/api/billing/invoices.json</code>
+                      <code class="endpoint-chip">GET /admin/api/billing/invoices/{invoice_id}.json</code>
                     </div>
                     <ul class="field-list">
                       <li>invoice_number, total, currency, payment_status.</li>
@@ -2237,9 +2237,9 @@ Retry-After: 2
                     <h4>Installed apps</h4>
                     <p>Tokenin bagli oldugu magazada API ile yonetilebilen uygulamalari ve kurulum durumunu listeler.</p>
                     <div class="endpoint-chips">
-                      <code class="endpoint-chip">GET /admin/api/v1/apps.json</code>
-                      <code class="endpoint-chip">GET /admin/api/v1/apps/{handle}.json</code>
-                      <code class="endpoint-chip">GET /admin/api/v1/apps/{handle}/settings.json</code>
+                      <code class="endpoint-chip">GET /admin/api/apps.json</code>
+                      <code class="endpoint-chip">GET /admin/api/apps/{handle}.json</code>
+                      <code class="endpoint-chip">GET /admin/api/apps/{handle}/settings.json</code>
                     </div>
                     <ul class="field-list">
                       <li>handle, state, installed, monthly_price_try, installed_at, updated_at.</li>
@@ -2251,13 +2251,13 @@ Retry-After: 2
                     <h4>Product Tab Manager</h4>
                     <p>Urun sayfasindaki tab, accordion, hedefleme, shared tab ve gorunum ayarlarini yonetir.</p>
                     <div class="endpoint-chips">
-                      <code class="endpoint-chip">GET /admin/api/v1/apps/product-tab-manager/settings.json</code>
-                      <code class="endpoint-chip">PUT /admin/api/v1/apps/product-tab-manager/settings.json</code>
-                      <code class="endpoint-chip">GET /admin/api/v1/apps/product-tab-manager/tabs.json</code>
-                      <code class="endpoint-chip">POST /admin/api/v1/apps/product-tab-manager/tabs.json</code>
-                      <code class="endpoint-chip">PUT /admin/api/v1/apps/product-tab-manager/tabs/{tab_id}.json</code>
-                      <code class="endpoint-chip">DELETE /admin/api/v1/apps/product-tab-manager/tabs/{tab_id}.json</code>
-                      <code class="endpoint-chip">POST /admin/api/v1/apps/product-tab-manager/tabs/reorder.json</code>
+                      <code class="endpoint-chip">GET /admin/api/apps/product-tab-manager/settings.json</code>
+                      <code class="endpoint-chip">PUT /admin/api/apps/product-tab-manager/settings.json</code>
+                      <code class="endpoint-chip">GET /admin/api/apps/product-tab-manager/tabs.json</code>
+                      <code class="endpoint-chip">POST /admin/api/apps/product-tab-manager/tabs.json</code>
+                      <code class="endpoint-chip">PUT /admin/api/apps/product-tab-manager/tabs/{tab_id}.json</code>
+                      <code class="endpoint-chip">DELETE /admin/api/apps/product-tab-manager/tabs/{tab_id}.json</code>
+                      <code class="endpoint-chip">POST /admin/api/apps/product-tab-manager/tabs/reorder.json</code>
                     </div>
                     <ul class="field-list">
                       <li>Tab alanlari: id, label, source, enabled, sortOrder, content, assignmentMode, targetValues.</li>
@@ -2269,15 +2269,15 @@ Retry-After: 2
                     <h4>Product FAQ Studio</h4>
                     <p>SSS kayitlari, FAQ schema, soru kutusu inbox'u, hedefleme ve gorunum ayarlarini yonetir.</p>
                     <div class="endpoint-chips">
-                      <code class="endpoint-chip">GET /admin/api/v1/apps/product-faq-studio/settings.json</code>
-                      <code class="endpoint-chip">PUT /admin/api/v1/apps/product-faq-studio/settings.json</code>
-                      <code class="endpoint-chip">GET /admin/api/v1/apps/product-faq-studio/faqs.json</code>
-                      <code class="endpoint-chip">POST /admin/api/v1/apps/product-faq-studio/faqs.json</code>
-                      <code class="endpoint-chip">PUT /admin/api/v1/apps/product-faq-studio/faqs/{faq_id}.json</code>
-                      <code class="endpoint-chip">DELETE /admin/api/v1/apps/product-faq-studio/faqs/{faq_id}.json</code>
-                      <code class="endpoint-chip">POST /admin/api/v1/apps/product-faq-studio/faqs/reorder.json</code>
-                      <code class="endpoint-chip">GET /admin/api/v1/apps/product-faq-studio/inbox.json</code>
-                      <code class="endpoint-chip">POST /admin/api/v1/apps/product-faq-studio/inbox/{inbox_id}/publish.json</code>
+                      <code class="endpoint-chip">GET /admin/api/apps/product-faq-studio/settings.json</code>
+                      <code class="endpoint-chip">PUT /admin/api/apps/product-faq-studio/settings.json</code>
+                      <code class="endpoint-chip">GET /admin/api/apps/product-faq-studio/faqs.json</code>
+                      <code class="endpoint-chip">POST /admin/api/apps/product-faq-studio/faqs.json</code>
+                      <code class="endpoint-chip">PUT /admin/api/apps/product-faq-studio/faqs/{faq_id}.json</code>
+                      <code class="endpoint-chip">DELETE /admin/api/apps/product-faq-studio/faqs/{faq_id}.json</code>
+                      <code class="endpoint-chip">POST /admin/api/apps/product-faq-studio/faqs/reorder.json</code>
+                      <code class="endpoint-chip">GET /admin/api/apps/product-faq-studio/inbox.json</code>
+                      <code class="endpoint-chip">POST /admin/api/apps/product-faq-studio/inbox/{inbox_id}/publish.json</code>
                     </div>
                     <ul class="field-list">
                       <li>FAQ alanlari: id, question, answer, group, status, source, assignmentMode, productIds, collectionIds, tags, vendors.</li>
@@ -2289,11 +2289,11 @@ Retry-After: 2
                     <h4>XML Product Import</h4>
                     <p>Tedarikci XML kaynaklarini, alan eslestirmelerini, fiyat kurallarini, AI onerilerini ve kontrollu urun import akislarini yonetir.</p>
                     <div class="endpoint-chips">
-                      <code class="endpoint-chip">PATCH /admin/api/v1/apps/xml-product-import/profile.json</code>
-                      <code class="endpoint-chip">POST /admin/api/v1/apps/xml-product-import/scan.json</code>
-                      <code class="endpoint-chip">POST /admin/api/v1/apps/xml-product-import/preview.json</code>
-                      <code class="endpoint-chip">POST /admin/api/v1/apps/xml-product-import/import.json</code>
-                      <code class="endpoint-chip">POST /admin/api/v1/apps/xml-product-import/ai-match.json</code>
+                      <code class="endpoint-chip">PATCH /admin/api/apps/xml-product-import/profile.json</code>
+                      <code class="endpoint-chip">POST /admin/api/apps/xml-product-import/scan.json</code>
+                      <code class="endpoint-chip">POST /admin/api/apps/xml-product-import/preview.json</code>
+                      <code class="endpoint-chip">POST /admin/api/apps/xml-product-import/import.json</code>
+                      <code class="endpoint-chip">POST /admin/api/apps/xml-product-import/ai-match.json</code>
                     </div>
                     <ul class="field-list">
                       <li>Profil alanlari: title, supplierName, warehouseName, xmlUrl, sourceFiles, fetchMode, authMode, xsltEnabled, scheduleMode, status.</li>
@@ -2305,11 +2305,11 @@ Retry-After: 2
                     <h4>Shopify Connection</h4>
                     <p>Legacy Admin API token veya Client ID + Secret akisi ile Shopify magazasindan katalog import eder ve otomatik senkronizasyonu yonetir.</p>
                     <div class="endpoint-chips">
-                      <code class="endpoint-chip">GET /admin/api/v1/apps/shopify-connection/connection.json</code>
-                      <code class="endpoint-chip">PATCH /admin/api/v1/apps/shopify-connection/connection.json</code>
-                      <code class="endpoint-chip">POST /admin/api/v1/apps/shopify-connection/verify.json</code>
-                      <code class="endpoint-chip">PATCH /admin/api/v1/apps/shopify-connection/sync-settings.json</code>
-                      <code class="endpoint-chip">POST /admin/api/v1/apps/shopify-connection/sync.json</code>
+                      <code class="endpoint-chip">GET /admin/api/apps/shopify-connection/connection.json</code>
+                      <code class="endpoint-chip">PATCH /admin/api/apps/shopify-connection/connection.json</code>
+                      <code class="endpoint-chip">POST /admin/api/apps/shopify-connection/verify.json</code>
+                      <code class="endpoint-chip">PATCH /admin/api/apps/shopify-connection/sync-settings.json</code>
+                      <code class="endpoint-chip">POST /admin/api/apps/shopify-connection/sync.json</code>
                     </div>
                     <ul class="field-list">
                       <li>Baglanti alanlari: shopUrl, authMode, accessToken, clientId, clientSecret, sessionToken; gizli degerler sadece preview olarak doner.</li>
@@ -2321,9 +2321,9 @@ Retry-After: 2
                     <h4>Shopify Checkout</h4>
                     <p>Shopiyz sepetini Shopify cart checkout URL'ine cevirir; yonetim tarafinda baglanti dogrulama, vitrinde checkout baslatma API'si sunar.</p>
                     <div class="endpoint-chips">
-                      <code class="endpoint-chip">GET /admin/api/v1/apps/shopify-checkout/connection.json</code>
-                      <code class="endpoint-chip">PATCH /admin/api/v1/apps/shopify-checkout/connection.json</code>
-                      <code class="endpoint-chip">POST /admin/api/v1/apps/shopify-checkout/verify.json</code>
+                      <code class="endpoint-chip">GET /admin/api/apps/shopify-checkout/connection.json</code>
+                      <code class="endpoint-chip">PATCH /admin/api/apps/shopify-checkout/connection.json</code>
+                      <code class="endpoint-chip">POST /admin/api/apps/shopify-checkout/verify.json</code>
                       <code class="endpoint-chip">POST /api/storefront/shopify-checkout?storeId={store_id}</code>
                     </div>
                     <ul class="field-list">
@@ -2336,14 +2336,14 @@ Retry-After: 2
                     <h4>Faprika Connection</h4>
                     <p>Faprika merkez paneliyle urun, kategori, musteri, siparis ve stok akisini baglar; arka plan transfer job'larini yonetir.</p>
                     <div class="endpoint-chips">
-                      <code class="endpoint-chip">GET /admin/api/v1/apps/faprika-connection/connection.json</code>
-                      <code class="endpoint-chip">PATCH /admin/api/v1/apps/faprika-connection/connection.json</code>
-                      <code class="endpoint-chip">POST /admin/api/v1/apps/faprika-connection/verify.json</code>
-                      <code class="endpoint-chip">PATCH /admin/api/v1/apps/faprika-connection/sync-settings.json</code>
-                      <code class="endpoint-chip">POST /admin/api/v1/apps/faprika-connection/sync.json</code>
-                      <code class="endpoint-chip">GET /admin/api/v1/apps/faprika-connection/sync-jobs.json</code>
-                      <code class="endpoint-chip">GET /admin/api/v1/apps/faprika-connection/sync-jobs/{job_id}.json</code>
-                      <code class="endpoint-chip">POST /admin/api/v1/apps/faprika-connection/sync-jobs/{job_id}/actions.json</code>
+                      <code class="endpoint-chip">GET /admin/api/apps/faprika-connection/connection.json</code>
+                      <code class="endpoint-chip">PATCH /admin/api/apps/faprika-connection/connection.json</code>
+                      <code class="endpoint-chip">POST /admin/api/apps/faprika-connection/verify.json</code>
+                      <code class="endpoint-chip">PATCH /admin/api/apps/faprika-connection/sync-settings.json</code>
+                      <code class="endpoint-chip">POST /admin/api/apps/faprika-connection/sync.json</code>
+                      <code class="endpoint-chip">GET /admin/api/apps/faprika-connection/sync-jobs.json</code>
+                      <code class="endpoint-chip">GET /admin/api/apps/faprika-connection/sync-jobs/{job_id}.json</code>
+                      <code class="endpoint-chip">POST /admin/api/apps/faprika-connection/sync-jobs/{job_id}/actions.json</code>
                     </div>
                     <ul class="field-list">
                       <li>Baglanti alanlari: baseUrl, apiKey, securityKey, apiUserIdentifier, apiUserSecret; gizli degerler preview olarak doner.</li>
@@ -2355,9 +2355,9 @@ Retry-After: 2
                     <h4>Digital Downloads</h4>
                     <p>Dijital dosyalari guvenli depolar, urune baglar, siparise gore indirme hakki ve tek kullanim token linkleri uretir.</p>
                     <div class="endpoint-chips">
-                      <code class="endpoint-chip">GET /admin/api/v1/apps/digital-downloads/overview.json</code>
-                      <code class="endpoint-chip">POST /admin/api/v1/apps/digital-downloads/upload.json</code>
-                      <code class="endpoint-chip">POST /admin/api/v1/apps/digital-downloads/actions.json</code>
+                      <code class="endpoint-chip">GET /admin/api/apps/digital-downloads/overview.json</code>
+                      <code class="endpoint-chip">POST /admin/api/apps/digital-downloads/upload.json</code>
+                      <code class="endpoint-chip">POST /admin/api/apps/digital-downloads/actions.json</code>
                       <code class="endpoint-chip">GET /downloads/digital/{token}</code>
                       <code class="endpoint-chip">HEAD /downloads/digital/{token}</code>
                     </div>
@@ -2371,12 +2371,12 @@ Retry-After: 2
                     <h4>Insert Code Studio</h4>
                     <p>Header, body start ve footer kodlarini tum storefront'a veya belirli sayfa, path, urun ve koleksiyon hedeflerine uygular.</p>
                     <div class="endpoint-chips">
-                      <code class="endpoint-chip">GET /admin/api/v1/apps/insert-code/overview.json</code>
-                      <code class="endpoint-chip">POST /admin/api/v1/apps/insert-code/snippets.json</code>
-                      <code class="endpoint-chip">PATCH /admin/api/v1/apps/insert-code/snippets/{snippet_id}.json</code>
-                      <code class="endpoint-chip">DELETE /admin/api/v1/apps/insert-code/snippets/{snippet_id}.json</code>
-                      <code class="endpoint-chip">GET /admin/api/v1/apps/insert-code/settings.json</code>
-                      <code class="endpoint-chip">PUT /admin/api/v1/apps/insert-code/settings.json</code>
+                      <code class="endpoint-chip">GET /admin/api/apps/insert-code/overview.json</code>
+                      <code class="endpoint-chip">POST /admin/api/apps/insert-code/snippets.json</code>
+                      <code class="endpoint-chip">PATCH /admin/api/apps/insert-code/snippets/{snippet_id}.json</code>
+                      <code class="endpoint-chip">DELETE /admin/api/apps/insert-code/snippets/{snippet_id}.json</code>
+                      <code class="endpoint-chip">GET /admin/api/apps/insert-code/settings.json</code>
+                      <code class="endpoint-chip">PUT /admin/api/apps/insert-code/settings.json</code>
                     </div>
                     <ul class="field-list">
                       <li>Snippet alanlari: title, status, targetMode, pageTypes, pathRules, productHandles, collectionSlugs, sortOrder.</li>
@@ -2400,9 +2400,9 @@ Retry-After: 2
                     <h4>Customer</h4>
                     <p>Musteri kaydini arama, listeleme, olusturma ve guncelleme icin ana kaynak.</p>
                     <div class="endpoint-chips">
-                      <code class="endpoint-chip">GET /admin/api/v1/customers.json</code>
-                      <code class="endpoint-chip">POST /admin/api/v1/customers.json</code>
-                      <code class="endpoint-chip">GET /admin/api/v1/customers/{customer_id}.json</code>
+                      <code class="endpoint-chip">GET /admin/api/customers.json</code>
+                      <code class="endpoint-chip">POST /admin/api/customers.json</code>
+                      <code class="endpoint-chip">GET /admin/api/customers/{customer_id}.json</code>
                     </div>
                     <ul class="field-list">
                       <li>email, phone, first_name, last_name, tags.</li>
@@ -2414,8 +2414,8 @@ Retry-After: 2
                     <h4>Customer Address</h4>
                     <p>Musterinin teslimat ve fatura adreslerini magaza bazinda yonetir.</p>
                     <div class="endpoint-chips">
-                      <code class="endpoint-chip">GET /admin/api/v1/customers/{customer_id}/addresses.json</code>
-                      <code class="endpoint-chip">POST /admin/api/v1/customers/{customer_id}/addresses.json</code>
+                      <code class="endpoint-chip">GET /admin/api/customers/{customer_id}/addresses.json</code>
+                      <code class="endpoint-chip">POST /admin/api/customers/{customer_id}/addresses.json</code>
                     </div>
                     <ul class="field-list">
                       <li>address1, address2, city, province, country, zip.</li>
@@ -2438,8 +2438,8 @@ Retry-After: 2
                     <h4>Discount code</h4>
                     <p>Tekil kupon kodlarini listeleme, olusturma ve durdurma icin kullanilir.</p>
                     <div class="endpoint-chips">
-                      <code class="endpoint-chip">GET /admin/api/v1/discounts.json</code>
-                      <code class="endpoint-chip">POST /admin/api/v1/discounts.json</code>
+                      <code class="endpoint-chip">GET /admin/api/discounts.json</code>
+                      <code class="endpoint-chip">POST /admin/api/discounts.json</code>
                     </div>
                     <ul class="field-list">
                       <li>code, value_type, value, starts_at, ends_at.</li>
@@ -2450,8 +2450,8 @@ Retry-After: 2
                     <h4>Price rule</h4>
                     <p>Otomatik indirim ve hedefli kampanya kurallarini tanimlar.</p>
                     <div class="endpoint-chips">
-                      <code class="endpoint-chip">GET /admin/api/v1/price_rules.json</code>
-                      <code class="endpoint-chip">PUT /admin/api/v1/price_rules/{rule_id}.json</code>
+                      <code class="endpoint-chip">GET /admin/api/price_rules.json</code>
+                      <code class="endpoint-chip">PUT /admin/api/price_rules/{rule_id}.json</code>
                     </div>
                     <ul class="field-list">
                       <li>target_type, allocation_method, customer_selection.</li>
@@ -2474,8 +2474,8 @@ Retry-After: 2
                     <h4>Event</h4>
                     <p>Urun guncelleme, siparis olusturma, iade ve app islemlerini zaman sirali listeler.</p>
                     <div class="endpoint-chips">
-                      <code class="endpoint-chip">GET /admin/api/v1/events.json</code>
-                      <code class="endpoint-chip">GET /admin/api/v1/events/{event_id}.json</code>
+                      <code class="endpoint-chip">GET /admin/api/events.json</code>
+                      <code class="endpoint-chip">GET /admin/api/events/{event_id}.json</code>
                     </div>
                     <ul class="field-list">
                       <li>subject_type, subject_id, verb, created_at.</li>
@@ -2498,8 +2498,8 @@ Retry-After: 2
                     <h4>Gift Card</h4>
                     <p>Hediye kartlarini guvenli sekilde olusturma, listeleme ve pasife alma modeli.</p>
                     <div class="endpoint-chips">
-                      <code class="endpoint-chip">GET /admin/api/v1/gift_cards.json</code>
-                      <code class="endpoint-chip">POST /admin/api/v1/gift_cards.json</code>
+                      <code class="endpoint-chip">GET /admin/api/gift_cards.json</code>
+                      <code class="endpoint-chip">POST /admin/api/gift_cards.json</code>
                     </div>
                     <ul class="field-list">
                       <li>masked_code, initial_value, balance, expires_at.</li>
@@ -2522,8 +2522,8 @@ Retry-After: 2
                     <h4>InventoryItem</h4>
                     <p>Bir varyantin stok takip edilen teknik kartidir.</p>
                     <div class="endpoint-chips">
-                      <code class="endpoint-chip">GET /admin/api/v1/inventory_items.json</code>
-                      <code class="endpoint-chip">GET /admin/api/v1/inventory_items/{item_id}.json</code>
+                      <code class="endpoint-chip">GET /admin/api/inventory_items.json</code>
+                      <code class="endpoint-chip">GET /admin/api/inventory_items/{item_id}.json</code>
                     </div>
                     <ul class="field-list">
                       <li>sku, tracked, cost, requires_shipping.</li>
@@ -2534,8 +2534,8 @@ Retry-After: 2
                     <h4>InventoryLevel</h4>
                     <p>Bir stok kartinin belirli lokasyondaki miktarini tutar.</p>
                     <div class="endpoint-chips">
-                      <code class="endpoint-chip">GET /admin/api/v1/inventory_levels.json</code>
-                      <code class="endpoint-chip">PUT /admin/api/v1/inventory_levels/adjust.json</code>
+                      <code class="endpoint-chip">GET /admin/api/inventory_levels.json</code>
+                      <code class="endpoint-chip">PUT /admin/api/inventory_levels/adjust.json</code>
                     </div>
                     <ul class="field-list">
                       <li>available, committed, incoming, location_id.</li>
@@ -2546,8 +2546,8 @@ Retry-After: 2
                     <h4>Location</h4>
                     <p>Depo, magaza, fulfillment merkezi veya sanal stok lokasyonlarini tanimlar.</p>
                     <div class="endpoint-chips">
-                      <code class="endpoint-chip">GET /admin/api/v1/locations.json</code>
-                      <code class="endpoint-chip">GET /admin/api/v1/locations/{location_id}.json</code>
+                      <code class="endpoint-chip">GET /admin/api/locations.json</code>
+                      <code class="endpoint-chip">GET /admin/api/locations/{location_id}.json</code>
                     </div>
                     <ul class="field-list">
                       <li>name, active, address, fulfills_online_orders.</li>
@@ -2569,8 +2569,8 @@ Retry-After: 2
                     <h4>Marketing Event</h4>
                     <p>Harici kampanya sistemlerinin Shopiyz siparislerine atif bilgisi yazmasi icin model.</p>
                     <div class="endpoint-chips">
-                      <code class="endpoint-chip">GET /admin/api/v1/marketing_events.json</code>
-                      <code class="endpoint-chip">POST /admin/api/v1/marketing_events.json</code>
+                      <code class="endpoint-chip">GET /admin/api/marketing_events.json</code>
+                      <code class="endpoint-chip">POST /admin/api/marketing_events.json</code>
                     </div>
                     <ul class="field-list">
                       <li>utm_source, utm_campaign, channel, budget, starts_at.</li>
@@ -2593,8 +2593,8 @@ Retry-After: 2
                     <h4>Metafield</h4>
                     <p>App ve entegrasyonlarin kaynaklara isim alanli ek veri baglamasini saglar.</p>
                     <div class="endpoint-chips">
-                      <code class="endpoint-chip">GET /admin/api/v1/metafields.json</code>
-                      <code class="endpoint-chip">POST /admin/api/v1/metafields.json</code>
+                      <code class="endpoint-chip">GET /admin/api/metafields.json</code>
+                      <code class="endpoint-chip">POST /admin/api/metafields.json</code>
                     </div>
                     <ul class="field-list">
                       <li>owner_type, owner_id, namespace, key, type, value.</li>
@@ -2617,8 +2617,8 @@ Retry-After: 2
                     <h4>Mobile Session</h4>
                     <p>Mobil uygulama icin cihaz, oturum ve guvenli deep link akisini aciklar.</p>
                     <div class="endpoint-chips">
-                      <code class="endpoint-chip">GET /admin/api/v1/mobile/sessions.json</code>
-                      <code class="endpoint-chip">POST /admin/api/v1/mobile/deep_links.json</code>
+                      <code class="endpoint-chip">GET /admin/api/mobile/sessions.json</code>
+                      <code class="endpoint-chip">POST /admin/api/mobile/deep_links.json</code>
                     </div>
                     <ul class="field-list">
                       <li>device_id, platform, app_version, last_seen_at.</li>
@@ -2641,8 +2641,8 @@ Retry-After: 2
                     <h4>Page</h4>
                     <p>Hakkimizda, kosullar ve ozel icerik sayfalari icin kaynak modeli.</p>
                     <div class="endpoint-chips">
-                      <code class="endpoint-chip">GET /admin/api/v1/pages.json</code>
-                      <code class="endpoint-chip">POST /admin/api/v1/pages.json</code>
+                      <code class="endpoint-chip">GET /admin/api/pages.json</code>
+                      <code class="endpoint-chip">POST /admin/api/pages.json</code>
                     </div>
                     <ul class="field-list">
                       <li>title, handle, body_html, published_at, seo.</li>
@@ -2652,8 +2652,8 @@ Retry-After: 2
                     <h4>Theme</h4>
                     <p>Development store, tema sitesi ve musteri sitesi yayin akisi icin tema bilgisi.</p>
                     <div class="endpoint-chips">
-                      <code class="endpoint-chip">GET /admin/api/v1/themes.json</code>
-                      <code class="endpoint-chip">GET /admin/api/v1/themes/{theme_id}.json</code>
+                      <code class="endpoint-chip">GET /admin/api/themes.json</code>
+                      <code class="endpoint-chip">GET /admin/api/themes/{theme_id}.json</code>
                     </div>
                     <ul class="field-list">
                       <li>role, preview_url, version, updated_at.</li>
@@ -2676,7 +2676,7 @@ Retry-After: 2
                     <h4>Abandoned checkouts</h4>
                     <p>Tamamlanmayan sepetleri kampanya ve geri kazanma akislari icin listeler.</p>
                     <div class="endpoint-chips">
-                      <code class="endpoint-chip">GET /admin/api/v1/abandoned_checkouts.json</code>
+                      <code class="endpoint-chip">GET /admin/api/abandoned_checkouts.json</code>
                     </div>
                     <ul class="field-list">
                       <li>checkout_token, email, total_price, recovery_url.</li>
@@ -2686,8 +2686,8 @@ Retry-After: 2
                     <h4>DraftOrder</h4>
                     <p>Panel disindan teklif, manuel siparis ve odeme linki olusturma modeli.</p>
                     <div class="endpoint-chips">
-                      <code class="endpoint-chip">GET /admin/api/v1/draft_orders.json</code>
-                      <code class="endpoint-chip">POST /admin/api/v1/draft_orders.json</code>
+                      <code class="endpoint-chip">GET /admin/api/draft_orders.json</code>
+                      <code class="endpoint-chip">POST /admin/api/draft_orders.json</code>
                     </div>
                     <ul class="field-list">
                       <li>line_items, customer, invoice_url, status.</li>
@@ -2697,9 +2697,9 @@ Retry-After: 2
                     <h4>Order</h4>
                     <p>Magazanin ana siparis kaydi; listeleme, detay ve durum guncellemeleri icin kullanilir.</p>
                     <div class="endpoint-chips">
-                      <code class="endpoint-chip">GET /admin/api/v1/orders.json</code>
-                      <code class="endpoint-chip">GET /admin/api/v1/orders/{order_id}.json</code>
-                      <code class="endpoint-chip">PUT /admin/api/v1/orders/{order_id}.json</code>
+                      <code class="endpoint-chip">GET /admin/api/orders.json</code>
+                      <code class="endpoint-chip">GET /admin/api/orders/{order_id}.json</code>
+                      <code class="endpoint-chip">PUT /admin/api/orders/{order_id}.json</code>
                     </div>
                     <ul class="field-list">
                       <li>financial_status, fulfillment_status, total_price, line_items.</li>
@@ -2710,8 +2710,8 @@ Retry-After: 2
                     <h4>Order Risk</h4>
                     <p>Sipariste supheli odeme, adres veya manuel inceleme sinyallerini tutar.</p>
                     <div class="endpoint-chips">
-                      <code class="endpoint-chip">GET /admin/api/v1/orders/{order_id}/risks.json</code>
-                      <code class="endpoint-chip">POST /admin/api/v1/orders/{order_id}/risks.json</code>
+                      <code class="endpoint-chip">GET /admin/api/orders/{order_id}/risks.json</code>
+                      <code class="endpoint-chip">POST /admin/api/orders/{order_id}/risks.json</code>
                     </div>
                     <ul class="field-list">
                       <li>score, recommendation, source, message.</li>
@@ -2721,8 +2721,8 @@ Retry-After: 2
                     <h4>Refund</h4>
                     <p>Iade hesaplama, iade kaydi ve stok geri alma adimlarini aciklar.</p>
                     <div class="endpoint-chips">
-                      <code class="endpoint-chip">GET /admin/api/v1/orders/{order_id}/refunds.json</code>
-                      <code class="endpoint-chip">POST /admin/api/v1/orders/{order_id}/refunds.json</code>
+                      <code class="endpoint-chip">GET /admin/api/orders/{order_id}/refunds.json</code>
+                      <code class="endpoint-chip">POST /admin/api/orders/{order_id}/refunds.json</code>
                     </div>
                     <ul class="field-list">
                       <li>refund_line_items, transactions, restock, note.</li>
@@ -2732,8 +2732,8 @@ Retry-After: 2
                     <h4>Transaction</h4>
                     <p>Odeme, provizyon, capture, void ve refund hareketlerini siparise baglar.</p>
                     <div class="endpoint-chips">
-                      <code class="endpoint-chip">GET /admin/api/v1/orders/{order_id}/transactions.json</code>
-                      <code class="endpoint-chip">POST /admin/api/v1/orders/{order_id}/transactions.json</code>
+                      <code class="endpoint-chip">GET /admin/api/orders/{order_id}/transactions.json</code>
+                      <code class="endpoint-chip">POST /admin/api/orders/{order_id}/transactions.json</code>
                     </div>
                     <ul class="field-list">
                       <li>kind, gateway, amount, currency, status.</li>
@@ -2755,8 +2755,8 @@ Retry-After: 2
                     <h4>Plus settings</h4>
                     <p>Kurumsal paketlere ozel ozelliklerin API dokumaninda ayrilacagi alan.</p>
                     <div class="endpoint-chips">
-                      <code class="endpoint-chip">GET /admin/api/v1/plus/features.json</code>
-                      <code class="endpoint-chip">GET /admin/api/v1/plus/limits.json</code>
+                      <code class="endpoint-chip">GET /admin/api/plus/features.json</code>
+                      <code class="endpoint-chip">GET /admin/api/plus/limits.json</code>
                     </div>
                     <ul class="field-list">
                       <li>Ilk REST yayininda read-only baslamasi onerilir.</li>
@@ -2779,8 +2779,8 @@ Retry-After: 2
                     <h4>Collect</h4>
                     <p>Urun ile manuel koleksiyon arasindaki bag kaydidir.</p>
                     <div class="endpoint-chips">
-                      <code class="endpoint-chip">GET /admin/api/v1/collects.json</code>
-                      <code class="endpoint-chip">POST /admin/api/v1/collects.json</code>
+                      <code class="endpoint-chip">GET /admin/api/collects.json</code>
+                      <code class="endpoint-chip">POST /admin/api/collects.json</code>
                     </div>
                     <ul class="field-list">
                       <li>product_id, collection_id, position.</li>
@@ -2790,8 +2790,8 @@ Retry-After: 2
                     <h4>Collection</h4>
                     <p>Koleksiyonlarin ortak listeleme ve detay semasi.</p>
                     <div class="endpoint-chips">
-                      <code class="endpoint-chip">GET /admin/api/v1/collections.json</code>
-                      <code class="endpoint-chip">GET /admin/api/v1/collections/{collection_id}.json</code>
+                      <code class="endpoint-chip">GET /admin/api/collections.json</code>
+                      <code class="endpoint-chip">GET /admin/api/collections/{collection_id}.json</code>
                     </div>
                     <ul class="field-list">
                       <li>title, handle, products_count, published_at.</li>
@@ -2801,8 +2801,8 @@ Retry-After: 2
                     <h4>CustomCollection</h4>
                     <p>Manuel siralanan ve urunleri tek tek secilen koleksiyon tipi.</p>
                     <div class="endpoint-chips">
-                      <code class="endpoint-chip">GET /admin/api/v1/custom_collections.json</code>
-                      <code class="endpoint-chip">POST /admin/api/v1/custom_collections.json</code>
+                      <code class="endpoint-chip">GET /admin/api/custom_collections.json</code>
+                      <code class="endpoint-chip">POST /admin/api/custom_collections.json</code>
                     </div>
                     <ul class="field-list">
                       <li>sort_order, body_html, image, seo.</li>
@@ -2812,9 +2812,9 @@ Retry-After: 2
                     <h4>Product</h4>
                     <p>Katalogun ana kaynagi; baslik, aciklama, fiyat, varyant ve yayin durumunu tasir.</p>
                     <div class="endpoint-chips">
-                      <code class="endpoint-chip">GET /admin/api/v1/products.json</code>
-                      <code class="endpoint-chip">POST /admin/api/v1/products.json</code>
-                      <code class="endpoint-chip">PUT /admin/api/v1/products/{product_id}.json</code>
+                      <code class="endpoint-chip">GET /admin/api/products.json</code>
+                      <code class="endpoint-chip">POST /admin/api/products.json</code>
+                      <code class="endpoint-chip">PUT /admin/api/products/{product_id}.json</code>
                     </div>
                     <ul class="field-list">
                       <li>title, handle, status, vendor, product_type, tags.</li>
@@ -2825,8 +2825,8 @@ Retry-After: 2
                     <h4>Product Image</h4>
                     <p>Urun gorsellerini yukleme, siralama ve alt metin bilgisiyle yonetir.</p>
                     <div class="endpoint-chips">
-                      <code class="endpoint-chip">GET /admin/api/v1/products/{product_id}/images.json</code>
-                      <code class="endpoint-chip">POST /admin/api/v1/products/{product_id}/images.json</code>
+                      <code class="endpoint-chip">GET /admin/api/products/{product_id}/images.json</code>
+                      <code class="endpoint-chip">POST /admin/api/products/{product_id}/images.json</code>
                     </div>
                     <ul class="field-list">
                       <li>src, alt, position, variant_ids.</li>
@@ -2836,8 +2836,8 @@ Retry-After: 2
                     <h4>Product Variant</h4>
                     <p>Fiyat, SKU, barkod, secenek ve stok karti iliskisini tasir.</p>
                     <div class="endpoint-chips">
-                      <code class="endpoint-chip">GET /admin/api/v1/products/{product_id}/variants.json</code>
-                      <code class="endpoint-chip">PUT /admin/api/v1/variants/{variant_id}.json</code>
+                      <code class="endpoint-chip">GET /admin/api/products/{product_id}/variants.json</code>
+                      <code class="endpoint-chip">PUT /admin/api/variants/{variant_id}.json</code>
                     </div>
                     <ul class="field-list">
                       <li>price, compare_at_price, sku, barcode, option values.</li>
@@ -2848,8 +2848,8 @@ Retry-After: 2
                     <h4>SmartCollection</h4>
                     <p>Kural tabanli otomatik koleksiyonlar icin model.</p>
                     <div class="endpoint-chips">
-                      <code class="endpoint-chip">GET /admin/api/v1/smart_collections.json</code>
-                      <code class="endpoint-chip">POST /admin/api/v1/smart_collections.json</code>
+                      <code class="endpoint-chip">GET /admin/api/smart_collections.json</code>
+                      <code class="endpoint-chip">POST /admin/api/smart_collections.json</code>
                     </div>
                     <ul class="field-list">
                       <li>rules, disjunctive, sort_order, published_at.</li>
@@ -2871,8 +2871,8 @@ Retry-After: 2
                     <h4>Publication</h4>
                     <p>Online store, pazar yeri, mobil veya diger kanallara yayinlama bilgisini tutar.</p>
                     <div class="endpoint-chips">
-                      <code class="endpoint-chip">GET /admin/api/v1/publications.json</code>
-                      <code class="endpoint-chip">POST /admin/api/v1/publications/{channel_id}/publish.json</code>
+                      <code class="endpoint-chip">GET /admin/api/publications.json</code>
+                      <code class="endpoint-chip">POST /admin/api/publications/{channel_id}/publish.json</code>
                     </div>
                     <ul class="field-list">
                       <li>channel_id, resource_type, resource_id, published_at.</li>
@@ -2894,7 +2894,7 @@ Retry-After: 2
                     <h4>AssignedFulfillmentOrder</h4>
                     <p>Bir fulfillment servisinin uzerine atanan siparis kalemlerini listeler.</p>
                     <div class="endpoint-chips">
-                      <code class="endpoint-chip">GET /admin/api/v1/assigned_fulfillment_orders.json</code>
+                      <code class="endpoint-chip">GET /admin/api/assigned_fulfillment_orders.json</code>
                     </div>
                     <ul class="field-list">
                       <li>assignment_status, service_id, line_items.</li>
@@ -2904,7 +2904,7 @@ Retry-After: 2
                     <h4>CancellationRequest</h4>
                     <p>Fulfillment veya kargo iptal taleplerinin durumunu izler.</p>
                     <div class="endpoint-chips">
-                      <code class="endpoint-chip">POST /admin/api/v1/fulfillment_orders/{id}/cancellation_request.json</code>
+                      <code class="endpoint-chip">POST /admin/api/fulfillment_orders/{id}/cancellation_request.json</code>
                     </div>
                     <ul class="field-list">
                       <li>reason, message, requested_by, status.</li>
@@ -2914,8 +2914,8 @@ Retry-After: 2
                     <h4>CarrierService</h4>
                     <p>Harici kargo fiyatlama servislerini Shopiyz checkout akisi ile baglar.</p>
                     <div class="endpoint-chips">
-                      <code class="endpoint-chip">GET /admin/api/v1/carrier_services.json</code>
-                      <code class="endpoint-chip">POST /admin/api/v1/carrier_services.json</code>
+                      <code class="endpoint-chip">GET /admin/api/carrier_services.json</code>
+                      <code class="endpoint-chip">POST /admin/api/carrier_services.json</code>
                     </div>
                     <ul class="field-list">
                       <li>name, callback_url, service_discovery, active.</li>
@@ -2925,8 +2925,8 @@ Retry-After: 2
                     <h4>Fulfillment</h4>
                     <p>Bir siparisin kargolanan veya teslimata hazirlanan parcasini temsil eder.</p>
                     <div class="endpoint-chips">
-                      <code class="endpoint-chip">GET /admin/api/v1/orders/{order_id}/fulfillments.json</code>
-                      <code class="endpoint-chip">POST /admin/api/v1/fulfillments.json</code>
+                      <code class="endpoint-chip">GET /admin/api/orders/{order_id}/fulfillments.json</code>
+                      <code class="endpoint-chip">POST /admin/api/fulfillments.json</code>
                     </div>
                     <ul class="field-list">
                       <li>tracking_number, tracking_company, line_items, notify_customer.</li>
@@ -2936,8 +2936,8 @@ Retry-After: 2
                     <h4>FulfillmentEvent</h4>
                     <p>Kargo hareketlerini ve teslimat kilometre taslarini saklar.</p>
                     <div class="endpoint-chips">
-                      <code class="endpoint-chip">GET /admin/api/v1/fulfillments/{id}/events.json</code>
-                      <code class="endpoint-chip">POST /admin/api/v1/fulfillments/{id}/events.json</code>
+                      <code class="endpoint-chip">GET /admin/api/fulfillments/{id}/events.json</code>
+                      <code class="endpoint-chip">POST /admin/api/fulfillments/{id}/events.json</code>
                     </div>
                     <ul class="field-list">
                       <li>status, message, happened_at, city, country.</li>
@@ -2947,8 +2947,8 @@ Retry-After: 2
                     <h4>FulfillmentOrder</h4>
                     <p>Siparis kalemlerinin hangi lokasyon veya servis tarafindan hazirlanacagini belirler.</p>
                     <div class="endpoint-chips">
-                      <code class="endpoint-chip">GET /admin/api/v1/fulfillment_orders.json</code>
-                      <code class="endpoint-chip">GET /admin/api/v1/fulfillment_orders/{id}.json</code>
+                      <code class="endpoint-chip">GET /admin/api/fulfillment_orders.json</code>
+                      <code class="endpoint-chip">GET /admin/api/fulfillment_orders/{id}.json</code>
                     </div>
                     <ul class="field-list">
                       <li>assigned_location, destination, request_status, line_items.</li>
@@ -2958,7 +2958,7 @@ Retry-After: 2
                     <h4>FulfillmentRequest</h4>
                     <p>Harici fulfillment servisine hazirlama talebi gonderme modeli.</p>
                     <div class="endpoint-chips">
-                      <code class="endpoint-chip">POST /admin/api/v1/fulfillment_orders/{id}/fulfillment_request.json</code>
+                      <code class="endpoint-chip">POST /admin/api/fulfillment_orders/{id}/fulfillment_request.json</code>
                     </div>
                     <ul class="field-list">
                       <li>message, notify_customer, selected_line_items.</li>
@@ -2968,8 +2968,8 @@ Retry-After: 2
                     <h4>FulfillmentService</h4>
                     <p>Depo, 3PL veya kargo hazirlama servislerini kaydeder.</p>
                     <div class="endpoint-chips">
-                      <code class="endpoint-chip">GET /admin/api/v1/fulfillment_services.json</code>
-                      <code class="endpoint-chip">POST /admin/api/v1/fulfillment_services.json</code>
+                      <code class="endpoint-chip">GET /admin/api/fulfillment_services.json</code>
+                      <code class="endpoint-chip">POST /admin/api/fulfillment_services.json</code>
                     </div>
                     <ul class="field-list">
                       <li>name, callback_url, inventory_management, tracking_support.</li>
@@ -2979,7 +2979,7 @@ Retry-After: 2
                     <h4>LocationsForMove</h4>
                     <p>Bir fulfillment order'in tasinabilecegi uygun lokasyonlari listeler.</p>
                     <div class="endpoint-chips">
-                      <code class="endpoint-chip">GET /admin/api/v1/fulfillment_orders/{id}/locations_for_move.json</code>
+                      <code class="endpoint-chip">GET /admin/api/fulfillment_orders/{id}/locations_for_move.json</code>
                     </div>
                     <ul class="field-list">
                       <li>location_id, available, reason, distance_hint.</li>
@@ -3001,8 +3001,8 @@ Retry-After: 2
                     <h4>Payment</h4>
                     <p>Odeme kaydi, provizyon, tahsilat ve iade hareketlerinin ortak modeli.</p>
                     <div class="endpoint-chips">
-                      <code class="endpoint-chip">GET /admin/api/v1/payments.json</code>
-                      <code class="endpoint-chip">GET /admin/api/v1/payments/{payment_id}.json</code>
+                      <code class="endpoint-chip">GET /admin/api/payments.json</code>
+                      <code class="endpoint-chip">GET /admin/api/payments/{payment_id}.json</code>
                     </div>
                     <ul class="field-list">
                       <li>provider, amount, currency, status, order_id.</li>
@@ -3013,8 +3013,8 @@ Retry-After: 2
                     <h4>Payout</h4>
                     <p>Saticiya aktarilan odeme toplamini ve mutabakat kalemlerini listeler.</p>
                     <div class="endpoint-chips">
-                      <code class="endpoint-chip">GET /admin/api/v1/payouts.json</code>
-                      <code class="endpoint-chip">GET /admin/api/v1/payouts/{payout_id}.json</code>
+                      <code class="endpoint-chip">GET /admin/api/payouts.json</code>
+                      <code class="endpoint-chip">GET /admin/api/payouts/{payout_id}.json</code>
                     </div>
                     <ul class="field-list">
                       <li>amount, fees, net_amount, paid_at, bank_reference.</li>
@@ -3036,8 +3036,8 @@ Retry-After: 2
                     <h4>Shop</h4>
                     <p>Tokenin bagli oldugu magazanin temel bilgilerini donduren guvenli kontrol endpointi.</p>
                     <div class="endpoint-chips">
-                      <code class="endpoint-chip">GET /admin/api/v1/shop.json</code>
-                      <code class="endpoint-chip">GET /admin/api/v1/store_properties.json</code>
+                      <code class="endpoint-chip">GET /admin/api/shop.json</code>
+                      <code class="endpoint-chip">GET /admin/api/store_properties.json</code>
                     </div>
                     <ul class="field-list">
                       <li>name, domain, primary_locale, currency, timezone.</li>
@@ -3048,8 +3048,8 @@ Retry-After: 2
                     <h4>Domain</h4>
                     <p>Magazaya bagli ana domain, development domain ve yonlendirme bilgileri.</p>
                     <div class="endpoint-chips">
-                      <code class="endpoint-chip">GET /admin/api/v1/domains.json</code>
-                      <code class="endpoint-chip">GET /admin/api/v1/domains/{domain_id}.json</code>
+                      <code class="endpoint-chip">GET /admin/api/domains.json</code>
+                      <code class="endpoint-chip">GET /admin/api/domains/{domain_id}.json</code>
                     </div>
                     <ul class="field-list">
                       <li>host, role, ssl_status, primary.</li>
@@ -3071,7 +3071,7 @@ Retry-After: 2
                     <h4>Tender Transaction</h4>
                     <p>Kredi karti, havale, kapida odeme veya hediye karti gibi odeme kaynaklarini kaydeder.</p>
                     <div class="endpoint-chips">
-                      <code class="endpoint-chip">GET /admin/api/v1/tender_transactions.json</code>
+                      <code class="endpoint-chip">GET /admin/api/tender_transactions.json</code>
                     </div>
                     <ul class="field-list">
                       <li>order_id, payment_method, amount, currency, processed_at.</li>
@@ -3094,9 +3094,9 @@ Retry-After: 2
                     <h4>Webhook Subscription</h4>
                     <p>Entegrasyonun dinlemek istedigi konu ve teslim URL kaydini tutar.</p>
                     <div class="endpoint-chips">
-                      <code class="endpoint-chip">GET /admin/api/v1/webhooks.json</code>
-                      <code class="endpoint-chip">POST /admin/api/v1/webhooks.json</code>
-                      <code class="endpoint-chip">DELETE /admin/api/v1/webhooks/{webhook_id}.json</code>
+                      <code class="endpoint-chip">GET /admin/api/webhooks.json</code>
+                      <code class="endpoint-chip">POST /admin/api/webhooks.json</code>
+                      <code class="endpoint-chip">DELETE /admin/api/webhooks/{webhook_id}.json</code>
                     </div>
                     <ul class="field-list">
                       <li>topic, address, format, secret, created_at.</li>
@@ -3130,10 +3130,10 @@ Retry-After: 2
                 <div class="resource-items">
                   <section class="resource-item" id="deprecated-resource">
                     <h4>Deprecated calls</h4>
-                    <p>Versiyon degisikligi, alan tasima ve endpoint kapatma takviminin yayimlanacagi alan.</p>
+                    <p>Alan tasima ve endpoint kapatma duyurularinin yayimlanacagi alan.</p>
                     <div class="endpoint-chips">
-                      <code class="endpoint-chip">GET /admin/api/v1/deprecations.json</code>
-                      <code class="endpoint-chip">GET /admin/api/v1/migration_guide.json</code>
+                      <code class="endpoint-chip">GET /admin/api/deprecations.json</code>
+                      <code class="endpoint-chip">GET /admin/api/migration_guide.json</code>
                     </div>
                     <ul class="field-list">
                       <li>removed_at, replacement, impact, migration_steps.</li>
@@ -3166,7 +3166,7 @@ Retry-After: 2
                   </button>
                 </div>
                 <pre id="resourceCode"><code><span class="token-muted"># Canli Apps listeleme formati</span>
-curl -X GET <span class="token-string">"https://{store}.shopiyz.com/admin/api/v1/apps/product-tab-manager/tabs.json"</span> \
+curl -X GET <span class="token-string">"https://{store}.shopiyz.com/admin/api/apps/product-tab-manager/tabs.json"</span> \
   -H <span class="token-string">"Content-Type: application/json"</span> \
   -H <span class="token-string">"X-Shopiyz-Access-Token: {access_token}"</span></code></pre>
               </div>
@@ -3191,7 +3191,7 @@ curl -X GET <span class="token-string">"https://{store}.shopiyz.com/admin/api/v1
 
           <div class="footer-note">
             <span>Shopiyz Developer Docs · dev.shopiyz.com</span>
-            <a class="mini-button" href="./openapi/shopiyz-api.v1.yaml">OpenAPI YAML</a>
+            <a class="mini-button" href="./openapi/shopiyz-api.yaml">OpenAPI YAML</a>
           </div>
         </div>
       </main>
@@ -3204,366 +3204,366 @@ curl -X GET <span class="token-string">"https://{store}.shopiyz.com/admin/api/v1
       const codeTabs = Array.from(document.querySelectorAll("[data-code-tab]"));
       const heroCode = document.getElementById("heroCode");
       const toast = document.getElementById("toast");
-      const operationCatalogRaw = `Abandoned checkouts	GET	/admin/api/v1/checkouts.json	Say
-Abandoned checkouts	GET	/admin/api/v1/checkouts.json	Listele
+      const operationCatalogRaw = `Abandoned checkouts	GET	/admin/api/checkouts.json	Say
+Abandoned checkouts	GET	/admin/api/checkouts.json	Listele
 AccessScope	GET	/admin/oauth/access_scopes.json	Listele
-ApplicationCharge	POST	/admin/api/v1/application_charges.json	Olustur
-ApplicationCharge	GET	/admin/api/v1/application_charges.json	Listele
-ApplicationCharge	GET	/admin/api/v1/application_charges/{application_charge_id}.json	Detay getir
-ApplicationCredit	GET	/admin/api/v1/application_credits.json	Listele
-ApplicationCredit	GET	/admin/api/v1/application_credits/{application_credit_id}.json	Detay getir
-API Catalog	GET	/admin/api/v1/api_catalog.json	API kaynak listesini ve ozelliklerini oku
+ApplicationCharge	POST	/admin/api/application_charges.json	Olustur
+ApplicationCharge	GET	/admin/api/application_charges.json	Listele
+ApplicationCharge	GET	/admin/api/application_charges/{application_charge_id}.json	Detay getir
+ApplicationCredit	GET	/admin/api/application_credits.json	Listele
+ApplicationCredit	GET	/admin/api/application_credits/{application_credit_id}.json	Detay getir
+API Catalog	GET	/admin/api/api_catalog.json	API kaynak listesini ve ozelliklerini oku
 API Catalog	GET	/api/public/admin-api-catalog	Public API kaynak listesini ve ozelliklerini oku
-Apps	GET	/admin/api/v1/apps.json	Listele
-Apps	GET	/admin/api/v1/apps/{handle}.json	Detay getir
-Apps	GET	/admin/api/v1/apps/{handle}/settings.json	Ayar oku
-Apps	PUT	/admin/api/v1/apps/{handle}/settings.json	Ayar guncelle
-Product Tab Manager	GET	/admin/api/v1/apps/product-tab-manager/tabs.json	Tab listele
-Product Tab Manager	POST	/admin/api/v1/apps/product-tab-manager/tabs.json	Tab olustur
-Product Tab Manager	GET	/admin/api/v1/apps/product-tab-manager/tabs/{tab_id}.json	Tab detay getir
-Product Tab Manager	PUT	/admin/api/v1/apps/product-tab-manager/tabs/{tab_id}.json	Tab guncelle
-Product Tab Manager	DELETE	/admin/api/v1/apps/product-tab-manager/tabs/{tab_id}.json	Tab sil
-Product Tab Manager	POST	/admin/api/v1/apps/product-tab-manager/tabs/reorder.json	Tab sirala
-Product FAQ Studio	GET	/admin/api/v1/apps/product-faq-studio/faqs.json	FAQ listele
-Product FAQ Studio	POST	/admin/api/v1/apps/product-faq-studio/faqs.json	FAQ olustur
-Product FAQ Studio	GET	/admin/api/v1/apps/product-faq-studio/faqs/{faq_id}.json	FAQ detay getir
-Product FAQ Studio	PUT	/admin/api/v1/apps/product-faq-studio/faqs/{faq_id}.json	FAQ guncelle
-Product FAQ Studio	DELETE	/admin/api/v1/apps/product-faq-studio/faqs/{faq_id}.json	FAQ sil
-Product FAQ Studio	POST	/admin/api/v1/apps/product-faq-studio/faqs/reorder.json	FAQ sirala
-Product FAQ Studio	GET	/admin/api/v1/apps/product-faq-studio/inbox.json	Inbox listele
-Product FAQ Studio	POST	/admin/api/v1/apps/product-faq-studio/inbox.json	Inbox sorusu olustur
-Product FAQ Studio	PUT	/admin/api/v1/apps/product-faq-studio/inbox/{inbox_id}.json	Inbox guncelle
-Product FAQ Studio	DELETE	/admin/api/v1/apps/product-faq-studio/inbox/{inbox_id}.json	Inbox sil
-Product FAQ Studio	POST	/admin/api/v1/apps/product-faq-studio/inbox/{inbox_id}/publish.json	Inbox sorusunu yayinla
-XML Product Import	PATCH	/admin/api/v1/apps/xml-product-import/profile.json	Profil kaydet
-XML Product Import	POST	/admin/api/v1/apps/xml-product-import/scan.json	XML etiketlerini tara
-XML Product Import	POST	/admin/api/v1/apps/xml-product-import/preview.json	Import onizlemesi al
-XML Product Import	POST	/admin/api/v1/apps/xml-product-import/import.json	Urun importu baslat
-XML Product Import	POST	/admin/api/v1/apps/xml-product-import/ai-match.json	AI eslestirme oner veya uygula
-Shopify Connection	GET	/admin/api/v1/apps/shopify-connection/connection.json	Baglanti durumunu oku
-Shopify Connection	PATCH	/admin/api/v1/apps/shopify-connection/connection.json	Baglanti bilgilerini kaydet
-Shopify Connection	POST	/admin/api/v1/apps/shopify-connection/verify.json	Baglantiyi dogrula
-Shopify Connection	PATCH	/admin/api/v1/apps/shopify-connection/sync-settings.json	Otomatik import ayarlarini kaydet
-Shopify Connection	POST	/admin/api/v1/apps/shopify-connection/sync.json	Shopify urunlerini ice aktar
-Shopify Checkout	GET	/admin/api/v1/apps/shopify-checkout/connection.json	Checkout baglantisini oku
-Shopify Checkout	PATCH	/admin/api/v1/apps/shopify-checkout/connection.json	Checkout baglantisini kaydet
-Shopify Checkout	POST	/admin/api/v1/apps/shopify-checkout/verify.json	Checkout baglantisini dogrula
+Apps	GET	/admin/api/apps.json	Listele
+Apps	GET	/admin/api/apps/{handle}.json	Detay getir
+Apps	GET	/admin/api/apps/{handle}/settings.json	Ayar oku
+Apps	PUT	/admin/api/apps/{handle}/settings.json	Ayar guncelle
+Product Tab Manager	GET	/admin/api/apps/product-tab-manager/tabs.json	Tab listele
+Product Tab Manager	POST	/admin/api/apps/product-tab-manager/tabs.json	Tab olustur
+Product Tab Manager	GET	/admin/api/apps/product-tab-manager/tabs/{tab_id}.json	Tab detay getir
+Product Tab Manager	PUT	/admin/api/apps/product-tab-manager/tabs/{tab_id}.json	Tab guncelle
+Product Tab Manager	DELETE	/admin/api/apps/product-tab-manager/tabs/{tab_id}.json	Tab sil
+Product Tab Manager	POST	/admin/api/apps/product-tab-manager/tabs/reorder.json	Tab sirala
+Product FAQ Studio	GET	/admin/api/apps/product-faq-studio/faqs.json	FAQ listele
+Product FAQ Studio	POST	/admin/api/apps/product-faq-studio/faqs.json	FAQ olustur
+Product FAQ Studio	GET	/admin/api/apps/product-faq-studio/faqs/{faq_id}.json	FAQ detay getir
+Product FAQ Studio	PUT	/admin/api/apps/product-faq-studio/faqs/{faq_id}.json	FAQ guncelle
+Product FAQ Studio	DELETE	/admin/api/apps/product-faq-studio/faqs/{faq_id}.json	FAQ sil
+Product FAQ Studio	POST	/admin/api/apps/product-faq-studio/faqs/reorder.json	FAQ sirala
+Product FAQ Studio	GET	/admin/api/apps/product-faq-studio/inbox.json	Inbox listele
+Product FAQ Studio	POST	/admin/api/apps/product-faq-studio/inbox.json	Inbox sorusu olustur
+Product FAQ Studio	PUT	/admin/api/apps/product-faq-studio/inbox/{inbox_id}.json	Inbox guncelle
+Product FAQ Studio	DELETE	/admin/api/apps/product-faq-studio/inbox/{inbox_id}.json	Inbox sil
+Product FAQ Studio	POST	/admin/api/apps/product-faq-studio/inbox/{inbox_id}/publish.json	Inbox sorusunu yayinla
+XML Product Import	PATCH	/admin/api/apps/xml-product-import/profile.json	Profil kaydet
+XML Product Import	POST	/admin/api/apps/xml-product-import/scan.json	XML etiketlerini tara
+XML Product Import	POST	/admin/api/apps/xml-product-import/preview.json	Import onizlemesi al
+XML Product Import	POST	/admin/api/apps/xml-product-import/import.json	Urun importu baslat
+XML Product Import	POST	/admin/api/apps/xml-product-import/ai-match.json	AI eslestirme oner veya uygula
+Shopify Connection	GET	/admin/api/apps/shopify-connection/connection.json	Baglanti durumunu oku
+Shopify Connection	PATCH	/admin/api/apps/shopify-connection/connection.json	Baglanti bilgilerini kaydet
+Shopify Connection	POST	/admin/api/apps/shopify-connection/verify.json	Baglantiyi dogrula
+Shopify Connection	PATCH	/admin/api/apps/shopify-connection/sync-settings.json	Otomatik import ayarlarini kaydet
+Shopify Connection	POST	/admin/api/apps/shopify-connection/sync.json	Shopify urunlerini ice aktar
+Shopify Checkout	GET	/admin/api/apps/shopify-checkout/connection.json	Checkout baglantisini oku
+Shopify Checkout	PATCH	/admin/api/apps/shopify-checkout/connection.json	Checkout baglantisini kaydet
+Shopify Checkout	POST	/admin/api/apps/shopify-checkout/verify.json	Checkout baglantisini dogrula
 Shopify Checkout	POST	/api/storefront/shopify-checkout?storeId={store_id}	Storefront checkout URL olustur
-Faprika Connection	GET	/admin/api/v1/apps/faprika-connection/connection.json	Baglanti durumunu oku
-Faprika Connection	PATCH	/admin/api/v1/apps/faprika-connection/connection.json	Baglanti bilgilerini kaydet
-Faprika Connection	POST	/admin/api/v1/apps/faprika-connection/verify.json	Baglantiyi dogrula
-Faprika Connection	PATCH	/admin/api/v1/apps/faprika-connection/sync-settings.json	Senkron ayarlarini kaydet
-Faprika Connection	POST	/admin/api/v1/apps/faprika-connection/sync.json	Transfer isi baslat
-Faprika Connection	GET	/admin/api/v1/apps/faprika-connection/sync-jobs.json	Transfer islerini listele
-Faprika Connection	GET	/admin/api/v1/apps/faprika-connection/sync-jobs/{job_id}.json	Transfer isi detay getir
-Faprika Connection	POST	/admin/api/v1/apps/faprika-connection/sync-jobs/{job_id}/actions.json	Transfer isine aksiyon uygula
-Digital Downloads	GET	/admin/api/v1/apps/digital-downloads/overview.json	Genel durumu oku
-Digital Downloads	POST	/admin/api/v1/apps/digital-downloads/upload.json	Dijital dosya yukle
-Digital Downloads	POST	/admin/api/v1/apps/digital-downloads/actions.json	Dosya veya indirme hakki aksiyonu calistir
+Faprika Connection	GET	/admin/api/apps/faprika-connection/connection.json	Baglanti durumunu oku
+Faprika Connection	PATCH	/admin/api/apps/faprika-connection/connection.json	Baglanti bilgilerini kaydet
+Faprika Connection	POST	/admin/api/apps/faprika-connection/verify.json	Baglantiyi dogrula
+Faprika Connection	PATCH	/admin/api/apps/faprika-connection/sync-settings.json	Senkron ayarlarini kaydet
+Faprika Connection	POST	/admin/api/apps/faprika-connection/sync.json	Transfer isi baslat
+Faprika Connection	GET	/admin/api/apps/faprika-connection/sync-jobs.json	Transfer islerini listele
+Faprika Connection	GET	/admin/api/apps/faprika-connection/sync-jobs/{job_id}.json	Transfer isi detay getir
+Faprika Connection	POST	/admin/api/apps/faprika-connection/sync-jobs/{job_id}/actions.json	Transfer isine aksiyon uygula
+Digital Downloads	GET	/admin/api/apps/digital-downloads/overview.json	Genel durumu oku
+Digital Downloads	POST	/admin/api/apps/digital-downloads/upload.json	Dijital dosya yukle
+Digital Downloads	POST	/admin/api/apps/digital-downloads/actions.json	Dosya veya indirme hakki aksiyonu calistir
 Digital Downloads	GET	/downloads/digital/{token}	Dijital dosya indir
 Digital Downloads	HEAD	/downloads/digital/{token}	Dijital dosya indirme bilgisini oku
-Insert Code Studio	GET	/admin/api/v1/apps/insert-code/overview.json	Kod snippetlerini listele
-Insert Code Studio	POST	/admin/api/v1/apps/insert-code/snippets.json	Kod snippet olustur
-Insert Code Studio	PATCH	/admin/api/v1/apps/insert-code/snippets/{snippet_id}.json	Kod snippet guncelle
-Insert Code Studio	DELETE	/admin/api/v1/apps/insert-code/snippets/{snippet_id}.json	Kod snippet sil
-Article	POST	/admin/api/v1/blogs/{blog_id}/articles.json	Olustur
-Article	GET	/admin/api/v1/articles/authors.json	Yazar listele
-Article	GET	/admin/api/v1/articles/tags.json	Etiket listele
-Article	GET	/admin/api/v1/blogs/{blog_id}/articles.json	Listele
-Article	GET	/admin/api/v1/blogs/{blog_id}/articles/{article_id}.json	Detay getir
-Article	GET	/admin/api/v1/blogs/{blog_id}/articles/count.json	Say
-Article	GET	/admin/api/v1/blogs/{blog_id}/articles/tags.json	Etiket listele
-Article	PUT	/admin/api/v1/blogs/{blog_id}/articles/{article_id}.json	Guncelle
-Article	DELETE	/admin/api/v1/blogs/{blog_id}/articles/{article_id}.json	Sil
-Asset	GET	/admin/api/v1/themes/{theme_id}/assets.json	Listele
-Asset	GET	/admin/api/v1/themes/{theme_id}/assets.json	Listele
-Asset	PUT	/admin/api/v1/themes/{theme_id}/assets.json	Guncelle
-Asset	DELETE	/admin/api/v1/themes/{theme_id}/assets.json	Sil
-AssignedFulfillmentOrder	GET	/admin/api/v1/assigned_fulfillment_orders.json	Listele
-Balance	GET	/admin/api/v1/shopiyz_payments/balance.json	Oku
-Blog	POST	/admin/api/v1/blogs.json	Olustur
-Blog	GET	/admin/api/v1/blogs.json	Listele
-Blog	GET	/admin/api/v1/blogs/{blog_id}.json	Detay getir
-Blog	GET	/admin/api/v1/blogs/count.json	Say
-Blog	PUT	/admin/api/v1/blogs/{blog_id}.json	Guncelle
-Blog	DELETE	/admin/api/v1/blogs/{blog_id}.json	Sil
-CancellationRequest	POST	/admin/api/v1/fulfillment_orders/{fulfillment_order_id}/cancellation_request.json	Olustur
-CancellationRequest	POST	/admin/api/v1/fulfillment_orders/{fulfillment_order_id}/cancellation_request/accept.json	Kabul et
-CancellationRequest	POST	/admin/api/v1/fulfillment_orders/{fulfillment_order_id}/cancellation_request/reject.json	Reddet
-CarrierService	POST	/admin/api/v1/carrier_services.json	Olustur
-CarrierService	GET	/admin/api/v1/carrier_services.json	Listele
-CarrierService	GET	/admin/api/v1/carrier_services/{carrier_service_id}.json	Detay getir
-CarrierService	PUT	/admin/api/v1/carrier_services/{carrier_service_id}.json	Guncelle
-CarrierService	DELETE	/admin/api/v1/carrier_services/{carrier_service_id}.json	Sil
-Checkout	POST	/admin/api/v1/checkouts.json	Olustur
-Checkout	POST	/admin/api/v1/checkouts/{token}/complete.json	Tamamla
-Checkout	GET	/admin/api/v1/checkouts/{token}.json	Detay getir
-Checkout	GET	/admin/api/v1/checkouts/{token}/shipping_rates.json	Kargo ucreti listele
-Checkout	PUT	/admin/api/v1/checkouts/{token}.json	Guncelle
-Collect	POST	/admin/api/v1/collects.json	Olustur
-Collect	GET	/admin/api/v1/collects.json	Listele
-Collect	GET	/admin/api/v1/collects/{collect_id}.json	Detay getir
-Collect	GET	/admin/api/v1/collects/count.json	Say
-Collect	DELETE	/admin/api/v1/collects/{collect_id}.json	Sil
-Collection	GET	/admin/api/v1/collections/{collection_id}.json	Detay getir
-Collection	GET	/admin/api/v1/collections/{collection_id}/products.json	Listele
-CollectionListing	GET	/admin/api/v1/collection_listings.json	Listele
-CollectionListing	GET	/admin/api/v1/collection_listings/{collection_listing_id}.json	Detay getir
-CollectionListing	GET	/admin/api/v1/collection_listings/{collection_listing_id}/product_ids.json	Urun ID listele
-CollectionListing	PUT	/admin/api/v1/collection_listings/{collection_listing_id}.json	Guncelle
-CollectionListing	DELETE	/admin/api/v1/collection_listings/{collection_listing_id}.json	Sil
-Comment	POST	/admin/api/v1/comments.json	Olustur
-Comment	POST	/admin/api/v1/comments/{comment_id}/approve.json	Onayla
-Comment	POST	/admin/api/v1/comments/{comment_id}/not_spam.json	Spam degil isaretle
-Comment	POST	/admin/api/v1/comments/{comment_id}/remove.json	Kaldir
-Comment	POST	/admin/api/v1/comments/{comment_id}/restore.json	Geri al
-Comment	POST	/admin/api/v1/comments/{comment_id}/spam.json	Spam isaretle
-Comment	GET	/admin/api/v1/comments.json	Listele
-Comment	GET	/admin/api/v1/comments/{comment_id}.json	Detay getir
-Comment	GET	/admin/api/v1/comments/count.json	Say
-Comment	PUT	/admin/api/v1/comments/{comment_id}.json	Guncelle
-Country	POST	/admin/api/v1/countries.json	Olustur
-Country	GET	/admin/api/v1/countries.json	Listele
-Country	GET	/admin/api/v1/countries/{country_id}.json	Detay getir
-Country	GET	/admin/api/v1/countries/count.json	Say
-Country	PUT	/admin/api/v1/countries/{country_id}.json	Guncelle
-Country	DELETE	/admin/api/v1/countries/{country_id}.json	Sil
-Currency	GET	/admin/api/v1/currencies.json	Listele
-CustomCollection	POST	/admin/api/v1/custom_collections.json	Olustur
-CustomCollection	GET	/admin/api/v1/custom_collections.json	Listele
-CustomCollection	GET	/admin/api/v1/custom_collections/{custom_collection_id}.json	Detay getir
-CustomCollection	GET	/admin/api/v1/custom_collections/count.json	Say
-CustomCollection	PUT	/admin/api/v1/custom_collections/{custom_collection_id}.json	Guncelle
-CustomCollection	DELETE	/admin/api/v1/custom_collections/{custom_collection_id}.json	Sil
-Customer Address	POST	/admin/api/v1/customers/{customer_id}/addresses.json	Olustur
-Customer Address	GET	/admin/api/v1/customers/{customer_id}/addresses.json	Listele
-Customer Address	GET	/admin/api/v1/customers/{customer_id}/addresses/{address_id}.json	Detay getir
-Customer Address	PUT	/admin/api/v1/customers/{customer_id}/addresses/{address_id}.json	Guncelle
-Customer Address	PUT	/admin/api/v1/customers/{customer_id}/addresses/{address_id}/default.json	Varsayilan yap
-Customer Address	PUT	/admin/api/v1/customers/{customer_id}/addresses/set.json	Toplu guncelle
-Customer Address	DELETE	/admin/api/v1/customers/{customer_id}/addresses/{address_id}.json	Sil
-Customer	POST	/admin/api/v1/customers.json	Olustur
-Customer	POST	/admin/api/v1/customers/{customer_id}/account_activation_url.json	Aktivasyon linki
-Customer	POST	/admin/api/v1/customers/{customer_id}/send_invite.json	Davet gonder
-Customer	GET	/admin/api/v1/customers.json	Listele
-Customer	GET	/admin/api/v1/customers/{customer_id}/orders.json	Listele
-Customer	GET	/admin/api/v1/customers/count.json	Say
-Customer	GET	/admin/api/v1/customers/search.json	Ara
-Customer	PUT	/admin/api/v1/customers/{customer_id}.json	Guncelle
-Deprecated API calls	GET	/admin/api/v1/deprecated_api_calls.json	Listele
-DiscountCode	POST	/admin/api/v1/price_rules/{price_rule_id}/batch.json	Olustur
-DiscountCode	POST	/admin/api/v1/price_rules/{price_rule_id}/discount_codes.json	Olustur
-DiscountCode	GET	/admin/api/v1/discount_codes/count.json	Say
-DiscountCode	GET	/admin/api/v1/discount_codes/lookup.json	Kod ara
-DiscountCode	GET	/admin/api/v1/price_rules/{price_rule_id}/batch/{batch_id}.json	Detay getir
-DiscountCode	GET	/admin/api/v1/price_rules/{price_rule_id}/batch/{batch_id}/discount_codes.json	Listele
-DiscountCode	GET	/admin/api/v1/price_rules/{price_rule_id}/discount_codes.json	Listele
-DiscountCode	GET	/admin/api/v1/price_rules/{price_rule_id}/discount_codes/{discount_code_id}.json	Detay getir
-DiscountCode	PUT	/admin/api/v1/price_rules/{price_rule_id}/discount_codes/{discount_code_id}.json	Guncelle
-DiscountCode	DELETE	/admin/api/v1/price_rules/{price_rule_id}/discount_codes/{discount_code_id}.json	Sil
-Dispute Evidence	GET	/admin/api/v1/shopiyz_payments/disputes/{dispute_id}/dispute_evidences.json	Listele
-Dispute Evidence	PUT	/admin/api/v1/shopiyz_payments/disputes/{dispute_id}/dispute_evidences.json	Guncelle
-Dispute File Upload	POST	/admin/api/v1/shopiyz_payments/disputes/{dispute_id}/dispute_file_uploads.json	Olustur
-Dispute File Upload	DELETE	/admin/api/v1/shopiyz_payments/disputes/{dispute_id}/dispute_file_uploads/{dispute_file_upload_id}.json	Sil
-Dispute	GET	/admin/api/v1/shopiyz_payments/disputes.json	Listele
-Dispute	GET	/admin/api/v1/shopiyz_payments/disputes/{dispute_id}.json	Detay getir
-DraftOrder	POST	/admin/api/v1/draft_orders.json	Olustur
-DraftOrder	POST	/admin/api/v1/draft_orders/{draft_order_id}/send_invoice.json	Fatura gonder
-DraftOrder	GET	/admin/api/v1/draft_orders.json	Listele
-DraftOrder	GET	/admin/api/v1/draft_orders/{draft_order_id}.json	Detay getir
-DraftOrder	GET	/admin/api/v1/draft_orders/count.json	Say
-DraftOrder	PUT	/admin/api/v1/draft_orders/{draft_order_id}.json	Guncelle
-DraftOrder	PUT	/admin/api/v1/draft_orders/{draft_order_id}/complete.json	Tamamla
-DraftOrder	DELETE	/admin/api/v1/draft_orders/{draft_order_id}.json	Sil
-Event	GET	/admin/api/v1/events.json	Listele
-Event	GET	/admin/api/v1/events/{event_id}.json	Detay getir
-Event	GET	/admin/api/v1/events/count.json	Say
-Fulfillment	POST	/admin/api/v1/fulfillments.json	Olustur
-Fulfillment	POST	/admin/api/v1/fulfillments/{fulfillment_id}/cancel.json	Iptal et
-Fulfillment	POST	/admin/api/v1/fulfillments/{fulfillment_id}/update_tracking.json	Takip guncelle
-Fulfillment	GET	/admin/api/v1/fulfillment_orders/{fulfillment_order_id}/fulfillments.json	Listele
-Fulfillment	GET	/admin/api/v1/orders/{order_id}/fulfillments.json	Listele
-Fulfillment	GET	/admin/api/v1/orders/{order_id}/fulfillments/{fulfillment_id}.json	Detay getir
-Fulfillment	GET	/admin/api/v1/orders/{order_id}/fulfillments/count.json	Say
-FulfillmentEvent	POST	/admin/api/v1/orders/{order_id}/fulfillments/{fulfillment_id}/events.json	Olustur
-FulfillmentEvent	GET	/admin/api/v1/orders/{order_id}/fulfillments/{fulfillment_id}/events.json	Listele
-FulfillmentEvent	GET	/admin/api/v1/orders/{order_id}/fulfillments/{fulfillment_id}/events/{event_id}.json	Detay getir
-FulfillmentEvent	DELETE	/admin/api/v1/orders/{order_id}/fulfillments/{fulfillment_id}/events/{event_id}.json	Sil
-FulfillmentOrder	POST	/admin/api/v1/fulfillment_orders/{fulfillment_order_id}/cancel.json	Iptal et
-FulfillmentOrder	POST	/admin/api/v1/fulfillment_orders/{fulfillment_order_id}/close.json	Kapat
-FulfillmentOrder	POST	/admin/api/v1/fulfillment_orders/{fulfillment_order_id}/hold.json	Beklet
-FulfillmentOrder	POST	/admin/api/v1/fulfillment_orders/{fulfillment_order_id}/move.json	Tasi
-FulfillmentOrder	POST	/admin/api/v1/fulfillment_orders/{fulfillment_order_id}/open.json	Yeniden ac
-FulfillmentOrder	POST	/admin/api/v1/fulfillment_orders/{fulfillment_order_id}/release_hold.json	Bekletmeyi kaldir
-FulfillmentOrder	POST	/admin/api/v1/fulfillment_orders/{fulfillment_order_id}/reschedule.json	Yeniden zamanla
-FulfillmentOrder	POST	/admin/api/v1/fulfillment_orders/set_fulfillment_orders_deadline.json	Sure belirle
-FulfillmentOrder	GET	/admin/api/v1/fulfillment_orders/{fulfillment_order_id}.json	Detay getir
-FulfillmentOrder	GET	/admin/api/v1/orders/{order_id}/fulfillment_orders.json	Listele
-FulfillmentRequest	POST	/admin/api/v1/fulfillment_orders/{fulfillment_order_id}/fulfillment_request.json	Olustur
-FulfillmentRequest	POST	/admin/api/v1/fulfillment_orders/{fulfillment_order_id}/fulfillment_request/accept.json	Kabul et
-FulfillmentRequest	POST	/admin/api/v1/fulfillment_orders/{fulfillment_order_id}/fulfillment_request/reject.json	Reddet
-FulfillmentService	POST	/admin/api/v1/fulfillment_services.json	Olustur
-FulfillmentService	GET	/admin/api/v1/fulfillment_services.json	Listele
-FulfillmentService	GET	/admin/api/v1/fulfillment_services/{fulfillment_service_id}.json	Detay getir
-FulfillmentService	PUT	/admin/api/v1/fulfillment_services/{fulfillment_service_id}.json	Guncelle
-FulfillmentService	DELETE	/admin/api/v1/fulfillment_services/{fulfillment_service_id}.json	Sil
-Gift Card	POST	/admin/api/v1/gift_cards.json	Olustur
-Gift Card	POST	/admin/api/v1/gift_cards/{gift_card_id}/disable.json	Pasife al
-Gift Card	GET	/admin/api/v1/gift_cards.json	Listele
-Gift Card	GET	/admin/api/v1/gift_cards/{gift_card_id}.json	Detay getir
-Gift Card	GET	/admin/api/v1/gift_cards/count.json	Say
-Gift Card	GET	/admin/api/v1/gift_cards/search.json	Ara
-Gift Card	PUT	/admin/api/v1/gift_cards/{gift_card_id}.json	Guncelle
-InventoryItem	GET	/admin/api/v1/inventory_items.json	Listele
-InventoryItem	GET	/admin/api/v1/inventory_items/{inventory_item_id}.json	Detay getir
-InventoryItem	PUT	/admin/api/v1/inventory_items/{inventory_item_id}.json	Guncelle
-InventoryLevel	POST	/admin/api/v1/inventory_levels/adjust.json	Olustur
-InventoryLevel	POST	/admin/api/v1/inventory_levels/connect.json	Olustur
-InventoryLevel	POST	/admin/api/v1/inventory_levels/set.json	Toplu guncelle
-InventoryLevel	GET	/admin/api/v1/inventory_levels.json	Listele
-InventoryLevel	DELETE	/admin/api/v1/inventory_levels.json	Sil
-Location	GET	/admin/api/v1/locations.json	Listele
-Location	GET	/admin/api/v1/locations/{location_id}.json	Detay getir
-Location	GET	/admin/api/v1/locations/{location_id}/inventory_levels.json	Listele
-Location	GET	/admin/api/v1/locations/count.json	Say
-LocationsForMove	GET	/admin/api/v1/fulfillment_orders/{fulfillment_order_id}/locations_for_move.json	Oku
-MarketingEvent	POST	/admin/api/v1/marketing_events.json	Olustur
-MarketingEvent	POST	/admin/api/v1/marketing_events/{marketing_event_id}/engagements.json	Etkilesim ekle
-MarketingEvent	GET	/admin/api/v1/marketing_events.json	Listele
-MarketingEvent	GET	/admin/api/v1/marketing_events/{marketing_event_id}.json	Detay getir
-MarketingEvent	GET	/admin/api/v1/marketing_events/count.json	Say
-MarketingEvent	PUT	/admin/api/v1/marketing_events/{marketing_event_id}.json	Guncelle
-MarketingEvent	DELETE	/admin/api/v1/marketing_events/{marketing_event_id}.json	Sil
-Metafield	POST	/admin/api/v1/blogs/{blog_id}/metafields.json	Olustur
-Metafield	GET	/admin/api/v1/blogs/{blog_id}/metafields.json	Listele
-Metafield	GET	/admin/api/v1/blogs/{blog_id}/metafields/{metafield_id}.json	Detay getir
-Metafield	GET	/admin/api/v1/blogs/{blog_id}/metafields/count.json	Say
-Metafield	PUT	/admin/api/v1/blogs/{blog_id}/metafields/{metafield_id}.json	Guncelle
-Metafield	DELETE	/admin/api/v1/blogs/{blog_id}/metafields/{metafield_id}.json	Sil
-MobilePlatformApplication	POST	/admin/api/v1/mobile_platform_applications.json	Olustur
-MobilePlatformApplication	GET	/admin/api/v1/mobile_platform_applications.json	Listele
-MobilePlatformApplication	GET	/admin/api/v1/mobile_platform_applications/{mobile_platform_application_id}.json	Detay getir
-MobilePlatformApplication	PUT	/admin/api/v1/mobile_platform_applications/{mobile_platform_application_id}.json	Guncelle
-MobilePlatformApplication	DELETE	/admin/api/v1/mobile_platform_applications/{mobile_platform_application_id}.json	Sil
-Order Risk	POST	/admin/api/v1/orders/{order_id}/risks.json	Olustur
-Order Risk	GET	/admin/api/v1/orders/{order_id}/risks.json	Listele
-Order Risk	GET	/admin/api/v1/orders/{order_id}/risks/{risk_id}.json	Detay getir
-Order Risk	PUT	/admin/api/v1/orders/{order_id}/risks/{risk_id}.json	Guncelle
-Order Risk	DELETE	/admin/api/v1/orders/{order_id}/risks/{risk_id}.json	Sil
-Order	POST	/admin/api/v1/orders.json	Olustur
-Order	POST	/admin/api/v1/orders/{order_id}/cancel.json	Iptal et
-Order	POST	/admin/api/v1/orders/{order_id}/close.json	Kapat
-Order	POST	/admin/api/v1/orders/{order_id}/open.json	Yeniden ac
-Order	GET	/admin/api/v1/orders.json	Listele
-Order	GET	/admin/api/v1/orders/{order_id}.json	Detay getir
-Order	GET	/admin/api/v1/orders/count.json	Say
-Order	PUT	/admin/api/v1/orders/{order_id}.json	Guncelle
-Order	DELETE	/admin/api/v1/orders/{order_id}.json	Sil
-Page	POST	/admin/api/v1/pages.json	Olustur
-Page	GET	/admin/api/v1/pages.json	Listele
-Page	GET	/admin/api/v1/pages/{page_id}.json	Detay getir
-Page	GET	/admin/api/v1/pages/count.json	Say
-Page	PUT	/admin/api/v1/pages/{page_id}.json	Guncelle
-Page	DELETE	/admin/api/v1/pages/{page_id}.json	Sil
-Payment	POST	/admin/api/v1/checkouts/{token}/payments.json	Olustur
-Payment	GET	/admin/api/v1/checkouts/{token}/payments/{payment_id}.json	Detay getir
-Payouts	GET	/admin/api/v1/shopiyz_payments/payouts.json	Listele
-Payouts	GET	/admin/api/v1/shopiyz_payments/payouts/{payout_id}.json	Detay getir
-Policy	GET	/admin/api/v1/policies.json	Listele
-PriceRule	POST	/admin/api/v1/price_rules.json	Olustur
-PriceRule	GET	/admin/api/v1/price_rules.json	Listele
-PriceRule	GET	/admin/api/v1/price_rules/{price_rule_id}.json	Detay getir
-PriceRule	GET	/admin/api/v1/price_rules/count.json	Say
-PriceRule	PUT	/admin/api/v1/price_rules/{price_rule_id}.json	Guncelle
-PriceRule	DELETE	/admin/api/v1/price_rules/{price_rule_id}.json	Sil
-Product Image	POST	/admin/api/v1/products/{product_id}/images.json	Olustur
-Product Image	GET	/admin/api/v1/products/{product_id}/images.json	Listele
-Product Image	GET	/admin/api/v1/products/{product_id}/images/{image_id}.json	Detay getir
-Product Image	GET	/admin/api/v1/products/{product_id}/images/count.json	Say
-Product Image	PUT	/admin/api/v1/products/{product_id}/images/{image_id}.json	Guncelle
-Product Image	DELETE	/admin/api/v1/products/{product_id}/images/{image_id}.json	Sil
-Product ResourceFeedback	POST	/admin/api/v1/products/{product_id}/resource_feedback.json	Olustur
-Product ResourceFeedback	GET	/admin/api/v1/products/{product_id}/resource_feedback.json	Oku
-Product Variant	POST	/admin/api/v1/products/{product_id}/variants.json	Olustur
-Product Variant	GET	/admin/api/v1/products/{product_id}/variants.json	Listele
-Product Variant	GET	/admin/api/v1/products/{product_id}/variants/count.json	Say
-Product Variant	GET	/admin/api/v1/variants/{variant_id}.json	Detay getir
-Product Variant	PUT	/admin/api/v1/variants/{variant_id}.json	Guncelle
-Product Variant	DELETE	/admin/api/v1/products/{product_id}/variants/{variant_id}.json	Sil
-Product	POST	/admin/api/v1/products.json	Olustur
-Product	GET	/admin/api/v1/products.json	Listele
-Product	GET	/admin/api/v1/products/{product_id}.json	Detay getir
-Product	GET	/admin/api/v1/products/count.json	Say
-Product	PUT	/admin/api/v1/products/{product_id}.json	Guncelle
-Product	DELETE	/admin/api/v1/products/{product_id}.json	Sil
-ProductListing	GET	/admin/api/v1/product_listings.json	Listele
-ProductListing	GET	/admin/api/v1/product_listings/{product_listing_id}.json	Detay getir
-ProductListing	GET	/admin/api/v1/product_listings/count.json	Say
-ProductListing	GET	/admin/api/v1/product_listings/product_ids.json	Urun ID listele
-ProductListing	PUT	/admin/api/v1/product_listings/{product_listing_id}.json	Guncelle
-ProductListing	DELETE	/admin/api/v1/product_listings/{product_listing_id}.json	Sil
-Province	GET	/admin/api/v1/countries/{country_id}/provinces.json	Listele
-Province	GET	/admin/api/v1/countries/{country_id}/provinces/{province_id}.json	Detay getir
-Province	GET	/admin/api/v1/countries/{country_id}/provinces/count.json	Say
-Province	PUT	/admin/api/v1/countries/{country_id}/provinces/{province_id}.json	Guncelle
-RecurringApplicationCharge	POST	/admin/api/v1/recurring_application_charges.json	Olustur
-RecurringApplicationCharge	GET	/admin/api/v1/recurring_application_charges.json	Listele
-RecurringApplicationCharge	GET	/admin/api/v1/recurring_application_charges/{recurring_application_charge_id}.json	Detay getir
-RecurringApplicationCharge	PUT	/admin/api/v1/recurring_application_charges/{recurring_application_charge_id}/customize.json	Limit guncelle
-RecurringApplicationCharge	DELETE	/admin/api/v1/recurring_application_charges/{recurring_application_charge_id}.json	Sil
-Redirect	POST	/admin/api/v1/redirects.json	Olustur
-Redirect	GET	/admin/api/v1/redirects.json	Listele
-Redirect	GET	/admin/api/v1/redirects/{redirect_id}.json	Detay getir
-Redirect	GET	/admin/api/v1/redirects/count.json	Say
-Redirect	PUT	/admin/api/v1/redirects/{redirect_id}.json	Guncelle
-Redirect	DELETE	/admin/api/v1/redirects/{redirect_id}.json	Sil
-Refund	POST	/admin/api/v1/orders/{order_id}/refunds.json	Olustur
-Refund	POST	/admin/api/v1/orders/{order_id}/refunds/calculate.json	Hesapla
-Refund	GET	/admin/api/v1/orders/{order_id}/refunds.json	Listele
-Refund	GET	/admin/api/v1/orders/{order_id}/refunds/{refund_id}.json	Detay getir
-ResourceFeedback	POST	/admin/api/v1/resource_feedback.json	Olustur
-ResourceFeedback	GET	/admin/api/v1/resource_feedback.json	Oku
-ScriptTag	POST	/admin/api/v1/script_tags.json	Olustur
-ScriptTag	GET	/admin/api/v1/script_tags.json	Listele
-ScriptTag	GET	/admin/api/v1/script_tags/{script_tag_id}.json	Detay getir
-ScriptTag	GET	/admin/api/v1/script_tags/count.json	Say
-ScriptTag	PUT	/admin/api/v1/script_tags/{script_tag_id}.json	Guncelle
-ScriptTag	DELETE	/admin/api/v1/script_tags/{script_tag_id}.json	Sil
-ShippingZone	GET	/admin/api/v1/shipping_zones.json	Listele
-Shop	GET	/admin/api/v1/shop.json	Oku
-SmartCollection	POST	/admin/api/v1/smart_collections.json	Olustur
-SmartCollection	GET	/admin/api/v1/smart_collections.json	Listele
-SmartCollection	GET	/admin/api/v1/smart_collections/{smart_collection_id}.json	Detay getir
-SmartCollection	GET	/admin/api/v1/smart_collections/count.json	Say
-SmartCollection	PUT	/admin/api/v1/smart_collections/{smart_collection_id}.json	Guncelle
-SmartCollection	PUT	/admin/api/v1/smart_collections/{smart_collection_id}/order.json	Sirala
-SmartCollection	DELETE	/admin/api/v1/smart_collections/{smart_collection_id}.json	Sil
-StorefrontAccessToken	POST	/admin/api/v1/storefront_access_tokens.json	Olustur
-StorefrontAccessToken	GET	/admin/api/v1/storefront_access_tokens.json	Listele
-StorefrontAccessToken	DELETE	/admin/api/v1/storefront_access_tokens/{storefront_access_token_id}.json	Sil
-TenderTransaction	GET	/admin/api/v1/tender_transactions.json	Listele
-Theme	POST	/admin/api/v1/themes.json	Olustur
-Theme	GET	/admin/api/v1/themes.json	Listele
-Theme	GET	/admin/api/v1/themes/{theme_id}.json	Detay getir
-Theme	PUT	/admin/api/v1/themes/{theme_id}.json	Guncelle
-Theme	DELETE	/admin/api/v1/themes/{theme_id}.json	Sil
-Transaction	POST	/admin/api/v1/orders/{order_id}/transactions.json	Olustur
-Transaction	GET	/admin/api/v1/orders/{order_id}/transactions.json	Listele
-Transaction	GET	/admin/api/v1/orders/{order_id}/transactions/{transaction_id}.json	Detay getir
-Transaction	GET	/admin/api/v1/orders/{order_id}/transactions/count.json	Say
-Transactions	GET	/admin/api/v1/shopiyz_payments/balance/transactions.json	Listele
-UsageCharge	POST	/admin/api/v1/recurring_application_charges/{recurring_application_charge_id}/usage_charges.json	Olustur
-UsageCharge	GET	/admin/api/v1/recurring_application_charges/{recurring_application_charge_id}/usage_charges.json	Listele
-UsageCharge	GET	/admin/api/v1/recurring_application_charges/{recurring_application_charge_id}/usage_charges/{usage_charge_id}.json	Detay getir
-User	GET	/admin/api/v1/users.json	Listele
-User	GET	/admin/api/v1/users/{user_id}.json	Detay getir
-User	GET	/admin/api/v1/users/current.json	Oku
-Webhook	POST	/admin/api/v1/webhooks.json	Olustur
-Webhook	GET	/admin/api/v1/webhooks.json	Listele
-Webhook	GET	/admin/api/v1/webhooks/{webhook_id}.json	Detay getir
-Webhook	GET	/admin/api/v1/webhooks/count.json	Say
-Webhook	PUT	/admin/api/v1/webhooks/{webhook_id}.json	Guncelle
-Webhook	DELETE	/admin/api/v1/webhooks/{webhook_id}.json	Sil`;
+Insert Code Studio	GET	/admin/api/apps/insert-code/overview.json	Kod snippetlerini listele
+Insert Code Studio	POST	/admin/api/apps/insert-code/snippets.json	Kod snippet olustur
+Insert Code Studio	PATCH	/admin/api/apps/insert-code/snippets/{snippet_id}.json	Kod snippet guncelle
+Insert Code Studio	DELETE	/admin/api/apps/insert-code/snippets/{snippet_id}.json	Kod snippet sil
+Article	POST	/admin/api/blogs/{blog_id}/articles.json	Olustur
+Article	GET	/admin/api/articles/authors.json	Yazar listele
+Article	GET	/admin/api/articles/tags.json	Etiket listele
+Article	GET	/admin/api/blogs/{blog_id}/articles.json	Listele
+Article	GET	/admin/api/blogs/{blog_id}/articles/{article_id}.json	Detay getir
+Article	GET	/admin/api/blogs/{blog_id}/articles/count.json	Say
+Article	GET	/admin/api/blogs/{blog_id}/articles/tags.json	Etiket listele
+Article	PUT	/admin/api/blogs/{blog_id}/articles/{article_id}.json	Guncelle
+Article	DELETE	/admin/api/blogs/{blog_id}/articles/{article_id}.json	Sil
+Asset	GET	/admin/api/themes/{theme_id}/assets.json	Listele
+Asset	GET	/admin/api/themes/{theme_id}/assets.json	Listele
+Asset	PUT	/admin/api/themes/{theme_id}/assets.json	Guncelle
+Asset	DELETE	/admin/api/themes/{theme_id}/assets.json	Sil
+AssignedFulfillmentOrder	GET	/admin/api/assigned_fulfillment_orders.json	Listele
+Balance	GET	/admin/api/shopiyz_payments/balance.json	Oku
+Blog	POST	/admin/api/blogs.json	Olustur
+Blog	GET	/admin/api/blogs.json	Listele
+Blog	GET	/admin/api/blogs/{blog_id}.json	Detay getir
+Blog	GET	/admin/api/blogs/count.json	Say
+Blog	PUT	/admin/api/blogs/{blog_id}.json	Guncelle
+Blog	DELETE	/admin/api/blogs/{blog_id}.json	Sil
+CancellationRequest	POST	/admin/api/fulfillment_orders/{fulfillment_order_id}/cancellation_request.json	Olustur
+CancellationRequest	POST	/admin/api/fulfillment_orders/{fulfillment_order_id}/cancellation_request/accept.json	Kabul et
+CancellationRequest	POST	/admin/api/fulfillment_orders/{fulfillment_order_id}/cancellation_request/reject.json	Reddet
+CarrierService	POST	/admin/api/carrier_services.json	Olustur
+CarrierService	GET	/admin/api/carrier_services.json	Listele
+CarrierService	GET	/admin/api/carrier_services/{carrier_service_id}.json	Detay getir
+CarrierService	PUT	/admin/api/carrier_services/{carrier_service_id}.json	Guncelle
+CarrierService	DELETE	/admin/api/carrier_services/{carrier_service_id}.json	Sil
+Checkout	POST	/admin/api/checkouts.json	Olustur
+Checkout	POST	/admin/api/checkouts/{token}/complete.json	Tamamla
+Checkout	GET	/admin/api/checkouts/{token}.json	Detay getir
+Checkout	GET	/admin/api/checkouts/{token}/shipping_rates.json	Kargo ucreti listele
+Checkout	PUT	/admin/api/checkouts/{token}.json	Guncelle
+Collect	POST	/admin/api/collects.json	Olustur
+Collect	GET	/admin/api/collects.json	Listele
+Collect	GET	/admin/api/collects/{collect_id}.json	Detay getir
+Collect	GET	/admin/api/collects/count.json	Say
+Collect	DELETE	/admin/api/collects/{collect_id}.json	Sil
+Collection	GET	/admin/api/collections/{collection_id}.json	Detay getir
+Collection	GET	/admin/api/collections/{collection_id}/products.json	Listele
+CollectionListing	GET	/admin/api/collection_listings.json	Listele
+CollectionListing	GET	/admin/api/collection_listings/{collection_listing_id}.json	Detay getir
+CollectionListing	GET	/admin/api/collection_listings/{collection_listing_id}/product_ids.json	Urun ID listele
+CollectionListing	PUT	/admin/api/collection_listings/{collection_listing_id}.json	Guncelle
+CollectionListing	DELETE	/admin/api/collection_listings/{collection_listing_id}.json	Sil
+Comment	POST	/admin/api/comments.json	Olustur
+Comment	POST	/admin/api/comments/{comment_id}/approve.json	Onayla
+Comment	POST	/admin/api/comments/{comment_id}/not_spam.json	Spam degil isaretle
+Comment	POST	/admin/api/comments/{comment_id}/remove.json	Kaldir
+Comment	POST	/admin/api/comments/{comment_id}/restore.json	Geri al
+Comment	POST	/admin/api/comments/{comment_id}/spam.json	Spam isaretle
+Comment	GET	/admin/api/comments.json	Listele
+Comment	GET	/admin/api/comments/{comment_id}.json	Detay getir
+Comment	GET	/admin/api/comments/count.json	Say
+Comment	PUT	/admin/api/comments/{comment_id}.json	Guncelle
+Country	POST	/admin/api/countries.json	Olustur
+Country	GET	/admin/api/countries.json	Listele
+Country	GET	/admin/api/countries/{country_id}.json	Detay getir
+Country	GET	/admin/api/countries/count.json	Say
+Country	PUT	/admin/api/countries/{country_id}.json	Guncelle
+Country	DELETE	/admin/api/countries/{country_id}.json	Sil
+Currency	GET	/admin/api/currencies.json	Listele
+CustomCollection	POST	/admin/api/custom_collections.json	Olustur
+CustomCollection	GET	/admin/api/custom_collections.json	Listele
+CustomCollection	GET	/admin/api/custom_collections/{custom_collection_id}.json	Detay getir
+CustomCollection	GET	/admin/api/custom_collections/count.json	Say
+CustomCollection	PUT	/admin/api/custom_collections/{custom_collection_id}.json	Guncelle
+CustomCollection	DELETE	/admin/api/custom_collections/{custom_collection_id}.json	Sil
+Customer Address	POST	/admin/api/customers/{customer_id}/addresses.json	Olustur
+Customer Address	GET	/admin/api/customers/{customer_id}/addresses.json	Listele
+Customer Address	GET	/admin/api/customers/{customer_id}/addresses/{address_id}.json	Detay getir
+Customer Address	PUT	/admin/api/customers/{customer_id}/addresses/{address_id}.json	Guncelle
+Customer Address	PUT	/admin/api/customers/{customer_id}/addresses/{address_id}/default.json	Varsayilan yap
+Customer Address	PUT	/admin/api/customers/{customer_id}/addresses/set.json	Toplu guncelle
+Customer Address	DELETE	/admin/api/customers/{customer_id}/addresses/{address_id}.json	Sil
+Customer	POST	/admin/api/customers.json	Olustur
+Customer	POST	/admin/api/customers/{customer_id}/account_activation_url.json	Aktivasyon linki
+Customer	POST	/admin/api/customers/{customer_id}/send_invite.json	Davet gonder
+Customer	GET	/admin/api/customers.json	Listele
+Customer	GET	/admin/api/customers/{customer_id}/orders.json	Listele
+Customer	GET	/admin/api/customers/count.json	Say
+Customer	GET	/admin/api/customers/search.json	Ara
+Customer	PUT	/admin/api/customers/{customer_id}.json	Guncelle
+Deprecated API calls	GET	/admin/api/deprecated_api_calls.json	Listele
+DiscountCode	POST	/admin/api/price_rules/{price_rule_id}/batch.json	Olustur
+DiscountCode	POST	/admin/api/price_rules/{price_rule_id}/discount_codes.json	Olustur
+DiscountCode	GET	/admin/api/discount_codes/count.json	Say
+DiscountCode	GET	/admin/api/discount_codes/lookup.json	Kod ara
+DiscountCode	GET	/admin/api/price_rules/{price_rule_id}/batch/{batch_id}.json	Detay getir
+DiscountCode	GET	/admin/api/price_rules/{price_rule_id}/batch/{batch_id}/discount_codes.json	Listele
+DiscountCode	GET	/admin/api/price_rules/{price_rule_id}/discount_codes.json	Listele
+DiscountCode	GET	/admin/api/price_rules/{price_rule_id}/discount_codes/{discount_code_id}.json	Detay getir
+DiscountCode	PUT	/admin/api/price_rules/{price_rule_id}/discount_codes/{discount_code_id}.json	Guncelle
+DiscountCode	DELETE	/admin/api/price_rules/{price_rule_id}/discount_codes/{discount_code_id}.json	Sil
+Dispute Evidence	GET	/admin/api/shopiyz_payments/disputes/{dispute_id}/dispute_evidences.json	Listele
+Dispute Evidence	PUT	/admin/api/shopiyz_payments/disputes/{dispute_id}/dispute_evidences.json	Guncelle
+Dispute File Upload	POST	/admin/api/shopiyz_payments/disputes/{dispute_id}/dispute_file_uploads.json	Olustur
+Dispute File Upload	DELETE	/admin/api/shopiyz_payments/disputes/{dispute_id}/dispute_file_uploads/{dispute_file_upload_id}.json	Sil
+Dispute	GET	/admin/api/shopiyz_payments/disputes.json	Listele
+Dispute	GET	/admin/api/shopiyz_payments/disputes/{dispute_id}.json	Detay getir
+DraftOrder	POST	/admin/api/draft_orders.json	Olustur
+DraftOrder	POST	/admin/api/draft_orders/{draft_order_id}/send_invoice.json	Fatura gonder
+DraftOrder	GET	/admin/api/draft_orders.json	Listele
+DraftOrder	GET	/admin/api/draft_orders/{draft_order_id}.json	Detay getir
+DraftOrder	GET	/admin/api/draft_orders/count.json	Say
+DraftOrder	PUT	/admin/api/draft_orders/{draft_order_id}.json	Guncelle
+DraftOrder	PUT	/admin/api/draft_orders/{draft_order_id}/complete.json	Tamamla
+DraftOrder	DELETE	/admin/api/draft_orders/{draft_order_id}.json	Sil
+Event	GET	/admin/api/events.json	Listele
+Event	GET	/admin/api/events/{event_id}.json	Detay getir
+Event	GET	/admin/api/events/count.json	Say
+Fulfillment	POST	/admin/api/fulfillments.json	Olustur
+Fulfillment	POST	/admin/api/fulfillments/{fulfillment_id}/cancel.json	Iptal et
+Fulfillment	POST	/admin/api/fulfillments/{fulfillment_id}/update_tracking.json	Takip guncelle
+Fulfillment	GET	/admin/api/fulfillment_orders/{fulfillment_order_id}/fulfillments.json	Listele
+Fulfillment	GET	/admin/api/orders/{order_id}/fulfillments.json	Listele
+Fulfillment	GET	/admin/api/orders/{order_id}/fulfillments/{fulfillment_id}.json	Detay getir
+Fulfillment	GET	/admin/api/orders/{order_id}/fulfillments/count.json	Say
+FulfillmentEvent	POST	/admin/api/orders/{order_id}/fulfillments/{fulfillment_id}/events.json	Olustur
+FulfillmentEvent	GET	/admin/api/orders/{order_id}/fulfillments/{fulfillment_id}/events.json	Listele
+FulfillmentEvent	GET	/admin/api/orders/{order_id}/fulfillments/{fulfillment_id}/events/{event_id}.json	Detay getir
+FulfillmentEvent	DELETE	/admin/api/orders/{order_id}/fulfillments/{fulfillment_id}/events/{event_id}.json	Sil
+FulfillmentOrder	POST	/admin/api/fulfillment_orders/{fulfillment_order_id}/cancel.json	Iptal et
+FulfillmentOrder	POST	/admin/api/fulfillment_orders/{fulfillment_order_id}/close.json	Kapat
+FulfillmentOrder	POST	/admin/api/fulfillment_orders/{fulfillment_order_id}/hold.json	Beklet
+FulfillmentOrder	POST	/admin/api/fulfillment_orders/{fulfillment_order_id}/move.json	Tasi
+FulfillmentOrder	POST	/admin/api/fulfillment_orders/{fulfillment_order_id}/open.json	Yeniden ac
+FulfillmentOrder	POST	/admin/api/fulfillment_orders/{fulfillment_order_id}/release_hold.json	Bekletmeyi kaldir
+FulfillmentOrder	POST	/admin/api/fulfillment_orders/{fulfillment_order_id}/reschedule.json	Yeniden zamanla
+FulfillmentOrder	POST	/admin/api/fulfillment_orders/set_fulfillment_orders_deadline.json	Sure belirle
+FulfillmentOrder	GET	/admin/api/fulfillment_orders/{fulfillment_order_id}.json	Detay getir
+FulfillmentOrder	GET	/admin/api/orders/{order_id}/fulfillment_orders.json	Listele
+FulfillmentRequest	POST	/admin/api/fulfillment_orders/{fulfillment_order_id}/fulfillment_request.json	Olustur
+FulfillmentRequest	POST	/admin/api/fulfillment_orders/{fulfillment_order_id}/fulfillment_request/accept.json	Kabul et
+FulfillmentRequest	POST	/admin/api/fulfillment_orders/{fulfillment_order_id}/fulfillment_request/reject.json	Reddet
+FulfillmentService	POST	/admin/api/fulfillment_services.json	Olustur
+FulfillmentService	GET	/admin/api/fulfillment_services.json	Listele
+FulfillmentService	GET	/admin/api/fulfillment_services/{fulfillment_service_id}.json	Detay getir
+FulfillmentService	PUT	/admin/api/fulfillment_services/{fulfillment_service_id}.json	Guncelle
+FulfillmentService	DELETE	/admin/api/fulfillment_services/{fulfillment_service_id}.json	Sil
+Gift Card	POST	/admin/api/gift_cards.json	Olustur
+Gift Card	POST	/admin/api/gift_cards/{gift_card_id}/disable.json	Pasife al
+Gift Card	GET	/admin/api/gift_cards.json	Listele
+Gift Card	GET	/admin/api/gift_cards/{gift_card_id}.json	Detay getir
+Gift Card	GET	/admin/api/gift_cards/count.json	Say
+Gift Card	GET	/admin/api/gift_cards/search.json	Ara
+Gift Card	PUT	/admin/api/gift_cards/{gift_card_id}.json	Guncelle
+InventoryItem	GET	/admin/api/inventory_items.json	Listele
+InventoryItem	GET	/admin/api/inventory_items/{inventory_item_id}.json	Detay getir
+InventoryItem	PUT	/admin/api/inventory_items/{inventory_item_id}.json	Guncelle
+InventoryLevel	POST	/admin/api/inventory_levels/adjust.json	Olustur
+InventoryLevel	POST	/admin/api/inventory_levels/connect.json	Olustur
+InventoryLevel	POST	/admin/api/inventory_levels/set.json	Toplu guncelle
+InventoryLevel	GET	/admin/api/inventory_levels.json	Listele
+InventoryLevel	DELETE	/admin/api/inventory_levels.json	Sil
+Location	GET	/admin/api/locations.json	Listele
+Location	GET	/admin/api/locations/{location_id}.json	Detay getir
+Location	GET	/admin/api/locations/{location_id}/inventory_levels.json	Listele
+Location	GET	/admin/api/locations/count.json	Say
+LocationsForMove	GET	/admin/api/fulfillment_orders/{fulfillment_order_id}/locations_for_move.json	Oku
+MarketingEvent	POST	/admin/api/marketing_events.json	Olustur
+MarketingEvent	POST	/admin/api/marketing_events/{marketing_event_id}/engagements.json	Etkilesim ekle
+MarketingEvent	GET	/admin/api/marketing_events.json	Listele
+MarketingEvent	GET	/admin/api/marketing_events/{marketing_event_id}.json	Detay getir
+MarketingEvent	GET	/admin/api/marketing_events/count.json	Say
+MarketingEvent	PUT	/admin/api/marketing_events/{marketing_event_id}.json	Guncelle
+MarketingEvent	DELETE	/admin/api/marketing_events/{marketing_event_id}.json	Sil
+Metafield	POST	/admin/api/blogs/{blog_id}/metafields.json	Olustur
+Metafield	GET	/admin/api/blogs/{blog_id}/metafields.json	Listele
+Metafield	GET	/admin/api/blogs/{blog_id}/metafields/{metafield_id}.json	Detay getir
+Metafield	GET	/admin/api/blogs/{blog_id}/metafields/count.json	Say
+Metafield	PUT	/admin/api/blogs/{blog_id}/metafields/{metafield_id}.json	Guncelle
+Metafield	DELETE	/admin/api/blogs/{blog_id}/metafields/{metafield_id}.json	Sil
+MobilePlatformApplication	POST	/admin/api/mobile_platform_applications.json	Olustur
+MobilePlatformApplication	GET	/admin/api/mobile_platform_applications.json	Listele
+MobilePlatformApplication	GET	/admin/api/mobile_platform_applications/{mobile_platform_application_id}.json	Detay getir
+MobilePlatformApplication	PUT	/admin/api/mobile_platform_applications/{mobile_platform_application_id}.json	Guncelle
+MobilePlatformApplication	DELETE	/admin/api/mobile_platform_applications/{mobile_platform_application_id}.json	Sil
+Order Risk	POST	/admin/api/orders/{order_id}/risks.json	Olustur
+Order Risk	GET	/admin/api/orders/{order_id}/risks.json	Listele
+Order Risk	GET	/admin/api/orders/{order_id}/risks/{risk_id}.json	Detay getir
+Order Risk	PUT	/admin/api/orders/{order_id}/risks/{risk_id}.json	Guncelle
+Order Risk	DELETE	/admin/api/orders/{order_id}/risks/{risk_id}.json	Sil
+Order	POST	/admin/api/orders.json	Olustur
+Order	POST	/admin/api/orders/{order_id}/cancel.json	Iptal et
+Order	POST	/admin/api/orders/{order_id}/close.json	Kapat
+Order	POST	/admin/api/orders/{order_id}/open.json	Yeniden ac
+Order	GET	/admin/api/orders.json	Listele
+Order	GET	/admin/api/orders/{order_id}.json	Detay getir
+Order	GET	/admin/api/orders/count.json	Say
+Order	PUT	/admin/api/orders/{order_id}.json	Guncelle
+Order	DELETE	/admin/api/orders/{order_id}.json	Sil
+Page	POST	/admin/api/pages.json	Olustur
+Page	GET	/admin/api/pages.json	Listele
+Page	GET	/admin/api/pages/{page_id}.json	Detay getir
+Page	GET	/admin/api/pages/count.json	Say
+Page	PUT	/admin/api/pages/{page_id}.json	Guncelle
+Page	DELETE	/admin/api/pages/{page_id}.json	Sil
+Payment	POST	/admin/api/checkouts/{token}/payments.json	Olustur
+Payment	GET	/admin/api/checkouts/{token}/payments/{payment_id}.json	Detay getir
+Payouts	GET	/admin/api/shopiyz_payments/payouts.json	Listele
+Payouts	GET	/admin/api/shopiyz_payments/payouts/{payout_id}.json	Detay getir
+Policy	GET	/admin/api/policies.json	Listele
+PriceRule	POST	/admin/api/price_rules.json	Olustur
+PriceRule	GET	/admin/api/price_rules.json	Listele
+PriceRule	GET	/admin/api/price_rules/{price_rule_id}.json	Detay getir
+PriceRule	GET	/admin/api/price_rules/count.json	Say
+PriceRule	PUT	/admin/api/price_rules/{price_rule_id}.json	Guncelle
+PriceRule	DELETE	/admin/api/price_rules/{price_rule_id}.json	Sil
+Product Image	POST	/admin/api/products/{product_id}/images.json	Olustur
+Product Image	GET	/admin/api/products/{product_id}/images.json	Listele
+Product Image	GET	/admin/api/products/{product_id}/images/{image_id}.json	Detay getir
+Product Image	GET	/admin/api/products/{product_id}/images/count.json	Say
+Product Image	PUT	/admin/api/products/{product_id}/images/{image_id}.json	Guncelle
+Product Image	DELETE	/admin/api/products/{product_id}/images/{image_id}.json	Sil
+Product ResourceFeedback	POST	/admin/api/products/{product_id}/resource_feedback.json	Olustur
+Product ResourceFeedback	GET	/admin/api/products/{product_id}/resource_feedback.json	Oku
+Product Variant	POST	/admin/api/products/{product_id}/variants.json	Olustur
+Product Variant	GET	/admin/api/products/{product_id}/variants.json	Listele
+Product Variant	GET	/admin/api/products/{product_id}/variants/count.json	Say
+Product Variant	GET	/admin/api/variants/{variant_id}.json	Detay getir
+Product Variant	PUT	/admin/api/variants/{variant_id}.json	Guncelle
+Product Variant	DELETE	/admin/api/products/{product_id}/variants/{variant_id}.json	Sil
+Product	POST	/admin/api/products.json	Olustur
+Product	GET	/admin/api/products.json	Listele
+Product	GET	/admin/api/products/{product_id}.json	Detay getir
+Product	GET	/admin/api/products/count.json	Say
+Product	PUT	/admin/api/products/{product_id}.json	Guncelle
+Product	DELETE	/admin/api/products/{product_id}.json	Sil
+ProductListing	GET	/admin/api/product_listings.json	Listele
+ProductListing	GET	/admin/api/product_listings/{product_listing_id}.json	Detay getir
+ProductListing	GET	/admin/api/product_listings/count.json	Say
+ProductListing	GET	/admin/api/product_listings/product_ids.json	Urun ID listele
+ProductListing	PUT	/admin/api/product_listings/{product_listing_id}.json	Guncelle
+ProductListing	DELETE	/admin/api/product_listings/{product_listing_id}.json	Sil
+Province	GET	/admin/api/countries/{country_id}/provinces.json	Listele
+Province	GET	/admin/api/countries/{country_id}/provinces/{province_id}.json	Detay getir
+Province	GET	/admin/api/countries/{country_id}/provinces/count.json	Say
+Province	PUT	/admin/api/countries/{country_id}/provinces/{province_id}.json	Guncelle
+RecurringApplicationCharge	POST	/admin/api/recurring_application_charges.json	Olustur
+RecurringApplicationCharge	GET	/admin/api/recurring_application_charges.json	Listele
+RecurringApplicationCharge	GET	/admin/api/recurring_application_charges/{recurring_application_charge_id}.json	Detay getir
+RecurringApplicationCharge	PUT	/admin/api/recurring_application_charges/{recurring_application_charge_id}/customize.json	Limit guncelle
+RecurringApplicationCharge	DELETE	/admin/api/recurring_application_charges/{recurring_application_charge_id}.json	Sil
+Redirect	POST	/admin/api/redirects.json	Olustur
+Redirect	GET	/admin/api/redirects.json	Listele
+Redirect	GET	/admin/api/redirects/{redirect_id}.json	Detay getir
+Redirect	GET	/admin/api/redirects/count.json	Say
+Redirect	PUT	/admin/api/redirects/{redirect_id}.json	Guncelle
+Redirect	DELETE	/admin/api/redirects/{redirect_id}.json	Sil
+Refund	POST	/admin/api/orders/{order_id}/refunds.json	Olustur
+Refund	POST	/admin/api/orders/{order_id}/refunds/calculate.json	Hesapla
+Refund	GET	/admin/api/orders/{order_id}/refunds.json	Listele
+Refund	GET	/admin/api/orders/{order_id}/refunds/{refund_id}.json	Detay getir
+ResourceFeedback	POST	/admin/api/resource_feedback.json	Olustur
+ResourceFeedback	GET	/admin/api/resource_feedback.json	Oku
+ScriptTag	POST	/admin/api/script_tags.json	Olustur
+ScriptTag	GET	/admin/api/script_tags.json	Listele
+ScriptTag	GET	/admin/api/script_tags/{script_tag_id}.json	Detay getir
+ScriptTag	GET	/admin/api/script_tags/count.json	Say
+ScriptTag	PUT	/admin/api/script_tags/{script_tag_id}.json	Guncelle
+ScriptTag	DELETE	/admin/api/script_tags/{script_tag_id}.json	Sil
+ShippingZone	GET	/admin/api/shipping_zones.json	Listele
+Shop	GET	/admin/api/shop.json	Oku
+SmartCollection	POST	/admin/api/smart_collections.json	Olustur
+SmartCollection	GET	/admin/api/smart_collections.json	Listele
+SmartCollection	GET	/admin/api/smart_collections/{smart_collection_id}.json	Detay getir
+SmartCollection	GET	/admin/api/smart_collections/count.json	Say
+SmartCollection	PUT	/admin/api/smart_collections/{smart_collection_id}.json	Guncelle
+SmartCollection	PUT	/admin/api/smart_collections/{smart_collection_id}/order.json	Sirala
+SmartCollection	DELETE	/admin/api/smart_collections/{smart_collection_id}.json	Sil
+StorefrontAccessToken	POST	/admin/api/storefront_access_tokens.json	Olustur
+StorefrontAccessToken	GET	/admin/api/storefront_access_tokens.json	Listele
+StorefrontAccessToken	DELETE	/admin/api/storefront_access_tokens/{storefront_access_token_id}.json	Sil
+TenderTransaction	GET	/admin/api/tender_transactions.json	Listele
+Theme	POST	/admin/api/themes.json	Olustur
+Theme	GET	/admin/api/themes.json	Listele
+Theme	GET	/admin/api/themes/{theme_id}.json	Detay getir
+Theme	PUT	/admin/api/themes/{theme_id}.json	Guncelle
+Theme	DELETE	/admin/api/themes/{theme_id}.json	Sil
+Transaction	POST	/admin/api/orders/{order_id}/transactions.json	Olustur
+Transaction	GET	/admin/api/orders/{order_id}/transactions.json	Listele
+Transaction	GET	/admin/api/orders/{order_id}/transactions/{transaction_id}.json	Detay getir
+Transaction	GET	/admin/api/orders/{order_id}/transactions/count.json	Say
+Transactions	GET	/admin/api/shopiyz_payments/balance/transactions.json	Listele
+UsageCharge	POST	/admin/api/recurring_application_charges/{recurring_application_charge_id}/usage_charges.json	Olustur
+UsageCharge	GET	/admin/api/recurring_application_charges/{recurring_application_charge_id}/usage_charges.json	Listele
+UsageCharge	GET	/admin/api/recurring_application_charges/{recurring_application_charge_id}/usage_charges/{usage_charge_id}.json	Detay getir
+User	GET	/admin/api/users.json	Listele
+User	GET	/admin/api/users/{user_id}.json	Detay getir
+User	GET	/admin/api/users/current.json	Oku
+Webhook	POST	/admin/api/webhooks.json	Olustur
+Webhook	GET	/admin/api/webhooks.json	Listele
+Webhook	GET	/admin/api/webhooks/{webhook_id}.json	Detay getir
+Webhook	GET	/admin/api/webhooks/count.json	Say
+Webhook	PUT	/admin/api/webhooks/{webhook_id}.json	Guncelle
+Webhook	DELETE	/admin/api/webhooks/{webhook_id}.json	Sil`;
 
       const operationRows = operationCatalogRaw
         .trim()
@@ -3633,7 +3633,7 @@ Webhook	DELETE	/admin/api/v1/webhooks/{webhook_id}.json	Sil`;
           `${groups.size} resources`,
           `${rows.length} operations`,
           "live + preview",
-          "REST v1 preview"
+          "REST Admin API preview"
         ];
         summaryItems.forEach((item) => {
           const pill = document.createElement("span");

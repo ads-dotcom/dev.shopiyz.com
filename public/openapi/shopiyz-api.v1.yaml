@@ -4,7 +4,7 @@ info:
   version: 1.0.0
   summary: Shopiyz Admin REST API reference.
   description: |
-    Draft / preview dokumandir. REST v1 ilk yayin kapsamidir; GraphQL daha sonra
+    Draft / preview dokumandir. REST Admin API ilk yayin kapsamidir; GraphQL daha sonra
     ileri seviye referans olarak degerlendirilecektir.
 
     Shopiyz Admin REST API mağaza verilerini panel dışındaki güvenli sistemlerden
@@ -12,18 +12,12 @@ info:
     API'ye yakın tutulur: liste endpointleri `products`, `orders`, `collections`
     gibi root key'lerle döner; detay endpointleri tekil root key kullanır.
 servers:
-  - url: https://{store}.shopiyz.com/admin/api/{api_version}
+  - url: https://{store}.shopiyz.com/admin/api
     description: Store Admin API
     variables:
       store:
         default: development
         description: Store subdomain or custom store host.
-      api_version:
-        default: "2026-01"
-        enum:
-          - v1
-          - latest
-          - "2026-01"
 security:
   - shopiyzAccessToken: []
   - bearerAuth: []
@@ -25559,8 +25553,8 @@ components:
       type: object
       properties:
         generatedAt: { type: string, format: date-time }
-        version: { type: string, example: "2026-07-07" }
-        basePath: { type: string, example: "/admin/api/v1" }
+        version: { type: string, example: "unversioned" }
+        basePath: { type: string, example: "/admin/api" }
         docsUrl: { type: string, format: uri }
         openApiUrl: { type: string, format: uri }
         authentication:

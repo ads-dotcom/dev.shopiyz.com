@@ -22,5 +22,5 @@ Cloudflare Pages can also serve this repository with:
 ## Files
 
 - `index.html` renders the API overview documentation page.
-- `openapi/shopiyz-api.v1.yaml` is a placeholder OpenAPI document.
+- `openapi/shopiyz-api.yaml` is a placeholder OpenAPI document.
 - `CNAME` binds GitHub Pages to `dev.shopiyz.com`.
