@@ -10,15 +10,15 @@ servers:
       store:
         default: development
         description: Store subdomain or custom store host.
-x-shopiyz-generated-at: "2026-07-07T22:36:42.167Z"
+x-shopiyz-generated-at: "2026-07-07T23:25:18.253Z"
 x-shopiyz-source: myshopiyz/src/lib/adminApiCatalog.ts
 x-shopiyz-summary:
   sections: 14
-  resources: 393
-  operations: 1355
-  registeredOperations: 1426
-  implementedOperations: 698
-  capabilities: 525
+  resources: 397
+  operations: 1377
+  registeredOperations: 1448
+  implementedOperations: 720
+  capabilities: 529
 paths:
   /abandoned_carts/customer_target_set.json:
     post:
@@ -2598,6 +2598,65 @@ paths:
               $ref: "#/components/schemas/AdminApiResponse"
       security:
         - ShopiyzAccessToken: []
+  /assistant/chat.json:
+    post:
+      operationId: createAssistantChatTurn
+      tags:
+        - "Access / Chat"
+      summary: "POST /assistant/chat.json (Bixby Orchestrator chat turn)"
+      description: |-
+        POST /assistant/chat.json (Bixby Orchestrator chat turn). Risk R1; confirmation preview; step-up none.
+        Capability: assistant.chat. Risk: R1. Confirmation: preview. Step-up: none.
+      x-shopiyz-capability: assistant.chat
+      x-shopiyz-risk: R1
+      x-shopiyz-confirmation: preview
+      x-shopiyz-step-up: none
+      x-shopiyz-operation-kind: analysis
+      x-shopiyz-implemented: true
+      x-shopiyz-preview-required: false
+      x-shopiyz-rollback-supported: false
+      requestBody:
+        required: false
+        content:
+          application/json:
+            schema:
+              type: object
+              additionalProperties: true
+      responses:
+      "201":
+        description: Successful response
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/AdminApiResponse"
+      security:
+        - ShopiyzAccessToken: []
+  /assistant/context.json:
+    get:
+      operationId: getAssistantContext
+      tags:
+        - "Access / Context"
+      summary: "GET /assistant/context.json (Bixby Orchestrator context)"
+      description: |-
+        GET /assistant/context.json (Bixby Orchestrator context). Risk R0; confirmation none; step-up none.
+        Capability: assistant.context. Risk: R0. Confirmation: none. Step-up: none.
+      x-shopiyz-capability: assistant.context
+      x-shopiyz-risk: R0
+      x-shopiyz-confirmation: none
+      x-shopiyz-step-up: none
+      x-shopiyz-operation-kind: read
+      x-shopiyz-implemented: true
+      x-shopiyz-preview-required: false
+      x-shopiyz-rollback-supported: false
+      responses:
+      "200":
+        description: Successful response
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/AdminApiResponse"
+      security:
+        - ShopiyzAccessToken: []
   /assistant/context/switch-store.json:
     post:
       operationId: postAssistantContextSwitchStore
@@ -2615,6 +2674,506 @@ paths:
       x-shopiyz-implemented: true
       x-shopiyz-preview-required: true
       x-shopiyz-rollback-supported: false
+      requestBody:
+        required: false
+        content:
+          application/json:
+            schema:
+              type: object
+              additionalProperties: true
+      responses:
+      "201":
+        description: Successful response
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/AdminApiResponse"
+      security:
+        - ShopiyzAccessToken: []
+  /assistant/conversations.json:
+    get:
+      operationId: listAssistantConversations
+      tags:
+        - "Access / Conversations"
+      summary: "GET /assistant/conversations.json (List assistant conversations)"
+      description: |-
+        GET /assistant/conversations.json (List assistant conversations). Risk R0; confirmation none; step-up none.
+        Capability: assistant.conversations. Risk: R0. Confirmation: none. Step-up: none.
+      x-shopiyz-capability: assistant.conversations
+      x-shopiyz-risk: R0
+      x-shopiyz-confirmation: none
+      x-shopiyz-step-up: none
+      x-shopiyz-operation-kind: read
+      x-shopiyz-implemented: true
+      x-shopiyz-preview-required: false
+      x-shopiyz-rollback-supported: false
+      responses:
+      "200":
+        description: Successful response
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/AdminApiResponse"
+      security:
+        - ShopiyzAccessToken: []
+    post:
+      operationId: createAssistantConversation
+      tags:
+        - "Access / Conversations"
+      summary: "POST /assistant/conversations.json (Create assistant conversation)"
+      description: |-
+        POST /assistant/conversations.json (Create assistant conversation). Risk R1; confirmation none; step-up none.
+        Capability: assistant.conversations. Risk: R1. Confirmation: none. Step-up: none.
+      x-shopiyz-capability: assistant.conversations
+      x-shopiyz-risk: R1
+      x-shopiyz-confirmation: none
+      x-shopiyz-step-up: none
+      x-shopiyz-operation-kind: write
+      x-shopiyz-implemented: true
+      x-shopiyz-preview-required: false
+      x-shopiyz-rollback-supported: false
+      requestBody:
+        required: false
+        content:
+          application/json:
+            schema:
+              type: object
+              additionalProperties: true
+      responses:
+      "201":
+        description: Successful response
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/AdminApiResponse"
+      security:
+        - ShopiyzAccessToken: []
+  /assistant/conversations/{conversation_id}.json:
+    get:
+      operationId: getAssistantConversation
+      tags:
+        - "Access / Conversations"
+      summary: "GET /assistant/conversations/{conversation_id}.json (Get assistant conversation)"
+      description: |-
+        GET /assistant/conversations/{conversation_id}.json (Get assistant conversation). Risk R0; confirmation none; step-up none.
+        Capability: assistant.conversations. Risk: R0. Confirmation: none. Step-up: none.
+      x-shopiyz-capability: assistant.conversations
+      x-shopiyz-risk: R0
+      x-shopiyz-confirmation: none
+      x-shopiyz-step-up: none
+      x-shopiyz-operation-kind: read
+      x-shopiyz-implemented: true
+      x-shopiyz-preview-required: false
+      x-shopiyz-rollback-supported: false
+      parameters:
+        - name: conversation_id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+      "200":
+        description: Successful response
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/AdminApiResponse"
+      security:
+        - ShopiyzAccessToken: []
+    delete:
+      operationId: archiveAssistantConversation
+      tags:
+        - "Access / Conversations"
+      summary: "DELETE /assistant/conversations/{conversation_id}.json (Archive assistant conversation)"
+      description: |-
+        DELETE /assistant/conversations/{conversation_id}.json (Archive assistant conversation). Risk R1; confirmation none; step-up none.
+        Capability: assistant.conversations. Risk: R1. Confirmation: none. Step-up: none.
+      x-shopiyz-capability: assistant.conversations
+      x-shopiyz-risk: R1
+      x-shopiyz-confirmation: none
+      x-shopiyz-step-up: none
+      x-shopiyz-operation-kind: delete
+      x-shopiyz-implemented: true
+      x-shopiyz-preview-required: false
+      x-shopiyz-rollback-supported: false
+      parameters:
+        - name: conversation_id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+      "200":
+        description: Successful response
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/AdminApiResponse"
+      security:
+        - ShopiyzAccessToken: []
+  /assistant/conversations/{conversation_id}/messages.json:
+    get:
+      operationId: listAssistantConversationMessages
+      tags:
+        - "Access / Conversations"
+      summary: "GET /assistant/conversations/{conversation_id}/messages.json (List assistant conversation messages)"
+      description: |-
+        GET /assistant/conversations/{conversation_id}/messages.json (List assistant conversation messages). Risk R0; confirmation none; step-up none.
+        Capability: assistant.conversations. Risk: R0. Confirmation: none. Step-up: none.
+      x-shopiyz-capability: assistant.conversations
+      x-shopiyz-risk: R0
+      x-shopiyz-confirmation: none
+      x-shopiyz-step-up: none
+      x-shopiyz-operation-kind: read
+      x-shopiyz-implemented: true
+      x-shopiyz-preview-required: false
+      x-shopiyz-rollback-supported: false
+      parameters:
+        - name: conversation_id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+      "200":
+        description: Successful response
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/AdminApiResponse"
+      security:
+        - ShopiyzAccessToken: []
+  /assistant/executions.json:
+    get:
+      operationId: listAssistantExecutions
+      tags:
+        - "Access / Executions"
+      summary: "GET /assistant/executions.json (List assistant executions)"
+      description: |-
+        GET /assistant/executions.json (List assistant executions). Risk R0; confirmation none; step-up none.
+        Capability: assistant.executions. Risk: R0. Confirmation: none. Step-up: none.
+      x-shopiyz-capability: assistant.executions
+      x-shopiyz-risk: R0
+      x-shopiyz-confirmation: none
+      x-shopiyz-step-up: none
+      x-shopiyz-operation-kind: read
+      x-shopiyz-implemented: true
+      x-shopiyz-preview-required: false
+      x-shopiyz-rollback-supported: false
+      responses:
+      "200":
+        description: Successful response
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/AdminApiResponse"
+      security:
+        - ShopiyzAccessToken: []
+  /assistant/executions/{execution_id}.json:
+    get:
+      operationId: getAssistantExecution
+      tags:
+        - "Access / Executions"
+      summary: "GET /assistant/executions/{execution_id}.json (Get assistant execution)"
+      description: |-
+        GET /assistant/executions/{execution_id}.json (Get assistant execution). Risk R0; confirmation none; step-up none.
+        Capability: assistant.executions. Risk: R0. Confirmation: none. Step-up: none.
+      x-shopiyz-capability: assistant.executions
+      x-shopiyz-risk: R0
+      x-shopiyz-confirmation: none
+      x-shopiyz-step-up: none
+      x-shopiyz-operation-kind: read
+      x-shopiyz-implemented: true
+      x-shopiyz-preview-required: false
+      x-shopiyz-rollback-supported: false
+      parameters:
+        - name: execution_id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+      "200":
+        description: Successful response
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/AdminApiResponse"
+      security:
+        - ShopiyzAccessToken: []
+  /assistant/memories.json:
+    get:
+      operationId: listAssistantMemories
+      tags:
+        - "Access / Memories"
+      summary: "GET /assistant/memories.json (List assistant memories)"
+      description: |-
+        GET /assistant/memories.json (List assistant memories). Risk R0; confirmation none; step-up none.
+        Capability: assistant.memories. Risk: R0. Confirmation: none. Step-up: none.
+      x-shopiyz-capability: assistant.memories
+      x-shopiyz-risk: R0
+      x-shopiyz-confirmation: none
+      x-shopiyz-step-up: none
+      x-shopiyz-operation-kind: read
+      x-shopiyz-implemented: true
+      x-shopiyz-preview-required: false
+      x-shopiyz-rollback-supported: false
+      responses:
+      "200":
+        description: Successful response
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/AdminApiResponse"
+      security:
+        - ShopiyzAccessToken: []
+    post:
+      operationId: createAssistantMemory
+      tags:
+        - "Access / Memories"
+      summary: "POST /assistant/memories.json (Create assistant memory)"
+      description: |-
+        POST /assistant/memories.json (Create assistant memory). Risk R1; confirmation none; step-up none.
+        Capability: assistant.memories. Risk: R1. Confirmation: none. Step-up: none.
+      x-shopiyz-capability: assistant.memories
+      x-shopiyz-risk: R1
+      x-shopiyz-confirmation: none
+      x-shopiyz-step-up: none
+      x-shopiyz-operation-kind: write
+      x-shopiyz-implemented: true
+      x-shopiyz-preview-required: false
+      x-shopiyz-rollback-supported: false
+      requestBody:
+        required: false
+        content:
+          application/json:
+            schema:
+              type: object
+              additionalProperties: true
+      responses:
+      "201":
+        description: Successful response
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/AdminApiResponse"
+      security:
+        - ShopiyzAccessToken: []
+  /assistant/memories/{memory_id}.json:
+    get:
+      operationId: getAssistantMemory
+      tags:
+        - "Access / Memories"
+      summary: "GET /assistant/memories/{memory_id}.json (Get assistant memory)"
+      description: |-
+        GET /assistant/memories/{memory_id}.json (Get assistant memory). Risk R0; confirmation none; step-up none.
+        Capability: assistant.memories. Risk: R0. Confirmation: none. Step-up: none.
+      x-shopiyz-capability: assistant.memories
+      x-shopiyz-risk: R0
+      x-shopiyz-confirmation: none
+      x-shopiyz-step-up: none
+      x-shopiyz-operation-kind: read
+      x-shopiyz-implemented: true
+      x-shopiyz-preview-required: false
+      x-shopiyz-rollback-supported: false
+      parameters:
+        - name: memory_id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+      "200":
+        description: Successful response
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/AdminApiResponse"
+      security:
+        - ShopiyzAccessToken: []
+    delete:
+      operationId: deleteAssistantMemory
+      tags:
+        - "Access / Memories"
+      summary: "DELETE /assistant/memories/{memory_id}.json (Delete assistant memory)"
+      description: |-
+        DELETE /assistant/memories/{memory_id}.json (Delete assistant memory). Risk R2; confirmation approval; step-up none.
+        Capability: assistant.memories. Risk: R2. Confirmation: approval. Step-up: none.
+      x-shopiyz-capability: assistant.memories
+      x-shopiyz-risk: R2
+      x-shopiyz-confirmation: approval
+      x-shopiyz-step-up: none
+      x-shopiyz-operation-kind: delete
+      x-shopiyz-implemented: true
+      x-shopiyz-preview-required: false
+      x-shopiyz-rollback-supported: false
+      parameters:
+        - name: memory_id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+      "200":
+        description: Successful response
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/AdminApiResponse"
+      security:
+        - ShopiyzAccessToken: []
+  /assistant/plans.json:
+    get:
+      operationId: listAssistantPlans
+      tags:
+        - "Access / Plans"
+      summary: "GET /assistant/plans.json (List assistant plans)"
+      description: |-
+        GET /assistant/plans.json (List assistant plans). Risk R0; confirmation none; step-up none.
+        Capability: assistant.plans. Risk: R0. Confirmation: none. Step-up: none.
+      x-shopiyz-capability: assistant.plans
+      x-shopiyz-risk: R0
+      x-shopiyz-confirmation: none
+      x-shopiyz-step-up: none
+      x-shopiyz-operation-kind: read
+      x-shopiyz-implemented: true
+      x-shopiyz-preview-required: false
+      x-shopiyz-rollback-supported: false
+      responses:
+      "200":
+        description: Successful response
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/AdminApiResponse"
+      security:
+        - ShopiyzAccessToken: []
+    post:
+      operationId: createAssistantPlan
+      tags:
+        - "Access / Plans"
+      summary: "POST /assistant/plans.json (Create assistant plan)"
+      description: |-
+        POST /assistant/plans.json (Create assistant plan). Risk R1; confirmation preview; step-up none.
+        Capability: assistant.plans. Risk: R1. Confirmation: preview. Step-up: none.
+      x-shopiyz-capability: assistant.plans
+      x-shopiyz-risk: R1
+      x-shopiyz-confirmation: preview
+      x-shopiyz-step-up: none
+      x-shopiyz-operation-kind: analysis
+      x-shopiyz-implemented: true
+      x-shopiyz-preview-required: false
+      x-shopiyz-rollback-supported: false
+      requestBody:
+        required: false
+        content:
+          application/json:
+            schema:
+              type: object
+              additionalProperties: true
+      responses:
+      "201":
+        description: Successful response
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/AdminApiResponse"
+      security:
+        - ShopiyzAccessToken: []
+  /assistant/plans/{plan_id}.json:
+    get:
+      operationId: getAssistantPlan
+      tags:
+        - "Access / Plans"
+      summary: "GET /assistant/plans/{plan_id}.json (Get assistant plan)"
+      description: |-
+        GET /assistant/plans/{plan_id}.json (Get assistant plan). Risk R0; confirmation none; step-up none.
+        Capability: assistant.plans. Risk: R0. Confirmation: none. Step-up: none.
+      x-shopiyz-capability: assistant.plans
+      x-shopiyz-risk: R0
+      x-shopiyz-confirmation: none
+      x-shopiyz-step-up: none
+      x-shopiyz-operation-kind: read
+      x-shopiyz-implemented: true
+      x-shopiyz-preview-required: false
+      x-shopiyz-rollback-supported: false
+      parameters:
+        - name: plan_id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+      "200":
+        description: Successful response
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/AdminApiResponse"
+      security:
+        - ShopiyzAccessToken: []
+  /assistant/plans/{plan_id}/execute.json:
+    post:
+      operationId: executeAssistantPlan
+      tags:
+        - "Access / Plans"
+      summary: "POST /assistant/plans/{plan_id}/execute.json (Execute assistant plan)"
+      description: |-
+        POST /assistant/plans/{plan_id}/execute.json (Execute assistant plan). Risk R3; confirmation approval; step-up conditional.
+        Capability: assistant.plans. Risk: R3. Confirmation: approval. Step-up: conditional.
+      x-shopiyz-capability: assistant.plans
+      x-shopiyz-risk: R3
+      x-shopiyz-confirmation: approval
+      x-shopiyz-step-up: conditional
+      x-shopiyz-operation-kind: job
+      x-shopiyz-implemented: true
+      x-shopiyz-preview-required: true
+      x-shopiyz-rollback-supported: false
+      parameters:
+        - name: plan_id
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: false
+        content:
+          application/json:
+            schema:
+              type: object
+              additionalProperties: true
+      responses:
+      "201":
+        description: Successful response
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/AdminApiResponse"
+      security:
+        - ShopiyzAccessToken: []
+  /assistant/plans/{plan_id}/preview.json:
+    post:
+      operationId: previewAssistantPlan
+      tags:
+        - "Access / Plans"
+      summary: "POST /assistant/plans/{plan_id}/preview.json (Preview assistant plan)"
+      description: |-
+        POST /assistant/plans/{plan_id}/preview.json (Preview assistant plan). Risk R1; confirmation preview; step-up none.
+        Capability: assistant.plans. Risk: R1. Confirmation: preview. Step-up: none.
+      x-shopiyz-capability: assistant.plans
+      x-shopiyz-risk: R1
+      x-shopiyz-confirmation: preview
+      x-shopiyz-step-up: none
+      x-shopiyz-operation-kind: analysis
+      x-shopiyz-implemented: true
+      x-shopiyz-preview-required: false
+      x-shopiyz-rollback-supported: false
+      parameters:
+        - name: plan_id
+          in: path
+          required: true
+          schema:
+            type: string
       requestBody:
         required: false
         content:
@@ -5309,6 +5868,97 @@ paths:
             type: string
       responses:
       "200":
+        description: Successful response
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/AdminApiResponse"
+      security:
+        - ShopiyzAccessToken: []
+  /capabilities/rebuild.json:
+    post:
+      operationId: rebuildCapabilityCatalog
+      tags:
+        - "Access / Runtime Catalog"
+      summary: "POST /capabilities/rebuild.json (Capability catalog rebuild)"
+      description: |-
+        POST /capabilities/rebuild.json (Capability catalog rebuild). Risk R1; confirmation preview; step-up none.
+        Capability: runtime.catalog. Risk: R1. Confirmation: preview. Step-up: none.
+      x-shopiyz-capability: runtime.catalog
+      x-shopiyz-risk: R1
+      x-shopiyz-confirmation: preview
+      x-shopiyz-step-up: none
+      x-shopiyz-operation-kind: job
+      x-shopiyz-implemented: true
+      x-shopiyz-preview-required: false
+      x-shopiyz-rollback-supported: false
+      requestBody:
+        required: false
+        content:
+          application/json:
+            schema:
+              type: object
+              additionalProperties: true
+      responses:
+      "201":
+        description: Successful response
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/AdminApiResponse"
+      security:
+        - ShopiyzAccessToken: []
+  /capabilities/search.json:
+    get:
+      operationId: getCapabilitiesSearch
+      tags:
+        - "Access / Runtime Catalog"
+      summary: "GET /capabilities/search.json (Capability catalog search)"
+      description: |-
+        GET /capabilities/search.json (Capability catalog search). Risk R0; confirmation none; step-up none.
+        Capability: runtime.catalog. Risk: R0. Confirmation: none. Step-up: none.
+      x-shopiyz-capability: runtime.catalog
+      x-shopiyz-risk: R0
+      x-shopiyz-confirmation: none
+      x-shopiyz-step-up: none
+      x-shopiyz-operation-kind: analysis
+      x-shopiyz-implemented: true
+      x-shopiyz-preview-required: false
+      x-shopiyz-rollback-supported: false
+      responses:
+      "200":
+        description: Successful response
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/AdminApiResponse"
+      security:
+        - ShopiyzAccessToken: []
+    post:
+      operationId: searchCapabilities
+      tags:
+        - "Access / Runtime Catalog"
+      summary: "POST /capabilities/search.json (Capability catalog search)"
+      description: |-
+        POST /capabilities/search.json (Capability catalog search). Risk R0; confirmation none; step-up none.
+        Capability: runtime.catalog. Risk: R0. Confirmation: none. Step-up: none.
+      x-shopiyz-capability: runtime.catalog
+      x-shopiyz-risk: R0
+      x-shopiyz-confirmation: none
+      x-shopiyz-step-up: none
+      x-shopiyz-operation-kind: analysis
+      x-shopiyz-implemented: true
+      x-shopiyz-preview-required: false
+      x-shopiyz-rollback-supported: false
+      requestBody:
+        required: false
+        content:
+          application/json:
+            schema:
+              type: object
+              additionalProperties: true
+      responses:
+      "201":
         description: Successful response
         content:
           application/json:
@@ -15177,6 +15827,39 @@ paths:
       x-shopiyz-confirmation: none
       x-shopiyz-step-up: none
       x-shopiyz-operation-kind: analysis
+      x-shopiyz-implemented: true
+      x-shopiyz-preview-required: false
+      x-shopiyz-rollback-supported: false
+      requestBody:
+        required: false
+        content:
+          application/json:
+            schema:
+              type: object
+              additionalProperties: true
+      responses:
+      "201":
+        description: Successful response
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/AdminApiResponse"
+      security:
+        - ShopiyzAccessToken: []
+  /entity-resolution/confirm.json:
+    post:
+      operationId: confirmEntityResolution
+      tags:
+        - "Access / Entity Resolution"
+      summary: "POST /entity-resolution/confirm.json (Entity resolution confirmation)"
+      description: |-
+        POST /entity-resolution/confirm.json (Entity resolution confirmation). Risk R1; confirmation none; step-up none.
+        Capability: assistant.entity_resolution. Risk: R1. Confirmation: none. Step-up: none.
+      x-shopiyz-capability: assistant.entity_resolution
+      x-shopiyz-risk: R1
+      x-shopiyz-confirmation: none
+      x-shopiyz-step-up: none
+      x-shopiyz-operation-kind: write
       x-shopiyz-implemented: true
       x-shopiyz-preview-required: false
       x-shopiyz-rollback-supported: false
