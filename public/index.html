@@ -3217,7 +3217,7 @@ curl -X GET <span class="token-string">"https://{store}.shopiyz.com/admin/api/ap
       const toast = document.getElementById("toast");
       // BEGIN generated Admin API registry data
       const adminApiDoc = {
-  "generatedAt": "2026-07-08T00:20:14.370Z",
+  "generatedAt": "2026-07-08T00:37:27.518Z",
   "source": "myshopiyz/src/lib/adminApiCatalog.ts",
   "basePath": "/admin/api",
   "openApiUrl": "https://dev.shopiyz.com/openapi/shopiyz-api.yaml",
@@ -3226,8 +3226,8 @@ curl -X GET <span class="token-string">"https://{store}.shopiyz.com/admin/api/ap
     "resources": 471,
     "operations": 1750,
     "registeredOperations": 1869,
-    "implementedOperations": 1130,
-    "plannedOperations": 620,
+    "implementedOperations": 1139,
+    "plannedOperations": 611,
     "capabilities": 936
   },
   "sections": [
@@ -8906,26 +8906,6 @@ curl -X GET <span class="token-string">"https://{store}.shopiyz.com/admin/api/ap
           "description": "Gift Cards operasyonlari (gift_cards).",
           "operations": [
             {
-              "method": "POST",
-              "path": "/gift_cards.json",
-              "fullPath": "/admin/api/gift_cards.json",
-              "operationId": "createGiftCardRuntime",
-              "capability": "gift_cards",
-              "summary": "Queue gift card creation",
-              "description": "Queue gift card creation. Risk R4; confirmation approval; step-up mfa.",
-              "operationKind": "job",
-              "risk": "R4",
-              "confirmation": "approval",
-              "stepUp": "mfa",
-              "requiredScopes": [
-                "admin:write"
-              ],
-              "implemented": true,
-              "idempotencyRequired": true,
-              "previewRequired": true,
-              "rollbackSupported": true
-            },
-            {
               "method": "PATCH",
               "path": "/gift_cards/{gift_card_id}.json",
               "fullPath": "/admin/api/gift_cards/{gift_card_id}.json",
@@ -9046,7 +9026,7 @@ curl -X GET <span class="token-string">"https://{store}.shopiyz.com/admin/api/ap
               "rollbackSupported": true
             }
           ],
-          "operationCount": 7
+          "operationCount": 6
         },
         {
           "id": "gift-cards-discounts-promotions-resource",
@@ -9073,6 +9053,26 @@ curl -X GET <span class="token-string">"https://{store}.shopiyz.com/admin/api/ap
               "implemented": true,
               "idempotencyRequired": false,
               "previewRequired": false,
+              "rollbackSupported": false
+            },
+            {
+              "method": "POST",
+              "path": "/gift_cards.json",
+              "fullPath": "/admin/api/gift_cards.json",
+              "operationId": "postGiftCards",
+              "capability": "discounts.promotions",
+              "summary": "POST /gift_cards.json (İndirim / kupon / hediye kartı / mağaza kredisi)",
+              "description": "POST /gift_cards.json (İndirim / kupon / hediye kartı / mağaza kredisi). Risk R3; confirmation explicit; step-up conditional.",
+              "operationKind": "write",
+              "risk": "R3",
+              "confirmation": "explicit",
+              "stepUp": "conditional",
+              "requiredScopes": [
+                "admin:write"
+              ],
+              "implemented": true,
+              "idempotencyRequired": true,
+              "previewRequired": true,
               "rollbackSupported": false
             },
             {
@@ -9111,7 +9111,7 @@ curl -X GET <span class="token-string">"https://{store}.shopiyz.com/admin/api/ap
               "requiredScopes": [
                 "admin:write"
               ],
-              "implemented": false,
+              "implemented": true,
               "idempotencyRequired": true,
               "previewRequired": true,
               "rollbackSupported": false
@@ -9131,13 +9131,13 @@ curl -X GET <span class="token-string">"https://{store}.shopiyz.com/admin/api/ap
               "requiredScopes": [
                 "admin:write"
               ],
-              "implemented": false,
+              "implemented": true,
               "idempotencyRequired": true,
               "previewRequired": true,
               "rollbackSupported": false
             }
           ],
-          "operationCount": 4
+          "operationCount": 5
         },
         {
           "id": "gift-cards-gift-cards-products-resource",
@@ -13418,7 +13418,7 @@ curl -X GET <span class="token-string">"https://{store}.shopiyz.com/admin/api/ap
               "requiredScopes": [
                 "admin:write"
               ],
-              "implemented": false,
+              "implemented": true,
               "idempotencyRequired": true,
               "previewRequired": true,
               "rollbackSupported": false
@@ -20598,7 +20598,7 @@ curl -X GET <span class="token-string">"https://{store}.shopiyz.com/admin/api/ap
               "requiredScopes": [
                 "admin:write"
               ],
-              "implemented": false,
+              "implemented": true,
               "idempotencyRequired": true,
               "previewRequired": true,
               "rollbackSupported": false
@@ -20619,7 +20619,7 @@ curl -X GET <span class="token-string">"https://{store}.shopiyz.com/admin/api/ap
                 "admin:read",
                 "admin:write"
               ],
-              "implemented": false,
+              "implemented": true,
               "idempotencyRequired": false,
               "previewRequired": false,
               "rollbackSupported": false
@@ -20639,7 +20639,7 @@ curl -X GET <span class="token-string">"https://{store}.shopiyz.com/admin/api/ap
               "requiredScopes": [
                 "admin:write"
               ],
-              "implemented": false,
+              "implemented": true,
               "idempotencyRequired": true,
               "previewRequired": true,
               "rollbackSupported": false
@@ -20660,7 +20660,7 @@ curl -X GET <span class="token-string">"https://{store}.shopiyz.com/admin/api/ap
                 "admin:read",
                 "admin:write"
               ],
-              "implemented": false,
+              "implemented": true,
               "idempotencyRequired": false,
               "previewRequired": false,
               "rollbackSupported": false
@@ -20680,7 +20680,7 @@ curl -X GET <span class="token-string">"https://{store}.shopiyz.com/admin/api/ap
               "requiredScopes": [
                 "admin:write"
               ],
-              "implemented": false,
+              "implemented": true,
               "idempotencyRequired": true,
               "previewRequired": true,
               "rollbackSupported": false
@@ -20701,7 +20701,7 @@ curl -X GET <span class="token-string">"https://{store}.shopiyz.com/admin/api/ap
                 "admin:read",
                 "admin:write"
               ],
-              "implemented": false,
+              "implemented": true,
               "idempotencyRequired": false,
               "previewRequired": false,
               "rollbackSupported": false
@@ -51707,7 +51707,7 @@ curl -X GET <span class="token-string">"https://{store}.shopiyz.com/admin/api/ap
       "requiredScopes": [
         "admin:write"
       ],
-      "implemented": false,
+      "implemented": true,
       "idempotencyRequired": true,
       "previewRequired": true,
       "rollbackSupported": false
@@ -51728,7 +51728,7 @@ curl -X GET <span class="token-string">"https://{store}.shopiyz.com/admin/api/ap
         "admin:read",
         "admin:write"
       ],
-      "implemented": false,
+      "implemented": true,
       "idempotencyRequired": false,
       "previewRequired": false,
       "rollbackSupported": false
@@ -55664,7 +55664,7 @@ curl -X GET <span class="token-string">"https://{store}.shopiyz.com/admin/api/ap
       "requiredScopes": [
         "admin:write"
       ],
-      "implemented": false,
+      "implemented": true,
       "idempotencyRequired": true,
       "previewRequired": true,
       "rollbackSupported": false
@@ -60247,21 +60247,21 @@ curl -X GET <span class="token-string">"https://{store}.shopiyz.com/admin/api/ap
       "method": "POST",
       "path": "/gift_cards.json",
       "fullPath": "/admin/api/gift_cards.json",
-      "operationId": "createGiftCardRuntime",
-      "capability": "gift_cards",
-      "summary": "Queue gift card creation",
-      "description": "Queue gift card creation. Risk R4; confirmation approval; step-up mfa.",
-      "operationKind": "job",
-      "risk": "R4",
-      "confirmation": "approval",
-      "stepUp": "mfa",
+      "operationId": "postGiftCards",
+      "capability": "discounts.promotions",
+      "summary": "POST /gift_cards.json (İndirim / kupon / hediye kartı / mağaza kredisi)",
+      "description": "POST /gift_cards.json (İndirim / kupon / hediye kartı / mağaza kredisi). Risk R3; confirmation explicit; step-up conditional.",
+      "operationKind": "write",
+      "risk": "R3",
+      "confirmation": "explicit",
+      "stepUp": "conditional",
       "requiredScopes": [
         "admin:write"
       ],
       "implemented": true,
       "idempotencyRequired": true,
       "previewRequired": true,
-      "rollbackSupported": true
+      "rollbackSupported": false
     },
     {
       "method": "GET",
@@ -60359,7 +60359,7 @@ curl -X GET <span class="token-string">"https://{store}.shopiyz.com/admin/api/ap
       "requiredScopes": [
         "admin:write"
       ],
-      "implemented": false,
+      "implemented": true,
       "idempotencyRequired": true,
       "previewRequired": true,
       "rollbackSupported": false
@@ -60399,7 +60399,7 @@ curl -X GET <span class="token-string">"https://{store}.shopiyz.com/admin/api/ap
       "requiredScopes": [
         "admin:write"
       ],
-      "implemented": false,
+      "implemented": true,
       "idempotencyRequired": true,
       "previewRequired": true,
       "rollbackSupported": false
@@ -74581,7 +74581,7 @@ curl -X GET <span class="token-string">"https://{store}.shopiyz.com/admin/api/ap
         "admin:read",
         "admin:write"
       ],
-      "implemented": false,
+      "implemented": true,
       "idempotencyRequired": false,
       "previewRequired": false,
       "rollbackSupported": false
@@ -74601,7 +74601,7 @@ curl -X GET <span class="token-string">"https://{store}.shopiyz.com/admin/api/ap
       "requiredScopes": [
         "admin:write"
       ],
-      "implemented": false,
+      "implemented": true,
       "idempotencyRequired": true,
       "previewRequired": true,
       "rollbackSupported": false
@@ -74622,7 +74622,7 @@ curl -X GET <span class="token-string">"https://{store}.shopiyz.com/admin/api/ap
         "admin:read",
         "admin:write"
       ],
-      "implemented": false,
+      "implemented": true,
       "idempotencyRequired": false,
       "previewRequired": false,
       "rollbackSupported": false
@@ -74642,7 +74642,7 @@ curl -X GET <span class="token-string">"https://{store}.shopiyz.com/admin/api/ap
       "requiredScopes": [
         "admin:write"
       ],
-      "implemented": false,
+      "implemented": true,
       "idempotencyRequired": true,
       "previewRequired": true,
       "rollbackSupported": false
@@ -78944,6 +78944,8 @@ curl -X GET <span class="token-string">"https://{store}.shopiyz.com/admin/api/ap
 
 
 
+
+
       function groupedOperations(rows) {
         return rows.reduce((groups, row) => {
           if (!groups.has(row.resource)) groups.set(row.resource, []);
@@ -79187,6 +79189,8 @@ curl -X GET <span class="token-string">"https://{store}.shopiyz.com/admin/api/ap
       renderRegistryResourceReference();
       renderRegistrySidebar();
       // END generated Admin API registry rendering
+
+
 
 
 

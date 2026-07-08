@@ -10,14 +10,14 @@ servers:
       store:
         default: development
         description: Store subdomain or custom store host.
-x-shopiyz-generated-at: "2026-07-08T00:20:14.370Z"
+x-shopiyz-generated-at: "2026-07-08T00:37:27.518Z"
 x-shopiyz-source: myshopiyz/src/lib/adminApiCatalog.ts
 x-shopiyz-summary:
   sections: 14
   resources: 471
   operations: 1750
   registeredOperations: 1869
-  implementedOperations: 1130
+  implementedOperations: 1139
   capabilities: 936
 paths:
   /abandoned_carts/customer_target_set.json:
@@ -18432,7 +18432,7 @@ paths:
       x-shopiyz-confirmation: approval
       x-shopiyz-step-up: none
       x-shopiyz-operation-kind: write
-      x-shopiyz-implemented: false
+      x-shopiyz-implemented: true
       x-shopiyz-preview-required: true
       x-shopiyz-rollback-supported: false
       x-operation-kind: mutation
@@ -18477,7 +18477,7 @@ paths:
       x-shopiyz-confirmation: none
       x-shopiyz-step-up: none
       x-shopiyz-operation-kind: read
-      x-shopiyz-implemented: false
+      x-shopiyz-implemented: true
       x-shopiyz-preview-required: false
       x-shopiyz-rollback-supported: false
       x-operation-kind: query
@@ -27203,7 +27203,7 @@ paths:
       x-shopiyz-confirmation: explicit
       x-shopiyz-step-up: conditional
       x-shopiyz-operation-kind: job
-      x-shopiyz-implemented: false
+      x-shopiyz-implemented: true
       x-shopiyz-preview-required: true
       x-shopiyz-rollback-supported: false
       x-operation-kind: bulk_mutation
@@ -37291,33 +37291,33 @@ paths:
       security:
         - ShopiyzAccessToken: []
     post:
-      operationId: createGiftCardRuntime
+      operationId: postGiftCards
       tags:
-        - "Gift Cards / Gift Cards"
-      summary: "Queue gift card creation"
+        - "Gift Cards / Promotions"
+      summary: "POST /gift_cards.json (İndirim / kupon / hediye kartı / mağaza kredisi)"
       description: |-
-        Queue gift card creation. Risk R4; confirmation approval; step-up mfa.
-        Capability: gift_cards. Risk: R4. Confirmation: approval. Step-up: mfa.
-      x-shopiyz-capability: gift_cards
-      x-shopiyz-risk: R4
-      x-shopiyz-confirmation: approval
-      x-shopiyz-step-up: mfa
-      x-shopiyz-operation-kind: job
+        POST /gift_cards.json (İndirim / kupon / hediye kartı / mağaza kredisi). Risk R3; confirmation explicit; step-up conditional.
+        Capability: discounts.promotions. Risk: R3. Confirmation: explicit. Step-up: conditional.
+      x-shopiyz-capability: discounts.promotions
+      x-shopiyz-risk: R3
+      x-shopiyz-confirmation: explicit
+      x-shopiyz-step-up: conditional
+      x-shopiyz-operation-kind: write
       x-shopiyz-implemented: true
       x-shopiyz-preview-required: true
-      x-shopiyz-rollback-supported: true
+      x-shopiyz-rollback-supported: false
       x-operation-kind: mutation
-      x-risk: R4
-      x-confirmation: preview
-      x-step-up: required
+      x-risk: R3
+      x-confirmation: explicit
+      x-step-up: optional
       x-idempotency: required
       x-preview-supported: true
-      x-rollback-supported: true
+      x-rollback-supported: false
       x-required-roles:
         - merchant_staff
       x-required-scopes:
         - "admin:write"
-      x-audit-event: gift_cards
+      x-audit-event: discounts.promotions
       requestBody:
         required: false
         content:
@@ -37545,7 +37545,7 @@ paths:
       x-shopiyz-confirmation: explicit
       x-shopiyz-step-up: conditional
       x-shopiyz-operation-kind: write
-      x-shopiyz-implemented: false
+      x-shopiyz-implemented: true
       x-shopiyz-preview-required: true
       x-shopiyz-rollback-supported: false
       x-operation-kind: mutation
@@ -37647,7 +37647,7 @@ paths:
       x-shopiyz-confirmation: explicit
       x-shopiyz-step-up: conditional
       x-shopiyz-operation-kind: write
-      x-shopiyz-implemented: false
+      x-shopiyz-implemented: true
       x-shopiyz-preview-required: true
       x-shopiyz-rollback-supported: false
       x-operation-kind: mutation
@@ -68904,7 +68904,7 @@ paths:
       x-shopiyz-confirmation: none
       x-shopiyz-step-up: none
       x-shopiyz-operation-kind: read
-      x-shopiyz-implemented: false
+      x-shopiyz-implemented: true
       x-shopiyz-preview-required: false
       x-shopiyz-rollback-supported: false
       x-operation-kind: query
@@ -68942,7 +68942,7 @@ paths:
       x-shopiyz-confirmation: explicit
       x-shopiyz-step-up: conditional
       x-shopiyz-operation-kind: write
-      x-shopiyz-implemented: false
+      x-shopiyz-implemented: true
       x-shopiyz-preview-required: true
       x-shopiyz-rollback-supported: false
       x-operation-kind: mutation
@@ -68987,7 +68987,7 @@ paths:
       x-shopiyz-confirmation: none
       x-shopiyz-step-up: none
       x-shopiyz-operation-kind: read
-      x-shopiyz-implemented: false
+      x-shopiyz-implemented: true
       x-shopiyz-preview-required: false
       x-shopiyz-rollback-supported: false
       x-operation-kind: query
@@ -69032,7 +69032,7 @@ paths:
       x-shopiyz-confirmation: explicit
       x-shopiyz-step-up: conditional
       x-shopiyz-operation-kind: write
-      x-shopiyz-implemented: false
+      x-shopiyz-implemented: true
       x-shopiyz-preview-required: true
       x-shopiyz-rollback-supported: false
       x-operation-kind: mutation
