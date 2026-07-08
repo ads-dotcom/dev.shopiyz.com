@@ -3217,18 +3217,18 @@ curl -X GET <span class="token-string">"https://{store}.shopiyz.com/admin/api/ap
       const toast = document.getElementById("toast");
       // BEGIN generated Admin API registry data
       const adminApiDoc = {
-  "generatedAt": "2026-07-08T01:01:08.020Z",
+  "generatedAt": "2026-07-08T01:20:35.438Z",
   "source": "myshopiyz/src/lib/adminApiCatalog.ts",
   "basePath": "/admin/api",
   "openApiUrl": "https://dev.shopiyz.com/openapi/shopiyz-api.yaml",
   "summary": {
     "sections": 14,
-    "resources": 511,
-    "operations": 1890,
-    "registeredOperations": 2015,
-    "implementedOperations": 1285,
+    "resources": 512,
+    "operations": 1894,
+    "registeredOperations": 2019,
+    "implementedOperations": 1289,
     "plannedOperations": 605,
-    "capabilities": 994
+    "capabilities": 995
   },
   "sections": [
     {
@@ -3237,7 +3237,7 @@ curl -X GET <span class="token-string">"https://{store}.shopiyz.com/admin/api/ap
       "tag": "auth",
       "icon": "KEY",
       "description": "Token, scope, izin, runtime katalog ve guvenli yardimci akislar.",
-      "operationCount": 49,
+      "operationCount": 53,
       "resources": [
         {
           "id": "access-assistant-plans-resource",
@@ -3883,6 +3883,97 @@ curl -X GET <span class="token-string">"https://{store}.shopiyz.com/admin/api/ap
               "implemented": true,
               "idempotencyRequired": true,
               "previewRequired": true,
+              "rollbackSupported": false
+            }
+          ],
+          "operationCount": 4
+        },
+        {
+          "id": "access-assistant-missing-api-requests-resource",
+          "key": "assistant.missing_api_requests",
+          "name": "Missing Api Requests",
+          "description": "Missing Api Requests operasyonlari (assistant.missing_api_requests).",
+          "operations": [
+            {
+              "method": "GET",
+              "path": "/assistant/missing_api_requests.json",
+              "fullPath": "/admin/api/assistant/missing_api_requests.json",
+              "operationId": "listAssistantMissingApiRequests",
+              "capability": "assistant.missing_api_requests",
+              "summary": "GET /assistant/missing_api_requests.json (List missing API and development requests)",
+              "description": "GET /assistant/missing_api_requests.json (List missing API and development requests). Risk R0; confirmation none; step-up none.",
+              "operationKind": "read",
+              "risk": "R0",
+              "confirmation": "none",
+              "stepUp": "none",
+              "requiredScopes": [
+                "admin:read",
+                "admin:write"
+              ],
+              "implemented": true,
+              "idempotencyRequired": false,
+              "previewRequired": false,
+              "rollbackSupported": false
+            },
+            {
+              "method": "POST",
+              "path": "/assistant/missing_api_requests.json",
+              "fullPath": "/admin/api/assistant/missing_api_requests.json",
+              "operationId": "createAssistantMissingApiRequest",
+              "capability": "assistant.missing_api_requests",
+              "summary": "POST /assistant/missing_api_requests.json (Create a missing API or development request)",
+              "description": "POST /assistant/missing_api_requests.json (Create a missing API or development request). Risk R1; confirmation none; step-up none.",
+              "operationKind": "write",
+              "risk": "R1",
+              "confirmation": "none",
+              "stepUp": "none",
+              "requiredScopes": [
+                "admin:write"
+              ],
+              "implemented": true,
+              "idempotencyRequired": true,
+              "previewRequired": false,
+              "rollbackSupported": false
+            },
+            {
+              "method": "GET",
+              "path": "/assistant/missing_api_requests/{request_id}.json",
+              "fullPath": "/admin/api/assistant/missing_api_requests/{request_id}.json",
+              "operationId": "getAssistantMissingApiRequest",
+              "capability": "assistant.missing_api_requests",
+              "summary": "GET /assistant/missing_api_requests/{request_id}.json (Get a missing API request)",
+              "description": "GET /assistant/missing_api_requests/{request_id}.json (Get a missing API request). Risk R0; confirmation none; step-up none.",
+              "operationKind": "read",
+              "risk": "R0",
+              "confirmation": "none",
+              "stepUp": "none",
+              "requiredScopes": [
+                "admin:read",
+                "admin:write"
+              ],
+              "implemented": true,
+              "idempotencyRequired": false,
+              "previewRequired": false,
+              "rollbackSupported": false
+            },
+            {
+              "method": "PATCH",
+              "path": "/assistant/missing_api_requests/{request_id}.json",
+              "fullPath": "/admin/api/assistant/missing_api_requests/{request_id}.json",
+              "operationId": "updateAssistantMissingApiRequest",
+              "capability": "assistant.missing_api_requests",
+              "summary": "PATCH /assistant/missing_api_requests/{request_id}.json (Update missing API request status)",
+              "description": "PATCH /assistant/missing_api_requests/{request_id}.json (Update missing API request status). Risk R1; confirmation none; step-up none.",
+              "operationKind": "write",
+              "risk": "R1",
+              "confirmation": "none",
+              "stepUp": "none",
+              "requiredScopes": [
+                "admin:write"
+              ],
+              "implemented": true,
+              "idempotencyRequired": true,
+              "previewRequired": false,
               "rollbackSupported": false
             }
           ],
@@ -48779,6 +48870,88 @@ curl -X GET <span class="token-string">"https://{store}.shopiyz.com/admin/api/ap
     },
     {
       "method": "GET",
+      "path": "/assistant/missing_api_requests.json",
+      "fullPath": "/admin/api/assistant/missing_api_requests.json",
+      "operationId": "listAssistantMissingApiRequests",
+      "capability": "assistant.missing_api_requests",
+      "summary": "GET /assistant/missing_api_requests.json (List missing API and development requests)",
+      "description": "GET /assistant/missing_api_requests.json (List missing API and development requests). Risk R0; confirmation none; step-up none.",
+      "operationKind": "read",
+      "risk": "R0",
+      "confirmation": "none",
+      "stepUp": "none",
+      "requiredScopes": [
+        "admin:read",
+        "admin:write"
+      ],
+      "implemented": true,
+      "idempotencyRequired": false,
+      "previewRequired": false,
+      "rollbackSupported": false
+    },
+    {
+      "method": "POST",
+      "path": "/assistant/missing_api_requests.json",
+      "fullPath": "/admin/api/assistant/missing_api_requests.json",
+      "operationId": "createAssistantMissingApiRequest",
+      "capability": "assistant.missing_api_requests",
+      "summary": "POST /assistant/missing_api_requests.json (Create a missing API or development request)",
+      "description": "POST /assistant/missing_api_requests.json (Create a missing API or development request). Risk R1; confirmation none; step-up none.",
+      "operationKind": "write",
+      "risk": "R1",
+      "confirmation": "none",
+      "stepUp": "none",
+      "requiredScopes": [
+        "admin:write"
+      ],
+      "implemented": true,
+      "idempotencyRequired": true,
+      "previewRequired": false,
+      "rollbackSupported": false
+    },
+    {
+      "method": "GET",
+      "path": "/assistant/missing_api_requests/{request_id}.json",
+      "fullPath": "/admin/api/assistant/missing_api_requests/{request_id}.json",
+      "operationId": "getAssistantMissingApiRequest",
+      "capability": "assistant.missing_api_requests",
+      "summary": "GET /assistant/missing_api_requests/{request_id}.json (Get a missing API request)",
+      "description": "GET /assistant/missing_api_requests/{request_id}.json (Get a missing API request). Risk R0; confirmation none; step-up none.",
+      "operationKind": "read",
+      "risk": "R0",
+      "confirmation": "none",
+      "stepUp": "none",
+      "requiredScopes": [
+        "admin:read",
+        "admin:write"
+      ],
+      "implemented": true,
+      "idempotencyRequired": false,
+      "previewRequired": false,
+      "rollbackSupported": false
+    },
+    {
+      "method": "PATCH",
+      "path": "/assistant/missing_api_requests/{request_id}.json",
+      "fullPath": "/admin/api/assistant/missing_api_requests/{request_id}.json",
+      "operationId": "updateAssistantMissingApiRequest",
+      "capability": "assistant.missing_api_requests",
+      "summary": "PATCH /assistant/missing_api_requests/{request_id}.json (Update missing API request status)",
+      "description": "PATCH /assistant/missing_api_requests/{request_id}.json (Update missing API request status). Risk R1; confirmation none; step-up none.",
+      "operationKind": "write",
+      "risk": "R1",
+      "confirmation": "none",
+      "stepUp": "none",
+      "requiredScopes": [
+        "admin:write"
+      ],
+      "implemented": true,
+      "idempotencyRequired": true,
+      "previewRequired": false,
+      "rollbackSupported": false
+    },
+    {
+      "method": "GET",
       "path": "/assistant/plans.json",
       "fullPath": "/admin/api/assistant/plans.json",
       "operationId": "listAssistantPlans",
@@ -85016,6 +85189,8 @@ curl -X GET <span class="token-string">"https://{store}.shopiyz.com/admin/api/ap
 
 
 
+
+
       function groupedOperations(rows) {
         return rows.reduce((groups, row) => {
           if (!groups.has(row.resource)) groups.set(row.resource, []);
@@ -85259,6 +85434,8 @@ curl -X GET <span class="token-string">"https://{store}.shopiyz.com/admin/api/ap
       renderRegistryResourceReference();
       renderRegistrySidebar();
       // END generated Admin API registry rendering
+
+
 
 
 
