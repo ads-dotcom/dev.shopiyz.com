@@ -70,6 +70,43 @@ function yamlBlock(value, indent = "  ") {
     .join("\n");
 }
 
+function yamlList(values, indent = "        ") {
+  return values.map((value) => `${indent}- ${yamlString(value)}`).join("\n");
+}
+
+function standardOperationKind(operation) {
+  const pathText = `${operation.path} ${operation.capability} ${operation.operationId}`.toLowerCase();
+  if (pathText.includes("bulk")) return "bulk_mutation";
+  if (pathText.includes("analytics") || pathText.includes("report") || pathText.includes("suggestion") || operation.operationKind === "analysis") return "analytics";
+  if (pathText.includes("moderation") || pathText.includes("approve") || pathText.includes("reject") || pathText.includes("spam")) return "moderation";
+  if (pathText.includes("settings") || pathText.includes("config") || pathText.includes("rules")) return "configuration";
+  if (operation.method === "GET" || operation.operationKind === "read" || operation.operationKind === "audit") return "query";
+  return "mutation";
+}
+
+function standardConfirmation(confirmation) {
+  if (confirmation === "approval") return "preview";
+  if (confirmation === "manual_review") return "explicit";
+  return confirmation || "none";
+}
+
+function standardStepUp(stepUp) {
+  if (stepUp === "conditional") return "optional";
+  if (stepUp === "mfa") return "required";
+  return stepUp || "none";
+}
+
+function standardIdempotency(operation) {
+  if (operation.idempotencyRequired) return "required";
+  if (["POST", "PUT", "PATCH", "DELETE"].includes(operation.method)) return "recommended";
+  return "none";
+}
+
+function requiredScopesFor(operation) {
+  if (Array.isArray(operation.requiredScopes) && operation.requiredScopes.length) return operation.requiredScopes;
+  return operation.method === "GET" ? ["admin:read", "admin:write"] : ["admin:write"];
+}
+
 function uniqueOperationId(operation, used) {
   const base = String(operation.operationId || `${operation.method}_${operation.path}`)
     .replace(/[^A-Za-z0-9_]+/g, "_")
@@ -426,6 +463,7 @@ function normalizeOperation(operation, usedOperationIds) {
     risk: operation.risk,
     confirmation: operation.confirmation,
     stepUp: operation.stepUp,
+    requiredScopes: requiredScopesFor(operation),
     implemented: operation.implemented !== false,
     idempotencyRequired: Boolean(operation.idempotencyRequired),
     previewRequired: Boolean(operation.previewRequired),
@@ -778,12 +816,12 @@ function openApiPathParams(pathname) {
 
 function responseBlock(status = "200") {
   return [
-    `      "${status}":`,
-    "        description: Successful response",
-    "        content:",
-    "          application/json:",
-    "            schema:",
-    "              $ref: \"#/components/schemas/AdminApiResponse\"",
+    `        "${status}":`,
+    "          description: Successful response",
+    "          content:",
+    "            application/json:",
+    "              schema:",
+    "                $ref: \"#/components/schemas/AdminApiResponse\"",
   ].join("\n");
 }
 
@@ -804,6 +842,18 @@ function renderOpenApiOperation(operation, tagName) {
   lines.push(`      x-shopiyz-implemented: ${operation.implemented ? "true" : "false"}`);
   lines.push(`      x-shopiyz-preview-required: ${operation.previewRequired ? "true" : "false"}`);
   lines.push(`      x-shopiyz-rollback-supported: ${operation.rollbackSupported ? "true" : "false"}`);
+  lines.push(`      x-operation-kind: ${yamlString(standardOperationKind(operation))}`);
+  lines.push(`      x-risk: ${yamlString(operation.risk)}`);
+  lines.push(`      x-confirmation: ${yamlString(standardConfirmation(operation.confirmation))}`);
+  lines.push(`      x-step-up: ${yamlString(standardStepUp(operation.stepUp))}`);
+  lines.push(`      x-idempotency: ${yamlString(standardIdempotency(operation))}`);
+  lines.push(`      x-preview-supported: ${operation.previewRequired ? "true" : "false"}`);
+  lines.push(`      x-rollback-supported: ${operation.rollbackSupported ? "true" : "false"}`);
+  lines.push("      x-required-roles:");
+  lines.push(yamlList(["merchant_staff"]));
+  lines.push("      x-required-scopes:");
+  lines.push(yamlList(requiredScopesFor(operation)));
+  lines.push(`      x-audit-event: ${yamlString(operation.capability)}`);
 
   const params = openApiPathParams(operation.path);
   if (params.length) {
