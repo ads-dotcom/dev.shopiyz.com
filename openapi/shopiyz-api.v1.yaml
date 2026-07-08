@@ -10,7 +10,7 @@ servers:
       store:
         default: development
         description: Store subdomain or custom store host.
-x-shopiyz-generated-at: "2026-07-08T15:58:20.700Z"
+x-shopiyz-generated-at: "2026-07-08T16:00:23.894Z"
 x-shopiyz-source: myshopiyz/src/lib/adminApiCatalog.ts
 x-shopiyz-summary:
   sections: 14
