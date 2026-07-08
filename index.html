@@ -3217,18 +3217,18 @@ curl -X GET <span class="token-string">"https://{store}.shopiyz.com/admin/api/ap
       const toast = document.getElementById("toast");
       // BEGIN generated Admin API registry data
       const adminApiDoc = {
-  "generatedAt": "2026-07-08T01:20:35.438Z",
+  "generatedAt": "2026-07-08T02:26:19.775Z",
   "source": "myshopiyz/src/lib/adminApiCatalog.ts",
   "basePath": "/admin/api",
   "openApiUrl": "https://dev.shopiyz.com/openapi/shopiyz-api.yaml",
   "summary": {
     "sections": 14,
-    "resources": 512,
-    "operations": 1894,
-    "registeredOperations": 2019,
-    "implementedOperations": 1289,
-    "plannedOperations": 605,
-    "capabilities": 995
+    "resources": 519,
+    "operations": 1913,
+    "registeredOperations": 2051,
+    "implementedOperations": 1319,
+    "plannedOperations": 594,
+    "capabilities": 1005
   },
   "sections": [
     {
@@ -22602,7 +22602,7 @@ curl -X GET <span class="token-string">"https://{store}.shopiyz.com/admin/api/ap
       "tag": "web",
       "icon": "WEB",
       "description": "Tema, blog, sayfa, yorum, yonlendirme, asset, policy ve online store operasyonlari.",
-      "operationCount": 144,
+      "operationCount": 163,
       "resources": [
         {
           "id": "online-store-content-comments-resource",
@@ -24159,362 +24159,6 @@ curl -X GET <span class="token-string">"https://{store}.shopiyz.com/admin/api/ap
           "operationCount": 17
         },
         {
-          "id": "online-store-storefront-themes-resource",
-          "key": "storefront.themes",
-          "name": "Themes",
-          "description": "Themes operasyonlari (storefront.themes).",
-          "operations": [
-            {
-              "method": "POST",
-              "path": "/theme_marketplace/purchases.json",
-              "fullPath": "/admin/api/theme_marketplace/purchases.json",
-              "operationId": "postThemeMarketplacePurchases",
-              "capability": "storefront.themes",
-              "summary": "POST /theme_marketplace/purchases.json (Tema / checkout / cart / headless)",
-              "description": "POST /theme_marketplace/purchases.json (Tema / checkout / cart / headless). Risk R3; confirmation explicit; step-up conditional.",
-              "operationKind": "write",
-              "risk": "R3",
-              "confirmation": "explicit",
-              "stepUp": "conditional",
-              "requiredScopes": [
-                "admin:write"
-              ],
-              "implemented": false,
-              "idempotencyRequired": true,
-              "previewRequired": true,
-              "rollbackSupported": false
-            },
-            {
-              "method": "POST",
-              "path": "/theme_marketplace/purchases/preview.json",
-              "fullPath": "/admin/api/theme_marketplace/purchases/preview.json",
-              "operationId": "postThemeMarketplacePurchasesPreview",
-              "capability": "storefront.themes",
-              "summary": "POST /theme_marketplace/purchases/preview.json (Tema / checkout / cart / headless)",
-              "description": "POST /theme_marketplace/purchases/preview.json (Tema / checkout / cart / headless). Risk R1; confirmation preview; step-up none.",
-              "operationKind": "analysis",
-              "risk": "R1",
-              "confirmation": "preview",
-              "stepUp": "none",
-              "requiredScopes": [
-                "admin:write"
-              ],
-              "implemented": false,
-              "idempotencyRequired": true,
-              "previewRequired": false,
-              "rollbackSupported": false
-            },
-            {
-              "method": "GET",
-              "path": "/theme_marketplace/themes.json",
-              "fullPath": "/admin/api/theme_marketplace/themes.json",
-              "operationId": "getThemeMarketplaceThemes",
-              "capability": "storefront.themes",
-              "summary": "GET /theme_marketplace/themes.json (Tema / checkout / cart / headless)",
-              "description": "GET /theme_marketplace/themes.json (Tema / checkout / cart / headless). Risk R0; confirmation none; step-up none.",
-              "operationKind": "read",
-              "risk": "R0",
-              "confirmation": "none",
-              "stepUp": "none",
-              "requiredScopes": [
-                "admin:read",
-                "admin:write"
-              ],
-              "implemented": false,
-              "idempotencyRequired": false,
-              "previewRequired": false,
-              "rollbackSupported": true
-            },
-            {
-              "method": "GET",
-              "path": "/theme_marketplace/themes/{theme_marketplace_id}.json",
-              "fullPath": "/admin/api/theme_marketplace/themes/{theme_marketplace_id}.json",
-              "operationId": "getThemeMarketplaceThemesThemeMarketplaceId",
-              "capability": "storefront.themes",
-              "summary": "GET /theme_marketplace/themes/{theme_marketplace_id}.json (Tema / checkout / cart / headless)",
-              "description": "GET /theme_marketplace/themes/{theme_marketplace_id}.json (Tema / checkout / cart / headless). Risk R0; confirmation none; step-up none.",
-              "operationKind": "read",
-              "risk": "R0",
-              "confirmation": "none",
-              "stepUp": "none",
-              "requiredScopes": [
-                "admin:read",
-                "admin:write"
-              ],
-              "implemented": false,
-              "idempotencyRequired": false,
-              "previewRequired": false,
-              "rollbackSupported": true
-            },
-            {
-              "method": "POST",
-              "path": "/theme_previews.json",
-              "fullPath": "/admin/api/theme_previews.json",
-              "operationId": "postThemePreviews",
-              "capability": "storefront.themes",
-              "summary": "POST /theme_previews.json (Tema / checkout / cart / headless)",
-              "description": "POST /theme_previews.json (Tema / checkout / cart / headless). Risk R1; confirmation preview; step-up none.",
-              "operationKind": "analysis",
-              "risk": "R1",
-              "confirmation": "preview",
-              "stepUp": "none",
-              "requiredScopes": [
-                "admin:write"
-              ],
-              "implemented": false,
-              "idempotencyRequired": true,
-              "previewRequired": false,
-              "rollbackSupported": false
-            },
-            {
-              "method": "GET",
-              "path": "/theme_previews/{preview_id}.json",
-              "fullPath": "/admin/api/theme_previews/{preview_id}.json",
-              "operationId": "getThemePreviewsPreviewId",
-              "capability": "storefront.themes",
-              "summary": "GET /theme_previews/{preview_id}.json (Tema / checkout / cart / headless)",
-              "description": "GET /theme_previews/{preview_id}.json (Tema / checkout / cart / headless). Risk R0; confirmation none; step-up none.",
-              "operationKind": "read",
-              "risk": "R0",
-              "confirmation": "none",
-              "stepUp": "none",
-              "requiredScopes": [
-                "admin:read",
-                "admin:write"
-              ],
-              "implemented": false,
-              "idempotencyRequired": false,
-              "previewRequired": false,
-              "rollbackSupported": false
-            },
-            {
-              "method": "POST",
-              "path": "/theme_publishes.json",
-              "fullPath": "/admin/api/theme_publishes.json",
-              "operationId": "postThemePublishes",
-              "capability": "storefront.themes",
-              "summary": "POST /theme_publishes.json (Tema / checkout / cart / headless)",
-              "description": "POST /theme_publishes.json (Tema / checkout / cart / headless). Risk R3; confirmation explicit; step-up conditional.",
-              "operationKind": "job",
-              "risk": "R3",
-              "confirmation": "explicit",
-              "stepUp": "conditional",
-              "requiredScopes": [
-                "admin:write"
-              ],
-              "implemented": false,
-              "idempotencyRequired": true,
-              "previewRequired": true,
-              "rollbackSupported": false
-            },
-            {
-              "method": "POST",
-              "path": "/theme_rollbacks.json",
-              "fullPath": "/admin/api/theme_rollbacks.json",
-              "operationId": "postThemeRollbacks",
-              "capability": "storefront.themes",
-              "summary": "POST /theme_rollbacks.json (Tema / checkout / cart / headless)",
-              "description": "POST /theme_rollbacks.json (Tema / checkout / cart / headless). Risk R3; confirmation explicit; step-up conditional.",
-              "operationKind": "job",
-              "risk": "R3",
-              "confirmation": "explicit",
-              "stepUp": "conditional",
-              "requiredScopes": [
-                "admin:write"
-              ],
-              "implemented": false,
-              "idempotencyRequired": true,
-              "previewRequired": true,
-              "rollbackSupported": true
-            },
-            {
-              "method": "GET",
-              "path": "/themes.json",
-              "fullPath": "/admin/api/themes.json",
-              "operationId": "getThemes",
-              "capability": "storefront.themes",
-              "summary": "GET /themes.json (Tema / checkout / cart / headless)",
-              "description": "GET /themes.json (Tema / checkout / cart / headless). Risk R0; confirmation none; step-up none.",
-              "operationKind": "read",
-              "risk": "R0",
-              "confirmation": "none",
-              "stepUp": "none",
-              "requiredScopes": [
-                "admin:read",
-                "admin:write"
-              ],
-              "implemented": true,
-              "idempotencyRequired": false,
-              "previewRequired": false,
-              "rollbackSupported": true
-            },
-            {
-              "method": "POST",
-              "path": "/themes.json",
-              "fullPath": "/admin/api/themes.json",
-              "operationId": "postThemes",
-              "capability": "storefront.themes",
-              "summary": "POST /themes.json (Tema / checkout / cart / headless)",
-              "description": "POST /themes.json (Tema / checkout / cart / headless). Risk R2; confirmation approval; step-up none.",
-              "operationKind": "write",
-              "risk": "R2",
-              "confirmation": "approval",
-              "stepUp": "none",
-              "requiredScopes": [
-                "admin:write"
-              ],
-              "implemented": false,
-              "idempotencyRequired": true,
-              "previewRequired": true,
-              "rollbackSupported": true
-            },
-            {
-              "method": "DELETE",
-              "path": "/themes/{theme_id}.json",
-              "fullPath": "/admin/api/themes/{theme_id}.json",
-              "operationId": "deleteThemesThemeId",
-              "capability": "storefront.themes",
-              "summary": "DELETE /themes/{theme_id}.json (Tema / checkout / cart / headless)",
-              "description": "DELETE /themes/{theme_id}.json (Tema / checkout / cart / headless). Risk R5; confirmation typed; step-up mfa.",
-              "operationKind": "delete",
-              "risk": "R5",
-              "confirmation": "typed",
-              "stepUp": "mfa",
-              "requiredScopes": [
-                "admin:write"
-              ],
-              "implemented": false,
-              "idempotencyRequired": true,
-              "previewRequired": true,
-              "rollbackSupported": true
-            },
-            {
-              "method": "GET",
-              "path": "/themes/{theme_id}.json",
-              "fullPath": "/admin/api/themes/{theme_id}.json",
-              "operationId": "getThemesThemeId",
-              "capability": "storefront.themes",
-              "summary": "GET /themes/{theme_id}.json (Tema / checkout / cart / headless)",
-              "description": "GET /themes/{theme_id}.json (Tema / checkout / cart / headless). Risk R0; confirmation none; step-up none.",
-              "operationKind": "read",
-              "risk": "R0",
-              "confirmation": "none",
-              "stepUp": "none",
-              "requiredScopes": [
-                "admin:read",
-                "admin:write"
-              ],
-              "implemented": true,
-              "idempotencyRequired": false,
-              "previewRequired": false,
-              "rollbackSupported": true
-            },
-            {
-              "method": "PATCH",
-              "path": "/themes/{theme_id}.json",
-              "fullPath": "/admin/api/themes/{theme_id}.json",
-              "operationId": "patchThemesThemeId",
-              "capability": "storefront.themes",
-              "summary": "PATCH /themes/{theme_id}.json (Tema / checkout / cart / headless)",
-              "description": "PATCH /themes/{theme_id}.json (Tema / checkout / cart / headless). Risk R2; confirmation approval; step-up none.",
-              "operationKind": "write",
-              "risk": "R2",
-              "confirmation": "approval",
-              "stepUp": "none",
-              "requiredScopes": [
-                "admin:write"
-              ],
-              "implemented": false,
-              "idempotencyRequired": true,
-              "previewRequired": true,
-              "rollbackSupported": true
-            },
-            {
-              "method": "GET",
-              "path": "/themes/{theme_id}/files.json",
-              "fullPath": "/admin/api/themes/{theme_id}/files.json",
-              "operationId": "getThemesThemeIdFiles",
-              "capability": "storefront.themes",
-              "summary": "GET /themes/{theme_id}/files.json (Tema / checkout / cart / headless)",
-              "description": "GET /themes/{theme_id}/files.json (Tema / checkout / cart / headless). Risk R0; confirmation none; step-up none.",
-              "operationKind": "read",
-              "risk": "R0",
-              "confirmation": "none",
-              "stepUp": "none",
-              "requiredScopes": [
-                "admin:read",
-                "admin:write"
-              ],
-              "implemented": false,
-              "idempotencyRequired": false,
-              "previewRequired": false,
-              "rollbackSupported": true
-            },
-            {
-              "method": "DELETE",
-              "path": "/themes/{theme_id}/files/{file_key}.json",
-              "fullPath": "/admin/api/themes/{theme_id}/files/{file_key}.json",
-              "operationId": "deleteThemesThemeIdFilesFileKey",
-              "capability": "storefront.themes",
-              "summary": "DELETE /themes/{theme_id}/files/{file_key}.json (Tema / checkout / cart / headless)",
-              "description": "DELETE /themes/{theme_id}/files/{file_key}.json (Tema / checkout / cart / headless). Risk R5; confirmation typed; step-up mfa.",
-              "operationKind": "delete",
-              "risk": "R5",
-              "confirmation": "typed",
-              "stepUp": "mfa",
-              "requiredScopes": [
-                "admin:write"
-              ],
-              "implemented": false,
-              "idempotencyRequired": true,
-              "previewRequired": true,
-              "rollbackSupported": true
-            },
-            {
-              "method": "GET",
-              "path": "/themes/{theme_id}/files/{file_key}.json",
-              "fullPath": "/admin/api/themes/{theme_id}/files/{file_key}.json",
-              "operationId": "getThemesThemeIdFilesFileKey",
-              "capability": "storefront.themes",
-              "summary": "GET /themes/{theme_id}/files/{file_key}.json (Tema / checkout / cart / headless)",
-              "description": "GET /themes/{theme_id}/files/{file_key}.json (Tema / checkout / cart / headless). Risk R0; confirmation none; step-up none.",
-              "operationKind": "read",
-              "risk": "R0",
-              "confirmation": "none",
-              "stepUp": "none",
-              "requiredScopes": [
-                "admin:read",
-                "admin:write"
-              ],
-              "implemented": false,
-              "idempotencyRequired": false,
-              "previewRequired": false,
-              "rollbackSupported": true
-            },
-            {
-              "method": "PUT",
-              "path": "/themes/{theme_id}/files/{file_key}.json",
-              "fullPath": "/admin/api/themes/{theme_id}/files/{file_key}.json",
-              "operationId": "putThemesThemeIdFilesFileKey",
-              "capability": "storefront.themes",
-              "summary": "PUT /themes/{theme_id}/files/{file_key}.json (Tema / checkout / cart / headless)",
-              "description": "PUT /themes/{theme_id}/files/{file_key}.json (Tema / checkout / cart / headless). Risk R2; confirmation approval; step-up none.",
-              "operationKind": "write",
-              "risk": "R2",
-              "confirmation": "approval",
-              "stepUp": "none",
-              "requiredScopes": [
-                "admin:write"
-              ],
-              "implemented": false,
-              "idempotencyRequired": true,
-              "previewRequired": true,
-              "rollbackSupported": true
-            }
-          ],
-          "operationCount": 17
-        },
-        {
           "id": "online-store-content-menus-resource",
           "key": "content.menus",
           "name": "Menus",
@@ -24961,6 +24605,431 @@ curl -X GET <span class="token-string">"https://{store}.shopiyz.com/admin/api/ap
           "operationCount": 10
         },
         {
+          "id": "online-store-storefront-theme-designs-resource",
+          "key": "storefront.theme_designs",
+          "name": "Theme Designs",
+          "description": "Theme Designs operasyonlari (storefront.theme_designs).",
+          "operations": [
+            {
+              "method": "GET",
+              "path": "/theme_designs.json",
+              "fullPath": "/admin/api/theme_designs.json",
+              "operationId": "listThemeDesignsLive",
+              "capability": "storefront.theme_designs",
+              "summary": "Tasarim listele",
+              "description": "Tema editor tasarimlarini theme/template/primary filtresiyle listeler.",
+              "operationKind": "read",
+              "risk": "R0",
+              "confirmation": "none",
+              "stepUp": "none",
+              "requiredScopes": [
+                "admin:read",
+                "admin:write"
+              ],
+              "implemented": true,
+              "idempotencyRequired": false,
+              "previewRequired": false,
+              "rollbackSupported": false
+            },
+            {
+              "method": "POST",
+              "path": "/theme_designs.json",
+              "fullPath": "/admin/api/theme_designs.json",
+              "operationId": "createThemeDesignLive",
+              "capability": "storefront.theme_designs",
+              "summary": "Tasarim olustur",
+              "description": "Yeni tema tasarim draft'i olusturur.",
+              "operationKind": "write",
+              "risk": "R2",
+              "confirmation": "approval",
+              "stepUp": "none",
+              "requiredScopes": [
+                "admin:write"
+              ],
+              "implemented": true,
+              "idempotencyRequired": true,
+              "previewRequired": true,
+              "rollbackSupported": true
+            },
+            {
+              "method": "DELETE",
+              "path": "/theme_designs/{theme_design_id}.json",
+              "fullPath": "/admin/api/theme_designs/{theme_design_id}.json",
+              "operationId": "deleteThemeDesignLive",
+              "capability": "storefront.theme_designs",
+              "summary": "Delete a non-primary theme editor design.",
+              "description": "Delete a non-primary theme editor design.. Risk R4; confirmation typed; step-up conditional.",
+              "operationKind": "delete",
+              "risk": "R4",
+              "confirmation": "typed",
+              "stepUp": "conditional",
+              "requiredScopes": [
+                "admin:write"
+              ],
+              "implemented": true,
+              "idempotencyRequired": true,
+              "previewRequired": true,
+              "rollbackSupported": true
+            },
+            {
+              "method": "GET",
+              "path": "/theme_designs/{theme_design_id}.json",
+              "fullPath": "/admin/api/theme_designs/{theme_design_id}.json",
+              "operationId": "getThemeDesignLive",
+              "capability": "storefront.theme_designs",
+              "summary": "Tasarim detay",
+              "description": "Draft ve published tema tasarim verisini okur.",
+              "operationKind": "read",
+              "risk": "R0",
+              "confirmation": "none",
+              "stepUp": "none",
+              "requiredScopes": [
+                "admin:read",
+                "admin:write"
+              ],
+              "implemented": true,
+              "idempotencyRequired": false,
+              "previewRequired": false,
+              "rollbackSupported": false
+            },
+            {
+              "method": "PATCH",
+              "path": "/theme_designs/{theme_design_id}.json",
+              "fullPath": "/admin/api/theme_designs/{theme_design_id}.json",
+              "operationId": "updateThemeDesignLive",
+              "capability": "storefront.theme_designs",
+              "summary": "Tasarim guncelle",
+              "description": "Draft data, published data, isim, handle veya primary state gunceller.",
+              "operationKind": "write",
+              "risk": "R2",
+              "confirmation": "approval",
+              "stepUp": "none",
+              "requiredScopes": [
+                "admin:write"
+              ],
+              "implemented": true,
+              "idempotencyRequired": true,
+              "previewRequired": true,
+              "rollbackSupported": true
+            },
+            {
+              "method": "POST",
+              "path": "/theme_designs/{theme_design_id}/duplicate.json",
+              "fullPath": "/admin/api/theme_designs/{theme_design_id}/duplicate.json",
+              "operationId": "duplicateThemeDesignLive",
+              "capability": "storefront.theme_designs.duplicate",
+              "summary": "Duplicate a theme design draft for safe editing.",
+              "description": "Duplicate a theme design draft for safe editing.. Risk R2; confirmation approval; step-up none.",
+              "operationKind": "write",
+              "risk": "R2",
+              "confirmation": "approval",
+              "stepUp": "none",
+              "requiredScopes": [
+                "admin:write"
+              ],
+              "implemented": true,
+              "idempotencyRequired": true,
+              "previewRequired": true,
+              "rollbackSupported": true
+            },
+            {
+              "method": "POST",
+              "path": "/theme_designs/{theme_design_id}/publish.json",
+              "fullPath": "/admin/api/theme_designs/{theme_design_id}/publish.json",
+              "operationId": "publishThemeDesignLive",
+              "capability": "storefront.theme_designs.publish",
+              "summary": "Yayinla",
+              "description": "Draft'i yayinlar ve ilgili template icin primary yapar.",
+              "operationKind": "write",
+              "risk": "R3",
+              "confirmation": "explicit",
+              "stepUp": "conditional",
+              "requiredScopes": [
+                "admin:write"
+              ],
+              "implemented": true,
+              "idempotencyRequired": true,
+              "previewRequired": true,
+              "rollbackSupported": true
+            },
+            {
+              "method": "POST",
+              "path": "/theme_designs/{theme_design_id}/rollback.json",
+              "fullPath": "/admin/api/theme_designs/{theme_design_id}/rollback.json",
+              "operationId": "rollbackThemeDesignLive",
+              "capability": "storefront.theme_designs.rollback",
+              "summary": "Geri al",
+              "description": "Draft'i published data'ya geri dondurur.",
+              "operationKind": "write",
+              "risk": "R3",
+              "confirmation": "explicit",
+              "stepUp": "conditional",
+              "requiredScopes": [
+                "admin:write"
+              ],
+              "implemented": true,
+              "idempotencyRequired": true,
+              "previewRequired": true,
+              "rollbackSupported": true
+            },
+            {
+              "method": "GET",
+              "path": "/themes/{theme_id}/designs.json",
+              "fullPath": "/admin/api/themes/{theme_id}/designs.json",
+              "operationId": "listThemeDesignsForThemeLive",
+              "capability": "storefront.theme_designs",
+              "summary": "List theme editor designs for a theme.",
+              "description": "List theme editor designs for a theme.. Risk R0; confirmation none; step-up none.",
+              "operationKind": "read",
+              "risk": "R0",
+              "confirmation": "none",
+              "stepUp": "none",
+              "requiredScopes": [
+                "admin:read",
+                "admin:write"
+              ],
+              "implemented": true,
+              "idempotencyRequired": false,
+              "previewRequired": false,
+              "rollbackSupported": false
+            },
+            {
+              "method": "POST",
+              "path": "/themes/{theme_id}/designs.json",
+              "fullPath": "/admin/api/themes/{theme_id}/designs.json",
+              "operationId": "createThemeDesignForThemeLive",
+              "capability": "storefront.theme_designs",
+              "summary": "Create a theme editor design under a theme.",
+              "description": "Create a theme editor design under a theme.. Risk R2; confirmation approval; step-up none.",
+              "operationKind": "write",
+              "risk": "R2",
+              "confirmation": "approval",
+              "stepUp": "none",
+              "requiredScopes": [
+                "admin:write"
+              ],
+              "implemented": true,
+              "idempotencyRequired": true,
+              "previewRequired": true,
+              "rollbackSupported": true
+            }
+          ],
+          "operationCount": 10
+        },
+        {
+          "id": "online-store-storefront-themes-resource",
+          "key": "storefront.themes",
+          "name": "Themes",
+          "description": "Themes operasyonlari (storefront.themes).",
+          "operations": [
+            {
+              "method": "GET",
+              "path": "/themes.json",
+              "fullPath": "/admin/api/themes.json",
+              "operationId": "getThemesLive",
+              "capability": "storefront.themes",
+              "summary": "Tema listele",
+              "description": "Kurulu temalari ve aktif tema bilgisini listeler.",
+              "operationKind": "read",
+              "risk": "R0",
+              "confirmation": "none",
+              "stepUp": "none",
+              "requiredScopes": [
+                "admin:read",
+                "admin:write"
+              ],
+              "implemented": true,
+              "idempotencyRequired": false,
+              "previewRequired": false,
+              "rollbackSupported": true
+            },
+            {
+              "method": "POST",
+              "path": "/themes.json",
+              "fullPath": "/admin/api/themes.json",
+              "operationId": "createThemeLive",
+              "capability": "storefront.themes",
+              "summary": "Tema olustur",
+              "description": "Ozel veya marketplace kaynakli tema kaydi olusturur.",
+              "operationKind": "write",
+              "risk": "R2",
+              "confirmation": "approval",
+              "stepUp": "none",
+              "requiredScopes": [
+                "admin:write"
+              ],
+              "implemented": true,
+              "idempotencyRequired": true,
+              "previewRequired": true,
+              "rollbackSupported": true
+            },
+            {
+              "method": "DELETE",
+              "path": "/themes/{theme_id}.json",
+              "fullPath": "/admin/api/themes/{theme_id}.json",
+              "operationId": "deleteThemeLive",
+              "capability": "storefront.themes",
+              "summary": "Delete an inactive non-starter theme and its designs.",
+              "description": "Delete an inactive non-starter theme and its designs.. Risk R5; confirmation typed; step-up mfa.",
+              "operationKind": "delete",
+              "risk": "R5",
+              "confirmation": "typed",
+              "stepUp": "mfa",
+              "requiredScopes": [
+                "admin:write"
+              ],
+              "implemented": true,
+              "idempotencyRequired": true,
+              "previewRequired": true,
+              "rollbackSupported": true
+            },
+            {
+              "method": "GET",
+              "path": "/themes/{theme_id}.json",
+              "fullPath": "/admin/api/themes/{theme_id}.json",
+              "operationId": "getThemeLive",
+              "capability": "storefront.themes",
+              "summary": "Tema detay",
+              "description": "Tek bir kurulu temayi okur.",
+              "operationKind": "read",
+              "risk": "R0",
+              "confirmation": "none",
+              "stepUp": "none",
+              "requiredScopes": [
+                "admin:read",
+                "admin:write"
+              ],
+              "implemented": true,
+              "idempotencyRequired": false,
+              "previewRequired": false,
+              "rollbackSupported": true
+            },
+            {
+              "method": "PATCH",
+              "path": "/themes/{theme_id}.json",
+              "fullPath": "/admin/api/themes/{theme_id}.json",
+              "operationId": "updateThemeLive",
+              "capability": "storefront.themes",
+              "summary": "Tema guncelle",
+              "description": "Tema metadata alanlarini gunceller veya aktiflestirme aksiyonunu alir.",
+              "operationKind": "write",
+              "risk": "R2",
+              "confirmation": "approval",
+              "stepUp": "none",
+              "requiredScopes": [
+                "admin:write"
+              ],
+              "implemented": true,
+              "idempotencyRequired": true,
+              "previewRequired": true,
+              "rollbackSupported": true
+            },
+            {
+              "method": "POST",
+              "path": "/themes/{theme_id}/activate.json",
+              "fullPath": "/admin/api/themes/{theme_id}/activate.json",
+              "operationId": "activateThemeLive",
+              "capability": "storefront.themes",
+              "summary": "Tema aktiflestir",
+              "description": "Kurulu temayi aktif tema yapar.",
+              "operationKind": "write",
+              "risk": "R3",
+              "confirmation": "explicit",
+              "stepUp": "conditional",
+              "requiredScopes": [
+                "admin:write"
+              ],
+              "implemented": true,
+              "idempotencyRequired": true,
+              "previewRequired": true,
+              "rollbackSupported": true
+            },
+            {
+              "method": "GET",
+              "path": "/themes/{theme_id}/files.json",
+              "fullPath": "/admin/api/themes/{theme_id}/files.json",
+              "operationId": "getThemesThemeIdFiles",
+              "capability": "storefront.themes",
+              "summary": "GET /themes/{theme_id}/files.json (Tema / checkout / cart / headless)",
+              "description": "GET /themes/{theme_id}/files.json (Tema / checkout / cart / headless). Risk R0; confirmation none; step-up none.",
+              "operationKind": "read",
+              "risk": "R0",
+              "confirmation": "none",
+              "stepUp": "none",
+              "requiredScopes": [
+                "admin:read",
+                "admin:write"
+              ],
+              "implemented": false,
+              "idempotencyRequired": false,
+              "previewRequired": false,
+              "rollbackSupported": true
+            },
+            {
+              "method": "DELETE",
+              "path": "/themes/{theme_id}/files/{file_key}.json",
+              "fullPath": "/admin/api/themes/{theme_id}/files/{file_key}.json",
+              "operationId": "deleteThemesThemeIdFilesFileKey",
+              "capability": "storefront.themes",
+              "summary": "DELETE /themes/{theme_id}/files/{file_key}.json (Tema / checkout / cart / headless)",
+              "description": "DELETE /themes/{theme_id}/files/{file_key}.json (Tema / checkout / cart / headless). Risk R5; confirmation typed; step-up mfa.",
+              "operationKind": "delete",
+              "risk": "R5",
+              "confirmation": "typed",
+              "stepUp": "mfa",
+              "requiredScopes": [
+                "admin:write"
+              ],
+              "implemented": false,
+              "idempotencyRequired": true,
+              "previewRequired": true,
+              "rollbackSupported": true
+            },
+            {
+              "method": "GET",
+              "path": "/themes/{theme_id}/files/{file_key}.json",
+              "fullPath": "/admin/api/themes/{theme_id}/files/{file_key}.json",
+              "operationId": "getThemesThemeIdFilesFileKey",
+              "capability": "storefront.themes",
+              "summary": "GET /themes/{theme_id}/files/{file_key}.json (Tema / checkout / cart / headless)",
+              "description": "GET /themes/{theme_id}/files/{file_key}.json (Tema / checkout / cart / headless). Risk R0; confirmation none; step-up none.",
+              "operationKind": "read",
+              "risk": "R0",
+              "confirmation": "none",
+              "stepUp": "none",
+              "requiredScopes": [
+                "admin:read",
+                "admin:write"
+              ],
+              "implemented": false,
+              "idempotencyRequired": false,
+              "previewRequired": false,
+              "rollbackSupported": true
+            },
+            {
+              "method": "PUT",
+              "path": "/themes/{theme_id}/files/{file_key}.json",
+              "fullPath": "/admin/api/themes/{theme_id}/files/{file_key}.json",
+              "operationId": "putThemesThemeIdFilesFileKey",
+              "capability": "storefront.themes",
+              "summary": "PUT /themes/{theme_id}/files/{file_key}.json (Tema / checkout / cart / headless)",
+              "description": "PUT /themes/{theme_id}/files/{file_key}.json (Tema / checkout / cart / headless). Risk R2; confirmation approval; step-up none.",
+              "operationKind": "write",
+              "risk": "R2",
+              "confirmation": "approval",
+              "stepUp": "none",
+              "requiredScopes": [
+                "admin:write"
+              ],
+              "implemented": false,
+              "idempotencyRequired": true,
+              "previewRequired": true,
+              "rollbackSupported": true
+            }
+          ],
+          "operationCount": 10
+        },
+        {
           "id": "online-store-content-menu-items-resource",
           "key": "content.menu_items",
           "name": "Menu Items",
@@ -25076,6 +25145,137 @@ curl -X GET <span class="token-string">"https://{store}.shopiyz.com/admin/api/ap
               "capability": "content.menu_items.reorder",
               "summary": "Reorder menu items.",
               "description": "Reorder menu items.. Risk R2; confirmation approval; step-up none.",
+              "operationKind": "write",
+              "risk": "R2",
+              "confirmation": "approval",
+              "stepUp": "none",
+              "requiredScopes": [
+                "admin:write"
+              ],
+              "implemented": true,
+              "idempotencyRequired": true,
+              "previewRequired": true,
+              "rollbackSupported": true
+            }
+          ],
+          "operationCount": 6
+        },
+        {
+          "id": "online-store-storefront-theme-sections-resource",
+          "key": "storefront.theme_sections",
+          "name": "Theme Sections",
+          "description": "Theme Sections operasyonlari (storefront.theme_sections).",
+          "operations": [
+            {
+              "method": "GET",
+              "path": "/theme_designs/{theme_design_id}/sections.json",
+              "fullPath": "/admin/api/theme_designs/{theme_design_id}/sections.json",
+              "operationId": "listThemeDesignSectionsLive",
+              "capability": "storefront.theme_sections",
+              "summary": "Section listele",
+              "description": "Tema tasarimindaki content bloklarini listeler.",
+              "operationKind": "read",
+              "risk": "R0",
+              "confirmation": "none",
+              "stepUp": "none",
+              "requiredScopes": [
+                "admin:read",
+                "admin:write"
+              ],
+              "implemented": true,
+              "idempotencyRequired": false,
+              "previewRequired": false,
+              "rollbackSupported": false
+            },
+            {
+              "method": "POST",
+              "path": "/theme_designs/{theme_design_id}/sections.json",
+              "fullPath": "/admin/api/theme_designs/{theme_design_id}/sections.json",
+              "operationId": "createThemeDesignSectionLive",
+              "capability": "storefront.theme_sections",
+              "summary": "Section ekle",
+              "description": "Tema tasarim draft'ina section/content blogu ekler.",
+              "operationKind": "write",
+              "risk": "R2",
+              "confirmation": "approval",
+              "stepUp": "none",
+              "requiredScopes": [
+                "admin:write"
+              ],
+              "implemented": true,
+              "idempotencyRequired": true,
+              "previewRequired": true,
+              "rollbackSupported": true
+            },
+            {
+              "method": "DELETE",
+              "path": "/theme_designs/{theme_design_id}/sections/{section_id}.json",
+              "fullPath": "/admin/api/theme_designs/{theme_design_id}/sections/{section_id}.json",
+              "operationId": "deleteThemeDesignSectionLive",
+              "capability": "storefront.theme_sections",
+              "summary": "Delete a section/content block from a theme design draft.",
+              "description": "Delete a section/content block from a theme design draft.. Risk R3; confirmation approval; step-up conditional.",
+              "operationKind": "delete",
+              "risk": "R3",
+              "confirmation": "approval",
+              "stepUp": "conditional",
+              "requiredScopes": [
+                "admin:write"
+              ],
+              "implemented": true,
+              "idempotencyRequired": true,
+              "previewRequired": true,
+              "rollbackSupported": true
+            },
+            {
+              "method": "GET",
+              "path": "/theme_designs/{theme_design_id}/sections/{section_id}.json",
+              "fullPath": "/admin/api/theme_designs/{theme_design_id}/sections/{section_id}.json",
+              "operationId": "getThemeDesignSectionLive",
+              "capability": "storefront.theme_sections",
+              "summary": "Get one section/content block from a theme design draft.",
+              "description": "Get one section/content block from a theme design draft.. Risk R0; confirmation none; step-up none.",
+              "operationKind": "read",
+              "risk": "R0",
+              "confirmation": "none",
+              "stepUp": "none",
+              "requiredScopes": [
+                "admin:read",
+                "admin:write"
+              ],
+              "implemented": true,
+              "idempotencyRequired": false,
+              "previewRequired": false,
+              "rollbackSupported": false
+            },
+            {
+              "method": "PATCH",
+              "path": "/theme_designs/{theme_design_id}/sections/{section_id}.json",
+              "fullPath": "/admin/api/theme_designs/{theme_design_id}/sections/{section_id}.json",
+              "operationId": "patchThemeDesignSectionLive",
+              "capability": "storefront.theme_sections",
+              "summary": "Section guncelle",
+              "description": "Section type/props/readOnly alanlarini gunceller.",
+              "operationKind": "write",
+              "risk": "R2",
+              "confirmation": "approval",
+              "stepUp": "none",
+              "requiredScopes": [
+                "admin:write"
+              ],
+              "implemented": true,
+              "idempotencyRequired": true,
+              "previewRequired": true,
+              "rollbackSupported": true
+            },
+            {
+              "method": "POST",
+              "path": "/theme_designs/{theme_design_id}/sections/reorder.json",
+              "fullPath": "/admin/api/theme_designs/{theme_design_id}/sections/reorder.json",
+              "operationId": "reorderThemeDesignSectionsLive",
+              "capability": "storefront.theme_sections",
+              "summary": "Section sirala",
+              "description": "Section bloklarini verilen siraya tasir.",
               "operationKind": "write",
               "risk": "R2",
               "confirmation": "approval",
@@ -25534,6 +25734,97 @@ curl -X GET <span class="token-string">"https://{store}.shopiyz.com/admin/api/ap
           "operationCount": 4
         },
         {
+          "id": "online-store-storefront-theme-marketplace-resource",
+          "key": "storefront.theme_marketplace",
+          "name": "Theme Marketplace",
+          "description": "Theme Marketplace operasyonlari (storefront.theme_marketplace).",
+          "operations": [
+            {
+              "method": "POST",
+              "path": "/theme_marketplace/purchases.json",
+              "fullPath": "/admin/api/theme_marketplace/purchases.json",
+              "operationId": "purchaseThemeMarketplaceLive",
+              "capability": "storefront.theme_marketplace",
+              "summary": "Marketplace kur",
+              "description": "Marketplace temasini tema kutuphanesine ekler.",
+              "operationKind": "write",
+              "risk": "R3",
+              "confirmation": "explicit",
+              "stepUp": "conditional",
+              "requiredScopes": [
+                "admin:write"
+              ],
+              "implemented": true,
+              "idempotencyRequired": true,
+              "previewRequired": true,
+              "rollbackSupported": true
+            },
+            {
+              "method": "POST",
+              "path": "/theme_marketplace/purchases/preview.json",
+              "fullPath": "/admin/api/theme_marketplace/purchases/preview.json",
+              "operationId": "previewThemeMarketplacePurchaseLive",
+              "capability": "storefront.theme_marketplace",
+              "summary": "Preview marketplace theme purchase/install impact.",
+              "description": "Preview marketplace theme purchase/install impact.. Risk R1; confirmation preview; step-up none.",
+              "operationKind": "analysis",
+              "risk": "R1",
+              "confirmation": "preview",
+              "stepUp": "none",
+              "requiredScopes": [
+                "admin:write"
+              ],
+              "implemented": true,
+              "idempotencyRequired": true,
+              "previewRequired": true,
+              "rollbackSupported": false
+            },
+            {
+              "method": "GET",
+              "path": "/theme_marketplace/themes.json",
+              "fullPath": "/admin/api/theme_marketplace/themes.json",
+              "operationId": "listThemeMarketplaceThemesLive",
+              "capability": "storefront.theme_marketplace",
+              "summary": "List marketplace themes available for installation.",
+              "description": "List marketplace themes available for installation.. Risk R0; confirmation none; step-up none.",
+              "operationKind": "read",
+              "risk": "R0",
+              "confirmation": "none",
+              "stepUp": "none",
+              "requiredScopes": [
+                "admin:read",
+                "admin:write"
+              ],
+              "implemented": true,
+              "idempotencyRequired": false,
+              "previewRequired": false,
+              "rollbackSupported": false
+            },
+            {
+              "method": "GET",
+              "path": "/theme_marketplace/themes/{theme_marketplace_id}.json",
+              "fullPath": "/admin/api/theme_marketplace/themes/{theme_marketplace_id}.json",
+              "operationId": "getThemeMarketplaceThemeLive",
+              "capability": "storefront.theme_marketplace",
+              "summary": "Get marketplace theme detail.",
+              "description": "Get marketplace theme detail.. Risk R0; confirmation none; step-up none.",
+              "operationKind": "read",
+              "risk": "R0",
+              "confirmation": "none",
+              "stepUp": "none",
+              "requiredScopes": [
+                "admin:read",
+                "admin:write"
+              ],
+              "implemented": true,
+              "idempotencyRequired": false,
+              "previewRequired": false,
+              "rollbackSupported": false
+            }
+          ],
+          "operationCount": 4
+        },
+        {
           "id": "online-store-translations-resource",
           "key": "translations",
           "name": "Translations",
@@ -25622,6 +25913,164 @@ curl -X GET <span class="token-string">"https://{store}.shopiyz.com/admin/api/ap
             }
           ],
           "operationCount": 4
+        },
+        {
+          "id": "online-store-storefront-theme-previews-resource",
+          "key": "storefront.theme_previews",
+          "name": "Theme Previews",
+          "description": "Theme Previews operasyonlari (storefront.theme_previews).",
+          "operations": [
+            {
+              "method": "POST",
+              "path": "/theme_previews.json",
+              "fullPath": "/admin/api/theme_previews.json",
+              "operationId": "createThemePreviewLive",
+              "capability": "storefront.theme_previews",
+              "summary": "Create a theme preview runtime record for approval flow.",
+              "description": "Create a theme preview runtime record for approval flow.. Risk R1; confirmation preview; step-up none.",
+              "operationKind": "analysis",
+              "risk": "R1",
+              "confirmation": "preview",
+              "stepUp": "none",
+              "requiredScopes": [
+                "admin:write"
+              ],
+              "implemented": true,
+              "idempotencyRequired": true,
+              "previewRequired": true,
+              "rollbackSupported": false
+            },
+            {
+              "method": "GET",
+              "path": "/theme_previews/{preview_id}.json",
+              "fullPath": "/admin/api/theme_previews/{preview_id}.json",
+              "operationId": "getThemePreviewLive",
+              "capability": "storefront.theme_previews",
+              "summary": "Get a theme preview runtime record.",
+              "description": "Get a theme preview runtime record.. Risk R0; confirmation none; step-up none.",
+              "operationKind": "read",
+              "risk": "R0",
+              "confirmation": "none",
+              "stepUp": "none",
+              "requiredScopes": [
+                "admin:read",
+                "admin:write"
+              ],
+              "implemented": true,
+              "idempotencyRequired": false,
+              "previewRequired": false,
+              "rollbackSupported": false
+            }
+          ],
+          "operationCount": 2
+        },
+        {
+          "id": "online-store-storefront-theme-settings-resource",
+          "key": "storefront.theme_settings",
+          "name": "Theme Settings",
+          "description": "Theme Settings operasyonlari (storefront.theme_settings).",
+          "operations": [
+            {
+              "method": "GET",
+              "path": "/theme_designs/{theme_design_id}/settings.json",
+              "fullPath": "/admin/api/theme_designs/{theme_design_id}/settings.json",
+              "operationId": "getThemeDesignSettingsLive",
+              "capability": "storefront.theme_settings",
+              "summary": "Ayar oku",
+              "description": "Tema tasariminin tum root ayarlarini okur.",
+              "operationKind": "read",
+              "risk": "R0",
+              "confirmation": "none",
+              "stepUp": "none",
+              "requiredScopes": [
+                "admin:read",
+                "admin:write"
+              ],
+              "implemented": true,
+              "idempotencyRequired": false,
+              "previewRequired": false,
+              "rollbackSupported": false
+            },
+            {
+              "method": "PATCH",
+              "path": "/theme_designs/{theme_design_id}/settings.json",
+              "fullPath": "/admin/api/theme_designs/{theme_design_id}/settings.json",
+              "operationId": "patchThemeDesignSettingsLive",
+              "capability": "storefront.theme_settings",
+              "summary": "Ayar guncelle",
+              "description": "Root tema ayarlarini merge semantigiyle gunceller.",
+              "operationKind": "write",
+              "risk": "R2",
+              "confirmation": "approval",
+              "stepUp": "none",
+              "requiredScopes": [
+                "admin:write"
+              ],
+              "implemented": true,
+              "idempotencyRequired": true,
+              "previewRequired": true,
+              "rollbackSupported": true
+            }
+          ],
+          "operationCount": 2
+        },
+        {
+          "id": "online-store-storefront-theme-publishes-resource",
+          "key": "storefront.theme_publishes",
+          "name": "Theme Publishes",
+          "description": "Theme Publishes operasyonlari (storefront.theme_publishes).",
+          "operations": [
+            {
+              "method": "POST",
+              "path": "/theme_publishes.json",
+              "fullPath": "/admin/api/theme_publishes.json",
+              "operationId": "publishThemeRuntimeLive",
+              "capability": "storefront.theme_publishes",
+              "summary": "Publish a design or activate a theme through the runtime job surface.",
+              "description": "Publish a design or activate a theme through the runtime job surface.. Risk R3; confirmation explicit; step-up conditional.",
+              "operationKind": "job",
+              "risk": "R3",
+              "confirmation": "explicit",
+              "stepUp": "conditional",
+              "requiredScopes": [
+                "admin:write"
+              ],
+              "implemented": true,
+              "idempotencyRequired": true,
+              "previewRequired": true,
+              "rollbackSupported": true
+            }
+          ],
+          "operationCount": 1
+        },
+        {
+          "id": "online-store-storefront-theme-rollbacks-resource",
+          "key": "storefront.theme_rollbacks",
+          "name": "Theme Rollbacks",
+          "description": "Theme Rollbacks operasyonlari (storefront.theme_rollbacks).",
+          "operations": [
+            {
+              "method": "POST",
+              "path": "/theme_rollbacks.json",
+              "fullPath": "/admin/api/theme_rollbacks.json",
+              "operationId": "rollbackThemeRuntimeLive",
+              "capability": "storefront.theme_rollbacks",
+              "summary": "Rollback a theme design through the runtime job surface.",
+              "description": "Rollback a theme design through the runtime job surface.. Risk R3; confirmation explicit; step-up conditional.",
+              "operationKind": "job",
+              "risk": "R3",
+              "confirmation": "explicit",
+              "stepUp": "conditional",
+              "requiredScopes": [
+                "admin:write"
+              ],
+              "implemented": true,
+              "idempotencyRequired": true,
+              "previewRequired": true,
+              "rollbackSupported": true
+            }
+          ],
+          "operationCount": 1
         },
         {
           "id": "online-store-translatable-resources-resource",
@@ -82825,13 +83274,135 @@ curl -X GET <span class="token-string">"https://{store}.shopiyz.com/admin/api/ap
       "rollbackSupported": false
     },
     {
+      "method": "GET",
+      "path": "/theme_designs.json",
+      "fullPath": "/admin/api/theme_designs.json",
+      "operationId": "listThemeDesignsLive",
+      "capability": "storefront.theme_designs",
+      "summary": "Tasarim listele",
+      "description": "Tema editor tasarimlarini theme/template/primary filtresiyle listeler.",
+      "operationKind": "read",
+      "risk": "R0",
+      "confirmation": "none",
+      "stepUp": "none",
+      "requiredScopes": [
+        "admin:read",
+        "admin:write"
+      ],
+      "implemented": true,
+      "idempotencyRequired": false,
+      "previewRequired": false,
+      "rollbackSupported": false
+    },
+    {
       "method": "POST",
-      "path": "/theme_marketplace/purchases.json",
-      "fullPath": "/admin/api/theme_marketplace/purchases.json",
-      "operationId": "postThemeMarketplacePurchases",
-      "capability": "storefront.themes",
-      "summary": "POST /theme_marketplace/purchases.json (Tema / checkout / cart / headless)",
-      "description": "POST /theme_marketplace/purchases.json (Tema / checkout / cart / headless). Risk R3; confirmation explicit; step-up conditional.",
+      "path": "/theme_designs.json",
+      "fullPath": "/admin/api/theme_designs.json",
+      "operationId": "createThemeDesignLive",
+      "capability": "storefront.theme_designs",
+      "summary": "Tasarim olustur",
+      "description": "Yeni tema tasarim draft'i olusturur.",
+      "operationKind": "write",
+      "risk": "R2",
+      "confirmation": "approval",
+      "stepUp": "none",
+      "requiredScopes": [
+        "admin:write"
+      ],
+      "implemented": true,
+      "idempotencyRequired": true,
+      "previewRequired": true,
+      "rollbackSupported": true
+    },
+    {
+      "method": "DELETE",
+      "path": "/theme_designs/{theme_design_id}.json",
+      "fullPath": "/admin/api/theme_designs/{theme_design_id}.json",
+      "operationId": "deleteThemeDesignLive",
+      "capability": "storefront.theme_designs",
+      "summary": "Delete a non-primary theme editor design.",
+      "description": "Delete a non-primary theme editor design.. Risk R4; confirmation typed; step-up conditional.",
+      "operationKind": "delete",
+      "risk": "R4",
+      "confirmation": "typed",
+      "stepUp": "conditional",
+      "requiredScopes": [
+        "admin:write"
+      ],
+      "implemented": true,
+      "idempotencyRequired": true,
+      "previewRequired": true,
+      "rollbackSupported": true
+    },
+    {
+      "method": "GET",
+      "path": "/theme_designs/{theme_design_id}.json",
+      "fullPath": "/admin/api/theme_designs/{theme_design_id}.json",
+      "operationId": "getThemeDesignLive",
+      "capability": "storefront.theme_designs",
+      "summary": "Tasarim detay",
+      "description": "Draft ve published tema tasarim verisini okur.",
+      "operationKind": "read",
+      "risk": "R0",
+      "confirmation": "none",
+      "stepUp": "none",
+      "requiredScopes": [
+        "admin:read",
+        "admin:write"
+      ],
+      "implemented": true,
+      "idempotencyRequired": false,
+      "previewRequired": false,
+      "rollbackSupported": false
+    },
+    {
+      "method": "PATCH",
+      "path": "/theme_designs/{theme_design_id}.json",
+      "fullPath": "/admin/api/theme_designs/{theme_design_id}.json",
+      "operationId": "updateThemeDesignLive",
+      "capability": "storefront.theme_designs",
+      "summary": "Tasarim guncelle",
+      "description": "Draft data, published data, isim, handle veya primary state gunceller.",
+      "operationKind": "write",
+      "risk": "R2",
+      "confirmation": "approval",
+      "stepUp": "none",
+      "requiredScopes": [
+        "admin:write"
+      ],
+      "implemented": true,
+      "idempotencyRequired": true,
+      "previewRequired": true,
+      "rollbackSupported": true
+    },
+    {
+      "method": "POST",
+      "path": "/theme_designs/{theme_design_id}/duplicate.json",
+      "fullPath": "/admin/api/theme_designs/{theme_design_id}/duplicate.json",
+      "operationId": "duplicateThemeDesignLive",
+      "capability": "storefront.theme_designs.duplicate",
+      "summary": "Duplicate a theme design draft for safe editing.",
+      "description": "Duplicate a theme design draft for safe editing.. Risk R2; confirmation approval; step-up none.",
+      "operationKind": "write",
+      "risk": "R2",
+      "confirmation": "approval",
+      "stepUp": "none",
+      "requiredScopes": [
+        "admin:write"
+      ],
+      "implemented": true,
+      "idempotencyRequired": true,
+      "previewRequired": true,
+      "rollbackSupported": true
+    },
+    {
+      "method": "POST",
+      "path": "/theme_designs/{theme_design_id}/publish.json",
+      "fullPath": "/admin/api/theme_designs/{theme_design_id}/publish.json",
+      "operationId": "publishThemeDesignLive",
+      "capability": "storefront.theme_designs.publish",
+      "summary": "Yayinla",
+      "description": "Draft'i yayinlar ve ilgili template icin primary yapar.",
       "operationKind": "write",
       "risk": "R3",
       "confirmation": "explicit",
@@ -82839,19 +83410,222 @@ curl -X GET <span class="token-string">"https://{store}.shopiyz.com/admin/api/ap
       "requiredScopes": [
         "admin:write"
       ],
-      "implemented": false,
+      "implemented": true,
       "idempotencyRequired": true,
       "previewRequired": true,
+      "rollbackSupported": true
+    },
+    {
+      "method": "POST",
+      "path": "/theme_designs/{theme_design_id}/rollback.json",
+      "fullPath": "/admin/api/theme_designs/{theme_design_id}/rollback.json",
+      "operationId": "rollbackThemeDesignLive",
+      "capability": "storefront.theme_designs.rollback",
+      "summary": "Geri al",
+      "description": "Draft'i published data'ya geri dondurur.",
+      "operationKind": "write",
+      "risk": "R3",
+      "confirmation": "explicit",
+      "stepUp": "conditional",
+      "requiredScopes": [
+        "admin:write"
+      ],
+      "implemented": true,
+      "idempotencyRequired": true,
+      "previewRequired": true,
+      "rollbackSupported": true
+    },
+    {
+      "method": "GET",
+      "path": "/theme_designs/{theme_design_id}/sections.json",
+      "fullPath": "/admin/api/theme_designs/{theme_design_id}/sections.json",
+      "operationId": "listThemeDesignSectionsLive",
+      "capability": "storefront.theme_sections",
+      "summary": "Section listele",
+      "description": "Tema tasarimindaki content bloklarini listeler.",
+      "operationKind": "read",
+      "risk": "R0",
+      "confirmation": "none",
+      "stepUp": "none",
+      "requiredScopes": [
+        "admin:read",
+        "admin:write"
+      ],
+      "implemented": true,
+      "idempotencyRequired": false,
+      "previewRequired": false,
       "rollbackSupported": false
+    },
+    {
+      "method": "POST",
+      "path": "/theme_designs/{theme_design_id}/sections.json",
+      "fullPath": "/admin/api/theme_designs/{theme_design_id}/sections.json",
+      "operationId": "createThemeDesignSectionLive",
+      "capability": "storefront.theme_sections",
+      "summary": "Section ekle",
+      "description": "Tema tasarim draft'ina section/content blogu ekler.",
+      "operationKind": "write",
+      "risk": "R2",
+      "confirmation": "approval",
+      "stepUp": "none",
+      "requiredScopes": [
+        "admin:write"
+      ],
+      "implemented": true,
+      "idempotencyRequired": true,
+      "previewRequired": true,
+      "rollbackSupported": true
+    },
+    {
+      "method": "DELETE",
+      "path": "/theme_designs/{theme_design_id}/sections/{section_id}.json",
+      "fullPath": "/admin/api/theme_designs/{theme_design_id}/sections/{section_id}.json",
+      "operationId": "deleteThemeDesignSectionLive",
+      "capability": "storefront.theme_sections",
+      "summary": "Delete a section/content block from a theme design draft.",
+      "description": "Delete a section/content block from a theme design draft.. Risk R3; confirmation approval; step-up conditional.",
+      "operationKind": "delete",
+      "risk": "R3",
+      "confirmation": "approval",
+      "stepUp": "conditional",
+      "requiredScopes": [
+        "admin:write"
+      ],
+      "implemented": true,
+      "idempotencyRequired": true,
+      "previewRequired": true,
+      "rollbackSupported": true
+    },
+    {
+      "method": "GET",
+      "path": "/theme_designs/{theme_design_id}/sections/{section_id}.json",
+      "fullPath": "/admin/api/theme_designs/{theme_design_id}/sections/{section_id}.json",
+      "operationId": "getThemeDesignSectionLive",
+      "capability": "storefront.theme_sections",
+      "summary": "Get one section/content block from a theme design draft.",
+      "description": "Get one section/content block from a theme design draft.. Risk R0; confirmation none; step-up none.",
+      "operationKind": "read",
+      "risk": "R0",
+      "confirmation": "none",
+      "stepUp": "none",
+      "requiredScopes": [
+        "admin:read",
+        "admin:write"
+      ],
+      "implemented": true,
+      "idempotencyRequired": false,
+      "previewRequired": false,
+      "rollbackSupported": false
+    },
+    {
+      "method": "PATCH",
+      "path": "/theme_designs/{theme_design_id}/sections/{section_id}.json",
+      "fullPath": "/admin/api/theme_designs/{theme_design_id}/sections/{section_id}.json",
+      "operationId": "patchThemeDesignSectionLive",
+      "capability": "storefront.theme_sections",
+      "summary": "Section guncelle",
+      "description": "Section type/props/readOnly alanlarini gunceller.",
+      "operationKind": "write",
+      "risk": "R2",
+      "confirmation": "approval",
+      "stepUp": "none",
+      "requiredScopes": [
+        "admin:write"
+      ],
+      "implemented": true,
+      "idempotencyRequired": true,
+      "previewRequired": true,
+      "rollbackSupported": true
+    },
+    {
+      "method": "POST",
+      "path": "/theme_designs/{theme_design_id}/sections/reorder.json",
+      "fullPath": "/admin/api/theme_designs/{theme_design_id}/sections/reorder.json",
+      "operationId": "reorderThemeDesignSectionsLive",
+      "capability": "storefront.theme_sections",
+      "summary": "Section sirala",
+      "description": "Section bloklarini verilen siraya tasir.",
+      "operationKind": "write",
+      "risk": "R2",
+      "confirmation": "approval",
+      "stepUp": "none",
+      "requiredScopes": [
+        "admin:write"
+      ],
+      "implemented": true,
+      "idempotencyRequired": true,
+      "previewRequired": true,
+      "rollbackSupported": true
+    },
+    {
+      "method": "GET",
+      "path": "/theme_designs/{theme_design_id}/settings.json",
+      "fullPath": "/admin/api/theme_designs/{theme_design_id}/settings.json",
+      "operationId": "getThemeDesignSettingsLive",
+      "capability": "storefront.theme_settings",
+      "summary": "Ayar oku",
+      "description": "Tema tasariminin tum root ayarlarini okur.",
+      "operationKind": "read",
+      "risk": "R0",
+      "confirmation": "none",
+      "stepUp": "none",
+      "requiredScopes": [
+        "admin:read",
+        "admin:write"
+      ],
+      "implemented": true,
+      "idempotencyRequired": false,
+      "previewRequired": false,
+      "rollbackSupported": false
+    },
+    {
+      "method": "PATCH",
+      "path": "/theme_designs/{theme_design_id}/settings.json",
+      "fullPath": "/admin/api/theme_designs/{theme_design_id}/settings.json",
+      "operationId": "patchThemeDesignSettingsLive",
+      "capability": "storefront.theme_settings",
+      "summary": "Ayar guncelle",
+      "description": "Root tema ayarlarini merge semantigiyle gunceller.",
+      "operationKind": "write",
+      "risk": "R2",
+      "confirmation": "approval",
+      "stepUp": "none",
+      "requiredScopes": [
+        "admin:write"
+      ],
+      "implemented": true,
+      "idempotencyRequired": true,
+      "previewRequired": true,
+      "rollbackSupported": true
+    },
+    {
+      "method": "POST",
+      "path": "/theme_marketplace/purchases.json",
+      "fullPath": "/admin/api/theme_marketplace/purchases.json",
+      "operationId": "purchaseThemeMarketplaceLive",
+      "capability": "storefront.theme_marketplace",
+      "summary": "Marketplace kur",
+      "description": "Marketplace temasini tema kutuphanesine ekler.",
+      "operationKind": "write",
+      "risk": "R3",
+      "confirmation": "explicit",
+      "stepUp": "conditional",
+      "requiredScopes": [
+        "admin:write"
+      ],
+      "implemented": true,
+      "idempotencyRequired": true,
+      "previewRequired": true,
+      "rollbackSupported": true
     },
     {
       "method": "POST",
       "path": "/theme_marketplace/purchases/preview.json",
       "fullPath": "/admin/api/theme_marketplace/purchases/preview.json",
-      "operationId": "postThemeMarketplacePurchasesPreview",
-      "capability": "storefront.themes",
-      "summary": "POST /theme_marketplace/purchases/preview.json (Tema / checkout / cart / headless)",
-      "description": "POST /theme_marketplace/purchases/preview.json (Tema / checkout / cart / headless). Risk R1; confirmation preview; step-up none.",
+      "operationId": "previewThemeMarketplacePurchaseLive",
+      "capability": "storefront.theme_marketplace",
+      "summary": "Preview marketplace theme purchase/install impact.",
+      "description": "Preview marketplace theme purchase/install impact.. Risk R1; confirmation preview; step-up none.",
       "operationKind": "analysis",
       "risk": "R1",
       "confirmation": "preview",
@@ -82859,19 +83633,19 @@ curl -X GET <span class="token-string">"https://{store}.shopiyz.com/admin/api/ap
       "requiredScopes": [
         "admin:write"
       ],
-      "implemented": false,
+      "implemented": true,
       "idempotencyRequired": true,
-      "previewRequired": false,
+      "previewRequired": true,
       "rollbackSupported": false
     },
     {
       "method": "GET",
       "path": "/theme_marketplace/themes.json",
       "fullPath": "/admin/api/theme_marketplace/themes.json",
-      "operationId": "getThemeMarketplaceThemes",
-      "capability": "storefront.themes",
-      "summary": "GET /theme_marketplace/themes.json (Tema / checkout / cart / headless)",
-      "description": "GET /theme_marketplace/themes.json (Tema / checkout / cart / headless). Risk R0; confirmation none; step-up none.",
+      "operationId": "listThemeMarketplaceThemesLive",
+      "capability": "storefront.theme_marketplace",
+      "summary": "List marketplace themes available for installation.",
+      "description": "List marketplace themes available for installation.. Risk R0; confirmation none; step-up none.",
       "operationKind": "read",
       "risk": "R0",
       "confirmation": "none",
@@ -82880,19 +83654,19 @@ curl -X GET <span class="token-string">"https://{store}.shopiyz.com/admin/api/ap
         "admin:read",
         "admin:write"
       ],
-      "implemented": false,
+      "implemented": true,
       "idempotencyRequired": false,
       "previewRequired": false,
-      "rollbackSupported": true
+      "rollbackSupported": false
     },
     {
       "method": "GET",
       "path": "/theme_marketplace/themes/{theme_marketplace_id}.json",
       "fullPath": "/admin/api/theme_marketplace/themes/{theme_marketplace_id}.json",
-      "operationId": "getThemeMarketplaceThemesThemeMarketplaceId",
-      "capability": "storefront.themes",
-      "summary": "GET /theme_marketplace/themes/{theme_marketplace_id}.json (Tema / checkout / cart / headless)",
-      "description": "GET /theme_marketplace/themes/{theme_marketplace_id}.json (Tema / checkout / cart / headless). Risk R0; confirmation none; step-up none.",
+      "operationId": "getThemeMarketplaceThemeLive",
+      "capability": "storefront.theme_marketplace",
+      "summary": "Get marketplace theme detail.",
+      "description": "Get marketplace theme detail.. Risk R0; confirmation none; step-up none.",
       "operationKind": "read",
       "risk": "R0",
       "confirmation": "none",
@@ -82901,19 +83675,19 @@ curl -X GET <span class="token-string">"https://{store}.shopiyz.com/admin/api/ap
         "admin:read",
         "admin:write"
       ],
-      "implemented": false,
+      "implemented": true,
       "idempotencyRequired": false,
       "previewRequired": false,
-      "rollbackSupported": true
+      "rollbackSupported": false
     },
     {
       "method": "POST",
       "path": "/theme_previews.json",
       "fullPath": "/admin/api/theme_previews.json",
-      "operationId": "postThemePreviews",
-      "capability": "storefront.themes",
-      "summary": "POST /theme_previews.json (Tema / checkout / cart / headless)",
-      "description": "POST /theme_previews.json (Tema / checkout / cart / headless). Risk R1; confirmation preview; step-up none.",
+      "operationId": "createThemePreviewLive",
+      "capability": "storefront.theme_previews",
+      "summary": "Create a theme preview runtime record for approval flow.",
+      "description": "Create a theme preview runtime record for approval flow.. Risk R1; confirmation preview; step-up none.",
       "operationKind": "analysis",
       "risk": "R1",
       "confirmation": "preview",
@@ -82921,19 +83695,19 @@ curl -X GET <span class="token-string">"https://{store}.shopiyz.com/admin/api/ap
       "requiredScopes": [
         "admin:write"
       ],
-      "implemented": false,
+      "implemented": true,
       "idempotencyRequired": true,
-      "previewRequired": false,
+      "previewRequired": true,
       "rollbackSupported": false
     },
     {
       "method": "GET",
       "path": "/theme_previews/{preview_id}.json",
       "fullPath": "/admin/api/theme_previews/{preview_id}.json",
-      "operationId": "getThemePreviewsPreviewId",
-      "capability": "storefront.themes",
-      "summary": "GET /theme_previews/{preview_id}.json (Tema / checkout / cart / headless)",
-      "description": "GET /theme_previews/{preview_id}.json (Tema / checkout / cart / headless). Risk R0; confirmation none; step-up none.",
+      "operationId": "getThemePreviewLive",
+      "capability": "storefront.theme_previews",
+      "summary": "Get a theme preview runtime record.",
+      "description": "Get a theme preview runtime record.. Risk R0; confirmation none; step-up none.",
       "operationKind": "read",
       "risk": "R0",
       "confirmation": "none",
@@ -82942,7 +83716,7 @@ curl -X GET <span class="token-string">"https://{store}.shopiyz.com/admin/api/ap
         "admin:read",
         "admin:write"
       ],
-      "implemented": false,
+      "implemented": true,
       "idempotencyRequired": false,
       "previewRequired": false,
       "rollbackSupported": false
@@ -82951,10 +83725,10 @@ curl -X GET <span class="token-string">"https://{store}.shopiyz.com/admin/api/ap
       "method": "POST",
       "path": "/theme_publishes.json",
       "fullPath": "/admin/api/theme_publishes.json",
-      "operationId": "postThemePublishes",
-      "capability": "storefront.themes",
-      "summary": "POST /theme_publishes.json (Tema / checkout / cart / headless)",
-      "description": "POST /theme_publishes.json (Tema / checkout / cart / headless). Risk R3; confirmation explicit; step-up conditional.",
+      "operationId": "publishThemeRuntimeLive",
+      "capability": "storefront.theme_publishes",
+      "summary": "Publish a design or activate a theme through the runtime job surface.",
+      "description": "Publish a design or activate a theme through the runtime job surface.. Risk R3; confirmation explicit; step-up conditional.",
       "operationKind": "job",
       "risk": "R3",
       "confirmation": "explicit",
@@ -82962,19 +83736,19 @@ curl -X GET <span class="token-string">"https://{store}.shopiyz.com/admin/api/ap
       "requiredScopes": [
         "admin:write"
       ],
-      "implemented": false,
+      "implemented": true,
       "idempotencyRequired": true,
       "previewRequired": true,
-      "rollbackSupported": false
+      "rollbackSupported": true
     },
     {
       "method": "POST",
       "path": "/theme_rollbacks.json",
       "fullPath": "/admin/api/theme_rollbacks.json",
-      "operationId": "postThemeRollbacks",
-      "capability": "storefront.themes",
-      "summary": "POST /theme_rollbacks.json (Tema / checkout / cart / headless)",
-      "description": "POST /theme_rollbacks.json (Tema / checkout / cart / headless). Risk R3; confirmation explicit; step-up conditional.",
+      "operationId": "rollbackThemeRuntimeLive",
+      "capability": "storefront.theme_rollbacks",
+      "summary": "Rollback a theme design through the runtime job surface.",
+      "description": "Rollback a theme design through the runtime job surface.. Risk R3; confirmation explicit; step-up conditional.",
       "operationKind": "job",
       "risk": "R3",
       "confirmation": "explicit",
@@ -82982,7 +83756,7 @@ curl -X GET <span class="token-string">"https://{store}.shopiyz.com/admin/api/ap
       "requiredScopes": [
         "admin:write"
       ],
-      "implemented": false,
+      "implemented": true,
       "idempotencyRequired": true,
       "previewRequired": true,
       "rollbackSupported": true
@@ -82991,10 +83765,10 @@ curl -X GET <span class="token-string">"https://{store}.shopiyz.com/admin/api/ap
       "method": "GET",
       "path": "/themes.json",
       "fullPath": "/admin/api/themes.json",
-      "operationId": "getThemes",
+      "operationId": "getThemesLive",
       "capability": "storefront.themes",
-      "summary": "GET /themes.json (Tema / checkout / cart / headless)",
-      "description": "GET /themes.json (Tema / checkout / cart / headless). Risk R0; confirmation none; step-up none.",
+      "summary": "Tema listele",
+      "description": "Kurulu temalari ve aktif tema bilgisini listeler.",
       "operationKind": "read",
       "risk": "R0",
       "confirmation": "none",
@@ -83012,10 +83786,10 @@ curl -X GET <span class="token-string">"https://{store}.shopiyz.com/admin/api/ap
       "method": "POST",
       "path": "/themes.json",
       "fullPath": "/admin/api/themes.json",
-      "operationId": "postThemes",
+      "operationId": "createThemeLive",
       "capability": "storefront.themes",
-      "summary": "POST /themes.json (Tema / checkout / cart / headless)",
-      "description": "POST /themes.json (Tema / checkout / cart / headless). Risk R2; confirmation approval; step-up none.",
+      "summary": "Tema olustur",
+      "description": "Ozel veya marketplace kaynakli tema kaydi olusturur.",
       "operationKind": "write",
       "risk": "R2",
       "confirmation": "approval",
@@ -83023,7 +83797,7 @@ curl -X GET <span class="token-string">"https://{store}.shopiyz.com/admin/api/ap
       "requiredScopes": [
         "admin:write"
       ],
-      "implemented": false,
+      "implemented": true,
       "idempotencyRequired": true,
       "previewRequired": true,
       "rollbackSupported": true
@@ -83032,10 +83806,10 @@ curl -X GET <span class="token-string">"https://{store}.shopiyz.com/admin/api/ap
       "method": "DELETE",
       "path": "/themes/{theme_id}.json",
       "fullPath": "/admin/api/themes/{theme_id}.json",
-      "operationId": "deleteThemesThemeId",
+      "operationId": "deleteThemeLive",
       "capability": "storefront.themes",
-      "summary": "DELETE /themes/{theme_id}.json (Tema / checkout / cart / headless)",
-      "description": "DELETE /themes/{theme_id}.json (Tema / checkout / cart / headless). Risk R5; confirmation typed; step-up mfa.",
+      "summary": "Delete an inactive non-starter theme and its designs.",
+      "description": "Delete an inactive non-starter theme and its designs.. Risk R5; confirmation typed; step-up mfa.",
       "operationKind": "delete",
       "risk": "R5",
       "confirmation": "typed",
@@ -83043,7 +83817,7 @@ curl -X GET <span class="token-string">"https://{store}.shopiyz.com/admin/api/ap
       "requiredScopes": [
         "admin:write"
       ],
-      "implemented": false,
+      "implemented": true,
       "idempotencyRequired": true,
       "previewRequired": true,
       "rollbackSupported": true
@@ -83052,10 +83826,10 @@ curl -X GET <span class="token-string">"https://{store}.shopiyz.com/admin/api/ap
       "method": "GET",
       "path": "/themes/{theme_id}.json",
       "fullPath": "/admin/api/themes/{theme_id}.json",
-      "operationId": "getThemesThemeId",
+      "operationId": "getThemeLive",
       "capability": "storefront.themes",
-      "summary": "GET /themes/{theme_id}.json (Tema / checkout / cart / headless)",
-      "description": "GET /themes/{theme_id}.json (Tema / checkout / cart / headless). Risk R0; confirmation none; step-up none.",
+      "summary": "Tema detay",
+      "description": "Tek bir kurulu temayi okur.",
       "operationKind": "read",
       "risk": "R0",
       "confirmation": "none",
@@ -83073,10 +83847,10 @@ curl -X GET <span class="token-string">"https://{store}.shopiyz.com/admin/api/ap
       "method": "PATCH",
       "path": "/themes/{theme_id}.json",
       "fullPath": "/admin/api/themes/{theme_id}.json",
-      "operationId": "patchThemesThemeId",
+      "operationId": "updateThemeLive",
       "capability": "storefront.themes",
-      "summary": "PATCH /themes/{theme_id}.json (Tema / checkout / cart / headless)",
-      "description": "PATCH /themes/{theme_id}.json (Tema / checkout / cart / headless). Risk R2; confirmation approval; step-up none.",
+      "summary": "Tema guncelle",
+      "description": "Tema metadata alanlarini gunceller veya aktiflestirme aksiyonunu alir.",
       "operationKind": "write",
       "risk": "R2",
       "confirmation": "approval",
@@ -83084,7 +83858,68 @@ curl -X GET <span class="token-string">"https://{store}.shopiyz.com/admin/api/ap
       "requiredScopes": [
         "admin:write"
       ],
-      "implemented": false,
+      "implemented": true,
+      "idempotencyRequired": true,
+      "previewRequired": true,
+      "rollbackSupported": true
+    },
+    {
+      "method": "POST",
+      "path": "/themes/{theme_id}/activate.json",
+      "fullPath": "/admin/api/themes/{theme_id}/activate.json",
+      "operationId": "activateThemeLive",
+      "capability": "storefront.themes",
+      "summary": "Tema aktiflestir",
+      "description": "Kurulu temayi aktif tema yapar.",
+      "operationKind": "write",
+      "risk": "R3",
+      "confirmation": "explicit",
+      "stepUp": "conditional",
+      "requiredScopes": [
+        "admin:write"
+      ],
+      "implemented": true,
+      "idempotencyRequired": true,
+      "previewRequired": true,
+      "rollbackSupported": true
+    },
+    {
+      "method": "GET",
+      "path": "/themes/{theme_id}/designs.json",
+      "fullPath": "/admin/api/themes/{theme_id}/designs.json",
+      "operationId": "listThemeDesignsForThemeLive",
+      "capability": "storefront.theme_designs",
+      "summary": "List theme editor designs for a theme.",
+      "description": "List theme editor designs for a theme.. Risk R0; confirmation none; step-up none.",
+      "operationKind": "read",
+      "risk": "R0",
+      "confirmation": "none",
+      "stepUp": "none",
+      "requiredScopes": [
+        "admin:read",
+        "admin:write"
+      ],
+      "implemented": true,
+      "idempotencyRequired": false,
+      "previewRequired": false,
+      "rollbackSupported": false
+    },
+    {
+      "method": "POST",
+      "path": "/themes/{theme_id}/designs.json",
+      "fullPath": "/admin/api/themes/{theme_id}/designs.json",
+      "operationId": "createThemeDesignForThemeLive",
+      "capability": "storefront.theme_designs",
+      "summary": "Create a theme editor design under a theme.",
+      "description": "Create a theme editor design under a theme.. Risk R2; confirmation approval; step-up none.",
+      "operationKind": "write",
+      "risk": "R2",
+      "confirmation": "approval",
+      "stepUp": "none",
+      "requiredScopes": [
+        "admin:write"
+      ],
+      "implemented": true,
       "idempotencyRequired": true,
       "previewRequired": true,
       "rollbackSupported": true
@@ -85191,6 +86026,8 @@ curl -X GET <span class="token-string">"https://{store}.shopiyz.com/admin/api/ap
 
 
 
+
+
       function groupedOperations(rows) {
         return rows.reduce((groups, row) => {
           if (!groups.has(row.resource)) groups.set(row.resource, []);
@@ -85434,6 +86271,8 @@ curl -X GET <span class="token-string">"https://{store}.shopiyz.com/admin/api/ap
       renderRegistryResourceReference();
       renderRegistrySidebar();
       // END generated Admin API registry rendering
+
+
 
 
 

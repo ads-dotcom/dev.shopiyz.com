@@ -10,15 +10,15 @@ servers:
       store:
         default: development
         description: Store subdomain or custom store host.
-x-shopiyz-generated-at: "2026-07-08T01:20:35.438Z"
+x-shopiyz-generated-at: "2026-07-08T02:26:19.775Z"
 x-shopiyz-source: myshopiyz/src/lib/adminApiCatalog.ts
 x-shopiyz-summary:
   sections: 14
-  resources: 512
-  operations: 1894
-  registeredOperations: 2019
-  implementedOperations: 1289
-  capabilities: 995
+  resources: 519
+  operations: 1913
+  registeredOperations: 2051
+  implementedOperations: 1319
+  capabilities: 1005
 paths:
   /abandoned_carts/customer_target_set.json:
     post:
@@ -79505,35 +79505,803 @@ paths:
                 $ref: "#/components/schemas/AdminApiResponse"
       security:
         - ShopiyzAccessToken: []
-  /theme_marketplace/purchases.json:
-    post:
-      operationId: postThemeMarketplacePurchases
+  /theme_designs.json:
+    get:
+      operationId: listThemeDesignsLive
       tags:
-        - "Online Store / Themes"
-      summary: "POST /theme_marketplace/purchases.json (Tema / checkout / cart / headless)"
+        - "Online Store / Theme Designs"
+      summary: "Tasarim listele"
       description: |-
-        POST /theme_marketplace/purchases.json (Tema / checkout / cart / headless). Risk R3; confirmation explicit; step-up conditional.
-        Capability: storefront.themes. Risk: R3. Confirmation: explicit. Step-up: conditional.
-      x-shopiyz-capability: storefront.themes
+        Tema editor tasarimlarini theme/template/primary filtresiyle listeler.
+        Capability: storefront.theme_designs. Risk: R0. Confirmation: none. Step-up: none.
+      x-shopiyz-capability: storefront.theme_designs
+      x-shopiyz-risk: R0
+      x-shopiyz-confirmation: none
+      x-shopiyz-step-up: none
+      x-shopiyz-operation-kind: read
+      x-shopiyz-implemented: true
+      x-shopiyz-preview-required: false
+      x-shopiyz-rollback-supported: false
+      x-operation-kind: query
+      x-risk: R0
+      x-confirmation: none
+      x-step-up: none
+      x-idempotency: none
+      x-preview-supported: false
+      x-rollback-supported: false
+      x-required-roles:
+        - merchant_staff
+      x-required-scopes:
+        - "admin:read"
+        - "admin:write"
+      x-audit-event: storefront.theme_designs
+      responses:
+        "200":
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/AdminApiResponse"
+      security:
+        - ShopiyzAccessToken: []
+    post:
+      operationId: createThemeDesignLive
+      tags:
+        - "Online Store / Theme Designs"
+      summary: "Tasarim olustur"
+      description: |-
+        Yeni tema tasarim draft'i olusturur.
+        Capability: storefront.theme_designs. Risk: R2. Confirmation: approval. Step-up: none.
+      x-shopiyz-capability: storefront.theme_designs
+      x-shopiyz-risk: R2
+      x-shopiyz-confirmation: approval
+      x-shopiyz-step-up: none
+      x-shopiyz-operation-kind: write
+      x-shopiyz-implemented: true
+      x-shopiyz-preview-required: true
+      x-shopiyz-rollback-supported: true
+      x-operation-kind: mutation
+      x-risk: R2
+      x-confirmation: preview
+      x-step-up: none
+      x-idempotency: required
+      x-preview-supported: true
+      x-rollback-supported: true
+      x-required-roles:
+        - merchant_staff
+      x-required-scopes:
+        - "admin:write"
+      x-audit-event: storefront.theme_designs
+      requestBody:
+        required: false
+        content:
+          application/json:
+            schema:
+              type: object
+              additionalProperties: true
+      responses:
+        "201":
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/AdminApiResponse"
+      security:
+        - ShopiyzAccessToken: []
+  /theme_designs/{theme_design_id}.json:
+    get:
+      operationId: getThemeDesignLive
+      tags:
+        - "Online Store / Theme Designs"
+      summary: "Tasarim detay"
+      description: |-
+        Draft ve published tema tasarim verisini okur.
+        Capability: storefront.theme_designs. Risk: R0. Confirmation: none. Step-up: none.
+      x-shopiyz-capability: storefront.theme_designs
+      x-shopiyz-risk: R0
+      x-shopiyz-confirmation: none
+      x-shopiyz-step-up: none
+      x-shopiyz-operation-kind: read
+      x-shopiyz-implemented: true
+      x-shopiyz-preview-required: false
+      x-shopiyz-rollback-supported: false
+      x-operation-kind: query
+      x-risk: R0
+      x-confirmation: none
+      x-step-up: none
+      x-idempotency: none
+      x-preview-supported: false
+      x-rollback-supported: false
+      x-required-roles:
+        - merchant_staff
+      x-required-scopes:
+        - "admin:read"
+        - "admin:write"
+      x-audit-event: storefront.theme_designs
+      parameters:
+        - name: theme_design_id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/AdminApiResponse"
+      security:
+        - ShopiyzAccessToken: []
+    patch:
+      operationId: updateThemeDesignLive
+      tags:
+        - "Online Store / Theme Designs"
+      summary: "Tasarim guncelle"
+      description: |-
+        Draft data, published data, isim, handle veya primary state gunceller.
+        Capability: storefront.theme_designs. Risk: R2. Confirmation: approval. Step-up: none.
+      x-shopiyz-capability: storefront.theme_designs
+      x-shopiyz-risk: R2
+      x-shopiyz-confirmation: approval
+      x-shopiyz-step-up: none
+      x-shopiyz-operation-kind: write
+      x-shopiyz-implemented: true
+      x-shopiyz-preview-required: true
+      x-shopiyz-rollback-supported: true
+      x-operation-kind: mutation
+      x-risk: R2
+      x-confirmation: preview
+      x-step-up: none
+      x-idempotency: required
+      x-preview-supported: true
+      x-rollback-supported: true
+      x-required-roles:
+        - merchant_staff
+      x-required-scopes:
+        - "admin:write"
+      x-audit-event: storefront.theme_designs
+      parameters:
+        - name: theme_design_id
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: false
+        content:
+          application/json:
+            schema:
+              type: object
+              additionalProperties: true
+      responses:
+        "200":
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/AdminApiResponse"
+      security:
+        - ShopiyzAccessToken: []
+    delete:
+      operationId: deleteThemeDesignLive
+      tags:
+        - "Online Store / Theme Designs"
+      summary: "Delete a non-primary theme editor design."
+      description: |-
+        Delete a non-primary theme editor design.. Risk R4; confirmation typed; step-up conditional.
+        Capability: storefront.theme_designs. Risk: R4. Confirmation: typed. Step-up: conditional.
+      x-shopiyz-capability: storefront.theme_designs
+      x-shopiyz-risk: R4
+      x-shopiyz-confirmation: typed
+      x-shopiyz-step-up: conditional
+      x-shopiyz-operation-kind: delete
+      x-shopiyz-implemented: true
+      x-shopiyz-preview-required: true
+      x-shopiyz-rollback-supported: true
+      x-operation-kind: mutation
+      x-risk: R4
+      x-confirmation: typed
+      x-step-up: optional
+      x-idempotency: required
+      x-preview-supported: true
+      x-rollback-supported: true
+      x-required-roles:
+        - merchant_staff
+      x-required-scopes:
+        - "admin:write"
+      x-audit-event: storefront.theme_designs
+      parameters:
+        - name: theme_design_id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/AdminApiResponse"
+      security:
+        - ShopiyzAccessToken: []
+  /theme_designs/{theme_design_id}/duplicate.json:
+    post:
+      operationId: duplicateThemeDesignLive
+      tags:
+        - "Online Store / Theme Designs"
+      summary: "Duplicate a theme design draft for safe editing."
+      description: |-
+        Duplicate a theme design draft for safe editing.. Risk R2; confirmation approval; step-up none.
+        Capability: storefront.theme_designs.duplicate. Risk: R2. Confirmation: approval. Step-up: none.
+      x-shopiyz-capability: storefront.theme_designs.duplicate
+      x-shopiyz-risk: R2
+      x-shopiyz-confirmation: approval
+      x-shopiyz-step-up: none
+      x-shopiyz-operation-kind: write
+      x-shopiyz-implemented: true
+      x-shopiyz-preview-required: true
+      x-shopiyz-rollback-supported: true
+      x-operation-kind: mutation
+      x-risk: R2
+      x-confirmation: preview
+      x-step-up: none
+      x-idempotency: required
+      x-preview-supported: true
+      x-rollback-supported: true
+      x-required-roles:
+        - merchant_staff
+      x-required-scopes:
+        - "admin:write"
+      x-audit-event: storefront.theme_designs.duplicate
+      parameters:
+        - name: theme_design_id
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: false
+        content:
+          application/json:
+            schema:
+              type: object
+              additionalProperties: true
+      responses:
+        "201":
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/AdminApiResponse"
+      security:
+        - ShopiyzAccessToken: []
+  /theme_designs/{theme_design_id}/publish.json:
+    post:
+      operationId: publishThemeDesignLive
+      tags:
+        - "Online Store / Theme Designs"
+      summary: Yayinla
+      description: |-
+        Draft'i yayinlar ve ilgili template icin primary yapar.
+        Capability: storefront.theme_designs.publish. Risk: R3. Confirmation: explicit. Step-up: conditional.
+      x-shopiyz-capability: storefront.theme_designs.publish
       x-shopiyz-risk: R3
       x-shopiyz-confirmation: explicit
       x-shopiyz-step-up: conditional
       x-shopiyz-operation-kind: write
-      x-shopiyz-implemented: false
+      x-shopiyz-implemented: true
       x-shopiyz-preview-required: true
-      x-shopiyz-rollback-supported: false
+      x-shopiyz-rollback-supported: true
       x-operation-kind: mutation
       x-risk: R3
       x-confirmation: explicit
       x-step-up: optional
       x-idempotency: required
       x-preview-supported: true
-      x-rollback-supported: false
+      x-rollback-supported: true
       x-required-roles:
         - merchant_staff
       x-required-scopes:
         - "admin:write"
-      x-audit-event: storefront.themes
+      x-audit-event: storefront.theme_designs.publish
+      parameters:
+        - name: theme_design_id
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: false
+        content:
+          application/json:
+            schema:
+              type: object
+              additionalProperties: true
+      responses:
+        "201":
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/AdminApiResponse"
+      security:
+        - ShopiyzAccessToken: []
+  /theme_designs/{theme_design_id}/rollback.json:
+    post:
+      operationId: rollbackThemeDesignLive
+      tags:
+        - "Online Store / Theme Designs"
+      summary: "Geri al"
+      description: |-
+        Draft'i published data'ya geri dondurur.
+        Capability: storefront.theme_designs.rollback. Risk: R3. Confirmation: explicit. Step-up: conditional.
+      x-shopiyz-capability: storefront.theme_designs.rollback
+      x-shopiyz-risk: R3
+      x-shopiyz-confirmation: explicit
+      x-shopiyz-step-up: conditional
+      x-shopiyz-operation-kind: write
+      x-shopiyz-implemented: true
+      x-shopiyz-preview-required: true
+      x-shopiyz-rollback-supported: true
+      x-operation-kind: mutation
+      x-risk: R3
+      x-confirmation: explicit
+      x-step-up: optional
+      x-idempotency: required
+      x-preview-supported: true
+      x-rollback-supported: true
+      x-required-roles:
+        - merchant_staff
+      x-required-scopes:
+        - "admin:write"
+      x-audit-event: storefront.theme_designs.rollback
+      parameters:
+        - name: theme_design_id
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: false
+        content:
+          application/json:
+            schema:
+              type: object
+              additionalProperties: true
+      responses:
+        "201":
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/AdminApiResponse"
+      security:
+        - ShopiyzAccessToken: []
+  /theme_designs/{theme_design_id}/sections.json:
+    get:
+      operationId: listThemeDesignSectionsLive
+      tags:
+        - "Online Store / Theme Sections"
+      summary: "Section listele"
+      description: |-
+        Tema tasarimindaki content bloklarini listeler.
+        Capability: storefront.theme_sections. Risk: R0. Confirmation: none. Step-up: none.
+      x-shopiyz-capability: storefront.theme_sections
+      x-shopiyz-risk: R0
+      x-shopiyz-confirmation: none
+      x-shopiyz-step-up: none
+      x-shopiyz-operation-kind: read
+      x-shopiyz-implemented: true
+      x-shopiyz-preview-required: false
+      x-shopiyz-rollback-supported: false
+      x-operation-kind: query
+      x-risk: R0
+      x-confirmation: none
+      x-step-up: none
+      x-idempotency: none
+      x-preview-supported: false
+      x-rollback-supported: false
+      x-required-roles:
+        - merchant_staff
+      x-required-scopes:
+        - "admin:read"
+        - "admin:write"
+      x-audit-event: storefront.theme_sections
+      parameters:
+        - name: theme_design_id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/AdminApiResponse"
+      security:
+        - ShopiyzAccessToken: []
+    post:
+      operationId: createThemeDesignSectionLive
+      tags:
+        - "Online Store / Theme Sections"
+      summary: "Section ekle"
+      description: |-
+        Tema tasarim draft'ina section/content blogu ekler.
+        Capability: storefront.theme_sections. Risk: R2. Confirmation: approval. Step-up: none.
+      x-shopiyz-capability: storefront.theme_sections
+      x-shopiyz-risk: R2
+      x-shopiyz-confirmation: approval
+      x-shopiyz-step-up: none
+      x-shopiyz-operation-kind: write
+      x-shopiyz-implemented: true
+      x-shopiyz-preview-required: true
+      x-shopiyz-rollback-supported: true
+      x-operation-kind: mutation
+      x-risk: R2
+      x-confirmation: preview
+      x-step-up: none
+      x-idempotency: required
+      x-preview-supported: true
+      x-rollback-supported: true
+      x-required-roles:
+        - merchant_staff
+      x-required-scopes:
+        - "admin:write"
+      x-audit-event: storefront.theme_sections
+      parameters:
+        - name: theme_design_id
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: false
+        content:
+          application/json:
+            schema:
+              type: object
+              additionalProperties: true
+      responses:
+        "201":
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/AdminApiResponse"
+      security:
+        - ShopiyzAccessToken: []
+  /theme_designs/{theme_design_id}/sections/{section_id}.json:
+    get:
+      operationId: getThemeDesignSectionLive
+      tags:
+        - "Online Store / Theme Sections"
+      summary: "Get one section/content block from a theme design draft."
+      description: |-
+        Get one section/content block from a theme design draft.. Risk R0; confirmation none; step-up none.
+        Capability: storefront.theme_sections. Risk: R0. Confirmation: none. Step-up: none.
+      x-shopiyz-capability: storefront.theme_sections
+      x-shopiyz-risk: R0
+      x-shopiyz-confirmation: none
+      x-shopiyz-step-up: none
+      x-shopiyz-operation-kind: read
+      x-shopiyz-implemented: true
+      x-shopiyz-preview-required: false
+      x-shopiyz-rollback-supported: false
+      x-operation-kind: query
+      x-risk: R0
+      x-confirmation: none
+      x-step-up: none
+      x-idempotency: none
+      x-preview-supported: false
+      x-rollback-supported: false
+      x-required-roles:
+        - merchant_staff
+      x-required-scopes:
+        - "admin:read"
+        - "admin:write"
+      x-audit-event: storefront.theme_sections
+      parameters:
+        - name: theme_design_id
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: section_id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/AdminApiResponse"
+      security:
+        - ShopiyzAccessToken: []
+    patch:
+      operationId: patchThemeDesignSectionLive
+      tags:
+        - "Online Store / Theme Sections"
+      summary: "Section guncelle"
+      description: |-
+        Section type/props/readOnly alanlarini gunceller.
+        Capability: storefront.theme_sections. Risk: R2. Confirmation: approval. Step-up: none.
+      x-shopiyz-capability: storefront.theme_sections
+      x-shopiyz-risk: R2
+      x-shopiyz-confirmation: approval
+      x-shopiyz-step-up: none
+      x-shopiyz-operation-kind: write
+      x-shopiyz-implemented: true
+      x-shopiyz-preview-required: true
+      x-shopiyz-rollback-supported: true
+      x-operation-kind: mutation
+      x-risk: R2
+      x-confirmation: preview
+      x-step-up: none
+      x-idempotency: required
+      x-preview-supported: true
+      x-rollback-supported: true
+      x-required-roles:
+        - merchant_staff
+      x-required-scopes:
+        - "admin:write"
+      x-audit-event: storefront.theme_sections
+      parameters:
+        - name: theme_design_id
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: section_id
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: false
+        content:
+          application/json:
+            schema:
+              type: object
+              additionalProperties: true
+      responses:
+        "200":
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/AdminApiResponse"
+      security:
+        - ShopiyzAccessToken: []
+    delete:
+      operationId: deleteThemeDesignSectionLive
+      tags:
+        - "Online Store / Theme Sections"
+      summary: "Delete a section/content block from a theme design draft."
+      description: |-
+        Delete a section/content block from a theme design draft.. Risk R3; confirmation approval; step-up conditional.
+        Capability: storefront.theme_sections. Risk: R3. Confirmation: approval. Step-up: conditional.
+      x-shopiyz-capability: storefront.theme_sections
+      x-shopiyz-risk: R3
+      x-shopiyz-confirmation: approval
+      x-shopiyz-step-up: conditional
+      x-shopiyz-operation-kind: delete
+      x-shopiyz-implemented: true
+      x-shopiyz-preview-required: true
+      x-shopiyz-rollback-supported: true
+      x-operation-kind: mutation
+      x-risk: R3
+      x-confirmation: preview
+      x-step-up: optional
+      x-idempotency: required
+      x-preview-supported: true
+      x-rollback-supported: true
+      x-required-roles:
+        - merchant_staff
+      x-required-scopes:
+        - "admin:write"
+      x-audit-event: storefront.theme_sections
+      parameters:
+        - name: theme_design_id
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: section_id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/AdminApiResponse"
+      security:
+        - ShopiyzAccessToken: []
+  /theme_designs/{theme_design_id}/sections/reorder.json:
+    post:
+      operationId: reorderThemeDesignSectionsLive
+      tags:
+        - "Online Store / Theme Sections"
+      summary: "Section sirala"
+      description: |-
+        Section bloklarini verilen siraya tasir.
+        Capability: storefront.theme_sections. Risk: R2. Confirmation: approval. Step-up: none.
+      x-shopiyz-capability: storefront.theme_sections
+      x-shopiyz-risk: R2
+      x-shopiyz-confirmation: approval
+      x-shopiyz-step-up: none
+      x-shopiyz-operation-kind: write
+      x-shopiyz-implemented: true
+      x-shopiyz-preview-required: true
+      x-shopiyz-rollback-supported: true
+      x-operation-kind: mutation
+      x-risk: R2
+      x-confirmation: preview
+      x-step-up: none
+      x-idempotency: required
+      x-preview-supported: true
+      x-rollback-supported: true
+      x-required-roles:
+        - merchant_staff
+      x-required-scopes:
+        - "admin:write"
+      x-audit-event: storefront.theme_sections
+      parameters:
+        - name: theme_design_id
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: false
+        content:
+          application/json:
+            schema:
+              type: object
+              additionalProperties: true
+      responses:
+        "201":
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/AdminApiResponse"
+      security:
+        - ShopiyzAccessToken: []
+  /theme_designs/{theme_design_id}/settings.json:
+    get:
+      operationId: getThemeDesignSettingsLive
+      tags:
+        - "Online Store / Theme Settings"
+      summary: "Ayar oku"
+      description: |-
+        Tema tasariminin tum root ayarlarini okur.
+        Capability: storefront.theme_settings. Risk: R0. Confirmation: none. Step-up: none.
+      x-shopiyz-capability: storefront.theme_settings
+      x-shopiyz-risk: R0
+      x-shopiyz-confirmation: none
+      x-shopiyz-step-up: none
+      x-shopiyz-operation-kind: read
+      x-shopiyz-implemented: true
+      x-shopiyz-preview-required: false
+      x-shopiyz-rollback-supported: false
+      x-operation-kind: configuration
+      x-risk: R0
+      x-confirmation: none
+      x-step-up: none
+      x-idempotency: none
+      x-preview-supported: false
+      x-rollback-supported: false
+      x-required-roles:
+        - merchant_staff
+      x-required-scopes:
+        - "admin:read"
+        - "admin:write"
+      x-audit-event: storefront.theme_settings
+      parameters:
+        - name: theme_design_id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/AdminApiResponse"
+      security:
+        - ShopiyzAccessToken: []
+    patch:
+      operationId: patchThemeDesignSettingsLive
+      tags:
+        - "Online Store / Theme Settings"
+      summary: "Ayar guncelle"
+      description: |-
+        Root tema ayarlarini merge semantigiyle gunceller.
+        Capability: storefront.theme_settings. Risk: R2. Confirmation: approval. Step-up: none.
+      x-shopiyz-capability: storefront.theme_settings
+      x-shopiyz-risk: R2
+      x-shopiyz-confirmation: approval
+      x-shopiyz-step-up: none
+      x-shopiyz-operation-kind: write
+      x-shopiyz-implemented: true
+      x-shopiyz-preview-required: true
+      x-shopiyz-rollback-supported: true
+      x-operation-kind: configuration
+      x-risk: R2
+      x-confirmation: preview
+      x-step-up: none
+      x-idempotency: required
+      x-preview-supported: true
+      x-rollback-supported: true
+      x-required-roles:
+        - merchant_staff
+      x-required-scopes:
+        - "admin:write"
+      x-audit-event: storefront.theme_settings
+      parameters:
+        - name: theme_design_id
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: false
+        content:
+          application/json:
+            schema:
+              type: object
+              additionalProperties: true
+      responses:
+        "200":
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/AdminApiResponse"
+      security:
+        - ShopiyzAccessToken: []
+  /theme_marketplace/purchases.json:
+    post:
+      operationId: purchaseThemeMarketplaceLive
+      tags:
+        - "Online Store / Theme Marketplace"
+      summary: "Marketplace kur"
+      description: |-
+        Marketplace temasini tema kutuphanesine ekler.
+        Capability: storefront.theme_marketplace. Risk: R3. Confirmation: explicit. Step-up: conditional.
+      x-shopiyz-capability: storefront.theme_marketplace
+      x-shopiyz-risk: R3
+      x-shopiyz-confirmation: explicit
+      x-shopiyz-step-up: conditional
+      x-shopiyz-operation-kind: write
+      x-shopiyz-implemented: true
+      x-shopiyz-preview-required: true
+      x-shopiyz-rollback-supported: true
+      x-operation-kind: mutation
+      x-risk: R3
+      x-confirmation: explicit
+      x-step-up: optional
+      x-idempotency: required
+      x-preview-supported: true
+      x-rollback-supported: true
+      x-required-roles:
+        - merchant_staff
+      x-required-scopes:
+        - "admin:write"
+      x-audit-event: storefront.theme_marketplace
       requestBody:
         required: false
         content:
@@ -79552,33 +80320,33 @@ paths:
         - ShopiyzAccessToken: []
   /theme_marketplace/purchases/preview.json:
     post:
-      operationId: postThemeMarketplacePurchasesPreview
+      operationId: previewThemeMarketplacePurchaseLive
       tags:
-        - "Online Store / Themes"
-      summary: "POST /theme_marketplace/purchases/preview.json (Tema / checkout / cart / headless)"
+        - "Online Store / Theme Marketplace"
+      summary: "Preview marketplace theme purchase/install impact."
       description: |-
-        POST /theme_marketplace/purchases/preview.json (Tema / checkout / cart / headless). Risk R1; confirmation preview; step-up none.
-        Capability: storefront.themes. Risk: R1. Confirmation: preview. Step-up: none.
-      x-shopiyz-capability: storefront.themes
+        Preview marketplace theme purchase/install impact.. Risk R1; confirmation preview; step-up none.
+        Capability: storefront.theme_marketplace. Risk: R1. Confirmation: preview. Step-up: none.
+      x-shopiyz-capability: storefront.theme_marketplace
       x-shopiyz-risk: R1
       x-shopiyz-confirmation: preview
       x-shopiyz-step-up: none
       x-shopiyz-operation-kind: analysis
-      x-shopiyz-implemented: false
-      x-shopiyz-preview-required: false
+      x-shopiyz-implemented: true
+      x-shopiyz-preview-required: true
       x-shopiyz-rollback-supported: false
       x-operation-kind: analytics
       x-risk: R1
       x-confirmation: preview
       x-step-up: none
       x-idempotency: required
-      x-preview-supported: false
+      x-preview-supported: true
       x-rollback-supported: false
       x-required-roles:
         - merchant_staff
       x-required-scopes:
         - "admin:write"
-      x-audit-event: storefront.themes
+      x-audit-event: storefront.theme_marketplace
       requestBody:
         required: false
         content:
@@ -79597,34 +80365,34 @@ paths:
         - ShopiyzAccessToken: []
   /theme_marketplace/themes.json:
     get:
-      operationId: getThemeMarketplaceThemes
+      operationId: listThemeMarketplaceThemesLive
       tags:
-        - "Online Store / Themes"
-      summary: "GET /theme_marketplace/themes.json (Tema / checkout / cart / headless)"
+        - "Online Store / Theme Marketplace"
+      summary: "List marketplace themes available for installation."
       description: |-
-        GET /theme_marketplace/themes.json (Tema / checkout / cart / headless). Risk R0; confirmation none; step-up none.
-        Capability: storefront.themes. Risk: R0. Confirmation: none. Step-up: none.
-      x-shopiyz-capability: storefront.themes
+        List marketplace themes available for installation.. Risk R0; confirmation none; step-up none.
+        Capability: storefront.theme_marketplace. Risk: R0. Confirmation: none. Step-up: none.
+      x-shopiyz-capability: storefront.theme_marketplace
       x-shopiyz-risk: R0
       x-shopiyz-confirmation: none
       x-shopiyz-step-up: none
       x-shopiyz-operation-kind: read
-      x-shopiyz-implemented: false
+      x-shopiyz-implemented: true
       x-shopiyz-preview-required: false
-      x-shopiyz-rollback-supported: true
+      x-shopiyz-rollback-supported: false
       x-operation-kind: query
       x-risk: R0
       x-confirmation: none
       x-step-up: none
       x-idempotency: none
       x-preview-supported: false
-      x-rollback-supported: true
+      x-rollback-supported: false
       x-required-roles:
         - merchant_staff
       x-required-scopes:
         - "admin:read"
         - "admin:write"
-      x-audit-event: storefront.themes
+      x-audit-event: storefront.theme_marketplace
       responses:
         "200":
           description: Successful response
@@ -79636,34 +80404,34 @@ paths:
         - ShopiyzAccessToken: []
   /theme_marketplace/themes/{theme_marketplace_id}.json:
     get:
-      operationId: getThemeMarketplaceThemesThemeMarketplaceId
+      operationId: getThemeMarketplaceThemeLive
       tags:
-        - "Online Store / Themes"
-      summary: "GET /theme_marketplace/themes/{theme_marketplace_id}.json (Tema / checkout / cart / headless)"
+        - "Online Store / Theme Marketplace"
+      summary: "Get marketplace theme detail."
       description: |-
-        GET /theme_marketplace/themes/{theme_marketplace_id}.json (Tema / checkout / cart / headless). Risk R0; confirmation none; step-up none.
-        Capability: storefront.themes. Risk: R0. Confirmation: none. Step-up: none.
-      x-shopiyz-capability: storefront.themes
+        Get marketplace theme detail.. Risk R0; confirmation none; step-up none.
+        Capability: storefront.theme_marketplace. Risk: R0. Confirmation: none. Step-up: none.
+      x-shopiyz-capability: storefront.theme_marketplace
       x-shopiyz-risk: R0
       x-shopiyz-confirmation: none
       x-shopiyz-step-up: none
       x-shopiyz-operation-kind: read
-      x-shopiyz-implemented: false
+      x-shopiyz-implemented: true
       x-shopiyz-preview-required: false
-      x-shopiyz-rollback-supported: true
+      x-shopiyz-rollback-supported: false
       x-operation-kind: query
       x-risk: R0
       x-confirmation: none
       x-step-up: none
       x-idempotency: none
       x-preview-supported: false
-      x-rollback-supported: true
+      x-rollback-supported: false
       x-required-roles:
         - merchant_staff
       x-required-scopes:
         - "admin:read"
         - "admin:write"
-      x-audit-event: storefront.themes
+      x-audit-event: storefront.theme_marketplace
       parameters:
         - name: theme_marketplace_id
           in: path
@@ -79681,33 +80449,33 @@ paths:
         - ShopiyzAccessToken: []
   /theme_previews.json:
     post:
-      operationId: postThemePreviews
+      operationId: createThemePreviewLive
       tags:
-        - "Online Store / Themes"
-      summary: "POST /theme_previews.json (Tema / checkout / cart / headless)"
+        - "Online Store / Theme Previews"
+      summary: "Create a theme preview runtime record for approval flow."
       description: |-
-        POST /theme_previews.json (Tema / checkout / cart / headless). Risk R1; confirmation preview; step-up none.
-        Capability: storefront.themes. Risk: R1. Confirmation: preview. Step-up: none.
-      x-shopiyz-capability: storefront.themes
+        Create a theme preview runtime record for approval flow.. Risk R1; confirmation preview; step-up none.
+        Capability: storefront.theme_previews. Risk: R1. Confirmation: preview. Step-up: none.
+      x-shopiyz-capability: storefront.theme_previews
       x-shopiyz-risk: R1
       x-shopiyz-confirmation: preview
       x-shopiyz-step-up: none
       x-shopiyz-operation-kind: analysis
-      x-shopiyz-implemented: false
-      x-shopiyz-preview-required: false
+      x-shopiyz-implemented: true
+      x-shopiyz-preview-required: true
       x-shopiyz-rollback-supported: false
       x-operation-kind: analytics
       x-risk: R1
       x-confirmation: preview
       x-step-up: none
       x-idempotency: required
-      x-preview-supported: false
+      x-preview-supported: true
       x-rollback-supported: false
       x-required-roles:
         - merchant_staff
       x-required-scopes:
         - "admin:write"
-      x-audit-event: storefront.themes
+      x-audit-event: storefront.theme_previews
       requestBody:
         required: false
         content:
@@ -79726,19 +80494,19 @@ paths:
         - ShopiyzAccessToken: []
   /theme_previews/{preview_id}.json:
     get:
-      operationId: getThemePreviewsPreviewId
+      operationId: getThemePreviewLive
       tags:
-        - "Online Store / Themes"
-      summary: "GET /theme_previews/{preview_id}.json (Tema / checkout / cart / headless)"
+        - "Online Store / Theme Previews"
+      summary: "Get a theme preview runtime record."
       description: |-
-        GET /theme_previews/{preview_id}.json (Tema / checkout / cart / headless). Risk R0; confirmation none; step-up none.
-        Capability: storefront.themes. Risk: R0. Confirmation: none. Step-up: none.
-      x-shopiyz-capability: storefront.themes
+        Get a theme preview runtime record.. Risk R0; confirmation none; step-up none.
+        Capability: storefront.theme_previews. Risk: R0. Confirmation: none. Step-up: none.
+      x-shopiyz-capability: storefront.theme_previews
       x-shopiyz-risk: R0
       x-shopiyz-confirmation: none
       x-shopiyz-step-up: none
       x-shopiyz-operation-kind: read
-      x-shopiyz-implemented: false
+      x-shopiyz-implemented: true
       x-shopiyz-preview-required: false
       x-shopiyz-rollback-supported: false
       x-operation-kind: query
@@ -79753,7 +80521,7 @@ paths:
       x-required-scopes:
         - "admin:read"
         - "admin:write"
-      x-audit-event: storefront.themes
+      x-audit-event: storefront.theme_previews
       parameters:
         - name: preview_id
           in: path
@@ -79771,33 +80539,33 @@ paths:
         - ShopiyzAccessToken: []
   /theme_publishes.json:
     post:
-      operationId: postThemePublishes
+      operationId: publishThemeRuntimeLive
       tags:
-        - "Online Store / Themes"
-      summary: "POST /theme_publishes.json (Tema / checkout / cart / headless)"
+        - "Online Store / Theme Publishes"
+      summary: "Publish a design or activate a theme through the runtime job surface."
       description: |-
-        POST /theme_publishes.json (Tema / checkout / cart / headless). Risk R3; confirmation explicit; step-up conditional.
-        Capability: storefront.themes. Risk: R3. Confirmation: explicit. Step-up: conditional.
-      x-shopiyz-capability: storefront.themes
+        Publish a design or activate a theme through the runtime job surface.. Risk R3; confirmation explicit; step-up conditional.
+        Capability: storefront.theme_publishes. Risk: R3. Confirmation: explicit. Step-up: conditional.
+      x-shopiyz-capability: storefront.theme_publishes
       x-shopiyz-risk: R3
       x-shopiyz-confirmation: explicit
       x-shopiyz-step-up: conditional
       x-shopiyz-operation-kind: job
-      x-shopiyz-implemented: false
+      x-shopiyz-implemented: true
       x-shopiyz-preview-required: true
-      x-shopiyz-rollback-supported: false
+      x-shopiyz-rollback-supported: true
       x-operation-kind: mutation
       x-risk: R3
       x-confirmation: explicit
       x-step-up: optional
       x-idempotency: required
       x-preview-supported: true
-      x-rollback-supported: false
+      x-rollback-supported: true
       x-required-roles:
         - merchant_staff
       x-required-scopes:
         - "admin:write"
-      x-audit-event: storefront.themes
+      x-audit-event: storefront.theme_publishes
       requestBody:
         required: false
         content:
@@ -79816,19 +80584,19 @@ paths:
         - ShopiyzAccessToken: []
   /theme_rollbacks.json:
     post:
-      operationId: postThemeRollbacks
+      operationId: rollbackThemeRuntimeLive
       tags:
-        - "Online Store / Themes"
-      summary: "POST /theme_rollbacks.json (Tema / checkout / cart / headless)"
+        - "Online Store / Theme Rollbacks"
+      summary: "Rollback a theme design through the runtime job surface."
       description: |-
-        POST /theme_rollbacks.json (Tema / checkout / cart / headless). Risk R3; confirmation explicit; step-up conditional.
-        Capability: storefront.themes. Risk: R3. Confirmation: explicit. Step-up: conditional.
-      x-shopiyz-capability: storefront.themes
+        Rollback a theme design through the runtime job surface.. Risk R3; confirmation explicit; step-up conditional.
+        Capability: storefront.theme_rollbacks. Risk: R3. Confirmation: explicit. Step-up: conditional.
+      x-shopiyz-capability: storefront.theme_rollbacks
       x-shopiyz-risk: R3
       x-shopiyz-confirmation: explicit
       x-shopiyz-step-up: conditional
       x-shopiyz-operation-kind: job
-      x-shopiyz-implemented: false
+      x-shopiyz-implemented: true
       x-shopiyz-preview-required: true
       x-shopiyz-rollback-supported: true
       x-operation-kind: mutation
@@ -79842,7 +80610,7 @@ paths:
         - merchant_staff
       x-required-scopes:
         - "admin:write"
-      x-audit-event: storefront.themes
+      x-audit-event: storefront.theme_rollbacks
       requestBody:
         required: false
         content:
@@ -79861,12 +80629,12 @@ paths:
         - ShopiyzAccessToken: []
   /themes.json:
     get:
-      operationId: getThemes
+      operationId: getThemesLive
       tags:
         - "Online Store / Themes"
-      summary: "GET /themes.json (Tema / checkout / cart / headless)"
+      summary: "Tema listele"
       description: |-
-        GET /themes.json (Tema / checkout / cart / headless). Risk R0; confirmation none; step-up none.
+        Kurulu temalari ve aktif tema bilgisini listeler.
         Capability: storefront.themes. Risk: R0. Confirmation: none. Step-up: none.
       x-shopiyz-capability: storefront.themes
       x-shopiyz-risk: R0
@@ -79899,19 +80667,19 @@ paths:
       security:
         - ShopiyzAccessToken: []
     post:
-      operationId: postThemes
+      operationId: createThemeLive
       tags:
         - "Online Store / Themes"
-      summary: "POST /themes.json (Tema / checkout / cart / headless)"
+      summary: "Tema olustur"
       description: |-
-        POST /themes.json (Tema / checkout / cart / headless). Risk R2; confirmation approval; step-up none.
+        Ozel veya marketplace kaynakli tema kaydi olusturur.
         Capability: storefront.themes. Risk: R2. Confirmation: approval. Step-up: none.
       x-shopiyz-capability: storefront.themes
       x-shopiyz-risk: R2
       x-shopiyz-confirmation: approval
       x-shopiyz-step-up: none
       x-shopiyz-operation-kind: write
-      x-shopiyz-implemented: false
+      x-shopiyz-implemented: true
       x-shopiyz-preview-required: true
       x-shopiyz-rollback-supported: true
       x-operation-kind: mutation
@@ -79944,12 +80712,12 @@ paths:
         - ShopiyzAccessToken: []
   /themes/{theme_id}.json:
     get:
-      operationId: getThemesThemeId
+      operationId: getThemeLive
       tags:
         - "Online Store / Themes"
-      summary: "GET /themes/{theme_id}.json (Tema / checkout / cart / headless)"
+      summary: "Tema detay"
       description: |-
-        GET /themes/{theme_id}.json (Tema / checkout / cart / headless). Risk R0; confirmation none; step-up none.
+        Tek bir kurulu temayi okur.
         Capability: storefront.themes. Risk: R0. Confirmation: none. Step-up: none.
       x-shopiyz-capability: storefront.themes
       x-shopiyz-risk: R0
@@ -79988,19 +80756,19 @@ paths:
       security:
         - ShopiyzAccessToken: []
     patch:
-      operationId: patchThemesThemeId
+      operationId: updateThemeLive
       tags:
         - "Online Store / Themes"
-      summary: "PATCH /themes/{theme_id}.json (Tema / checkout / cart / headless)"
+      summary: "Tema guncelle"
       description: |-
-        PATCH /themes/{theme_id}.json (Tema / checkout / cart / headless). Risk R2; confirmation approval; step-up none.
+        Tema metadata alanlarini gunceller veya aktiflestirme aksiyonunu alir.
         Capability: storefront.themes. Risk: R2. Confirmation: approval. Step-up: none.
       x-shopiyz-capability: storefront.themes
       x-shopiyz-risk: R2
       x-shopiyz-confirmation: approval
       x-shopiyz-step-up: none
       x-shopiyz-operation-kind: write
-      x-shopiyz-implemented: false
+      x-shopiyz-implemented: true
       x-shopiyz-preview-required: true
       x-shopiyz-rollback-supported: true
       x-operation-kind: mutation
@@ -80038,19 +80806,19 @@ paths:
       security:
         - ShopiyzAccessToken: []
     delete:
-      operationId: deleteThemesThemeId
+      operationId: deleteThemeLive
       tags:
         - "Online Store / Themes"
-      summary: "DELETE /themes/{theme_id}.json (Tema / checkout / cart / headless)"
+      summary: "Delete an inactive non-starter theme and its designs."
       description: |-
-        DELETE /themes/{theme_id}.json (Tema / checkout / cart / headless). Risk R5; confirmation typed; step-up mfa.
+        Delete an inactive non-starter theme and its designs.. Risk R5; confirmation typed; step-up mfa.
         Capability: storefront.themes. Risk: R5. Confirmation: typed. Step-up: mfa.
       x-shopiyz-capability: storefront.themes
       x-shopiyz-risk: R5
       x-shopiyz-confirmation: typed
       x-shopiyz-step-up: mfa
       x-shopiyz-operation-kind: delete
-      x-shopiyz-implemented: false
+      x-shopiyz-implemented: true
       x-shopiyz-preview-required: true
       x-shopiyz-rollback-supported: true
       x-operation-kind: mutation
@@ -80073,6 +80841,152 @@ paths:
             type: string
       responses:
         "200":
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/AdminApiResponse"
+      security:
+        - ShopiyzAccessToken: []
+  /themes/{theme_id}/activate.json:
+    post:
+      operationId: activateThemeLive
+      tags:
+        - "Online Store / Themes"
+      summary: "Tema aktiflestir"
+      description: |-
+        Kurulu temayi aktif tema yapar.
+        Capability: storefront.themes. Risk: R3. Confirmation: explicit. Step-up: conditional.
+      x-shopiyz-capability: storefront.themes
+      x-shopiyz-risk: R3
+      x-shopiyz-confirmation: explicit
+      x-shopiyz-step-up: conditional
+      x-shopiyz-operation-kind: write
+      x-shopiyz-implemented: true
+      x-shopiyz-preview-required: true
+      x-shopiyz-rollback-supported: true
+      x-operation-kind: mutation
+      x-risk: R3
+      x-confirmation: explicit
+      x-step-up: optional
+      x-idempotency: required
+      x-preview-supported: true
+      x-rollback-supported: true
+      x-required-roles:
+        - merchant_staff
+      x-required-scopes:
+        - "admin:write"
+      x-audit-event: storefront.themes
+      parameters:
+        - name: theme_id
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: false
+        content:
+          application/json:
+            schema:
+              type: object
+              additionalProperties: true
+      responses:
+        "201":
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/AdminApiResponse"
+      security:
+        - ShopiyzAccessToken: []
+  /themes/{theme_id}/designs.json:
+    get:
+      operationId: listThemeDesignsForThemeLive
+      tags:
+        - "Online Store / Theme Designs"
+      summary: "List theme editor designs for a theme."
+      description: |-
+        List theme editor designs for a theme.. Risk R0; confirmation none; step-up none.
+        Capability: storefront.theme_designs. Risk: R0. Confirmation: none. Step-up: none.
+      x-shopiyz-capability: storefront.theme_designs
+      x-shopiyz-risk: R0
+      x-shopiyz-confirmation: none
+      x-shopiyz-step-up: none
+      x-shopiyz-operation-kind: read
+      x-shopiyz-implemented: true
+      x-shopiyz-preview-required: false
+      x-shopiyz-rollback-supported: false
+      x-operation-kind: query
+      x-risk: R0
+      x-confirmation: none
+      x-step-up: none
+      x-idempotency: none
+      x-preview-supported: false
+      x-rollback-supported: false
+      x-required-roles:
+        - merchant_staff
+      x-required-scopes:
+        - "admin:read"
+        - "admin:write"
+      x-audit-event: storefront.theme_designs
+      parameters:
+        - name: theme_id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/AdminApiResponse"
+      security:
+        - ShopiyzAccessToken: []
+    post:
+      operationId: createThemeDesignForThemeLive
+      tags:
+        - "Online Store / Theme Designs"
+      summary: "Create a theme editor design under a theme."
+      description: |-
+        Create a theme editor design under a theme.. Risk R2; confirmation approval; step-up none.
+        Capability: storefront.theme_designs. Risk: R2. Confirmation: approval. Step-up: none.
+      x-shopiyz-capability: storefront.theme_designs
+      x-shopiyz-risk: R2
+      x-shopiyz-confirmation: approval
+      x-shopiyz-step-up: none
+      x-shopiyz-operation-kind: write
+      x-shopiyz-implemented: true
+      x-shopiyz-preview-required: true
+      x-shopiyz-rollback-supported: true
+      x-operation-kind: mutation
+      x-risk: R2
+      x-confirmation: preview
+      x-step-up: none
+      x-idempotency: required
+      x-preview-supported: true
+      x-rollback-supported: true
+      x-required-roles:
+        - merchant_staff
+      x-required-scopes:
+        - "admin:write"
+      x-audit-event: storefront.theme_designs
+      parameters:
+        - name: theme_id
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: false
+        content:
+          application/json:
+            schema:
+              type: object
+              additionalProperties: true
+      responses:
+        "201":
           description: Successful response
           content:
             application/json:
