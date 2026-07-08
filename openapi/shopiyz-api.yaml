@@ -10,14 +10,14 @@ servers:
       store:
         default: development
         description: Store subdomain or custom store host.
-x-shopiyz-generated-at: "2026-07-08T08:27:42.336Z"
+x-shopiyz-generated-at: "2026-07-08T11:27:19.665Z"
 x-shopiyz-source: myshopiyz/src/lib/adminApiCatalog.ts
 x-shopiyz-summary:
   sections: 14
   resources: 519
-  operations: 1913
-  registeredOperations: 2051
-  implementedOperations: 1319
+  operations: 1916
+  registeredOperations: 2054
+  implementedOperations: 1322
   capabilities: 1005
 paths:
   /abandoned_carts/customer_target_set.json:
@@ -83406,6 +83406,144 @@ paths:
       x-audit-event: variant-rules
       parameters:
         - name: rule_id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/AdminApiResponse"
+      security:
+        - ShopiyzAccessToken: []
+  /variants/{variant_id}.json:
+    get:
+      operationId: getStandaloneVariant
+      tags:
+        - "Products / Product Variants"
+      summary: "Get product variant"
+      description: |-
+        Get product variant. Risk R0; confirmation none; step-up none.
+        Capability: catalog.variants. Risk: R0. Confirmation: none. Step-up: none.
+      x-shopiyz-capability: catalog.variants
+      x-shopiyz-risk: R0
+      x-shopiyz-confirmation: none
+      x-shopiyz-step-up: none
+      x-shopiyz-operation-kind: read
+      x-shopiyz-implemented: true
+      x-shopiyz-preview-required: false
+      x-shopiyz-rollback-supported: false
+      x-operation-kind: query
+      x-risk: R0
+      x-confirmation: none
+      x-step-up: none
+      x-idempotency: none
+      x-preview-supported: false
+      x-rollback-supported: false
+      x-required-roles:
+        - merchant_staff
+      x-required-scopes:
+        - "admin:read"
+        - "admin:write"
+      x-audit-event: catalog.variants
+      parameters:
+        - name: variant_id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/AdminApiResponse"
+      security:
+        - ShopiyzAccessToken: []
+    put:
+      operationId: updateStandaloneVariant
+      tags:
+        - "Products / Product Variants"
+      summary: "Update product variant"
+      description: |-
+        Update product variant. Risk R2; confirmation approval; step-up none.
+        Capability: catalog.variants. Risk: R2. Confirmation: approval. Step-up: none.
+      x-shopiyz-capability: catalog.variants
+      x-shopiyz-risk: R2
+      x-shopiyz-confirmation: approval
+      x-shopiyz-step-up: none
+      x-shopiyz-operation-kind: write
+      x-shopiyz-implemented: true
+      x-shopiyz-preview-required: true
+      x-shopiyz-rollback-supported: true
+      x-operation-kind: mutation
+      x-risk: R2
+      x-confirmation: preview
+      x-step-up: none
+      x-idempotency: required
+      x-preview-supported: true
+      x-rollback-supported: true
+      x-required-roles:
+        - merchant_staff
+      x-required-scopes:
+        - "admin:write"
+      x-audit-event: catalog.variants
+      parameters:
+        - name: variant_id
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: false
+        content:
+          application/json:
+            schema:
+              type: object
+              additionalProperties: true
+      responses:
+        "200":
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/AdminApiResponse"
+      security:
+        - ShopiyzAccessToken: []
+    delete:
+      operationId: deleteStandaloneVariant
+      tags:
+        - "Products / Product Variants"
+      summary: "Delete product variant"
+      description: |-
+        Delete product variant. Risk R4; confirmation typed; step-up conditional.
+        Capability: catalog.variants. Risk: R4. Confirmation: typed. Step-up: conditional.
+      x-shopiyz-capability: catalog.variants
+      x-shopiyz-risk: R4
+      x-shopiyz-confirmation: typed
+      x-shopiyz-step-up: conditional
+      x-shopiyz-operation-kind: delete
+      x-shopiyz-implemented: true
+      x-shopiyz-preview-required: true
+      x-shopiyz-rollback-supported: true
+      x-operation-kind: mutation
+      x-risk: R4
+      x-confirmation: typed
+      x-step-up: optional
+      x-idempotency: required
+      x-preview-supported: true
+      x-rollback-supported: true
+      x-required-roles:
+        - merchant_staff
+      x-required-scopes:
+        - "admin:write"
+      x-audit-event: catalog.variants
+      parameters:
+        - name: variant_id
           in: path
           required: true
           schema:

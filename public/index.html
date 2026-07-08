@@ -3217,16 +3217,16 @@ curl -X GET <span class="token-string">"https://{store}.shopiyz.com/admin/api/ap
       const toast = document.getElementById("toast");
       // BEGIN generated Admin API registry data
       const adminApiDoc = {
-  "generatedAt": "2026-07-08T08:27:42.336Z",
+  "generatedAt": "2026-07-08T11:27:19.665Z",
   "source": "myshopiyz/src/lib/adminApiCatalog.ts",
   "basePath": "/admin/api",
   "openApiUrl": "https://dev.shopiyz.com/openapi/shopiyz-api.yaml",
   "summary": {
     "sections": 14,
     "resources": 519,
-    "operations": 1913,
-    "registeredOperations": 2051,
-    "implementedOperations": 1319,
+    "operations": 1916,
+    "registeredOperations": 2054,
+    "implementedOperations": 1322,
     "plannedOperations": 594,
     "capabilities": 1005
   },
@@ -14327,7 +14327,7 @@ curl -X GET <span class="token-string">"https://{store}.shopiyz.com/admin/api/ap
       "tag": "catalog",
       "icon": "PRD",
       "description": "Urun, varyant, koleksiyon, kategori, marka, tag, bundle, medya, SEO ve fiyat operasyonlari.",
-      "operationCount": 183,
+      "operationCount": 186,
       "resources": [
         {
           "id": "products-catalog-bundles-resource",
@@ -15224,6 +15224,278 @@ curl -X GET <span class="token-string">"https://{store}.shopiyz.com/admin/api/ap
               ],
               "implemented": true,
               "idempotencyRequired": false,
+              "previewRequired": false,
+              "rollbackSupported": false
+            }
+          ],
+          "operationCount": 13
+        },
+        {
+          "id": "products-catalog-variants-resource",
+          "key": "catalog.variants",
+          "name": "Product Variants",
+          "description": "Product Variants operasyonlari (catalog.variants).",
+          "operations": [
+            {
+              "method": "GET",
+              "path": "/product_options.json",
+              "fullPath": "/admin/api/product_options.json",
+              "operationId": "listProductOptions",
+              "capability": "catalog.variants",
+              "summary": "List product options",
+              "description": "List product options. Risk R0; confirmation none; step-up none.",
+              "operationKind": "analysis",
+              "risk": "R0",
+              "confirmation": "none",
+              "stepUp": "none",
+              "requiredScopes": [
+                "admin:read",
+                "admin:write"
+              ],
+              "implemented": true,
+              "idempotencyRequired": false,
+              "previewRequired": false,
+              "rollbackSupported": false
+            },
+            {
+              "method": "POST",
+              "path": "/products/{product_id}/options.json",
+              "fullPath": "/admin/api/products/{product_id}/options.json",
+              "operationId": "createProductOptionRuntime",
+              "capability": "catalog.variants",
+              "summary": "Queue product option create",
+              "description": "Queue product option create. Risk R2; confirmation preview; step-up none.",
+              "operationKind": "job",
+              "risk": "R2",
+              "confirmation": "preview",
+              "stepUp": "none",
+              "requiredScopes": [
+                "admin:write"
+              ],
+              "implemented": true,
+              "idempotencyRequired": true,
+              "previewRequired": true,
+              "rollbackSupported": true
+            },
+            {
+              "method": "DELETE",
+              "path": "/products/{product_id}/options/{option_id}.json",
+              "fullPath": "/admin/api/products/{product_id}/options/{option_id}.json",
+              "operationId": "deleteProductOptionRuntime",
+              "capability": "catalog.variants",
+              "summary": "Queue product option delete",
+              "description": "Queue product option delete. Risk R3; confirmation approval; step-up conditional.",
+              "operationKind": "job",
+              "risk": "R3",
+              "confirmation": "approval",
+              "stepUp": "conditional",
+              "requiredScopes": [
+                "admin:write"
+              ],
+              "implemented": true,
+              "idempotencyRequired": true,
+              "previewRequired": true,
+              "rollbackSupported": true
+            },
+            {
+              "method": "PATCH",
+              "path": "/products/{product_id}/options/{option_id}.json",
+              "fullPath": "/admin/api/products/{product_id}/options/{option_id}.json",
+              "operationId": "updateProductOptionRuntime",
+              "capability": "catalog.variants",
+              "summary": "Queue product option update",
+              "description": "Queue product option update. Risk R2; confirmation preview; step-up none.",
+              "operationKind": "job",
+              "risk": "R2",
+              "confirmation": "preview",
+              "stepUp": "none",
+              "requiredScopes": [
+                "admin:write"
+              ],
+              "implemented": true,
+              "idempotencyRequired": true,
+              "previewRequired": true,
+              "rollbackSupported": true
+            },
+            {
+              "method": "GET",
+              "path": "/variant_option_normalization_suggestions.json",
+              "fullPath": "/admin/api/variant_option_normalization_suggestions.json",
+              "operationId": "listVariantOptionNormalizationSuggestions",
+              "capability": "catalog.variants",
+              "summary": "List option normalization suggestions",
+              "description": "List option normalization suggestions. Risk R0; confirmation none; step-up none.",
+              "operationKind": "analysis",
+              "risk": "R0",
+              "confirmation": "none",
+              "stepUp": "none",
+              "requiredScopes": [
+                "admin:read",
+                "admin:write"
+              ],
+              "implemented": true,
+              "idempotencyRequired": false,
+              "previewRequired": false,
+              "rollbackSupported": false
+            },
+            {
+              "method": "DELETE",
+              "path": "/variants/{variant_id}.json",
+              "fullPath": "/admin/api/variants/{variant_id}.json",
+              "operationId": "deleteStandaloneVariant",
+              "capability": "catalog.variants",
+              "summary": "Delete product variant",
+              "description": "Delete product variant. Risk R4; confirmation typed; step-up conditional.",
+              "operationKind": "delete",
+              "risk": "R4",
+              "confirmation": "typed",
+              "stepUp": "conditional",
+              "requiredScopes": [
+                "admin:write"
+              ],
+              "implemented": true,
+              "idempotencyRequired": true,
+              "previewRequired": true,
+              "rollbackSupported": true
+            },
+            {
+              "method": "GET",
+              "path": "/variants/{variant_id}.json",
+              "fullPath": "/admin/api/variants/{variant_id}.json",
+              "operationId": "getStandaloneVariant",
+              "capability": "catalog.variants",
+              "summary": "Get product variant",
+              "description": "Get product variant. Risk R0; confirmation none; step-up none.",
+              "operationKind": "read",
+              "risk": "R0",
+              "confirmation": "none",
+              "stepUp": "none",
+              "requiredScopes": [
+                "admin:read",
+                "admin:write"
+              ],
+              "implemented": true,
+              "idempotencyRequired": false,
+              "previewRequired": false,
+              "rollbackSupported": false
+            },
+            {
+              "method": "PUT",
+              "path": "/variants/{variant_id}.json",
+              "fullPath": "/admin/api/variants/{variant_id}.json",
+              "operationId": "updateStandaloneVariant",
+              "capability": "catalog.variants",
+              "summary": "Update product variant",
+              "description": "Update product variant. Risk R2; confirmation approval; step-up none.",
+              "operationKind": "write",
+              "risk": "R2",
+              "confirmation": "approval",
+              "stepUp": "none",
+              "requiredScopes": [
+                "admin:write"
+              ],
+              "implemented": true,
+              "idempotencyRequired": true,
+              "previewRequired": true,
+              "rollbackSupported": true
+            },
+            {
+              "method": "POST",
+              "path": "/variants/bulk_actions.json",
+              "fullPath": "/admin/api/variants/bulk_actions.json",
+              "operationId": "executeVariantBulkAction",
+              "capability": "catalog.variants",
+              "summary": "Queue variant bulk action",
+              "description": "Queue variant bulk action. Risk R3; confirmation approval; step-up conditional.",
+              "operationKind": "job",
+              "risk": "R3",
+              "confirmation": "approval",
+              "stepUp": "conditional",
+              "requiredScopes": [
+                "admin:write"
+              ],
+              "implemented": true,
+              "idempotencyRequired": true,
+              "previewRequired": true,
+              "rollbackSupported": true
+            },
+            {
+              "method": "POST",
+              "path": "/variants/bulk_preview.json",
+              "fullPath": "/admin/api/variants/bulk_preview.json",
+              "operationId": "previewVariantBulkAction",
+              "capability": "catalog.variants",
+              "summary": "Preview variant bulk action",
+              "description": "Preview variant bulk action. Risk R3; confirmation preview; step-up conditional.",
+              "operationKind": "analysis",
+              "risk": "R3",
+              "confirmation": "preview",
+              "stepUp": "conditional",
+              "requiredScopes": [
+                "admin:write"
+              ],
+              "implemented": true,
+              "idempotencyRequired": true,
+              "previewRequired": true,
+              "rollbackSupported": true
+            },
+            {
+              "method": "POST",
+              "path": "/variants/generate_barcodes_preview.json",
+              "fullPath": "/admin/api/variants/generate_barcodes_preview.json",
+              "operationId": "previewGenerateBarcodes",
+              "capability": "catalog.variants",
+              "summary": "Preview barcode generation",
+              "description": "Preview barcode generation. Risk R2; confirmation preview; step-up none.",
+              "operationKind": "analysis",
+              "risk": "R2",
+              "confirmation": "preview",
+              "stepUp": "none",
+              "requiredScopes": [
+                "admin:write"
+              ],
+              "implemented": true,
+              "idempotencyRequired": true,
+              "previewRequired": true,
+              "rollbackSupported": false
+            },
+            {
+              "method": "POST",
+              "path": "/variants/generate_skus_preview.json",
+              "fullPath": "/admin/api/variants/generate_skus_preview.json",
+              "operationId": "previewGenerateSkus",
+              "capability": "catalog.variants",
+              "summary": "Preview SKU generation",
+              "description": "Preview SKU generation. Risk R2; confirmation preview; step-up none.",
+              "operationKind": "analysis",
+              "risk": "R2",
+              "confirmation": "preview",
+              "stepUp": "none",
+              "requiredScopes": [
+                "admin:write"
+              ],
+              "implemented": true,
+              "idempotencyRequired": true,
+              "previewRequired": true,
+              "rollbackSupported": false
+            },
+            {
+              "method": "POST",
+              "path": "/variants/query.json",
+              "fullPath": "/admin/api/variants/query.json",
+              "operationId": "queryVariantsAdvanced",
+              "capability": "catalog.variants",
+              "summary": "Advanced variant query",
+              "description": "Advanced variant query. Risk R0; confirmation none; step-up none.",
+              "operationKind": "analysis",
+              "risk": "R0",
+              "confirmation": "none",
+              "stepUp": "none",
+              "requiredScopes": [
+                "admin:write"
+              ],
+              "implemented": true,
+              "idempotencyRequired": true,
               "previewRequired": false,
               "rollbackSupported": false
             }
@@ -16239,217 +16511,6 @@ curl -X GET <span class="token-string">"https://{store}.shopiyz.com/admin/api/ap
             }
           ],
           "operationCount": 11
-        },
-        {
-          "id": "products-catalog-variants-resource",
-          "key": "catalog.variants",
-          "name": "Product Variants",
-          "description": "Product Variants operasyonlari (catalog.variants).",
-          "operations": [
-            {
-              "method": "GET",
-              "path": "/product_options.json",
-              "fullPath": "/admin/api/product_options.json",
-              "operationId": "listProductOptions",
-              "capability": "catalog.variants",
-              "summary": "List product options",
-              "description": "List product options. Risk R0; confirmation none; step-up none.",
-              "operationKind": "analysis",
-              "risk": "R0",
-              "confirmation": "none",
-              "stepUp": "none",
-              "requiredScopes": [
-                "admin:read",
-                "admin:write"
-              ],
-              "implemented": true,
-              "idempotencyRequired": false,
-              "previewRequired": false,
-              "rollbackSupported": false
-            },
-            {
-              "method": "POST",
-              "path": "/products/{product_id}/options.json",
-              "fullPath": "/admin/api/products/{product_id}/options.json",
-              "operationId": "createProductOptionRuntime",
-              "capability": "catalog.variants",
-              "summary": "Queue product option create",
-              "description": "Queue product option create. Risk R2; confirmation preview; step-up none.",
-              "operationKind": "job",
-              "risk": "R2",
-              "confirmation": "preview",
-              "stepUp": "none",
-              "requiredScopes": [
-                "admin:write"
-              ],
-              "implemented": true,
-              "idempotencyRequired": true,
-              "previewRequired": true,
-              "rollbackSupported": true
-            },
-            {
-              "method": "DELETE",
-              "path": "/products/{product_id}/options/{option_id}.json",
-              "fullPath": "/admin/api/products/{product_id}/options/{option_id}.json",
-              "operationId": "deleteProductOptionRuntime",
-              "capability": "catalog.variants",
-              "summary": "Queue product option delete",
-              "description": "Queue product option delete. Risk R3; confirmation approval; step-up conditional.",
-              "operationKind": "job",
-              "risk": "R3",
-              "confirmation": "approval",
-              "stepUp": "conditional",
-              "requiredScopes": [
-                "admin:write"
-              ],
-              "implemented": true,
-              "idempotencyRequired": true,
-              "previewRequired": true,
-              "rollbackSupported": true
-            },
-            {
-              "method": "PATCH",
-              "path": "/products/{product_id}/options/{option_id}.json",
-              "fullPath": "/admin/api/products/{product_id}/options/{option_id}.json",
-              "operationId": "updateProductOptionRuntime",
-              "capability": "catalog.variants",
-              "summary": "Queue product option update",
-              "description": "Queue product option update. Risk R2; confirmation preview; step-up none.",
-              "operationKind": "job",
-              "risk": "R2",
-              "confirmation": "preview",
-              "stepUp": "none",
-              "requiredScopes": [
-                "admin:write"
-              ],
-              "implemented": true,
-              "idempotencyRequired": true,
-              "previewRequired": true,
-              "rollbackSupported": true
-            },
-            {
-              "method": "GET",
-              "path": "/variant_option_normalization_suggestions.json",
-              "fullPath": "/admin/api/variant_option_normalization_suggestions.json",
-              "operationId": "listVariantOptionNormalizationSuggestions",
-              "capability": "catalog.variants",
-              "summary": "List option normalization suggestions",
-              "description": "List option normalization suggestions. Risk R0; confirmation none; step-up none.",
-              "operationKind": "analysis",
-              "risk": "R0",
-              "confirmation": "none",
-              "stepUp": "none",
-              "requiredScopes": [
-                "admin:read",
-                "admin:write"
-              ],
-              "implemented": true,
-              "idempotencyRequired": false,
-              "previewRequired": false,
-              "rollbackSupported": false
-            },
-            {
-              "method": "POST",
-              "path": "/variants/bulk_actions.json",
-              "fullPath": "/admin/api/variants/bulk_actions.json",
-              "operationId": "executeVariantBulkAction",
-              "capability": "catalog.variants",
-              "summary": "Queue variant bulk action",
-              "description": "Queue variant bulk action. Risk R3; confirmation approval; step-up conditional.",
-              "operationKind": "job",
-              "risk": "R3",
-              "confirmation": "approval",
-              "stepUp": "conditional",
-              "requiredScopes": [
-                "admin:write"
-              ],
-              "implemented": true,
-              "idempotencyRequired": true,
-              "previewRequired": true,
-              "rollbackSupported": true
-            },
-            {
-              "method": "POST",
-              "path": "/variants/bulk_preview.json",
-              "fullPath": "/admin/api/variants/bulk_preview.json",
-              "operationId": "previewVariantBulkAction",
-              "capability": "catalog.variants",
-              "summary": "Preview variant bulk action",
-              "description": "Preview variant bulk action. Risk R3; confirmation preview; step-up conditional.",
-              "operationKind": "analysis",
-              "risk": "R3",
-              "confirmation": "preview",
-              "stepUp": "conditional",
-              "requiredScopes": [
-                "admin:write"
-              ],
-              "implemented": true,
-              "idempotencyRequired": true,
-              "previewRequired": true,
-              "rollbackSupported": true
-            },
-            {
-              "method": "POST",
-              "path": "/variants/generate_barcodes_preview.json",
-              "fullPath": "/admin/api/variants/generate_barcodes_preview.json",
-              "operationId": "previewGenerateBarcodes",
-              "capability": "catalog.variants",
-              "summary": "Preview barcode generation",
-              "description": "Preview barcode generation. Risk R2; confirmation preview; step-up none.",
-              "operationKind": "analysis",
-              "risk": "R2",
-              "confirmation": "preview",
-              "stepUp": "none",
-              "requiredScopes": [
-                "admin:write"
-              ],
-              "implemented": true,
-              "idempotencyRequired": true,
-              "previewRequired": true,
-              "rollbackSupported": false
-            },
-            {
-              "method": "POST",
-              "path": "/variants/generate_skus_preview.json",
-              "fullPath": "/admin/api/variants/generate_skus_preview.json",
-              "operationId": "previewGenerateSkus",
-              "capability": "catalog.variants",
-              "summary": "Preview SKU generation",
-              "description": "Preview SKU generation. Risk R2; confirmation preview; step-up none.",
-              "operationKind": "analysis",
-              "risk": "R2",
-              "confirmation": "preview",
-              "stepUp": "none",
-              "requiredScopes": [
-                "admin:write"
-              ],
-              "implemented": true,
-              "idempotencyRequired": true,
-              "previewRequired": true,
-              "rollbackSupported": false
-            },
-            {
-              "method": "POST",
-              "path": "/variants/query.json",
-              "fullPath": "/admin/api/variants/query.json",
-              "operationId": "queryVariantsAdvanced",
-              "capability": "catalog.variants",
-              "summary": "Advanced variant query",
-              "description": "Advanced variant query. Risk R0; confirmation none; step-up none.",
-              "operationKind": "analysis",
-              "risk": "R0",
-              "confirmation": "none",
-              "stepUp": "none",
-              "requiredScopes": [
-                "admin:write"
-              ],
-              "implemented": true,
-              "idempotencyRequired": true,
-              "previewRequired": false,
-              "rollbackSupported": false
-            }
-          ],
-          "operationCount": 10
         },
         {
           "id": "products-products-resource",
@@ -85044,6 +85105,67 @@ curl -X GET <span class="token-string">"https://{store}.shopiyz.com/admin/api/ap
       "rollbackSupported": false
     },
     {
+      "method": "DELETE",
+      "path": "/variants/{variant_id}.json",
+      "fullPath": "/admin/api/variants/{variant_id}.json",
+      "operationId": "deleteStandaloneVariant",
+      "capability": "catalog.variants",
+      "summary": "Delete product variant",
+      "description": "Delete product variant. Risk R4; confirmation typed; step-up conditional.",
+      "operationKind": "delete",
+      "risk": "R4",
+      "confirmation": "typed",
+      "stepUp": "conditional",
+      "requiredScopes": [
+        "admin:write"
+      ],
+      "implemented": true,
+      "idempotencyRequired": true,
+      "previewRequired": true,
+      "rollbackSupported": true
+    },
+    {
+      "method": "GET",
+      "path": "/variants/{variant_id}.json",
+      "fullPath": "/admin/api/variants/{variant_id}.json",
+      "operationId": "getStandaloneVariant",
+      "capability": "catalog.variants",
+      "summary": "Get product variant",
+      "description": "Get product variant. Risk R0; confirmation none; step-up none.",
+      "operationKind": "read",
+      "risk": "R0",
+      "confirmation": "none",
+      "stepUp": "none",
+      "requiredScopes": [
+        "admin:read",
+        "admin:write"
+      ],
+      "implemented": true,
+      "idempotencyRequired": false,
+      "previewRequired": false,
+      "rollbackSupported": false
+    },
+    {
+      "method": "PUT",
+      "path": "/variants/{variant_id}.json",
+      "fullPath": "/admin/api/variants/{variant_id}.json",
+      "operationId": "updateStandaloneVariant",
+      "capability": "catalog.variants",
+      "summary": "Update product variant",
+      "description": "Update product variant. Risk R2; confirmation approval; step-up none.",
+      "operationKind": "write",
+      "risk": "R2",
+      "confirmation": "approval",
+      "stepUp": "none",
+      "requiredScopes": [
+        "admin:write"
+      ],
+      "implemented": true,
+      "idempotencyRequired": true,
+      "previewRequired": true,
+      "rollbackSupported": true
+    },
+    {
       "method": "POST",
       "path": "/variants/bulk_actions.json",
       "fullPath": "/admin/api/variants/bulk_actions.json",
@@ -86030,6 +86152,8 @@ curl -X GET <span class="token-string">"https://{store}.shopiyz.com/admin/api/ap
 
 
 
+
+
       function groupedOperations(rows) {
         return rows.reduce((groups, row) => {
           if (!groups.has(row.resource)) groups.set(row.resource, []);
@@ -86273,6 +86397,8 @@ curl -X GET <span class="token-string">"https://{store}.shopiyz.com/admin/api/ap
       renderRegistryResourceReference();
       renderRegistrySidebar();
       // END generated Admin API registry rendering
+
+
 
 
 
