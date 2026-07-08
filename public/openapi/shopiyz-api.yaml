@@ -10,14 +10,14 @@ servers:
       store:
         default: development
         description: Store subdomain or custom store host.
-x-shopiyz-generated-at: "2026-07-08T11:27:19.665Z"
+x-shopiyz-generated-at: "2026-07-08T15:58:20.700Z"
 x-shopiyz-source: myshopiyz/src/lib/adminApiCatalog.ts
 x-shopiyz-summary:
   sections: 14
   resources: 519
-  operations: 1916
-  registeredOperations: 2054
-  implementedOperations: 1322
+  operations: 1917
+  registeredOperations: 2055
+  implementedOperations: 1323
   capabilities: 1005
 paths:
   /abandoned_carts/customer_target_set.json:
@@ -45286,6 +45286,50 @@ paths:
       security:
         - ShopiyzAccessToken: []
   /metafield_definitions/{definition_id}.json:
+    get:
+      operationId: getMetafieldDefinition
+      tags:
+        - "Products / Metafields"
+      summary: "Get metafield definition detail"
+      description: |-
+        Get metafield definition detail. Risk R0; confirmation none; step-up none.
+        Capability: catalog.metafields. Risk: R0. Confirmation: none. Step-up: none.
+      x-shopiyz-capability: catalog.metafields
+      x-shopiyz-risk: R0
+      x-shopiyz-confirmation: none
+      x-shopiyz-step-up: none
+      x-shopiyz-operation-kind: read
+      x-shopiyz-implemented: true
+      x-shopiyz-preview-required: false
+      x-shopiyz-rollback-supported: false
+      x-operation-kind: query
+      x-risk: R0
+      x-confirmation: none
+      x-step-up: none
+      x-idempotency: none
+      x-preview-supported: false
+      x-rollback-supported: false
+      x-required-roles:
+        - merchant_staff
+      x-required-scopes:
+        - "admin:read"
+        - "admin:write"
+      x-audit-event: catalog.metafields
+      parameters:
+        - name: definition_id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/AdminApiResponse"
+      security:
+        - ShopiyzAccessToken: []
     patch:
       operationId: patchMetafieldDefinitionsDefinitionId
       tags:

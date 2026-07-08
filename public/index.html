@@ -3217,16 +3217,16 @@ curl -X GET <span class="token-string">"https://{store}.shopiyz.com/admin/api/ap
       const toast = document.getElementById("toast");
       // BEGIN generated Admin API registry data
       const adminApiDoc = {
-  "generatedAt": "2026-07-08T11:27:19.665Z",
+  "generatedAt": "2026-07-08T15:58:20.700Z",
   "source": "myshopiyz/src/lib/adminApiCatalog.ts",
   "basePath": "/admin/api",
   "openApiUrl": "https://dev.shopiyz.com/openapi/shopiyz-api.yaml",
   "summary": {
     "sections": 14,
     "resources": 519,
-    "operations": 1916,
-    "registeredOperations": 2054,
-    "implementedOperations": 1322,
+    "operations": 1917,
+    "registeredOperations": 2055,
+    "implementedOperations": 1323,
     "plannedOperations": 594,
     "capabilities": 1005
   },
@@ -14327,7 +14327,7 @@ curl -X GET <span class="token-string">"https://{store}.shopiyz.com/admin/api/ap
       "tag": "catalog",
       "icon": "PRD",
       "description": "Urun, varyant, koleksiyon, kategori, marka, tag, bundle, medya, SEO ve fiyat operasyonlari.",
-      "operationCount": 186,
+      "operationCount": 187,
       "resources": [
         {
           "id": "products-catalog-bundles-resource",
@@ -16931,6 +16931,27 @@ curl -X GET <span class="token-string">"https://{store}.shopiyz.com/admin/api/ap
             },
             {
               "method": "GET",
+              "path": "/metafield_definitions/{definition_id}.json",
+              "fullPath": "/admin/api/metafield_definitions/{definition_id}.json",
+              "operationId": "getMetafieldDefinition",
+              "capability": "catalog.metafields",
+              "summary": "Get metafield definition detail",
+              "description": "Get metafield definition detail. Risk R0; confirmation none; step-up none.",
+              "operationKind": "read",
+              "risk": "R0",
+              "confirmation": "none",
+              "stepUp": "none",
+              "requiredScopes": [
+                "admin:read",
+                "admin:write"
+              ],
+              "implemented": true,
+              "idempotencyRequired": false,
+              "previewRequired": false,
+              "rollbackSupported": false
+            },
+            {
+              "method": "GET",
               "path": "/metafields.json",
               "fullPath": "/admin/api/metafields.json",
               "operationId": "listMetafields",
@@ -17011,7 +17032,7 @@ curl -X GET <span class="token-string">"https://{store}.shopiyz.com/admin/api/ap
               "rollbackSupported": false
             }
           ],
-          "operationCount": 6
+          "operationCount": 7
         },
         {
           "id": "products-content-category-filter-configs-resource",
@@ -67699,6 +67720,27 @@ curl -X GET <span class="token-string">"https://{store}.shopiyz.com/admin/api/ap
       "rollbackSupported": false
     },
     {
+      "method": "GET",
+      "path": "/metafield_definitions/{definition_id}.json",
+      "fullPath": "/admin/api/metafield_definitions/{definition_id}.json",
+      "operationId": "getMetafieldDefinition",
+      "capability": "catalog.metafields",
+      "summary": "Get metafield definition detail",
+      "description": "Get metafield definition detail. Risk R0; confirmation none; step-up none.",
+      "operationKind": "read",
+      "risk": "R0",
+      "confirmation": "none",
+      "stepUp": "none",
+      "requiredScopes": [
+        "admin:read",
+        "admin:write"
+      ],
+      "implemented": true,
+      "idempotencyRequired": false,
+      "previewRequired": false,
+      "rollbackSupported": false
+    },
+    {
       "method": "PATCH",
       "path": "/metafield_definitions/{definition_id}.json",
       "fullPath": "/admin/api/metafield_definitions/{definition_id}.json",
@@ -86154,6 +86196,8 @@ curl -X GET <span class="token-string">"https://{store}.shopiyz.com/admin/api/ap
 
 
 
+
+
       function groupedOperations(rows) {
         return rows.reduce((groups, row) => {
           if (!groups.has(row.resource)) groups.set(row.resource, []);
@@ -86397,6 +86441,8 @@ curl -X GET <span class="token-string">"https://{store}.shopiyz.com/admin/api/ap
       renderRegistryResourceReference();
       renderRegistrySidebar();
       // END generated Admin API registry rendering
+
+
 
 
 
