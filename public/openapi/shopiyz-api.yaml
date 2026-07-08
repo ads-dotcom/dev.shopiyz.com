@@ -10,15 +10,15 @@ servers:
       store:
         default: development
         description: Store subdomain or custom store host.
-x-shopiyz-generated-at: "2026-07-08T00:02:58.438Z"
+x-shopiyz-generated-at: "2026-07-08T00:20:14.370Z"
 x-shopiyz-source: myshopiyz/src/lib/adminApiCatalog.ts
 x-shopiyz-summary:
   sections: 14
-  resources: 433
-  operations: 1630
-  registeredOperations: 1738
-  implementedOperations: 1010
-  capabilities: 805
+  resources: 471
+  operations: 1750
+  registeredOperations: 1869
+  implementedOperations: 1130
+  capabilities: 936
 paths:
   /abandoned_carts/customer_target_set.json:
     post:
@@ -5460,6 +5460,463 @@ paths:
                 $ref: "#/components/schemas/AdminApiResponse"
       security:
         - ShopiyzAccessToken: []
+  /automatic_discounts.json:
+    get:
+      operationId: getAutomaticDiscounts
+      tags:
+        - "Discounts / Automatic"
+      summary: "Otomatik indirimleri getir."
+      description: |-
+        Otomatik indirimleri getir.. Risk R0; confirmation none; step-up none.
+        Capability: discounts.automatic.list. Risk: R0. Confirmation: none. Step-up: none.
+      x-shopiyz-capability: discounts.automatic.list
+      x-shopiyz-risk: R0
+      x-shopiyz-confirmation: none
+      x-shopiyz-step-up: none
+      x-shopiyz-operation-kind: read
+      x-shopiyz-implemented: true
+      x-shopiyz-preview-required: false
+      x-shopiyz-rollback-supported: false
+      x-operation-kind: query
+      x-risk: R0
+      x-confirmation: none
+      x-step-up: none
+      x-idempotency: none
+      x-preview-supported: false
+      x-rollback-supported: false
+      x-required-roles:
+        - merchant_staff
+      x-required-scopes:
+        - "admin:read"
+        - "admin:write"
+      x-audit-event: discounts.automatic.list
+      responses:
+        "200":
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/AdminApiResponse"
+      security:
+        - ShopiyzAccessToken: []
+    post:
+      operationId: postAutomaticDiscounts
+      tags:
+        - "Discounts / Automatic"
+      summary: "Otomatik sepet/ürün/kargo/BXGY indirimi oluştur."
+      description: |-
+        Otomatik sepet/ürün/kargo/BXGY indirimi oluştur.. Risk R2; confirmation approval; step-up none.
+        Capability: discounts.automatic.create. Risk: R2. Confirmation: approval. Step-up: none.
+      x-shopiyz-capability: discounts.automatic.create
+      x-shopiyz-risk: R2
+      x-shopiyz-confirmation: approval
+      x-shopiyz-step-up: none
+      x-shopiyz-operation-kind: write
+      x-shopiyz-implemented: true
+      x-shopiyz-preview-required: true
+      x-shopiyz-rollback-supported: true
+      x-operation-kind: mutation
+      x-risk: R2
+      x-confirmation: preview
+      x-step-up: none
+      x-idempotency: required
+      x-preview-supported: true
+      x-rollback-supported: true
+      x-required-roles:
+        - merchant_staff
+      x-required-scopes:
+        - "admin:write"
+      x-audit-event: discounts.automatic.create
+      requestBody:
+        required: false
+        content:
+          application/json:
+            schema:
+              type: object
+              additionalProperties: true
+      responses:
+        "201":
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/AdminApiResponse"
+      security:
+        - ShopiyzAccessToken: []
+  /automatic_discounts/{automatic_discount_id}.json:
+    get:
+      operationId: getAutomaticDiscountsAutomaticDiscountId
+      tags:
+        - "Discounts / Automatic"
+      summary: "Otomatik indirim detay."
+      description: |-
+        Otomatik indirim detay.. Risk R0; confirmation none; step-up none.
+        Capability: discounts.automatic.get. Risk: R0. Confirmation: none. Step-up: none.
+      x-shopiyz-capability: discounts.automatic.get
+      x-shopiyz-risk: R0
+      x-shopiyz-confirmation: none
+      x-shopiyz-step-up: none
+      x-shopiyz-operation-kind: read
+      x-shopiyz-implemented: true
+      x-shopiyz-preview-required: false
+      x-shopiyz-rollback-supported: false
+      x-operation-kind: query
+      x-risk: R0
+      x-confirmation: none
+      x-step-up: none
+      x-idempotency: none
+      x-preview-supported: false
+      x-rollback-supported: false
+      x-required-roles:
+        - merchant_staff
+      x-required-scopes:
+        - "admin:read"
+        - "admin:write"
+      x-audit-event: discounts.automatic.get
+      parameters:
+        - name: automatic_discount_id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/AdminApiResponse"
+      security:
+        - ShopiyzAccessToken: []
+    patch:
+      operationId: patchAutomaticDiscountsAutomaticDiscountId
+      tags:
+        - "Discounts / Automatic"
+      summary: "Kural/koşul/limit/tarih güncelle."
+      description: |-
+        Kural/koşul/limit/tarih güncelle.. Risk R2; confirmation approval; step-up none.
+        Capability: discounts.automatic.update. Risk: R2. Confirmation: approval. Step-up: none.
+      x-shopiyz-capability: discounts.automatic.update
+      x-shopiyz-risk: R2
+      x-shopiyz-confirmation: approval
+      x-shopiyz-step-up: none
+      x-shopiyz-operation-kind: write
+      x-shopiyz-implemented: true
+      x-shopiyz-preview-required: true
+      x-shopiyz-rollback-supported: true
+      x-operation-kind: mutation
+      x-risk: R2
+      x-confirmation: preview
+      x-step-up: none
+      x-idempotency: required
+      x-preview-supported: true
+      x-rollback-supported: true
+      x-required-roles:
+        - merchant_staff
+      x-required-scopes:
+        - "admin:write"
+      x-audit-event: discounts.automatic.update
+      parameters:
+        - name: automatic_discount_id
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: false
+        content:
+          application/json:
+            schema:
+              type: object
+              additionalProperties: true
+      responses:
+        "200":
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/AdminApiResponse"
+      security:
+        - ShopiyzAccessToken: []
+    delete:
+      operationId: deleteAutomaticDiscountsAutomaticDiscountId
+      tags:
+        - "Discounts / Automatic"
+      summary: "Arşivle."
+      description: |-
+        Arşivle.. Risk R3; confirmation approval; step-up conditional.
+        Capability: discounts.automatic.archive. Risk: R3. Confirmation: approval. Step-up: conditional.
+      x-shopiyz-capability: discounts.automatic.archive
+      x-shopiyz-risk: R3
+      x-shopiyz-confirmation: approval
+      x-shopiyz-step-up: conditional
+      x-shopiyz-operation-kind: delete
+      x-shopiyz-implemented: true
+      x-shopiyz-preview-required: true
+      x-shopiyz-rollback-supported: true
+      x-operation-kind: mutation
+      x-risk: R3
+      x-confirmation: preview
+      x-step-up: optional
+      x-idempotency: required
+      x-preview-supported: true
+      x-rollback-supported: true
+      x-required-roles:
+        - merchant_staff
+      x-required-scopes:
+        - "admin:write"
+      x-audit-event: discounts.automatic.archive
+      parameters:
+        - name: automatic_discount_id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/AdminApiResponse"
+      security:
+        - ShopiyzAccessToken: []
+  /automatic_discounts/{automatic_discount_id}/activate.json:
+    post:
+      operationId: postAutomaticDiscountsAutomaticDiscountIdActivate
+      tags:
+        - "Discounts / Automatic"
+      summary: "Aktif yap."
+      description: |-
+        Aktif yap.. Risk R2; confirmation approval; step-up none.
+        Capability: discounts.automatic.activate. Risk: R2. Confirmation: approval. Step-up: none.
+      x-shopiyz-capability: discounts.automatic.activate
+      x-shopiyz-risk: R2
+      x-shopiyz-confirmation: approval
+      x-shopiyz-step-up: none
+      x-shopiyz-operation-kind: write
+      x-shopiyz-implemented: true
+      x-shopiyz-preview-required: true
+      x-shopiyz-rollback-supported: false
+      x-operation-kind: mutation
+      x-risk: R2
+      x-confirmation: preview
+      x-step-up: none
+      x-idempotency: required
+      x-preview-supported: true
+      x-rollback-supported: false
+      x-required-roles:
+        - merchant_staff
+      x-required-scopes:
+        - "admin:write"
+      x-audit-event: discounts.automatic.activate
+      parameters:
+        - name: automatic_discount_id
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: false
+        content:
+          application/json:
+            schema:
+              type: object
+              additionalProperties: true
+      responses:
+        "201":
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/AdminApiResponse"
+      security:
+        - ShopiyzAccessToken: []
+  /automatic_discounts/{automatic_discount_id}/deactivate.json:
+    post:
+      operationId: postAutomaticDiscountsAutomaticDiscountIdDeactivate
+      tags:
+        - "Discounts / Automatic"
+      summary: "Pasif yap."
+      description: |-
+        Pasif yap.. Risk R2; confirmation approval; step-up none.
+        Capability: discounts.automatic.deactivate. Risk: R2. Confirmation: approval. Step-up: none.
+      x-shopiyz-capability: discounts.automatic.deactivate
+      x-shopiyz-risk: R2
+      x-shopiyz-confirmation: approval
+      x-shopiyz-step-up: none
+      x-shopiyz-operation-kind: write
+      x-shopiyz-implemented: true
+      x-shopiyz-preview-required: true
+      x-shopiyz-rollback-supported: false
+      x-operation-kind: mutation
+      x-risk: R2
+      x-confirmation: preview
+      x-step-up: none
+      x-idempotency: required
+      x-preview-supported: true
+      x-rollback-supported: false
+      x-required-roles:
+        - merchant_staff
+      x-required-scopes:
+        - "admin:write"
+      x-audit-event: discounts.automatic.deactivate
+      parameters:
+        - name: automatic_discount_id
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: false
+        content:
+          application/json:
+            schema:
+              type: object
+              additionalProperties: true
+      responses:
+        "201":
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/AdminApiResponse"
+      security:
+        - ShopiyzAccessToken: []
+  /automatic_discounts/{automatic_discount_id}/preview.json:
+    post:
+      operationId: postAutomaticDiscountsAutomaticDiscountIdPreview
+      tags:
+        - "Discounts / Automatic"
+      summary: "Checkout/target/marj simülasyonu."
+      description: |-
+        Checkout/target/marj simülasyonu.. Risk R2; confirmation preview; step-up none.
+        Capability: discounts.automatic.preview. Risk: R2. Confirmation: preview. Step-up: none.
+      x-shopiyz-capability: discounts.automatic.preview
+      x-shopiyz-risk: R2
+      x-shopiyz-confirmation: preview
+      x-shopiyz-step-up: none
+      x-shopiyz-operation-kind: analysis
+      x-shopiyz-implemented: true
+      x-shopiyz-preview-required: true
+      x-shopiyz-rollback-supported: false
+      x-operation-kind: analytics
+      x-risk: R2
+      x-confirmation: preview
+      x-step-up: none
+      x-idempotency: required
+      x-preview-supported: true
+      x-rollback-supported: false
+      x-required-roles:
+        - merchant_staff
+      x-required-scopes:
+        - "admin:write"
+      x-audit-event: discounts.automatic.preview
+      parameters:
+        - name: automatic_discount_id
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: false
+        content:
+          application/json:
+            schema:
+              type: object
+              additionalProperties: true
+      responses:
+        "201":
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/AdminApiResponse"
+      security:
+        - ShopiyzAccessToken: []
+  /b2b_discounts.json:
+    get:
+      operationId: getB2bDiscounts
+      tags:
+        - "Discounts / B2b"
+      summary: "B2B/toptan/bayi indirimleri."
+      description: |-
+        B2B/toptan/bayi indirimleri.. Risk R0; confirmation none; step-up none.
+        Capability: discounts.b2b.list. Risk: R0. Confirmation: none. Step-up: none.
+      x-shopiyz-capability: discounts.b2b.list
+      x-shopiyz-risk: R0
+      x-shopiyz-confirmation: none
+      x-shopiyz-step-up: none
+      x-shopiyz-operation-kind: read
+      x-shopiyz-implemented: true
+      x-shopiyz-preview-required: false
+      x-shopiyz-rollback-supported: false
+      x-operation-kind: query
+      x-risk: R0
+      x-confirmation: none
+      x-step-up: none
+      x-idempotency: none
+      x-preview-supported: false
+      x-rollback-supported: false
+      x-required-roles:
+        - merchant_staff
+      x-required-scopes:
+        - "admin:read"
+        - "admin:write"
+      x-audit-event: discounts.b2b.list
+      responses:
+        "200":
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/AdminApiResponse"
+      security:
+        - ShopiyzAccessToken: []
+    post:
+      operationId: postB2bDiscounts
+      tags:
+        - "Discounts / B2b"
+      summary: "B2B indirimi oluştur."
+      description: |-
+        B2B indirimi oluştur.. Risk R3; confirmation approval; step-up conditional.
+        Capability: discounts.b2b.create. Risk: R3. Confirmation: approval. Step-up: conditional.
+      x-shopiyz-capability: discounts.b2b.create
+      x-shopiyz-risk: R3
+      x-shopiyz-confirmation: approval
+      x-shopiyz-step-up: conditional
+      x-shopiyz-operation-kind: write
+      x-shopiyz-implemented: true
+      x-shopiyz-preview-required: true
+      x-shopiyz-rollback-supported: true
+      x-operation-kind: mutation
+      x-risk: R3
+      x-confirmation: preview
+      x-step-up: optional
+      x-idempotency: required
+      x-preview-supported: true
+      x-rollback-supported: true
+      x-required-roles:
+        - merchant_staff
+      x-required-scopes:
+        - "admin:write"
+      x-audit-event: discounts.b2b.create
+      requestBody:
+        required: false
+        content:
+          application/json:
+            schema:
+              type: object
+              additionalProperties: true
+      responses:
+        "201":
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/AdminApiResponse"
+      security:
+        - ShopiyzAccessToken: []
   /b2b/catalogs.json:
     get:
       operationId: getB2bCatalogs
@@ -9628,6 +10085,89 @@ paths:
                 $ref: "#/components/schemas/AdminApiResponse"
       security:
         - ShopiyzAccessToken: []
+  /bxgy_discounts.json:
+    get:
+      operationId: getBxgyDiscounts
+      tags:
+        - "Discounts / Bxgy"
+      summary: "Buy X Get Y / 2 al 1 öde."
+      description: |-
+        Buy X Get Y / 2 al 1 öde.. Risk R0; confirmation none; step-up none.
+        Capability: discounts.bxgy.list. Risk: R0. Confirmation: none. Step-up: none.
+      x-shopiyz-capability: discounts.bxgy.list
+      x-shopiyz-risk: R0
+      x-shopiyz-confirmation: none
+      x-shopiyz-step-up: none
+      x-shopiyz-operation-kind: read
+      x-shopiyz-implemented: true
+      x-shopiyz-preview-required: false
+      x-shopiyz-rollback-supported: false
+      x-operation-kind: query
+      x-risk: R0
+      x-confirmation: none
+      x-step-up: none
+      x-idempotency: none
+      x-preview-supported: false
+      x-rollback-supported: false
+      x-required-roles:
+        - merchant_staff
+      x-required-scopes:
+        - "admin:read"
+        - "admin:write"
+      x-audit-event: discounts.bxgy.list
+      responses:
+        "200":
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/AdminApiResponse"
+      security:
+        - ShopiyzAccessToken: []
+    post:
+      operationId: postBxgyDiscounts
+      tags:
+        - "Discounts / Bxgy"
+      summary: "BXGY oluştur."
+      description: |-
+        BXGY oluştur.. Risk R3; confirmation approval; step-up conditional.
+        Capability: discounts.bxgy.create. Risk: R3. Confirmation: approval. Step-up: conditional.
+      x-shopiyz-capability: discounts.bxgy.create
+      x-shopiyz-risk: R3
+      x-shopiyz-confirmation: approval
+      x-shopiyz-step-up: conditional
+      x-shopiyz-operation-kind: write
+      x-shopiyz-implemented: true
+      x-shopiyz-preview-required: true
+      x-shopiyz-rollback-supported: true
+      x-operation-kind: mutation
+      x-risk: R3
+      x-confirmation: preview
+      x-step-up: optional
+      x-idempotency: required
+      x-preview-supported: true
+      x-rollback-supported: true
+      x-required-roles:
+        - merchant_staff
+      x-required-scopes:
+        - "admin:write"
+      x-audit-event: discounts.bxgy.create
+      requestBody:
+        required: false
+        content:
+          application/json:
+            schema:
+              type: object
+              additionalProperties: true
+      responses:
+        "201":
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/AdminApiResponse"
+      security:
+        - ShopiyzAccessToken: []
   /canonical_rules.json:
     get:
       operationId: listCanonicalRulesLive
@@ -11887,6 +12427,96 @@ paths:
               additionalProperties: true
       responses:
         "200":
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/AdminApiResponse"
+      security:
+        - ShopiyzAccessToken: []
+  /checkout/discounts/apply_preview.json:
+    post:
+      operationId: postCheckoutDiscountsApplyPreview
+      tags:
+        - "Discounts / Checkout"
+      summary: "Sepet/müşteri/kanal bazlı hesaplama simülasyonu."
+      description: |-
+        Sepet/müşteri/kanal bazlı hesaplama simülasyonu.. Risk R0; confirmation none; step-up none.
+        Capability: discounts.checkout.apply_preview. Risk: R0. Confirmation: none. Step-up: none.
+      x-shopiyz-capability: discounts.checkout.apply_preview
+      x-shopiyz-risk: R0
+      x-shopiyz-confirmation: none
+      x-shopiyz-step-up: none
+      x-shopiyz-operation-kind: analysis
+      x-shopiyz-implemented: true
+      x-shopiyz-preview-required: false
+      x-shopiyz-rollback-supported: false
+      x-operation-kind: analytics
+      x-risk: R0
+      x-confirmation: none
+      x-step-up: none
+      x-idempotency: required
+      x-preview-supported: false
+      x-rollback-supported: false
+      x-required-roles:
+        - merchant_staff
+      x-required-scopes:
+        - "admin:write"
+      x-audit-event: discounts.checkout.apply_preview
+      requestBody:
+        required: false
+        content:
+          application/json:
+            schema:
+              type: object
+              additionalProperties: true
+      responses:
+        "201":
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/AdminApiResponse"
+      security:
+        - ShopiyzAccessToken: []
+  /checkout/discounts/validate.json:
+    post:
+      operationId: postCheckoutDiscountsValidate
+      tags:
+        - "Discounts / Checkout"
+      summary: "Kod/otomatik indirim uygulanabilir mi; nedenleriyle döner."
+      description: |-
+        Kod/otomatik indirim uygulanabilir mi; nedenleriyle döner.. Risk R0; confirmation none; step-up none.
+        Capability: discounts.checkout.validate. Risk: R0. Confirmation: none. Step-up: none.
+      x-shopiyz-capability: discounts.checkout.validate
+      x-shopiyz-risk: R0
+      x-shopiyz-confirmation: none
+      x-shopiyz-step-up: none
+      x-shopiyz-operation-kind: analysis
+      x-shopiyz-implemented: true
+      x-shopiyz-preview-required: false
+      x-shopiyz-rollback-supported: false
+      x-operation-kind: analytics
+      x-risk: R0
+      x-confirmation: none
+      x-step-up: none
+      x-idempotency: required
+      x-preview-supported: false
+      x-rollback-supported: false
+      x-required-roles:
+        - merchant_staff
+      x-required-scopes:
+        - "admin:write"
+      x-audit-event: discounts.checkout.validate
+      requestBody:
+        required: false
+        content:
+          application/json:
+            schema:
+              type: object
+              additionalProperties: true
+      responses:
+        "201":
           description: Successful response
           content:
             application/json:
@@ -25321,16 +25951,100 @@ paths:
                 $ref: "#/components/schemas/AdminApiResponse"
       security:
         - ShopiyzAccessToken: []
-  /discount_codes.json:
+  /discount_abuse_signals.json:
     get:
-      operationId: getDiscountCodes
+      operationId: getDiscountAbuseSignals
       tags:
-        - "Discounts / Promotions"
-      summary: "GET /discount_codes.json (İndirim / kupon / hediye kartı / mağaza kredisi)"
+        - "Discounts / Abuse Signals"
+      summary: "Risk sinyalleri."
       description: |-
-        GET /discount_codes.json (İndirim / kupon / hediye kartı / mağaza kredisi). Risk R0; confirmation none; step-up none.
-        Capability: discounts.promotions. Risk: R0. Confirmation: none. Step-up: none.
-      x-shopiyz-capability: discounts.promotions
+        Risk sinyalleri.. Risk R0; confirmation none; step-up none.
+        Capability: discounts.abuse_signals.list. Risk: R0. Confirmation: none. Step-up: none.
+      x-shopiyz-capability: discounts.abuse_signals.list
+      x-shopiyz-risk: R0
+      x-shopiyz-confirmation: none
+      x-shopiyz-step-up: none
+      x-shopiyz-operation-kind: analysis
+      x-shopiyz-implemented: true
+      x-shopiyz-preview-required: false
+      x-shopiyz-rollback-supported: false
+      x-operation-kind: analytics
+      x-risk: R0
+      x-confirmation: none
+      x-step-up: none
+      x-idempotency: none
+      x-preview-supported: false
+      x-rollback-supported: false
+      x-required-roles:
+        - merchant_staff
+      x-required-scopes:
+        - "admin:read"
+        - "admin:write"
+      x-audit-event: discounts.abuse_signals.list
+      responses:
+        "200":
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/AdminApiResponse"
+      security:
+        - ShopiyzAccessToken: []
+  /discount_automations.json:
+    post:
+      operationId: postDiscountAutomations
+      tags:
+        - "Discounts / Automations"
+      summary: "Abandoned cart/winback/birthday/referral otomasyonu."
+      description: |-
+        Abandoned cart/winback/birthday/referral otomasyonu.. Risk R3; confirmation approval; step-up conditional.
+        Capability: discounts.automations.create. Risk: R3. Confirmation: approval. Step-up: conditional.
+      x-shopiyz-capability: discounts.automations.create
+      x-shopiyz-risk: R3
+      x-shopiyz-confirmation: approval
+      x-shopiyz-step-up: conditional
+      x-shopiyz-operation-kind: write
+      x-shopiyz-implemented: true
+      x-shopiyz-preview-required: true
+      x-shopiyz-rollback-supported: true
+      x-operation-kind: mutation
+      x-risk: R3
+      x-confirmation: preview
+      x-step-up: optional
+      x-idempotency: required
+      x-preview-supported: true
+      x-rollback-supported: true
+      x-required-roles:
+        - merchant_staff
+      x-required-scopes:
+        - "admin:write"
+      x-audit-event: discounts.automations.create
+      requestBody:
+        required: false
+        content:
+          application/json:
+            schema:
+              type: object
+              additionalProperties: true
+      responses:
+        "201":
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/AdminApiResponse"
+      security:
+        - ShopiyzAccessToken: []
+  /discount_campaigns.json:
+    get:
+      operationId: getDiscountCampaigns
+      tags:
+        - "Discounts / Campaigns"
+      summary: "İndirim kampanyaları."
+      description: |-
+        İndirim kampanyaları.. Risk R0; confirmation none; step-up none.
+        Capability: discounts.campaigns.list. Risk: R0. Confirmation: none. Step-up: none.
+      x-shopiyz-capability: discounts.campaigns.list
       x-shopiyz-risk: R0
       x-shopiyz-confirmation: none
       x-shopiyz-step-up: none
@@ -25350,7 +26064,7 @@ paths:
       x-required-scopes:
         - "admin:read"
         - "admin:write"
-      x-audit-event: discounts.promotions
+      x-audit-event: discounts.campaigns.list
       responses:
         "200":
           description: Successful response
@@ -25361,14 +26075,352 @@ paths:
       security:
         - ShopiyzAccessToken: []
     post:
-      operationId: postDiscountCodes
+      operationId: postDiscountCampaigns
       tags:
-        - "Discounts / Promotions"
-      summary: "POST /discount_codes.json (İndirim / kupon / hediye kartı / mağaza kredisi)"
+        - "Discounts / Campaigns"
+      summary: "Kampanya oluştur."
       description: |-
-        POST /discount_codes.json (İndirim / kupon / hediye kartı / mağaza kredisi). Risk R2; confirmation approval; step-up none.
-        Capability: discounts.promotions. Risk: R2. Confirmation: approval. Step-up: none.
-      x-shopiyz-capability: discounts.promotions
+        Kampanya oluştur.. Risk R2; confirmation approval; step-up none.
+        Capability: discounts.campaigns.create. Risk: R2. Confirmation: approval. Step-up: none.
+      x-shopiyz-capability: discounts.campaigns.create
+      x-shopiyz-risk: R2
+      x-shopiyz-confirmation: approval
+      x-shopiyz-step-up: none
+      x-shopiyz-operation-kind: write
+      x-shopiyz-implemented: true
+      x-shopiyz-preview-required: true
+      x-shopiyz-rollback-supported: true
+      x-operation-kind: mutation
+      x-risk: R2
+      x-confirmation: preview
+      x-step-up: none
+      x-idempotency: required
+      x-preview-supported: true
+      x-rollback-supported: true
+      x-required-roles:
+        - merchant_staff
+      x-required-scopes:
+        - "admin:write"
+      x-audit-event: discounts.campaigns.create
+      requestBody:
+        required: false
+        content:
+          application/json:
+            schema:
+              type: object
+              additionalProperties: true
+      responses:
+        "201":
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/AdminApiResponse"
+      security:
+        - ShopiyzAccessToken: []
+  /discount_campaigns/{campaign_id}.json:
+    get:
+      operationId: getDiscountCampaignsCampaignId
+      tags:
+        - "Discounts / Campaigns"
+      summary: "Kampanya detay."
+      description: |-
+        Kampanya detay.. Risk R0; confirmation none; step-up none.
+        Capability: discounts.campaigns.get. Risk: R0. Confirmation: none. Step-up: none.
+      x-shopiyz-capability: discounts.campaigns.get
+      x-shopiyz-risk: R0
+      x-shopiyz-confirmation: none
+      x-shopiyz-step-up: none
+      x-shopiyz-operation-kind: read
+      x-shopiyz-implemented: true
+      x-shopiyz-preview-required: false
+      x-shopiyz-rollback-supported: false
+      x-operation-kind: query
+      x-risk: R0
+      x-confirmation: none
+      x-step-up: none
+      x-idempotency: none
+      x-preview-supported: false
+      x-rollback-supported: false
+      x-required-roles:
+        - merchant_staff
+      x-required-scopes:
+        - "admin:read"
+        - "admin:write"
+      x-audit-event: discounts.campaigns.get
+      parameters:
+        - name: campaign_id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/AdminApiResponse"
+      security:
+        - ShopiyzAccessToken: []
+    patch:
+      operationId: patchDiscountCampaignsCampaignId
+      tags:
+        - "Discounts / Campaigns"
+      summary: "Kampanya güncelle."
+      description: |-
+        Kampanya güncelle.. Risk R2; confirmation approval; step-up none.
+        Capability: discounts.campaigns.update. Risk: R2. Confirmation: approval. Step-up: none.
+      x-shopiyz-capability: discounts.campaigns.update
+      x-shopiyz-risk: R2
+      x-shopiyz-confirmation: approval
+      x-shopiyz-step-up: none
+      x-shopiyz-operation-kind: write
+      x-shopiyz-implemented: true
+      x-shopiyz-preview-required: true
+      x-shopiyz-rollback-supported: true
+      x-operation-kind: mutation
+      x-risk: R2
+      x-confirmation: preview
+      x-step-up: none
+      x-idempotency: required
+      x-preview-supported: true
+      x-rollback-supported: true
+      x-required-roles:
+        - merchant_staff
+      x-required-scopes:
+        - "admin:write"
+      x-audit-event: discounts.campaigns.update
+      parameters:
+        - name: campaign_id
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: false
+        content:
+          application/json:
+            schema:
+              type: object
+              additionalProperties: true
+      responses:
+        "200":
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/AdminApiResponse"
+      security:
+        - ShopiyzAccessToken: []
+  /discount_campaigns/{campaign_id}/archive.json:
+    post:
+      operationId: postDiscountCampaignsCampaignIdArchive
+      tags:
+        - "Discounts / Campaigns"
+      summary: "Arşivle."
+      description: |-
+        Arşivle.. Risk R3; confirmation approval; step-up conditional.
+        Capability: discounts.campaigns.archive. Risk: R3. Confirmation: approval. Step-up: conditional.
+      x-shopiyz-capability: discounts.campaigns.archive
+      x-shopiyz-risk: R3
+      x-shopiyz-confirmation: approval
+      x-shopiyz-step-up: conditional
+      x-shopiyz-operation-kind: delete
+      x-shopiyz-implemented: true
+      x-shopiyz-preview-required: true
+      x-shopiyz-rollback-supported: true
+      x-operation-kind: mutation
+      x-risk: R3
+      x-confirmation: preview
+      x-step-up: optional
+      x-idempotency: required
+      x-preview-supported: true
+      x-rollback-supported: true
+      x-required-roles:
+        - merchant_staff
+      x-required-scopes:
+        - "admin:write"
+      x-audit-event: discounts.campaigns.archive
+      parameters:
+        - name: campaign_id
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: false
+        content:
+          application/json:
+            schema:
+              type: object
+              additionalProperties: true
+      responses:
+        "201":
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/AdminApiResponse"
+      security:
+        - ShopiyzAccessToken: []
+  /discount_campaigns/{campaign_id}/discounts.json:
+    get:
+      operationId: getDiscountCampaignsCampaignIdDiscounts
+      tags:
+        - "Discounts / Campaigns"
+      summary: "Kampanyadaki indirimler."
+      description: |-
+        Kampanyadaki indirimler.. Risk R0; confirmation none; step-up none.
+        Capability: discounts.campaigns.discounts. Risk: R0. Confirmation: none. Step-up: none.
+      x-shopiyz-capability: discounts.campaigns.discounts
+      x-shopiyz-risk: R0
+      x-shopiyz-confirmation: none
+      x-shopiyz-step-up: none
+      x-shopiyz-operation-kind: read
+      x-shopiyz-implemented: true
+      x-shopiyz-preview-required: false
+      x-shopiyz-rollback-supported: false
+      x-operation-kind: query
+      x-risk: R0
+      x-confirmation: none
+      x-step-up: none
+      x-idempotency: none
+      x-preview-supported: false
+      x-rollback-supported: false
+      x-required-roles:
+        - merchant_staff
+      x-required-scopes:
+        - "admin:read"
+        - "admin:write"
+      x-audit-event: discounts.campaigns.discounts
+      parameters:
+        - name: campaign_id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/AdminApiResponse"
+      security:
+        - ShopiyzAccessToken: []
+  /discount_campaigns/{campaign_id}/launch_preview.json:
+    post:
+      operationId: postDiscountCampaignsCampaignIdLaunchPreview
+      tags:
+        - "Discounts / Campaigns"
+      summary: "Launch preview."
+      description: |-
+        Launch preview.. Risk R3; confirmation preview; step-up conditional.
+        Capability: discounts.campaigns.launch_preview. Risk: R3. Confirmation: preview. Step-up: conditional.
+      x-shopiyz-capability: discounts.campaigns.launch_preview
+      x-shopiyz-risk: R3
+      x-shopiyz-confirmation: preview
+      x-shopiyz-step-up: conditional
+      x-shopiyz-operation-kind: analysis
+      x-shopiyz-implemented: true
+      x-shopiyz-preview-required: true
+      x-shopiyz-rollback-supported: true
+      x-operation-kind: analytics
+      x-risk: R3
+      x-confirmation: preview
+      x-step-up: optional
+      x-idempotency: required
+      x-preview-supported: true
+      x-rollback-supported: true
+      x-required-roles:
+        - merchant_staff
+      x-required-scopes:
+        - "admin:write"
+      x-audit-event: discounts.campaigns.launch_preview
+      parameters:
+        - name: campaign_id
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: false
+        content:
+          application/json:
+            schema:
+              type: object
+              additionalProperties: true
+      responses:
+        "201":
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/AdminApiResponse"
+      security:
+        - ShopiyzAccessToken: []
+  /discount_campaigns/{campaign_id}/launch.json:
+    post:
+      operationId: postDiscountCampaignsCampaignIdLaunch
+      tags:
+        - "Discounts / Campaigns"
+      summary: "Kampanyayı başlat."
+      description: |-
+        Kampanyayı başlat.. Risk R3; confirmation approval; step-up conditional.
+        Capability: discounts.campaigns.launch. Risk: R3. Confirmation: approval. Step-up: conditional.
+      x-shopiyz-capability: discounts.campaigns.launch
+      x-shopiyz-risk: R3
+      x-shopiyz-confirmation: approval
+      x-shopiyz-step-up: conditional
+      x-shopiyz-operation-kind: job
+      x-shopiyz-implemented: true
+      x-shopiyz-preview-required: true
+      x-shopiyz-rollback-supported: true
+      x-operation-kind: mutation
+      x-risk: R3
+      x-confirmation: preview
+      x-step-up: optional
+      x-idempotency: required
+      x-preview-supported: true
+      x-rollback-supported: true
+      x-required-roles:
+        - merchant_staff
+      x-required-scopes:
+        - "admin:write"
+      x-audit-event: discounts.campaigns.launch
+      parameters:
+        - name: campaign_id
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: false
+        content:
+          application/json:
+            schema:
+              type: object
+              additionalProperties: true
+      responses:
+        "201":
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/AdminApiResponse"
+      security:
+        - ShopiyzAccessToken: []
+  /discount_campaigns/{campaign_id}/pause.json:
+    post:
+      operationId: postDiscountCampaignsCampaignIdPause
+      tags:
+        - "Discounts / Campaigns"
+      summary: Durdur.
+      description: |-
+        Durdur.. Risk R2; confirmation approval; step-up none.
+        Capability: discounts.campaigns.pause. Risk: R2. Confirmation: approval. Step-up: none.
+      x-shopiyz-capability: discounts.campaigns.pause
       x-shopiyz-risk: R2
       x-shopiyz-confirmation: approval
       x-shopiyz-step-up: none
@@ -25387,7 +26439,506 @@ paths:
         - merchant_staff
       x-required-scopes:
         - "admin:write"
-      x-audit-event: discounts.promotions
+      x-audit-event: discounts.campaigns.pause
+      parameters:
+        - name: campaign_id
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: false
+        content:
+          application/json:
+            schema:
+              type: object
+              additionalProperties: true
+      responses:
+        "201":
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/AdminApiResponse"
+      security:
+        - ShopiyzAccessToken: []
+  /discount_code_attempts.json:
+    get:
+      operationId: getDiscountCodeAttempts
+      tags:
+        - "Discounts / Code Attempts"
+      summary: "Kod deneme logları ve brute force sinyalleri."
+      description: |-
+        Kod deneme logları ve brute force sinyalleri.. Risk R0; confirmation none; step-up none.
+        Capability: discounts.code_attempts.list. Risk: R0. Confirmation: none. Step-up: none.
+      x-shopiyz-capability: discounts.code_attempts.list
+      x-shopiyz-risk: R0
+      x-shopiyz-confirmation: none
+      x-shopiyz-step-up: none
+      x-shopiyz-operation-kind: analysis
+      x-shopiyz-implemented: true
+      x-shopiyz-preview-required: false
+      x-shopiyz-rollback-supported: false
+      x-operation-kind: analytics
+      x-risk: R0
+      x-confirmation: none
+      x-step-up: none
+      x-idempotency: none
+      x-preview-supported: false
+      x-rollback-supported: false
+      x-required-roles:
+        - merchant_staff
+      x-required-scopes:
+        - "admin:read"
+        - "admin:write"
+      x-audit-event: discounts.code_attempts.list
+      responses:
+        "200":
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/AdminApiResponse"
+      security:
+        - ShopiyzAccessToken: []
+  /discount_code_batches.json:
+    get:
+      operationId: getDiscountCodeBatches
+      tags:
+        - "Discounts / Code Batches"
+      summary: "Kod batch listesi."
+      description: |-
+        Kod batch listesi.. Risk R0; confirmation none; step-up none.
+        Capability: discounts.code_batches.list. Risk: R0. Confirmation: none. Step-up: none.
+      x-shopiyz-capability: discounts.code_batches.list
+      x-shopiyz-risk: R0
+      x-shopiyz-confirmation: none
+      x-shopiyz-step-up: none
+      x-shopiyz-operation-kind: read
+      x-shopiyz-implemented: true
+      x-shopiyz-preview-required: false
+      x-shopiyz-rollback-supported: false
+      x-operation-kind: query
+      x-risk: R0
+      x-confirmation: none
+      x-step-up: none
+      x-idempotency: none
+      x-preview-supported: false
+      x-rollback-supported: false
+      x-required-roles:
+        - merchant_staff
+      x-required-scopes:
+        - "admin:read"
+        - "admin:write"
+      x-audit-event: discounts.code_batches.list
+      responses:
+        "200":
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/AdminApiResponse"
+      security:
+        - ShopiyzAccessToken: []
+    post:
+      operationId: postDiscountCodeBatches
+      tags:
+        - "Discounts / Code Batches"
+      summary: "Onaylı toplu kod üretimi job."
+      description: |-
+        Onaylı toplu kod üretimi job.. Risk R3; confirmation approval; step-up conditional.
+        Capability: discounts.code_batches.create. Risk: R3. Confirmation: approval. Step-up: conditional.
+      x-shopiyz-capability: discounts.code_batches.create
+      x-shopiyz-risk: R3
+      x-shopiyz-confirmation: approval
+      x-shopiyz-step-up: conditional
+      x-shopiyz-operation-kind: job
+      x-shopiyz-implemented: true
+      x-shopiyz-preview-required: true
+      x-shopiyz-rollback-supported: true
+      x-operation-kind: mutation
+      x-risk: R3
+      x-confirmation: preview
+      x-step-up: optional
+      x-idempotency: required
+      x-preview-supported: true
+      x-rollback-supported: true
+      x-required-roles:
+        - merchant_staff
+      x-required-scopes:
+        - "admin:write"
+      x-audit-event: discounts.code_batches.create
+      requestBody:
+        required: false
+        content:
+          application/json:
+            schema:
+              type: object
+              additionalProperties: true
+      responses:
+        "201":
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/AdminApiResponse"
+      security:
+        - ShopiyzAccessToken: []
+  /discount_code_batches/{batch_id}.json:
+    get:
+      operationId: getDiscountCodeBatchesBatchId
+      tags:
+        - "Discounts / Code Batches"
+      summary: "Batch detay/progress."
+      description: |-
+        Batch detay/progress.. Risk R0; confirmation none; step-up none.
+        Capability: discounts.code_batches.get. Risk: R0. Confirmation: none. Step-up: none.
+      x-shopiyz-capability: discounts.code_batches.get
+      x-shopiyz-risk: R0
+      x-shopiyz-confirmation: none
+      x-shopiyz-step-up: none
+      x-shopiyz-operation-kind: read
+      x-shopiyz-implemented: true
+      x-shopiyz-preview-required: false
+      x-shopiyz-rollback-supported: false
+      x-operation-kind: query
+      x-risk: R0
+      x-confirmation: none
+      x-step-up: none
+      x-idempotency: none
+      x-preview-supported: false
+      x-rollback-supported: false
+      x-required-roles:
+        - merchant_staff
+      x-required-scopes:
+        - "admin:read"
+        - "admin:write"
+      x-audit-event: discounts.code_batches.get
+      parameters:
+        - name: batch_id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/AdminApiResponse"
+      security:
+        - ShopiyzAccessToken: []
+  /discount_code_batches/{batch_id}/archive_unused.json:
+    post:
+      operationId: postDiscountCodeBatchesBatchIdArchiveUnused
+      tags:
+        - "Discounts / Code Batches"
+      summary: "Kullanılmamış kodları arşivle."
+      description: |-
+        Kullanılmamış kodları arşivle.. Risk R3; confirmation approval; step-up conditional.
+        Capability: discounts.code_batches.archive_unused. Risk: R3. Confirmation: approval. Step-up: conditional.
+      x-shopiyz-capability: discounts.code_batches.archive_unused
+      x-shopiyz-risk: R3
+      x-shopiyz-confirmation: approval
+      x-shopiyz-step-up: conditional
+      x-shopiyz-operation-kind: job
+      x-shopiyz-implemented: true
+      x-shopiyz-preview-required: true
+      x-shopiyz-rollback-supported: true
+      x-operation-kind: mutation
+      x-risk: R3
+      x-confirmation: preview
+      x-step-up: optional
+      x-idempotency: required
+      x-preview-supported: true
+      x-rollback-supported: true
+      x-required-roles:
+        - merchant_staff
+      x-required-scopes:
+        - "admin:write"
+      x-audit-event: discounts.code_batches.archive_unused
+      parameters:
+        - name: batch_id
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: false
+        content:
+          application/json:
+            schema:
+              type: object
+              additionalProperties: true
+      responses:
+        "201":
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/AdminApiResponse"
+      security:
+        - ShopiyzAccessToken: []
+  /discount_code_batches/{batch_id}/deactivate.json:
+    post:
+      operationId: postDiscountCodeBatchesBatchIdDeactivate
+      tags:
+        - "Discounts / Code Batches"
+      summary: "Batch içindeki kodları pasif yap."
+      description: |-
+        Batch içindeki kodları pasif yap.. Risk R3; confirmation approval; step-up conditional.
+        Capability: discounts.code_batches.deactivate. Risk: R3. Confirmation: approval. Step-up: conditional.
+      x-shopiyz-capability: discounts.code_batches.deactivate
+      x-shopiyz-risk: R3
+      x-shopiyz-confirmation: approval
+      x-shopiyz-step-up: conditional
+      x-shopiyz-operation-kind: job
+      x-shopiyz-implemented: true
+      x-shopiyz-preview-required: true
+      x-shopiyz-rollback-supported: true
+      x-operation-kind: mutation
+      x-risk: R3
+      x-confirmation: preview
+      x-step-up: optional
+      x-idempotency: required
+      x-preview-supported: true
+      x-rollback-supported: true
+      x-required-roles:
+        - merchant_staff
+      x-required-scopes:
+        - "admin:write"
+      x-audit-event: discounts.code_batches.deactivate
+      parameters:
+        - name: batch_id
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: false
+        content:
+          application/json:
+            schema:
+              type: object
+              additionalProperties: true
+      responses:
+        "201":
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/AdminApiResponse"
+      security:
+        - ShopiyzAccessToken: []
+  /discount_code_batches/{batch_id}/export.json:
+    post:
+      operationId: postDiscountCodeBatchesBatchIdExport
+      tags:
+        - "Discounts / Code Batches"
+      summary: "Kodları CSV export; scope/audit zorunlu."
+      description: |-
+        Kodları CSV export; scope/audit zorunlu.. Risk R3; confirmation approval; step-up conditional.
+        Capability: discounts.code_batches.export. Risk: R3. Confirmation: approval. Step-up: conditional.
+      x-shopiyz-capability: discounts.code_batches.export
+      x-shopiyz-risk: R3
+      x-shopiyz-confirmation: approval
+      x-shopiyz-step-up: conditional
+      x-shopiyz-operation-kind: job
+      x-shopiyz-implemented: true
+      x-shopiyz-preview-required: true
+      x-shopiyz-rollback-supported: true
+      x-operation-kind: mutation
+      x-risk: R3
+      x-confirmation: preview
+      x-step-up: optional
+      x-idempotency: required
+      x-preview-supported: true
+      x-rollback-supported: true
+      x-required-roles:
+        - merchant_staff
+      x-required-scopes:
+        - "admin:write"
+      x-audit-event: discounts.code_batches.export
+      parameters:
+        - name: batch_id
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: false
+        content:
+          application/json:
+            schema:
+              type: object
+              additionalProperties: true
+      responses:
+        "201":
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/AdminApiResponse"
+      security:
+        - ShopiyzAccessToken: []
+  /discount_code_batches/import.json:
+    post:
+      operationId: postDiscountCodeBatchesImport
+      tags:
+        - "Discounts / Code Batches"
+      summary: "CSV/XLSX kod import job."
+      description: |-
+        CSV/XLSX kod import job.. Risk R3; confirmation approval; step-up conditional.
+        Capability: discounts.code_batches.import. Risk: R3. Confirmation: approval. Step-up: conditional.
+      x-shopiyz-capability: discounts.code_batches.import
+      x-shopiyz-risk: R3
+      x-shopiyz-confirmation: approval
+      x-shopiyz-step-up: conditional
+      x-shopiyz-operation-kind: job
+      x-shopiyz-implemented: true
+      x-shopiyz-preview-required: true
+      x-shopiyz-rollback-supported: true
+      x-operation-kind: mutation
+      x-risk: R3
+      x-confirmation: preview
+      x-step-up: optional
+      x-idempotency: required
+      x-preview-supported: true
+      x-rollback-supported: true
+      x-required-roles:
+        - merchant_staff
+      x-required-scopes:
+        - "admin:write"
+      x-audit-event: discounts.code_batches.import
+      requestBody:
+        required: false
+        content:
+          application/json:
+            schema:
+              type: object
+              additionalProperties: true
+      responses:
+        "201":
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/AdminApiResponse"
+      security:
+        - ShopiyzAccessToken: []
+  /discount_code_batches/preview.json:
+    post:
+      operationId: postDiscountCodeBatchesPreview
+      tags:
+        - "Discounts / Code Batches"
+      summary: "Toplu kod üretimi önizleme; toplam yükümlülük ve collision riski."
+      description: |-
+        Toplu kod üretimi önizleme; toplam yükümlülük ve collision riski.. Risk R3; confirmation preview; step-up conditional.
+        Capability: discounts.code_batches.preview. Risk: R3. Confirmation: preview. Step-up: conditional.
+      x-shopiyz-capability: discounts.code_batches.preview
+      x-shopiyz-risk: R3
+      x-shopiyz-confirmation: preview
+      x-shopiyz-step-up: conditional
+      x-shopiyz-operation-kind: analysis
+      x-shopiyz-implemented: true
+      x-shopiyz-preview-required: true
+      x-shopiyz-rollback-supported: true
+      x-operation-kind: analytics
+      x-risk: R3
+      x-confirmation: preview
+      x-step-up: optional
+      x-idempotency: required
+      x-preview-supported: true
+      x-rollback-supported: true
+      x-required-roles:
+        - merchant_staff
+      x-required-scopes:
+        - "admin:write"
+      x-audit-event: discounts.code_batches.preview
+      requestBody:
+        required: false
+        content:
+          application/json:
+            schema:
+              type: object
+              additionalProperties: true
+      responses:
+        "201":
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/AdminApiResponse"
+      security:
+        - ShopiyzAccessToken: []
+  /discount_codes.json:
+    get:
+      operationId: getDiscountCodes
+      tags:
+        - "Discounts / Codes"
+      summary: "Kod listeleme; prefix, batch, status, usage, customer_id filtreleri."
+      description: |-
+        Kod listeleme; prefix, batch, status, usage, customer_id filtreleri.. Risk R0; confirmation none; step-up none.
+        Capability: discounts.codes.list. Risk: R0. Confirmation: none. Step-up: none.
+      x-shopiyz-capability: discounts.codes.list
+      x-shopiyz-risk: R0
+      x-shopiyz-confirmation: none
+      x-shopiyz-step-up: none
+      x-shopiyz-operation-kind: read
+      x-shopiyz-implemented: true
+      x-shopiyz-preview-required: false
+      x-shopiyz-rollback-supported: false
+      x-operation-kind: query
+      x-risk: R0
+      x-confirmation: none
+      x-step-up: none
+      x-idempotency: none
+      x-preview-supported: false
+      x-rollback-supported: false
+      x-required-roles:
+        - merchant_staff
+      x-required-scopes:
+        - "admin:read"
+        - "admin:write"
+      x-audit-event: discounts.codes.list
+      responses:
+        "200":
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/AdminApiResponse"
+      security:
+        - ShopiyzAccessToken: []
+    post:
+      operationId: postDiscountCodes
+      tags:
+        - "Discounts / Codes"
+      summary: "Tekil indirim kodu oluşturma."
+      description: |-
+        Tekil indirim kodu oluşturma.. Risk R2; confirmation approval; step-up none.
+        Capability: discounts.codes.create. Risk: R2. Confirmation: approval. Step-up: none.
+      x-shopiyz-capability: discounts.codes.create
+      x-shopiyz-risk: R2
+      x-shopiyz-confirmation: approval
+      x-shopiyz-step-up: none
+      x-shopiyz-operation-kind: write
+      x-shopiyz-implemented: true
+      x-shopiyz-preview-required: true
+      x-shopiyz-rollback-supported: true
+      x-operation-kind: mutation
+      x-risk: R2
+      x-confirmation: preview
+      x-step-up: none
+      x-idempotency: required
+      x-preview-supported: true
+      x-rollback-supported: true
+      x-required-roles:
+        - merchant_staff
+      x-required-scopes:
+        - "admin:write"
+      x-audit-event: discounts.codes.create
       requestBody:
         required: false
         content:
@@ -25405,34 +26956,78 @@ paths:
       security:
         - ShopiyzAccessToken: []
   /discount_codes/{code_id}.json:
+    get:
+      operationId: getDiscountCodesCodeId
+      tags:
+        - "Discounts / Codes"
+      summary: "Tekil kod detay."
+      description: |-
+        Tekil kod detay.. Risk R0; confirmation none; step-up none.
+        Capability: discounts.codes.get. Risk: R0. Confirmation: none. Step-up: none.
+      x-shopiyz-capability: discounts.codes.get
+      x-shopiyz-risk: R0
+      x-shopiyz-confirmation: none
+      x-shopiyz-step-up: none
+      x-shopiyz-operation-kind: read
+      x-shopiyz-implemented: true
+      x-shopiyz-preview-required: false
+      x-shopiyz-rollback-supported: false
+      x-operation-kind: query
+      x-risk: R0
+      x-confirmation: none
+      x-step-up: none
+      x-idempotency: none
+      x-preview-supported: false
+      x-rollback-supported: false
+      x-required-roles:
+        - merchant_staff
+      x-required-scopes:
+        - "admin:read"
+        - "admin:write"
+      x-audit-event: discounts.codes.get
+      parameters:
+        - name: code_id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/AdminApiResponse"
+      security:
+        - ShopiyzAccessToken: []
     patch:
       operationId: patchDiscountCodesCodeId
       tags:
-        - "Discounts / Promotions"
-      summary: "PATCH /discount_codes/{code_id}.json (İndirim / kupon / hediye kartı / mağaza kredisi)"
+        - "Discounts / Codes"
+      summary: "Kod ayarları, limit, tarih, eligibility güncelleme."
       description: |-
-        PATCH /discount_codes/{code_id}.json (İndirim / kupon / hediye kartı / mağaza kredisi). Risk R2; confirmation approval; step-up none.
-        Capability: discounts.promotions. Risk: R2. Confirmation: approval. Step-up: none.
-      x-shopiyz-capability: discounts.promotions
+        Kod ayarları, limit, tarih, eligibility güncelleme.. Risk R2; confirmation approval; step-up none.
+        Capability: discounts.codes.update. Risk: R2. Confirmation: approval. Step-up: none.
+      x-shopiyz-capability: discounts.codes.update
       x-shopiyz-risk: R2
       x-shopiyz-confirmation: approval
       x-shopiyz-step-up: none
       x-shopiyz-operation-kind: write
       x-shopiyz-implemented: true
       x-shopiyz-preview-required: true
-      x-shopiyz-rollback-supported: false
+      x-shopiyz-rollback-supported: true
       x-operation-kind: mutation
       x-risk: R2
       x-confirmation: preview
       x-step-up: none
       x-idempotency: required
       x-preview-supported: true
-      x-rollback-supported: false
+      x-rollback-supported: true
       x-required-roles:
         - merchant_staff
       x-required-scopes:
         - "admin:write"
-      x-audit-event: discounts.promotions
+      x-audit-event: discounts.codes.update
       parameters:
         - name: code_id
           in: path
@@ -25458,31 +27053,31 @@ paths:
     delete:
       operationId: deleteDiscountCodesCodeId
       tags:
-        - "Discounts / Promotions"
-      summary: "DELETE /discount_codes/{code_id}.json (İndirim / kupon / hediye kartı / mağaza kredisi)"
+        - "Discounts / Codes"
+      summary: "Kod arşivleme."
       description: |-
-        DELETE /discount_codes/{code_id}.json (İndirim / kupon / hediye kartı / mağaza kredisi). Risk R5; confirmation typed; step-up mfa.
-        Capability: discounts.promotions. Risk: R5. Confirmation: typed. Step-up: mfa.
-      x-shopiyz-capability: discounts.promotions
-      x-shopiyz-risk: R5
-      x-shopiyz-confirmation: typed
-      x-shopiyz-step-up: mfa
+        Kod arşivleme.. Risk R3; confirmation approval; step-up conditional.
+        Capability: discounts.codes.archive. Risk: R3. Confirmation: approval. Step-up: conditional.
+      x-shopiyz-capability: discounts.codes.archive
+      x-shopiyz-risk: R3
+      x-shopiyz-confirmation: approval
+      x-shopiyz-step-up: conditional
       x-shopiyz-operation-kind: delete
       x-shopiyz-implemented: true
       x-shopiyz-preview-required: true
-      x-shopiyz-rollback-supported: false
+      x-shopiyz-rollback-supported: true
       x-operation-kind: mutation
-      x-risk: R5
-      x-confirmation: typed
-      x-step-up: required
+      x-risk: R3
+      x-confirmation: preview
+      x-step-up: optional
       x-idempotency: required
       x-preview-supported: true
-      x-rollback-supported: false
+      x-rollback-supported: true
       x-required-roles:
         - merchant_staff
       x-required-scopes:
         - "admin:write"
-      x-audit-event: discounts.promotions
+      x-audit-event: discounts.codes.archive
       parameters:
         - name: code_id
           in: path
@@ -25491,6 +27086,102 @@ paths:
             type: string
       responses:
         "200":
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/AdminApiResponse"
+      security:
+        - ShopiyzAccessToken: []
+  /discount_codes/{code_id}/attempts.json:
+    get:
+      operationId: getDiscountCodesCodeIdAttempts
+      tags:
+        - "Discounts / Codes"
+      summary: "Başarılı/başarısız deneme logları."
+      description: |-
+        Başarılı/başarısız deneme logları.. Risk R0; confirmation none; step-up none.
+        Capability: discounts.codes.attempts. Risk: R0. Confirmation: none. Step-up: none.
+      x-shopiyz-capability: discounts.codes.attempts
+      x-shopiyz-risk: R0
+      x-shopiyz-confirmation: none
+      x-shopiyz-step-up: none
+      x-shopiyz-operation-kind: analysis
+      x-shopiyz-implemented: true
+      x-shopiyz-preview-required: false
+      x-shopiyz-rollback-supported: false
+      x-operation-kind: analytics
+      x-risk: R0
+      x-confirmation: none
+      x-step-up: none
+      x-idempotency: none
+      x-preview-supported: false
+      x-rollback-supported: false
+      x-required-roles:
+        - merchant_staff
+      x-required-scopes:
+        - "admin:read"
+        - "admin:write"
+      x-audit-event: discounts.codes.attempts
+      parameters:
+        - name: code_id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/AdminApiResponse"
+      security:
+        - ShopiyzAccessToken: []
+  /discount_codes/{code_id}/rotate.json:
+    post:
+      operationId: postDiscountCodesCodeIdRotate
+      tags:
+        - "Discounts / Codes"
+      summary: "Riskli/tahmin edilebilir kodu değiştir."
+      description: |-
+        Riskli/tahmin edilebilir kodu değiştir.. Risk R3; confirmation approval; step-up conditional.
+        Capability: discounts.codes.rotate. Risk: R3. Confirmation: approval. Step-up: conditional.
+      x-shopiyz-capability: discounts.codes.rotate
+      x-shopiyz-risk: R3
+      x-shopiyz-confirmation: approval
+      x-shopiyz-step-up: conditional
+      x-shopiyz-operation-kind: write
+      x-shopiyz-implemented: true
+      x-shopiyz-preview-required: true
+      x-shopiyz-rollback-supported: true
+      x-operation-kind: mutation
+      x-risk: R3
+      x-confirmation: preview
+      x-step-up: optional
+      x-idempotency: required
+      x-preview-supported: true
+      x-rollback-supported: true
+      x-required-roles:
+        - merchant_staff
+      x-required-scopes:
+        - "admin:write"
+      x-audit-event: discounts.codes.rotate
+      parameters:
+        - name: code_id
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: false
+        content:
+          application/json:
+            schema:
+              type: object
+              additionalProperties: true
+      responses:
+        "201":
           description: Successful response
           content:
             application/json:
@@ -25543,36 +27234,171 @@ paths:
                 $ref: "#/components/schemas/AdminApiResponse"
       security:
         - ShopiyzAccessToken: []
-  /discounts.json:
-    get:
-      operationId: getDiscounts
+  /discount_codes/release.json:
+    post:
+      operationId: postDiscountCodesRelease
       tags:
-        - "Discounts / Promotions"
-      summary: "GET /discounts.json (İndirim / kupon / hediye kartı / mağaza kredisi)"
+        - "Discounts / Codes"
+      summary: "Rezervasyonu bırakma."
       description: |-
-        GET /discounts.json (İndirim / kupon / hediye kartı / mağaza kredisi). Risk R0; confirmation none; step-up none.
-        Capability: discounts.promotions. Risk: R0. Confirmation: none. Step-up: none.
-      x-shopiyz-capability: discounts.promotions
+        Rezervasyonu bırakma.. Risk R1; confirmation approval; step-up none.
+        Capability: discounts.codes.release. Risk: R1. Confirmation: approval. Step-up: none.
+      x-shopiyz-capability: discounts.codes.release
+      x-shopiyz-risk: R1
+      x-shopiyz-confirmation: approval
+      x-shopiyz-step-up: none
+      x-shopiyz-operation-kind: write
+      x-shopiyz-implemented: true
+      x-shopiyz-preview-required: true
+      x-shopiyz-rollback-supported: false
+      x-operation-kind: mutation
+      x-risk: R1
+      x-confirmation: preview
+      x-step-up: none
+      x-idempotency: required
+      x-preview-supported: true
+      x-rollback-supported: false
+      x-required-roles:
+        - merchant_staff
+      x-required-scopes:
+        - "admin:write"
+      x-audit-event: discounts.codes.release
+      requestBody:
+        required: false
+        content:
+          application/json:
+            schema:
+              type: object
+              additionalProperties: true
+      responses:
+        "201":
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/AdminApiResponse"
+      security:
+        - ShopiyzAccessToken: []
+  /discount_codes/reserve.json:
+    post:
+      operationId: postDiscountCodesReserve
+      tags:
+        - "Discounts / Codes"
+      summary: "Checkout akışında kod rezervasyonu."
+      description: |-
+        Checkout akışında kod rezervasyonu.. Risk R1; confirmation approval; step-up none.
+        Capability: discounts.codes.reserve. Risk: R1. Confirmation: approval. Step-up: none.
+      x-shopiyz-capability: discounts.codes.reserve
+      x-shopiyz-risk: R1
+      x-shopiyz-confirmation: approval
+      x-shopiyz-step-up: none
+      x-shopiyz-operation-kind: write
+      x-shopiyz-implemented: true
+      x-shopiyz-preview-required: true
+      x-shopiyz-rollback-supported: false
+      x-operation-kind: mutation
+      x-risk: R1
+      x-confirmation: preview
+      x-step-up: none
+      x-idempotency: required
+      x-preview-supported: true
+      x-rollback-supported: false
+      x-required-roles:
+        - merchant_staff
+      x-required-scopes:
+        - "admin:write"
+      x-audit-event: discounts.codes.reserve
+      requestBody:
+        required: false
+        content:
+          application/json:
+            schema:
+              type: object
+              additionalProperties: true
+      responses:
+        "201":
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/AdminApiResponse"
+      security:
+        - ShopiyzAccessToken: []
+  /discount_codes/validate.json:
+    post:
+      operationId: postDiscountCodesValidate
+      tags:
+        - "Discounts / Codes"
+      summary: "Kod + sepet + müşteri + kanal için uygulanabilirlik kontrolü ve neden açıklaması."
+      description: |-
+        Kod + sepet + müşteri + kanal için uygulanabilirlik kontrolü ve neden açıklaması.. Risk R0; confirmation none; step-up none.
+        Capability: discounts.codes.validate. Risk: R0. Confirmation: none. Step-up: none.
+      x-shopiyz-capability: discounts.codes.validate
+      x-shopiyz-risk: R0
+      x-shopiyz-confirmation: none
+      x-shopiyz-step-up: none
+      x-shopiyz-operation-kind: analysis
+      x-shopiyz-implemented: true
+      x-shopiyz-preview-required: false
+      x-shopiyz-rollback-supported: false
+      x-operation-kind: analytics
+      x-risk: R0
+      x-confirmation: none
+      x-step-up: none
+      x-idempotency: required
+      x-preview-supported: false
+      x-rollback-supported: false
+      x-required-roles:
+        - merchant_staff
+      x-required-scopes:
+        - "admin:write"
+      x-audit-event: discounts.codes.validate
+      requestBody:
+        required: false
+        content:
+          application/json:
+            schema:
+              type: object
+              additionalProperties: true
+      responses:
+        "201":
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/AdminApiResponse"
+      security:
+        - ShopiyzAccessToken: []
+  /discount_combinations.json:
+    get:
+      operationId: getDiscountCombinations
+      tags:
+        - "Discounts / Combinations"
+      summary: "Kombinasyon kuralları."
+      description: |-
+        Kombinasyon kuralları.. Risk R0; confirmation none; step-up none.
+        Capability: discounts.combinations.list. Risk: R0. Confirmation: none. Step-up: none.
+      x-shopiyz-capability: discounts.combinations.list
       x-shopiyz-risk: R0
       x-shopiyz-confirmation: none
       x-shopiyz-step-up: none
       x-shopiyz-operation-kind: read
       x-shopiyz-implemented: true
       x-shopiyz-preview-required: false
-      x-shopiyz-rollback-supported: true
+      x-shopiyz-rollback-supported: false
       x-operation-kind: query
       x-risk: R0
       x-confirmation: none
       x-step-up: none
       x-idempotency: none
       x-preview-supported: false
-      x-rollback-supported: true
+      x-rollback-supported: false
       x-required-roles:
         - merchant_staff
       x-required-scopes:
         - "admin:read"
         - "admin:write"
-      x-audit-event: discounts.promotions
+      x-audit-event: discounts.combinations.list
       responses:
         "200":
           description: Successful response
@@ -25583,14 +27409,14 @@ paths:
       security:
         - ShopiyzAccessToken: []
     post:
-      operationId: postDiscounts
+      operationId: postDiscountCombinations
       tags:
-        - "Discounts / Promotions"
-      summary: "POST /discounts.json (İndirim / kupon / hediye kartı / mağaza kredisi)"
+        - "Discounts / Combinations"
+      summary: "Hangi tipler birleşebilir kuralı."
       description: |-
-        POST /discounts.json (İndirim / kupon / hediye kartı / mağaza kredisi). Risk R2; confirmation approval; step-up none.
-        Capability: discounts.promotions. Risk: R2. Confirmation: approval. Step-up: none.
-      x-shopiyz-capability: discounts.promotions
+        Hangi tipler birleşebilir kuralı.. Risk R2; confirmation approval; step-up none.
+        Capability: discounts.combinations.create. Risk: R2. Confirmation: approval. Step-up: none.
+      x-shopiyz-capability: discounts.combinations.create
       x-shopiyz-risk: R2
       x-shopiyz-confirmation: approval
       x-shopiyz-step-up: none
@@ -25609,7 +27435,1989 @@ paths:
         - merchant_staff
       x-required-scopes:
         - "admin:write"
-      x-audit-event: discounts.promotions
+      x-audit-event: discounts.combinations.create
+      requestBody:
+        required: false
+        content:
+          application/json:
+            schema:
+              type: object
+              additionalProperties: true
+      responses:
+        "201":
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/AdminApiResponse"
+      security:
+        - ShopiyzAccessToken: []
+  /discount_combinations/{combination_id}.json:
+    patch:
+      operationId: patchDiscountCombinationsCombinationId
+      tags:
+        - "Discounts / Combinations"
+      summary: "Kombinasyon update."
+      description: |-
+        Kombinasyon update.. Risk R2; confirmation approval; step-up none.
+        Capability: discounts.combinations.update. Risk: R2. Confirmation: approval. Step-up: none.
+      x-shopiyz-capability: discounts.combinations.update
+      x-shopiyz-risk: R2
+      x-shopiyz-confirmation: approval
+      x-shopiyz-step-up: none
+      x-shopiyz-operation-kind: write
+      x-shopiyz-implemented: true
+      x-shopiyz-preview-required: true
+      x-shopiyz-rollback-supported: true
+      x-operation-kind: mutation
+      x-risk: R2
+      x-confirmation: preview
+      x-step-up: none
+      x-idempotency: required
+      x-preview-supported: true
+      x-rollback-supported: true
+      x-required-roles:
+        - merchant_staff
+      x-required-scopes:
+        - "admin:write"
+      x-audit-event: discounts.combinations.update
+      parameters:
+        - name: combination_id
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: false
+        content:
+          application/json:
+            schema:
+              type: object
+              additionalProperties: true
+      responses:
+        "200":
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/AdminApiResponse"
+      security:
+        - ShopiyzAccessToken: []
+    delete:
+      operationId: deleteDiscountCombinationsCombinationId
+      tags:
+        - "Discounts / Combinations"
+      summary: "Kombinasyon kuralı sil."
+      description: |-
+        Kombinasyon kuralı sil.. Risk R3; confirmation approval; step-up conditional.
+        Capability: discounts.combinations.delete. Risk: R3. Confirmation: approval. Step-up: conditional.
+      x-shopiyz-capability: discounts.combinations.delete
+      x-shopiyz-risk: R3
+      x-shopiyz-confirmation: approval
+      x-shopiyz-step-up: conditional
+      x-shopiyz-operation-kind: delete
+      x-shopiyz-implemented: true
+      x-shopiyz-preview-required: true
+      x-shopiyz-rollback-supported: true
+      x-operation-kind: mutation
+      x-risk: R3
+      x-confirmation: preview
+      x-step-up: optional
+      x-idempotency: required
+      x-preview-supported: true
+      x-rollback-supported: true
+      x-required-roles:
+        - merchant_staff
+      x-required-scopes:
+        - "admin:write"
+      x-audit-event: discounts.combinations.delete
+      parameters:
+        - name: combination_id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/AdminApiResponse"
+      security:
+        - ShopiyzAccessToken: []
+  /discount_conditions.json:
+    get:
+      operationId: getDiscountConditions
+      tags:
+        - "Discounts / Conditions"
+      summary: "Minimum sepet, adet, müşteri, lokasyon, kanal, market koşulları."
+      description: |-
+        Minimum sepet, adet, müşteri, lokasyon, kanal, market koşulları.. Risk R0; confirmation none; step-up none.
+        Capability: discounts.conditions.list. Risk: R0. Confirmation: none. Step-up: none.
+      x-shopiyz-capability: discounts.conditions.list
+      x-shopiyz-risk: R0
+      x-shopiyz-confirmation: none
+      x-shopiyz-step-up: none
+      x-shopiyz-operation-kind: read
+      x-shopiyz-implemented: true
+      x-shopiyz-preview-required: false
+      x-shopiyz-rollback-supported: false
+      x-operation-kind: query
+      x-risk: R0
+      x-confirmation: none
+      x-step-up: none
+      x-idempotency: none
+      x-preview-supported: false
+      x-rollback-supported: false
+      x-required-roles:
+        - merchant_staff
+      x-required-scopes:
+        - "admin:read"
+        - "admin:write"
+      x-audit-event: discounts.conditions.list
+      responses:
+        "200":
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/AdminApiResponse"
+      security:
+        - ShopiyzAccessToken: []
+    post:
+      operationId: postDiscountConditions
+      tags:
+        - "Discounts / Conditions"
+      summary: "Koşul oluştur."
+      description: |-
+        Koşul oluştur.. Risk R2; confirmation approval; step-up none.
+        Capability: discounts.conditions.create. Risk: R2. Confirmation: approval. Step-up: none.
+      x-shopiyz-capability: discounts.conditions.create
+      x-shopiyz-risk: R2
+      x-shopiyz-confirmation: approval
+      x-shopiyz-step-up: none
+      x-shopiyz-operation-kind: write
+      x-shopiyz-implemented: true
+      x-shopiyz-preview-required: true
+      x-shopiyz-rollback-supported: true
+      x-operation-kind: mutation
+      x-risk: R2
+      x-confirmation: preview
+      x-step-up: none
+      x-idempotency: required
+      x-preview-supported: true
+      x-rollback-supported: true
+      x-required-roles:
+        - merchant_staff
+      x-required-scopes:
+        - "admin:write"
+      x-audit-event: discounts.conditions.create
+      requestBody:
+        required: false
+        content:
+          application/json:
+            schema:
+              type: object
+              additionalProperties: true
+      responses:
+        "201":
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/AdminApiResponse"
+      security:
+        - ShopiyzAccessToken: []
+  /discount_conditions/{condition_id}.json:
+    patch:
+      operationId: patchDiscountConditionsConditionId
+      tags:
+        - "Discounts / Conditions"
+      summary: "Koşul güncelle."
+      description: |-
+        Koşul güncelle.. Risk R2; confirmation approval; step-up none.
+        Capability: discounts.conditions.update. Risk: R2. Confirmation: approval. Step-up: none.
+      x-shopiyz-capability: discounts.conditions.update
+      x-shopiyz-risk: R2
+      x-shopiyz-confirmation: approval
+      x-shopiyz-step-up: none
+      x-shopiyz-operation-kind: write
+      x-shopiyz-implemented: true
+      x-shopiyz-preview-required: true
+      x-shopiyz-rollback-supported: true
+      x-operation-kind: mutation
+      x-risk: R2
+      x-confirmation: preview
+      x-step-up: none
+      x-idempotency: required
+      x-preview-supported: true
+      x-rollback-supported: true
+      x-required-roles:
+        - merchant_staff
+      x-required-scopes:
+        - "admin:write"
+      x-audit-event: discounts.conditions.update
+      parameters:
+        - name: condition_id
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: false
+        content:
+          application/json:
+            schema:
+              type: object
+              additionalProperties: true
+      responses:
+        "200":
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/AdminApiResponse"
+      security:
+        - ShopiyzAccessToken: []
+    delete:
+      operationId: deleteDiscountConditionsConditionId
+      tags:
+        - "Discounts / Conditions"
+      summary: "Koşul sil."
+      description: |-
+        Koşul sil.. Risk R3; confirmation approval; step-up conditional.
+        Capability: discounts.conditions.delete. Risk: R3. Confirmation: approval. Step-up: conditional.
+      x-shopiyz-capability: discounts.conditions.delete
+      x-shopiyz-risk: R3
+      x-shopiyz-confirmation: approval
+      x-shopiyz-step-up: conditional
+      x-shopiyz-operation-kind: delete
+      x-shopiyz-implemented: true
+      x-shopiyz-preview-required: true
+      x-shopiyz-rollback-supported: true
+      x-operation-kind: mutation
+      x-risk: R3
+      x-confirmation: preview
+      x-step-up: optional
+      x-idempotency: required
+      x-preview-supported: true
+      x-rollback-supported: true
+      x-required-roles:
+        - merchant_staff
+      x-required-scopes:
+        - "admin:write"
+      x-audit-event: discounts.conditions.delete
+      parameters:
+        - name: condition_id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/AdminApiResponse"
+      security:
+        - ShopiyzAccessToken: []
+  /discount_conflicts/resolve_execute.json:
+    post:
+      operationId: postDiscountConflictsResolveExecute
+      tags:
+        - "Discounts / Conflicts"
+      summary: "Onaylı çakışma çözümü."
+      description: |-
+        Onaylı çakışma çözümü.. Risk R3; confirmation approval; step-up conditional.
+        Capability: discounts.conflicts.resolve_execute. Risk: R3. Confirmation: approval. Step-up: conditional.
+      x-shopiyz-capability: discounts.conflicts.resolve_execute
+      x-shopiyz-risk: R3
+      x-shopiyz-confirmation: approval
+      x-shopiyz-step-up: conditional
+      x-shopiyz-operation-kind: job
+      x-shopiyz-implemented: true
+      x-shopiyz-preview-required: true
+      x-shopiyz-rollback-supported: true
+      x-operation-kind: mutation
+      x-risk: R3
+      x-confirmation: preview
+      x-step-up: optional
+      x-idempotency: required
+      x-preview-supported: true
+      x-rollback-supported: true
+      x-required-roles:
+        - merchant_staff
+      x-required-scopes:
+        - "admin:write"
+      x-audit-event: discounts.conflicts.resolve_execute
+      requestBody:
+        required: false
+        content:
+          application/json:
+            schema:
+              type: object
+              additionalProperties: true
+      responses:
+        "201":
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/AdminApiResponse"
+      security:
+        - ShopiyzAccessToken: []
+  /discount_conflicts/resolve_preview.json:
+    post:
+      operationId: postDiscountConflictsResolvePreview
+      tags:
+        - "Discounts / Conflicts"
+      summary: "Çakışma çözümü preview."
+      description: |-
+        Çakışma çözümü preview.. Risk R3; confirmation preview; step-up conditional.
+        Capability: discounts.conflicts.resolve_preview. Risk: R3. Confirmation: preview. Step-up: conditional.
+      x-shopiyz-capability: discounts.conflicts.resolve_preview
+      x-shopiyz-risk: R3
+      x-shopiyz-confirmation: preview
+      x-shopiyz-step-up: conditional
+      x-shopiyz-operation-kind: analysis
+      x-shopiyz-implemented: true
+      x-shopiyz-preview-required: true
+      x-shopiyz-rollback-supported: true
+      x-operation-kind: analytics
+      x-risk: R3
+      x-confirmation: preview
+      x-step-up: optional
+      x-idempotency: required
+      x-preview-supported: true
+      x-rollback-supported: true
+      x-required-roles:
+        - merchant_staff
+      x-required-scopes:
+        - "admin:write"
+      x-audit-event: discounts.conflicts.resolve_preview
+      requestBody:
+        required: false
+        content:
+          application/json:
+            schema:
+              type: object
+              additionalProperties: true
+      responses:
+        "201":
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/AdminApiResponse"
+      security:
+        - ShopiyzAccessToken: []
+  /discount_conflicts/scan.json:
+    post:
+      operationId: postDiscountConflictsScan
+      tags:
+        - "Discounts / Conflicts"
+      summary: "Tüm aktif indirimlerde çakışma taraması."
+      description: |-
+        Tüm aktif indirimlerde çakışma taraması.. Risk R1; confirmation none; step-up none.
+        Capability: discounts.conflicts.scan. Risk: R1. Confirmation: none. Step-up: none.
+      x-shopiyz-capability: discounts.conflicts.scan
+      x-shopiyz-risk: R1
+      x-shopiyz-confirmation: none
+      x-shopiyz-step-up: none
+      x-shopiyz-operation-kind: analysis
+      x-shopiyz-implemented: true
+      x-shopiyz-preview-required: false
+      x-shopiyz-rollback-supported: false
+      x-operation-kind: analytics
+      x-risk: R1
+      x-confirmation: none
+      x-step-up: none
+      x-idempotency: required
+      x-preview-supported: false
+      x-rollback-supported: false
+      x-required-roles:
+        - merchant_staff
+      x-required-scopes:
+        - "admin:write"
+      x-audit-event: discounts.conflicts.scan
+      requestBody:
+        required: false
+        content:
+          application/json:
+            schema:
+              type: object
+              additionalProperties: true
+      responses:
+        "201":
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/AdminApiResponse"
+      security:
+        - ShopiyzAccessToken: []
+  /discount_exclusions.json:
+    get:
+      operationId: getDiscountExclusions
+      tags:
+        - "Discounts / Exclusions"
+      summary: "Hariç tutma listesi."
+      description: |-
+        Hariç tutma listesi.. Risk R0; confirmation none; step-up none.
+        Capability: discounts.exclusions.list. Risk: R0. Confirmation: none. Step-up: none.
+      x-shopiyz-capability: discounts.exclusions.list
+      x-shopiyz-risk: R0
+      x-shopiyz-confirmation: none
+      x-shopiyz-step-up: none
+      x-shopiyz-operation-kind: read
+      x-shopiyz-implemented: true
+      x-shopiyz-preview-required: false
+      x-shopiyz-rollback-supported: false
+      x-operation-kind: query
+      x-risk: R0
+      x-confirmation: none
+      x-step-up: none
+      x-idempotency: none
+      x-preview-supported: false
+      x-rollback-supported: false
+      x-required-roles:
+        - merchant_staff
+      x-required-scopes:
+        - "admin:read"
+        - "admin:write"
+      x-audit-event: discounts.exclusions.list
+      responses:
+        "200":
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/AdminApiResponse"
+      security:
+        - ShopiyzAccessToken: []
+    post:
+      operationId: postDiscountExclusions
+      tags:
+        - "Discounts / Exclusions"
+      summary: "Ürün/müşteri/kanal/market hariç tut."
+      description: |-
+        Ürün/müşteri/kanal/market hariç tut.. Risk R2; confirmation approval; step-up none.
+        Capability: discounts.exclusions.create. Risk: R2. Confirmation: approval. Step-up: none.
+      x-shopiyz-capability: discounts.exclusions.create
+      x-shopiyz-risk: R2
+      x-shopiyz-confirmation: approval
+      x-shopiyz-step-up: none
+      x-shopiyz-operation-kind: write
+      x-shopiyz-implemented: true
+      x-shopiyz-preview-required: true
+      x-shopiyz-rollback-supported: true
+      x-operation-kind: mutation
+      x-risk: R2
+      x-confirmation: preview
+      x-step-up: none
+      x-idempotency: required
+      x-preview-supported: true
+      x-rollback-supported: true
+      x-required-roles:
+        - merchant_staff
+      x-required-scopes:
+        - "admin:write"
+      x-audit-event: discounts.exclusions.create
+      requestBody:
+        required: false
+        content:
+          application/json:
+            schema:
+              type: object
+              additionalProperties: true
+      responses:
+        "201":
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/AdminApiResponse"
+      security:
+        - ShopiyzAccessToken: []
+  /discount_exclusions/{exclusion_id}.json:
+    delete:
+      operationId: deleteDiscountExclusionsExclusionId
+      tags:
+        - "Discounts / Exclusions"
+      summary: "Hariç tutmayı kaldır."
+      description: |-
+        Hariç tutmayı kaldır.. Risk R2; confirmation approval; step-up none.
+        Capability: discounts.exclusions.delete. Risk: R2. Confirmation: approval. Step-up: none.
+      x-shopiyz-capability: discounts.exclusions.delete
+      x-shopiyz-risk: R2
+      x-shopiyz-confirmation: approval
+      x-shopiyz-step-up: none
+      x-shopiyz-operation-kind: delete
+      x-shopiyz-implemented: true
+      x-shopiyz-preview-required: true
+      x-shopiyz-rollback-supported: true
+      x-operation-kind: mutation
+      x-risk: R2
+      x-confirmation: preview
+      x-step-up: none
+      x-idempotency: required
+      x-preview-supported: true
+      x-rollback-supported: true
+      x-required-roles:
+        - merchant_staff
+      x-required-scopes:
+        - "admin:write"
+      x-audit-event: discounts.exclusions.delete
+      parameters:
+        - name: exclusion_id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/AdminApiResponse"
+      security:
+        - ShopiyzAccessToken: []
+  /discount_fraud_reviews.json:
+    get:
+      operationId: getDiscountFraudReviews
+      tags:
+        - "Discounts / Fraud Reviews"
+      summary: "Fraud review listesi."
+      description: |-
+        Fraud review listesi.. Risk R0; confirmation none; step-up none.
+        Capability: discounts.fraud_reviews.list. Risk: R0. Confirmation: none. Step-up: none.
+      x-shopiyz-capability: discounts.fraud_reviews.list
+      x-shopiyz-risk: R0
+      x-shopiyz-confirmation: none
+      x-shopiyz-step-up: none
+      x-shopiyz-operation-kind: read
+      x-shopiyz-implemented: true
+      x-shopiyz-preview-required: false
+      x-shopiyz-rollback-supported: false
+      x-operation-kind: query
+      x-risk: R0
+      x-confirmation: none
+      x-step-up: none
+      x-idempotency: none
+      x-preview-supported: false
+      x-rollback-supported: false
+      x-required-roles:
+        - merchant_staff
+      x-required-scopes:
+        - "admin:read"
+        - "admin:write"
+      x-audit-event: discounts.fraud_reviews.list
+      responses:
+        "200":
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/AdminApiResponse"
+      security:
+        - ShopiyzAccessToken: []
+    post:
+      operationId: postDiscountFraudReviews
+      tags:
+        - "Discounts / Fraud Reviews"
+      summary: "Review oluştur."
+      description: |-
+        Review oluştur.. Risk R2; confirmation approval; step-up none.
+        Capability: discounts.fraud_reviews.create. Risk: R2. Confirmation: approval. Step-up: none.
+      x-shopiyz-capability: discounts.fraud_reviews.create
+      x-shopiyz-risk: R2
+      x-shopiyz-confirmation: approval
+      x-shopiyz-step-up: none
+      x-shopiyz-operation-kind: write
+      x-shopiyz-implemented: true
+      x-shopiyz-preview-required: true
+      x-shopiyz-rollback-supported: true
+      x-operation-kind: mutation
+      x-risk: R2
+      x-confirmation: preview
+      x-step-up: none
+      x-idempotency: required
+      x-preview-supported: true
+      x-rollback-supported: true
+      x-required-roles:
+        - merchant_staff
+      x-required-scopes:
+        - "admin:write"
+      x-audit-event: discounts.fraud_reviews.create
+      requestBody:
+        required: false
+        content:
+          application/json:
+            schema:
+              type: object
+              additionalProperties: true
+      responses:
+        "201":
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/AdminApiResponse"
+      security:
+        - ShopiyzAccessToken: []
+  /discount_fraud_rules.json:
+    post:
+      operationId: postDiscountFraudRules
+      tags:
+        - "Discounts / Fraud Rules"
+      summary: "Brute force, multi-account, self-referral kuralı oluştur."
+      description: |-
+        Brute force, multi-account, self-referral kuralı oluştur.. Risk R3; confirmation approval; step-up conditional.
+        Capability: discounts.fraud_rules.create. Risk: R3. Confirmation: approval. Step-up: conditional.
+      x-shopiyz-capability: discounts.fraud_rules.create
+      x-shopiyz-risk: R3
+      x-shopiyz-confirmation: approval
+      x-shopiyz-step-up: conditional
+      x-shopiyz-operation-kind: write
+      x-shopiyz-implemented: true
+      x-shopiyz-preview-required: true
+      x-shopiyz-rollback-supported: true
+      x-operation-kind: configuration
+      x-risk: R3
+      x-confirmation: preview
+      x-step-up: optional
+      x-idempotency: required
+      x-preview-supported: true
+      x-rollback-supported: true
+      x-required-roles:
+        - merchant_staff
+      x-required-scopes:
+        - "admin:write"
+      x-audit-event: discounts.fraud_rules.create
+      requestBody:
+        required: false
+        content:
+          application/json:
+            schema:
+              type: object
+              additionalProperties: true
+      responses:
+        "201":
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/AdminApiResponse"
+      security:
+        - ShopiyzAccessToken: []
+  /discount_jobs.json:
+    get:
+      operationId: getDiscountJobs
+      tags:
+        - "Discounts / Jobs"
+      summary: "İndirim job listesi."
+      description: |-
+        İndirim job listesi.. Risk R0; confirmation none; step-up none.
+        Capability: discounts.jobs.list. Risk: R0. Confirmation: none. Step-up: none.
+      x-shopiyz-capability: discounts.jobs.list
+      x-shopiyz-risk: R0
+      x-shopiyz-confirmation: none
+      x-shopiyz-step-up: none
+      x-shopiyz-operation-kind: read
+      x-shopiyz-implemented: true
+      x-shopiyz-preview-required: false
+      x-shopiyz-rollback-supported: false
+      x-operation-kind: query
+      x-risk: R0
+      x-confirmation: none
+      x-step-up: none
+      x-idempotency: none
+      x-preview-supported: false
+      x-rollback-supported: false
+      x-required-roles:
+        - merchant_staff
+      x-required-scopes:
+        - "admin:read"
+        - "admin:write"
+      x-audit-event: discounts.jobs.list
+      responses:
+        "200":
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/AdminApiResponse"
+      security:
+        - ShopiyzAccessToken: []
+  /discount_jobs/{job_id}.json:
+    get:
+      operationId: getDiscountJobsJobId
+      tags:
+        - "Discounts / Jobs"
+      summary: "Job detay/progress."
+      description: |-
+        Job detay/progress.. Risk R0; confirmation none; step-up none.
+        Capability: discounts.jobs.get. Risk: R0. Confirmation: none. Step-up: none.
+      x-shopiyz-capability: discounts.jobs.get
+      x-shopiyz-risk: R0
+      x-shopiyz-confirmation: none
+      x-shopiyz-step-up: none
+      x-shopiyz-operation-kind: read
+      x-shopiyz-implemented: true
+      x-shopiyz-preview-required: false
+      x-shopiyz-rollback-supported: false
+      x-operation-kind: query
+      x-risk: R0
+      x-confirmation: none
+      x-step-up: none
+      x-idempotency: none
+      x-preview-supported: false
+      x-rollback-supported: false
+      x-required-roles:
+        - merchant_staff
+      x-required-scopes:
+        - "admin:read"
+        - "admin:write"
+      x-audit-event: discounts.jobs.get
+      parameters:
+        - name: job_id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/AdminApiResponse"
+      security:
+        - ShopiyzAccessToken: []
+  /discount_jobs/{job_id}/cancel.json:
+    post:
+      operationId: postDiscountJobsJobIdCancel
+      tags:
+        - "Discounts / Jobs"
+      summary: "Job iptal."
+      description: |-
+        Job iptal.. Risk R2; confirmation approval; step-up none.
+        Capability: discounts.jobs.cancel. Risk: R2. Confirmation: approval. Step-up: none.
+      x-shopiyz-capability: discounts.jobs.cancel
+      x-shopiyz-risk: R2
+      x-shopiyz-confirmation: approval
+      x-shopiyz-step-up: none
+      x-shopiyz-operation-kind: job
+      x-shopiyz-implemented: true
+      x-shopiyz-preview-required: true
+      x-shopiyz-rollback-supported: false
+      x-operation-kind: mutation
+      x-risk: R2
+      x-confirmation: preview
+      x-step-up: none
+      x-idempotency: required
+      x-preview-supported: true
+      x-rollback-supported: false
+      x-required-roles:
+        - merchant_staff
+      x-required-scopes:
+        - "admin:write"
+      x-audit-event: discounts.jobs.cancel
+      parameters:
+        - name: job_id
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: false
+        content:
+          application/json:
+            schema:
+              type: object
+              additionalProperties: true
+      responses:
+        "201":
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/AdminApiResponse"
+      security:
+        - ShopiyzAccessToken: []
+  /discount_policies.json:
+    get:
+      operationId: getDiscountPolicies
+      tags:
+        - "Discounts / Policies"
+      summary: "Marj, maksimum indirim, kombinasyon, brute-force policy."
+      description: |-
+        Marj, maksimum indirim, kombinasyon, brute-force policy.. Risk R0; confirmation none; step-up none.
+        Capability: discounts.policies.list. Risk: R0. Confirmation: none. Step-up: none.
+      x-shopiyz-capability: discounts.policies.list
+      x-shopiyz-risk: R0
+      x-shopiyz-confirmation: none
+      x-shopiyz-step-up: none
+      x-shopiyz-operation-kind: read
+      x-shopiyz-implemented: true
+      x-shopiyz-preview-required: false
+      x-shopiyz-rollback-supported: false
+      x-operation-kind: query
+      x-risk: R0
+      x-confirmation: none
+      x-step-up: none
+      x-idempotency: none
+      x-preview-supported: false
+      x-rollback-supported: false
+      x-required-roles:
+        - merchant_staff
+      x-required-scopes:
+        - "admin:read"
+        - "admin:write"
+      x-audit-event: discounts.policies.list
+      responses:
+        "200":
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/AdminApiResponse"
+      security:
+        - ShopiyzAccessToken: []
+    post:
+      operationId: postDiscountPolicies
+      tags:
+        - "Discounts / Policies"
+      summary: "Policy oluştur."
+      description: |-
+        Policy oluştur.. Risk R3; confirmation approval; step-up conditional.
+        Capability: discounts.policies.create. Risk: R3. Confirmation: approval. Step-up: conditional.
+      x-shopiyz-capability: discounts.policies.create
+      x-shopiyz-risk: R3
+      x-shopiyz-confirmation: approval
+      x-shopiyz-step-up: conditional
+      x-shopiyz-operation-kind: write
+      x-shopiyz-implemented: true
+      x-shopiyz-preview-required: true
+      x-shopiyz-rollback-supported: true
+      x-operation-kind: mutation
+      x-risk: R3
+      x-confirmation: preview
+      x-step-up: optional
+      x-idempotency: required
+      x-preview-supported: true
+      x-rollback-supported: true
+      x-required-roles:
+        - merchant_staff
+      x-required-scopes:
+        - "admin:write"
+      x-audit-event: discounts.policies.create
+      requestBody:
+        required: false
+        content:
+          application/json:
+            schema:
+              type: object
+              additionalProperties: true
+      responses:
+        "201":
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/AdminApiResponse"
+      security:
+        - ShopiyzAccessToken: []
+  /discount_policies/{policy_id}.json:
+    patch:
+      operationId: patchDiscountPoliciesPolicyId
+      tags:
+        - "Discounts / Policies"
+      summary: "Policy güncelle."
+      description: |-
+        Policy güncelle.. Risk R4; confirmation typed; step-up mfa.
+        Capability: discounts.policies.update. Risk: R4. Confirmation: typed. Step-up: mfa.
+      x-shopiyz-capability: discounts.policies.update
+      x-shopiyz-risk: R4
+      x-shopiyz-confirmation: typed
+      x-shopiyz-step-up: mfa
+      x-shopiyz-operation-kind: write
+      x-shopiyz-implemented: true
+      x-shopiyz-preview-required: true
+      x-shopiyz-rollback-supported: true
+      x-operation-kind: mutation
+      x-risk: R4
+      x-confirmation: typed
+      x-step-up: required
+      x-idempotency: required
+      x-preview-supported: true
+      x-rollback-supported: true
+      x-required-roles:
+        - merchant_staff
+      x-required-scopes:
+        - "admin:write"
+      x-audit-event: discounts.policies.update
+      parameters:
+        - name: policy_id
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: false
+        content:
+          application/json:
+            schema:
+              type: object
+              additionalProperties: true
+      responses:
+        "200":
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/AdminApiResponse"
+      security:
+        - ShopiyzAccessToken: []
+  /discount_policies/evaluate.json:
+    post:
+      operationId: postDiscountPoliciesEvaluate
+      tags:
+        - "Discounts / Policies"
+      summary: "Yeni/güncellenen indirimi policy karşısında değerlendir."
+      description: |-
+        Yeni/güncellenen indirimi policy karşısında değerlendir.. Risk R0; confirmation none; step-up none.
+        Capability: discounts.policies.evaluate. Risk: R0. Confirmation: none. Step-up: none.
+      x-shopiyz-capability: discounts.policies.evaluate
+      x-shopiyz-risk: R0
+      x-shopiyz-confirmation: none
+      x-shopiyz-step-up: none
+      x-shopiyz-operation-kind: analysis
+      x-shopiyz-implemented: true
+      x-shopiyz-preview-required: false
+      x-shopiyz-rollback-supported: false
+      x-operation-kind: analytics
+      x-risk: R0
+      x-confirmation: none
+      x-step-up: none
+      x-idempotency: required
+      x-preview-supported: false
+      x-rollback-supported: false
+      x-required-roles:
+        - merchant_staff
+      x-required-scopes:
+        - "admin:write"
+      x-audit-event: discounts.policies.evaluate
+      requestBody:
+        required: false
+        content:
+          application/json:
+            schema:
+              type: object
+              additionalProperties: true
+      responses:
+        "201":
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/AdminApiResponse"
+      security:
+        - ShopiyzAccessToken: []
+  /discount_priorities.json:
+    get:
+      operationId: getDiscountPriorities
+      tags:
+        - "Discounts / Priorities"
+      summary: "İndirim öncelik sırası."
+      description: |-
+        İndirim öncelik sırası.. Risk R0; confirmation none; step-up none.
+        Capability: discounts.priorities.list. Risk: R0. Confirmation: none. Step-up: none.
+      x-shopiyz-capability: discounts.priorities.list
+      x-shopiyz-risk: R0
+      x-shopiyz-confirmation: none
+      x-shopiyz-step-up: none
+      x-shopiyz-operation-kind: read
+      x-shopiyz-implemented: true
+      x-shopiyz-preview-required: false
+      x-shopiyz-rollback-supported: false
+      x-operation-kind: query
+      x-risk: R0
+      x-confirmation: none
+      x-step-up: none
+      x-idempotency: none
+      x-preview-supported: false
+      x-rollback-supported: false
+      x-required-roles:
+        - merchant_staff
+      x-required-scopes:
+        - "admin:read"
+        - "admin:write"
+      x-audit-event: discounts.priorities.list
+      responses:
+        "200":
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/AdminApiResponse"
+      security:
+        - ShopiyzAccessToken: []
+    post:
+      operationId: postDiscountPriorities
+      tags:
+        - "Discounts / Priorities"
+      summary: "Öncelik kuralı oluştur."
+      description: |-
+        Öncelik kuralı oluştur.. Risk R2; confirmation approval; step-up none.
+        Capability: discounts.priorities.create. Risk: R2. Confirmation: approval. Step-up: none.
+      x-shopiyz-capability: discounts.priorities.create
+      x-shopiyz-risk: R2
+      x-shopiyz-confirmation: approval
+      x-shopiyz-step-up: none
+      x-shopiyz-operation-kind: write
+      x-shopiyz-implemented: true
+      x-shopiyz-preview-required: true
+      x-shopiyz-rollback-supported: true
+      x-operation-kind: mutation
+      x-risk: R2
+      x-confirmation: preview
+      x-step-up: none
+      x-idempotency: required
+      x-preview-supported: true
+      x-rollback-supported: true
+      x-required-roles:
+        - merchant_staff
+      x-required-scopes:
+        - "admin:write"
+      x-audit-event: discounts.priorities.create
+      requestBody:
+        required: false
+        content:
+          application/json:
+            schema:
+              type: object
+              additionalProperties: true
+      responses:
+        "201":
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/AdminApiResponse"
+      security:
+        - ShopiyzAccessToken: []
+  /discount_redemptions.json:
+    get:
+      operationId: getDiscountRedemptions
+      tags:
+        - "Discounts / Redemptions"
+      summary: "Kullanım kayıtları."
+      description: |-
+        Kullanım kayıtları.. Risk R0; confirmation none; step-up none.
+        Capability: discounts.redemptions.list. Risk: R0. Confirmation: none. Step-up: none.
+      x-shopiyz-capability: discounts.redemptions.list
+      x-shopiyz-risk: R0
+      x-shopiyz-confirmation: none
+      x-shopiyz-step-up: none
+      x-shopiyz-operation-kind: read
+      x-shopiyz-implemented: true
+      x-shopiyz-preview-required: false
+      x-shopiyz-rollback-supported: false
+      x-operation-kind: query
+      x-risk: R0
+      x-confirmation: none
+      x-step-up: none
+      x-idempotency: none
+      x-preview-supported: false
+      x-rollback-supported: false
+      x-required-roles:
+        - merchant_staff
+      x-required-scopes:
+        - "admin:read"
+        - "admin:write"
+      x-audit-event: discounts.redemptions.list
+      responses:
+        "200":
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/AdminApiResponse"
+      security:
+        - ShopiyzAccessToken: []
+  /discount_redemptions/{redemption_id}.json:
+    get:
+      operationId: getDiscountRedemptionsRedemptionId
+      tags:
+        - "Discounts / Redemptions"
+      summary: "Tek kullanım detayı."
+      description: |-
+        Tek kullanım detayı.. Risk R0; confirmation none; step-up none.
+        Capability: discounts.redemptions.get. Risk: R0. Confirmation: none. Step-up: none.
+      x-shopiyz-capability: discounts.redemptions.get
+      x-shopiyz-risk: R0
+      x-shopiyz-confirmation: none
+      x-shopiyz-step-up: none
+      x-shopiyz-operation-kind: read
+      x-shopiyz-implemented: true
+      x-shopiyz-preview-required: false
+      x-shopiyz-rollback-supported: false
+      x-operation-kind: query
+      x-risk: R0
+      x-confirmation: none
+      x-step-up: none
+      x-idempotency: none
+      x-preview-supported: false
+      x-rollback-supported: false
+      x-required-roles:
+        - merchant_staff
+      x-required-scopes:
+        - "admin:read"
+        - "admin:write"
+      x-audit-event: discounts.redemptions.get
+      parameters:
+        - name: redemption_id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/AdminApiResponse"
+      security:
+        - ShopiyzAccessToken: []
+  /discount_redemptions/{redemption_id}/flag.json:
+    post:
+      operationId: postDiscountRedemptionsRedemptionIdFlag
+      tags:
+        - "Discounts / Redemptions"
+      summary: "Şüpheli kullanımı işaretle."
+      description: |-
+        Şüpheli kullanımı işaretle.. Risk R2; confirmation approval; step-up none.
+        Capability: discounts.redemptions.flag. Risk: R2. Confirmation: approval. Step-up: none.
+      x-shopiyz-capability: discounts.redemptions.flag
+      x-shopiyz-risk: R2
+      x-shopiyz-confirmation: approval
+      x-shopiyz-step-up: none
+      x-shopiyz-operation-kind: write
+      x-shopiyz-implemented: true
+      x-shopiyz-preview-required: true
+      x-shopiyz-rollback-supported: false
+      x-operation-kind: mutation
+      x-risk: R2
+      x-confirmation: preview
+      x-step-up: none
+      x-idempotency: required
+      x-preview-supported: true
+      x-rollback-supported: false
+      x-required-roles:
+        - merchant_staff
+      x-required-scopes:
+        - "admin:write"
+      x-audit-event: discounts.redemptions.flag
+      parameters:
+        - name: redemption_id
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: false
+        content:
+          application/json:
+            schema:
+              type: object
+              additionalProperties: true
+      responses:
+        "201":
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/AdminApiResponse"
+      security:
+        - ShopiyzAccessToken: []
+  /discount_rules.json:
+    get:
+      operationId: getDiscountRules
+      tags:
+        - "Discounts / Rules"
+      summary: "Kural listesi."
+      description: |-
+        Kural listesi.. Risk R0; confirmation none; step-up none.
+        Capability: discounts.rules.list. Risk: R0. Confirmation: none. Step-up: none.
+      x-shopiyz-capability: discounts.rules.list
+      x-shopiyz-risk: R0
+      x-shopiyz-confirmation: none
+      x-shopiyz-step-up: none
+      x-shopiyz-operation-kind: read
+      x-shopiyz-implemented: true
+      x-shopiyz-preview-required: false
+      x-shopiyz-rollback-supported: false
+      x-operation-kind: configuration
+      x-risk: R0
+      x-confirmation: none
+      x-step-up: none
+      x-idempotency: none
+      x-preview-supported: false
+      x-rollback-supported: false
+      x-required-roles:
+        - merchant_staff
+      x-required-scopes:
+        - "admin:read"
+        - "admin:write"
+      x-audit-event: discounts.rules.list
+      responses:
+        "200":
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/AdminApiResponse"
+      security:
+        - ShopiyzAccessToken: []
+    post:
+      operationId: postDiscountRules
+      tags:
+        - "Discounts / Rules"
+      summary: "Rule create: percent/fixed/free_shipping/bxgy/tiered."
+      description: |-
+        Rule create: percent/fixed/free_shipping/bxgy/tiered.. Risk R2; confirmation approval; step-up none.
+        Capability: discounts.rules.create. Risk: R2. Confirmation: approval. Step-up: none.
+      x-shopiyz-capability: discounts.rules.create
+      x-shopiyz-risk: R2
+      x-shopiyz-confirmation: approval
+      x-shopiyz-step-up: none
+      x-shopiyz-operation-kind: write
+      x-shopiyz-implemented: true
+      x-shopiyz-preview-required: true
+      x-shopiyz-rollback-supported: true
+      x-operation-kind: configuration
+      x-risk: R2
+      x-confirmation: preview
+      x-step-up: none
+      x-idempotency: required
+      x-preview-supported: true
+      x-rollback-supported: true
+      x-required-roles:
+        - merchant_staff
+      x-required-scopes:
+        - "admin:write"
+      x-audit-event: discounts.rules.create
+      requestBody:
+        required: false
+        content:
+          application/json:
+            schema:
+              type: object
+              additionalProperties: true
+      responses:
+        "201":
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/AdminApiResponse"
+      security:
+        - ShopiyzAccessToken: []
+  /discount_rules/{rule_id}.json:
+    patch:
+      operationId: patchDiscountRulesRuleId
+      tags:
+        - "Discounts / Rules"
+      summary: "Rule update."
+      description: |-
+        Rule update.. Risk R2; confirmation approval; step-up none.
+        Capability: discounts.rules.update. Risk: R2. Confirmation: approval. Step-up: none.
+      x-shopiyz-capability: discounts.rules.update
+      x-shopiyz-risk: R2
+      x-shopiyz-confirmation: approval
+      x-shopiyz-step-up: none
+      x-shopiyz-operation-kind: write
+      x-shopiyz-implemented: true
+      x-shopiyz-preview-required: true
+      x-shopiyz-rollback-supported: true
+      x-operation-kind: configuration
+      x-risk: R2
+      x-confirmation: preview
+      x-step-up: none
+      x-idempotency: required
+      x-preview-supported: true
+      x-rollback-supported: true
+      x-required-roles:
+        - merchant_staff
+      x-required-scopes:
+        - "admin:write"
+      x-audit-event: discounts.rules.update
+      parameters:
+        - name: rule_id
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: false
+        content:
+          application/json:
+            schema:
+              type: object
+              additionalProperties: true
+      responses:
+        "200":
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/AdminApiResponse"
+      security:
+        - ShopiyzAccessToken: []
+    delete:
+      operationId: deleteDiscountRulesRuleId
+      tags:
+        - "Discounts / Rules"
+      summary: "Rule silme/arşiv."
+      description: |-
+        Rule silme/arşiv.. Risk R3; confirmation approval; step-up conditional.
+        Capability: discounts.rules.delete. Risk: R3. Confirmation: approval. Step-up: conditional.
+      x-shopiyz-capability: discounts.rules.delete
+      x-shopiyz-risk: R3
+      x-shopiyz-confirmation: approval
+      x-shopiyz-step-up: conditional
+      x-shopiyz-operation-kind: delete
+      x-shopiyz-implemented: true
+      x-shopiyz-preview-required: true
+      x-shopiyz-rollback-supported: true
+      x-operation-kind: configuration
+      x-risk: R3
+      x-confirmation: preview
+      x-step-up: optional
+      x-idempotency: required
+      x-preview-supported: true
+      x-rollback-supported: true
+      x-required-roles:
+        - merchant_staff
+      x-required-scopes:
+        - "admin:write"
+      x-audit-event: discounts.rules.delete
+      parameters:
+        - name: rule_id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/AdminApiResponse"
+      security:
+        - ShopiyzAccessToken: []
+  /discount_support/override_requests.json:
+    post:
+      operationId: postDiscountSupportOverrideRequests
+      tags:
+        - "Discounts / Support"
+      summary: "Müşteri destek override talebi."
+      description: |-
+        Müşteri destek override talebi.. Risk R3; confirmation approval; step-up conditional.
+        Capability: discounts.support.override_request. Risk: R3. Confirmation: approval. Step-up: conditional.
+      x-shopiyz-capability: discounts.support.override_request
+      x-shopiyz-risk: R3
+      x-shopiyz-confirmation: approval
+      x-shopiyz-step-up: conditional
+      x-shopiyz-operation-kind: write
+      x-shopiyz-implemented: true
+      x-shopiyz-preview-required: true
+      x-shopiyz-rollback-supported: true
+      x-operation-kind: mutation
+      x-risk: R3
+      x-confirmation: preview
+      x-step-up: optional
+      x-idempotency: required
+      x-preview-supported: true
+      x-rollback-supported: true
+      x-required-roles:
+        - merchant_staff
+      x-required-scopes:
+        - "admin:write"
+      x-audit-event: discounts.support.override_request
+      requestBody:
+        required: false
+        content:
+          application/json:
+            schema:
+              type: object
+              additionalProperties: true
+      responses:
+        "201":
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/AdminApiResponse"
+      security:
+        - ShopiyzAccessToken: []
+  /discount_support/override_requests/{id}/approve.json:
+    post:
+      operationId: postDiscountSupportOverrideRequestsIdApprove
+      tags:
+        - "Discounts / Support"
+      summary: "Onaylı override."
+      description: |-
+        Onaylı override.. Risk R4; confirmation typed; step-up mfa.
+        Capability: discounts.support.override_approve. Risk: R4. Confirmation: typed. Step-up: mfa.
+      x-shopiyz-capability: discounts.support.override_approve
+      x-shopiyz-risk: R4
+      x-shopiyz-confirmation: typed
+      x-shopiyz-step-up: mfa
+      x-shopiyz-operation-kind: write
+      x-shopiyz-implemented: true
+      x-shopiyz-preview-required: true
+      x-shopiyz-rollback-supported: true
+      x-operation-kind: moderation
+      x-risk: R4
+      x-confirmation: typed
+      x-step-up: required
+      x-idempotency: required
+      x-preview-supported: true
+      x-rollback-supported: true
+      x-required-roles:
+        - merchant_staff
+      x-required-scopes:
+        - "admin:write"
+      x-audit-event: discounts.support.override_approve
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: false
+        content:
+          application/json:
+            schema:
+              type: object
+              additionalProperties: true
+      responses:
+        "201":
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/AdminApiResponse"
+      security:
+        - ShopiyzAccessToken: []
+  /discount_targets.json:
+    get:
+      operationId: getDiscountTargets
+      tags:
+        - "Discounts / Targets"
+      summary: "Ürün/koleksiyon/kategori/marka/etiket/müşteri hedefleri."
+      description: |-
+        Ürün/koleksiyon/kategori/marka/etiket/müşteri hedefleri.. Risk R0; confirmation none; step-up none.
+        Capability: discounts.targets.list. Risk: R0. Confirmation: none. Step-up: none.
+      x-shopiyz-capability: discounts.targets.list
+      x-shopiyz-risk: R0
+      x-shopiyz-confirmation: none
+      x-shopiyz-step-up: none
+      x-shopiyz-operation-kind: read
+      x-shopiyz-implemented: true
+      x-shopiyz-preview-required: false
+      x-shopiyz-rollback-supported: false
+      x-operation-kind: query
+      x-risk: R0
+      x-confirmation: none
+      x-step-up: none
+      x-idempotency: none
+      x-preview-supported: false
+      x-rollback-supported: false
+      x-required-roles:
+        - merchant_staff
+      x-required-scopes:
+        - "admin:read"
+        - "admin:write"
+      x-audit-event: discounts.targets.list
+      responses:
+        "200":
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/AdminApiResponse"
+      security:
+        - ShopiyzAccessToken: []
+    post:
+      operationId: postDiscountTargets
+      tags:
+        - "Discounts / Targets"
+      summary: "Hedef set bağla."
+      description: |-
+        Hedef set bağla.. Risk R2; confirmation approval; step-up none.
+        Capability: discounts.targets.create. Risk: R2. Confirmation: approval. Step-up: none.
+      x-shopiyz-capability: discounts.targets.create
+      x-shopiyz-risk: R2
+      x-shopiyz-confirmation: approval
+      x-shopiyz-step-up: none
+      x-shopiyz-operation-kind: write
+      x-shopiyz-implemented: true
+      x-shopiyz-preview-required: true
+      x-shopiyz-rollback-supported: true
+      x-operation-kind: mutation
+      x-risk: R2
+      x-confirmation: preview
+      x-step-up: none
+      x-idempotency: required
+      x-preview-supported: true
+      x-rollback-supported: true
+      x-required-roles:
+        - merchant_staff
+      x-required-scopes:
+        - "admin:write"
+      x-audit-event: discounts.targets.create
+      requestBody:
+        required: false
+        content:
+          application/json:
+            schema:
+              type: object
+              additionalProperties: true
+      responses:
+        "201":
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/AdminApiResponse"
+      security:
+        - ShopiyzAccessToken: []
+  /discount_targets/{target_id}.json:
+    delete:
+      operationId: deleteDiscountTargetsTargetId
+      tags:
+        - "Discounts / Targets"
+      summary: "Hedef set kaldır."
+      description: |-
+        Hedef set kaldır.. Risk R3; confirmation approval; step-up conditional.
+        Capability: discounts.targets.delete. Risk: R3. Confirmation: approval. Step-up: conditional.
+      x-shopiyz-capability: discounts.targets.delete
+      x-shopiyz-risk: R3
+      x-shopiyz-confirmation: approval
+      x-shopiyz-step-up: conditional
+      x-shopiyz-operation-kind: delete
+      x-shopiyz-implemented: true
+      x-shopiyz-preview-required: true
+      x-shopiyz-rollback-supported: true
+      x-operation-kind: mutation
+      x-risk: R3
+      x-confirmation: preview
+      x-step-up: optional
+      x-idempotency: required
+      x-preview-supported: true
+      x-rollback-supported: true
+      x-required-roles:
+        - merchant_staff
+      x-required-scopes:
+        - "admin:write"
+      x-audit-event: discounts.targets.delete
+      parameters:
+        - name: target_id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/AdminApiResponse"
+      security:
+        - ShopiyzAccessToken: []
+  /discount_targets/preview.json:
+    post:
+      operationId: postDiscountTargetsPreview
+      tags:
+        - "Discounts / Targets"
+      summary: "Hedef set etki analizi."
+      description: |-
+        Hedef set etki analizi.. Risk R2; confirmation preview; step-up none.
+        Capability: discounts.targets.preview. Risk: R2. Confirmation: preview. Step-up: none.
+      x-shopiyz-capability: discounts.targets.preview
+      x-shopiyz-risk: R2
+      x-shopiyz-confirmation: preview
+      x-shopiyz-step-up: none
+      x-shopiyz-operation-kind: analysis
+      x-shopiyz-implemented: true
+      x-shopiyz-preview-required: true
+      x-shopiyz-rollback-supported: false
+      x-operation-kind: analytics
+      x-risk: R2
+      x-confirmation: preview
+      x-step-up: none
+      x-idempotency: required
+      x-preview-supported: true
+      x-rollback-supported: false
+      x-required-roles:
+        - merchant_staff
+      x-required-scopes:
+        - "admin:write"
+      x-audit-event: discounts.targets.preview
+      requestBody:
+        required: false
+        content:
+          application/json:
+            schema:
+              type: object
+              additionalProperties: true
+      responses:
+        "201":
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/AdminApiResponse"
+      security:
+        - ShopiyzAccessToken: []
+  /discount_targets/resolve.json:
+    post:
+      operationId: postDiscountTargetsResolve
+      tags:
+        - "Discounts / Targets"
+      summary: "Doğal target selector gerçek kayıt listesine çözülür."
+      description: |-
+        Doğal target selector gerçek kayıt listesine çözülür.. Risk R0; confirmation none; step-up none.
+        Capability: discounts.targets.resolve. Risk: R0. Confirmation: none. Step-up: none.
+      x-shopiyz-capability: discounts.targets.resolve
+      x-shopiyz-risk: R0
+      x-shopiyz-confirmation: none
+      x-shopiyz-step-up: none
+      x-shopiyz-operation-kind: analysis
+      x-shopiyz-implemented: true
+      x-shopiyz-preview-required: false
+      x-shopiyz-rollback-supported: false
+      x-operation-kind: analytics
+      x-risk: R0
+      x-confirmation: none
+      x-step-up: none
+      x-idempotency: required
+      x-preview-supported: false
+      x-rollback-supported: false
+      x-required-roles:
+        - merchant_staff
+      x-required-scopes:
+        - "admin:write"
+      x-audit-event: discounts.targets.resolve
+      requestBody:
+        required: false
+        content:
+          application/json:
+            schema:
+              type: object
+              additionalProperties: true
+      responses:
+        "201":
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/AdminApiResponse"
+      security:
+        - ShopiyzAccessToken: []
+  /discount_templates.json:
+    get:
+      operationId: getDiscountTemplates
+      tags:
+        - "Discounts / Templates"
+      summary: "İndirim şablonları."
+      description: |-
+        İndirim şablonları.. Risk R0; confirmation none; step-up none.
+        Capability: discounts.templates.list. Risk: R0. Confirmation: none. Step-up: none.
+      x-shopiyz-capability: discounts.templates.list
+      x-shopiyz-risk: R0
+      x-shopiyz-confirmation: none
+      x-shopiyz-step-up: none
+      x-shopiyz-operation-kind: read
+      x-shopiyz-implemented: true
+      x-shopiyz-preview-required: false
+      x-shopiyz-rollback-supported: false
+      x-operation-kind: query
+      x-risk: R0
+      x-confirmation: none
+      x-step-up: none
+      x-idempotency: none
+      x-preview-supported: false
+      x-rollback-supported: false
+      x-required-roles:
+        - merchant_staff
+      x-required-scopes:
+        - "admin:read"
+        - "admin:write"
+      x-audit-event: discounts.templates.list
+      responses:
+        "200":
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/AdminApiResponse"
+      security:
+        - ShopiyzAccessToken: []
+    post:
+      operationId: postDiscountTemplates
+      tags:
+        - "Discounts / Templates"
+      summary: "Şablon oluştur."
+      description: |-
+        Şablon oluştur.. Risk R2; confirmation approval; step-up none.
+        Capability: discounts.templates.create. Risk: R2. Confirmation: approval. Step-up: none.
+      x-shopiyz-capability: discounts.templates.create
+      x-shopiyz-risk: R2
+      x-shopiyz-confirmation: approval
+      x-shopiyz-step-up: none
+      x-shopiyz-operation-kind: write
+      x-shopiyz-implemented: true
+      x-shopiyz-preview-required: true
+      x-shopiyz-rollback-supported: true
+      x-operation-kind: mutation
+      x-risk: R2
+      x-confirmation: preview
+      x-step-up: none
+      x-idempotency: required
+      x-preview-supported: true
+      x-rollback-supported: true
+      x-required-roles:
+        - merchant_staff
+      x-required-scopes:
+        - "admin:write"
+      x-audit-event: discounts.templates.create
+      requestBody:
+        required: false
+        content:
+          application/json:
+            schema:
+              type: object
+              additionalProperties: true
+      responses:
+        "201":
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/AdminApiResponse"
+      security:
+        - ShopiyzAccessToken: []
+  /discount_templates/{template_id}.json:
+    patch:
+      operationId: patchDiscountTemplatesTemplateId
+      tags:
+        - "Discounts / Templates"
+      summary: "Şablon güncelle."
+      description: |-
+        Şablon güncelle.. Risk R2; confirmation approval; step-up none.
+        Capability: discounts.templates.update. Risk: R2. Confirmation: approval. Step-up: none.
+      x-shopiyz-capability: discounts.templates.update
+      x-shopiyz-risk: R2
+      x-shopiyz-confirmation: approval
+      x-shopiyz-step-up: none
+      x-shopiyz-operation-kind: write
+      x-shopiyz-implemented: true
+      x-shopiyz-preview-required: true
+      x-shopiyz-rollback-supported: true
+      x-operation-kind: mutation
+      x-risk: R2
+      x-confirmation: preview
+      x-step-up: none
+      x-idempotency: required
+      x-preview-supported: true
+      x-rollback-supported: true
+      x-required-roles:
+        - merchant_staff
+      x-required-scopes:
+        - "admin:write"
+      x-audit-event: discounts.templates.update
+      parameters:
+        - name: template_id
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: false
+        content:
+          application/json:
+            schema:
+              type: object
+              additionalProperties: true
+      responses:
+        "200":
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/AdminApiResponse"
+      security:
+        - ShopiyzAccessToken: []
+    delete:
+      operationId: deleteDiscountTemplatesTemplateId
+      tags:
+        - "Discounts / Templates"
+      summary: "Şablon sil/arşiv."
+      description: |-
+        Şablon sil/arşiv.. Risk R3; confirmation approval; step-up conditional.
+        Capability: discounts.templates.delete. Risk: R3. Confirmation: approval. Step-up: conditional.
+      x-shopiyz-capability: discounts.templates.delete
+      x-shopiyz-risk: R3
+      x-shopiyz-confirmation: approval
+      x-shopiyz-step-up: conditional
+      x-shopiyz-operation-kind: delete
+      x-shopiyz-implemented: true
+      x-shopiyz-preview-required: true
+      x-shopiyz-rollback-supported: true
+      x-operation-kind: mutation
+      x-risk: R3
+      x-confirmation: preview
+      x-step-up: optional
+      x-idempotency: required
+      x-preview-supported: true
+      x-rollback-supported: true
+      x-required-roles:
+        - merchant_staff
+      x-required-scopes:
+        - "admin:write"
+      x-audit-event: discounts.templates.delete
+      parameters:
+        - name: template_id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/AdminApiResponse"
+      security:
+        - ShopiyzAccessToken: []
+  /discount_validation_errors.json:
+    get:
+      operationId: getDiscountValidationErrors
+      tags:
+        - "Discounts / Validation Errors"
+      summary: "Checkout hata logları."
+      description: |-
+        Checkout hata logları.. Risk R0; confirmation none; step-up none.
+        Capability: discounts.validation_errors.list. Risk: R0. Confirmation: none. Step-up: none.
+      x-shopiyz-capability: discounts.validation_errors.list
+      x-shopiyz-risk: R0
+      x-shopiyz-confirmation: none
+      x-shopiyz-step-up: none
+      x-shopiyz-operation-kind: analysis
+      x-shopiyz-implemented: true
+      x-shopiyz-preview-required: false
+      x-shopiyz-rollback-supported: false
+      x-operation-kind: analytics
+      x-risk: R0
+      x-confirmation: none
+      x-step-up: none
+      x-idempotency: none
+      x-preview-supported: false
+      x-rollback-supported: false
+      x-required-roles:
+        - merchant_staff
+      x-required-scopes:
+        - "admin:read"
+        - "admin:write"
+      x-audit-event: discounts.validation_errors.list
+      responses:
+        "200":
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/AdminApiResponse"
+      security:
+        - ShopiyzAccessToken: []
+  /discounts.json:
+    get:
+      operationId: getDiscounts
+      tags:
+        - "Discounts / Discounts"
+      summary: "Durum/metot/tip/kod/kampanya/tarih/kullanım/hedef filtreleriyle indirim listeleme."
+      description: |-
+        Durum/metot/tip/kod/kampanya/tarih/kullanım/hedef filtreleriyle indirim listeleme.. Risk R0; confirmation none; step-up none.
+        Capability: discounts.discounts.list. Risk: R0. Confirmation: none. Step-up: none.
+      x-shopiyz-capability: discounts.discounts.list
+      x-shopiyz-risk: R0
+      x-shopiyz-confirmation: none
+      x-shopiyz-step-up: none
+      x-shopiyz-operation-kind: read
+      x-shopiyz-implemented: true
+      x-shopiyz-preview-required: false
+      x-shopiyz-rollback-supported: false
+      x-operation-kind: query
+      x-risk: R0
+      x-confirmation: none
+      x-step-up: none
+      x-idempotency: none
+      x-preview-supported: false
+      x-rollback-supported: false
+      x-required-roles:
+        - merchant_staff
+      x-required-scopes:
+        - "admin:read"
+        - "admin:write"
+      x-audit-event: discounts.discounts.list
+      responses:
+        "200":
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/AdminApiResponse"
+      security:
+        - ShopiyzAccessToken: []
+    post:
+      operationId: postDiscounts
+      tags:
+        - "Discounts / Discounts"
+      summary: "Kodlu veya otomatik genel indirim oluşturma."
+      description: |-
+        Kodlu veya otomatik genel indirim oluşturma.. Risk R2; confirmation approval; step-up none.
+        Capability: discounts.discounts.create. Risk: R2. Confirmation: approval. Step-up: none.
+      x-shopiyz-capability: discounts.discounts.create
+      x-shopiyz-risk: R2
+      x-shopiyz-confirmation: approval
+      x-shopiyz-step-up: none
+      x-shopiyz-operation-kind: write
+      x-shopiyz-implemented: true
+      x-shopiyz-preview-required: true
+      x-shopiyz-rollback-supported: true
+      x-operation-kind: mutation
+      x-risk: R2
+      x-confirmation: preview
+      x-step-up: none
+      x-idempotency: required
+      x-preview-supported: true
+      x-rollback-supported: true
+      x-required-roles:
+        - merchant_staff
+      x-required-scopes:
+        - "admin:write"
+      x-audit-event: discounts.discounts.create
       requestBody:
         required: false
         content:
@@ -25630,32 +29438,32 @@ paths:
     get:
       operationId: getDiscountsDiscountId
       tags:
-        - "Discounts / Promotions"
-      summary: "GET /discounts/{discount_id}.json (İndirim / kupon / hediye kartı / mağaza kredisi)"
+        - "Discounts / Discounts"
+      summary: "İndirim detay; conditions, targets, exclusions, limits, schedule, combinations include destekler."
       description: |-
-        GET /discounts/{discount_id}.json (İndirim / kupon / hediye kartı / mağaza kredisi). Risk R0; confirmation none; step-up none.
-        Capability: discounts.promotions. Risk: R0. Confirmation: none. Step-up: none.
-      x-shopiyz-capability: discounts.promotions
+        İndirim detay; conditions, targets, exclusions, limits, schedule, combinations include destekler.. Risk R0; confirmation none; step-up none.
+        Capability: discounts.discounts.get. Risk: R0. Confirmation: none. Step-up: none.
+      x-shopiyz-capability: discounts.discounts.get
       x-shopiyz-risk: R0
       x-shopiyz-confirmation: none
       x-shopiyz-step-up: none
       x-shopiyz-operation-kind: read
       x-shopiyz-implemented: true
       x-shopiyz-preview-required: false
-      x-shopiyz-rollback-supported: true
+      x-shopiyz-rollback-supported: false
       x-operation-kind: query
       x-risk: R0
       x-confirmation: none
       x-step-up: none
       x-idempotency: none
       x-preview-supported: false
-      x-rollback-supported: true
+      x-rollback-supported: false
       x-required-roles:
         - merchant_staff
       x-required-scopes:
         - "admin:read"
         - "admin:write"
-      x-audit-event: discounts.promotions
+      x-audit-event: discounts.discounts.get
       parameters:
         - name: discount_id
           in: path
@@ -25674,12 +29482,12 @@ paths:
     patch:
       operationId: patchDiscountsDiscountId
       tags:
-        - "Discounts / Promotions"
-      summary: "PATCH /discounts/{discount_id}.json (İndirim / kupon / hediye kartı / mağaza kredisi)"
+        - "Discounts / Discounts"
+      summary: "Başlık, durum, limit, tarih, koşul, hedef, kombinasyon güncelleme."
       description: |-
-        PATCH /discounts/{discount_id}.json (İndirim / kupon / hediye kartı / mağaza kredisi). Risk R2; confirmation approval; step-up none.
-        Capability: discounts.promotions. Risk: R2. Confirmation: approval. Step-up: none.
-      x-shopiyz-capability: discounts.promotions
+        Başlık, durum, limit, tarih, koşul, hedef, kombinasyon güncelleme.. Risk R2; confirmation approval; step-up none.
+        Capability: discounts.discounts.update. Risk: R2. Confirmation: approval. Step-up: none.
+      x-shopiyz-capability: discounts.discounts.update
       x-shopiyz-risk: R2
       x-shopiyz-confirmation: approval
       x-shopiyz-step-up: none
@@ -25698,7 +29506,7 @@ paths:
         - merchant_staff
       x-required-scopes:
         - "admin:write"
-      x-audit-event: discounts.promotions
+      x-audit-event: discounts.discounts.update
       parameters:
         - name: discount_id
           in: path
@@ -25724,23 +29532,23 @@ paths:
     delete:
       operationId: deleteDiscountsDiscountId
       tags:
-        - "Discounts / Promotions"
-      summary: "DELETE /discounts/{discount_id}.json (İndirim / kupon / hediye kartı / mağaza kredisi)"
+        - "Discounts / Discounts"
+      summary: "Soft delete/arşiv; redemption geçmişi korunur."
       description: |-
-        DELETE /discounts/{discount_id}.json (İndirim / kupon / hediye kartı / mağaza kredisi). Risk R5; confirmation typed; step-up mfa.
-        Capability: discounts.promotions. Risk: R5. Confirmation: typed. Step-up: mfa.
-      x-shopiyz-capability: discounts.promotions
-      x-shopiyz-risk: R5
-      x-shopiyz-confirmation: typed
-      x-shopiyz-step-up: mfa
+        Soft delete/arşiv; redemption geçmişi korunur.. Risk R3; confirmation approval; step-up conditional.
+        Capability: discounts.discounts.archive. Risk: R3. Confirmation: approval. Step-up: conditional.
+      x-shopiyz-capability: discounts.discounts.archive
+      x-shopiyz-risk: R3
+      x-shopiyz-confirmation: approval
+      x-shopiyz-step-up: conditional
       x-shopiyz-operation-kind: delete
       x-shopiyz-implemented: true
       x-shopiyz-preview-required: true
       x-shopiyz-rollback-supported: true
       x-operation-kind: mutation
-      x-risk: R5
-      x-confirmation: typed
-      x-step-up: required
+      x-risk: R3
+      x-confirmation: preview
+      x-step-up: optional
       x-idempotency: required
       x-preview-supported: true
       x-rollback-supported: true
@@ -25748,7 +29556,7 @@ paths:
         - merchant_staff
       x-required-scopes:
         - "admin:write"
-      x-audit-event: discounts.promotions
+      x-audit-event: discounts.discounts.archive
       parameters:
         - name: discount_id
           in: path
@@ -25768,31 +29576,31 @@ paths:
     post:
       operationId: postDiscountsDiscountIdActivate
       tags:
-        - "Discounts / Promotions"
-      summary: "POST /discounts/{discount_id}/activate.json (İndirim / kupon / hediye kartı / mağaza kredisi)"
+        - "Discounts / Discounts"
+      summary: "İndirimi aktif yap."
       description: |-
-        POST /discounts/{discount_id}/activate.json (İndirim / kupon / hediye kartı / mağaza kredisi). Risk R2; confirmation approval; step-up none.
-        Capability: discounts.promotions. Risk: R2. Confirmation: approval. Step-up: none.
-      x-shopiyz-capability: discounts.promotions
+        İndirimi aktif yap.. Risk R2; confirmation approval; step-up none.
+        Capability: discounts.discounts.activate. Risk: R2. Confirmation: approval. Step-up: none.
+      x-shopiyz-capability: discounts.discounts.activate
       x-shopiyz-risk: R2
       x-shopiyz-confirmation: approval
       x-shopiyz-step-up: none
       x-shopiyz-operation-kind: write
       x-shopiyz-implemented: true
       x-shopiyz-preview-required: true
-      x-shopiyz-rollback-supported: true
+      x-shopiyz-rollback-supported: false
       x-operation-kind: mutation
       x-risk: R2
       x-confirmation: preview
       x-step-up: none
       x-idempotency: required
       x-preview-supported: true
-      x-rollback-supported: true
+      x-rollback-supported: false
       x-required-roles:
         - merchant_staff
       x-required-scopes:
         - "admin:write"
-      x-audit-event: discounts.promotions
+      x-audit-event: discounts.discounts.activate
       parameters:
         - name: discount_id
           in: path
@@ -25815,35 +29623,125 @@ paths:
                 $ref: "#/components/schemas/AdminApiResponse"
       security:
         - ShopiyzAccessToken: []
+  /discounts/{discount_id}/audit_events.json:
+    get:
+      operationId: getDiscountsDiscountIdAuditEvents
+      tags:
+        - "Discounts / Discounts"
+      summary: "Audit geçmişi."
+      description: |-
+        Audit geçmişi.. Risk R0; confirmation none; step-up none.
+        Capability: discounts.discounts.audit. Risk: R0. Confirmation: none. Step-up: none.
+      x-shopiyz-capability: discounts.discounts.audit
+      x-shopiyz-risk: R0
+      x-shopiyz-confirmation: none
+      x-shopiyz-step-up: none
+      x-shopiyz-operation-kind: analysis
+      x-shopiyz-implemented: true
+      x-shopiyz-preview-required: false
+      x-shopiyz-rollback-supported: false
+      x-operation-kind: analytics
+      x-risk: R0
+      x-confirmation: none
+      x-step-up: none
+      x-idempotency: none
+      x-preview-supported: false
+      x-rollback-supported: false
+      x-required-roles:
+        - merchant_staff
+      x-required-scopes:
+        - "admin:read"
+        - "admin:write"
+      x-audit-event: discounts.discounts.audit
+      parameters:
+        - name: discount_id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/AdminApiResponse"
+      security:
+        - ShopiyzAccessToken: []
+  /discounts/{discount_id}/conflicts.json:
+    get:
+      operationId: getDiscountsDiscountIdConflicts
+      tags:
+        - "Discounts / Conflicts"
+      summary: "Çakışan indirimler ve kombinasyon riskleri."
+      description: |-
+        Çakışan indirimler ve kombinasyon riskleri.. Risk R0; confirmation none; step-up none.
+        Capability: discounts.conflicts.list_for_discount. Risk: R0. Confirmation: none. Step-up: none.
+      x-shopiyz-capability: discounts.conflicts.list_for_discount
+      x-shopiyz-risk: R0
+      x-shopiyz-confirmation: none
+      x-shopiyz-step-up: none
+      x-shopiyz-operation-kind: analysis
+      x-shopiyz-implemented: true
+      x-shopiyz-preview-required: false
+      x-shopiyz-rollback-supported: false
+      x-operation-kind: analytics
+      x-risk: R0
+      x-confirmation: none
+      x-step-up: none
+      x-idempotency: none
+      x-preview-supported: false
+      x-rollback-supported: false
+      x-required-roles:
+        - merchant_staff
+      x-required-scopes:
+        - "admin:read"
+        - "admin:write"
+      x-audit-event: discounts.conflicts.list_for_discount
+      parameters:
+        - name: discount_id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/AdminApiResponse"
+      security:
+        - ShopiyzAccessToken: []
   /discounts/{discount_id}/deactivate.json:
     post:
       operationId: postDiscountsDiscountIdDeactivate
       tags:
-        - "Discounts / Promotions"
-      summary: "POST /discounts/{discount_id}/deactivate.json (İndirim / kupon / hediye kartı / mağaza kredisi)"
+        - "Discounts / Discounts"
+      summary: "İndirimi pasif yap."
       description: |-
-        POST /discounts/{discount_id}/deactivate.json (İndirim / kupon / hediye kartı / mağaza kredisi). Risk R2; confirmation approval; step-up none.
-        Capability: discounts.promotions. Risk: R2. Confirmation: approval. Step-up: none.
-      x-shopiyz-capability: discounts.promotions
+        İndirimi pasif yap.. Risk R2; confirmation approval; step-up none.
+        Capability: discounts.discounts.deactivate. Risk: R2. Confirmation: approval. Step-up: none.
+      x-shopiyz-capability: discounts.discounts.deactivate
       x-shopiyz-risk: R2
       x-shopiyz-confirmation: approval
       x-shopiyz-step-up: none
       x-shopiyz-operation-kind: write
       x-shopiyz-implemented: true
       x-shopiyz-preview-required: true
-      x-shopiyz-rollback-supported: true
+      x-shopiyz-rollback-supported: false
       x-operation-kind: mutation
       x-risk: R2
       x-confirmation: preview
       x-step-up: none
       x-idempotency: required
       x-preview-supported: true
-      x-rollback-supported: true
+      x-rollback-supported: false
       x-required-roles:
         - merchant_staff
       x-required-scopes:
         - "admin:write"
-      x-audit-event: discounts.promotions
+      x-audit-event: discounts.discounts.deactivate
       parameters:
         - name: discount_id
           in: path
@@ -25859,6 +29757,1023 @@ paths:
               additionalProperties: true
       responses:
         "201":
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/AdminApiResponse"
+      security:
+        - ShopiyzAccessToken: []
+  /discounts/{discount_id}/duplicate.json:
+    post:
+      operationId: postDiscountsDiscountIdDuplicate
+      tags:
+        - "Discounts / Discounts"
+      summary: "İndirimi kopyala ve yeni kod/tarih ile taslak oluştur."
+      description: |-
+        İndirimi kopyala ve yeni kod/tarih ile taslak oluştur.. Risk R2; confirmation approval; step-up none.
+        Capability: discounts.discounts.duplicate. Risk: R2. Confirmation: approval. Step-up: none.
+      x-shopiyz-capability: discounts.discounts.duplicate
+      x-shopiyz-risk: R2
+      x-shopiyz-confirmation: approval
+      x-shopiyz-step-up: none
+      x-shopiyz-operation-kind: write
+      x-shopiyz-implemented: true
+      x-shopiyz-preview-required: true
+      x-shopiyz-rollback-supported: false
+      x-operation-kind: mutation
+      x-risk: R2
+      x-confirmation: preview
+      x-step-up: none
+      x-idempotency: required
+      x-preview-supported: true
+      x-rollback-supported: false
+      x-required-roles:
+        - merchant_staff
+      x-required-scopes:
+        - "admin:write"
+      x-audit-event: discounts.discounts.duplicate
+      parameters:
+        - name: discount_id
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: false
+        content:
+          application/json:
+            schema:
+              type: object
+              additionalProperties: true
+      responses:
+        "201":
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/AdminApiResponse"
+      security:
+        - ShopiyzAccessToken: []
+  /discounts/{discount_id}/preview.json:
+    post:
+      operationId: postDiscountsDiscountIdPreview
+      tags:
+        - "Discounts / Discounts"
+      summary: "Tek indirimin hesaplama/target/checkout/marj previewi."
+      description: |-
+        Tek indirimin hesaplama/target/checkout/marj previewi.. Risk R2; confirmation preview; step-up none.
+        Capability: discounts.discounts.preview. Risk: R2. Confirmation: preview. Step-up: none.
+      x-shopiyz-capability: discounts.discounts.preview
+      x-shopiyz-risk: R2
+      x-shopiyz-confirmation: preview
+      x-shopiyz-step-up: none
+      x-shopiyz-operation-kind: analysis
+      x-shopiyz-implemented: true
+      x-shopiyz-preview-required: true
+      x-shopiyz-rollback-supported: false
+      x-operation-kind: analytics
+      x-risk: R2
+      x-confirmation: preview
+      x-step-up: none
+      x-idempotency: required
+      x-preview-supported: true
+      x-rollback-supported: false
+      x-required-roles:
+        - merchant_staff
+      x-required-scopes:
+        - "admin:write"
+      x-audit-event: discounts.discounts.preview
+      parameters:
+        - name: discount_id
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: false
+        content:
+          application/json:
+            schema:
+              type: object
+              additionalProperties: true
+      responses:
+        "201":
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/AdminApiResponse"
+      security:
+        - ShopiyzAccessToken: []
+  /discounts/{discount_id}/redemptions.json:
+    get:
+      operationId: getDiscountsDiscountIdRedemptions
+      tags:
+        - "Discounts / Redemptions"
+      summary: "Kullanım/redemption kayıtları."
+      description: |-
+        Kullanım/redemption kayıtları.. Risk R0; confirmation none; step-up none.
+        Capability: discounts.redemptions.list_for_discount. Risk: R0. Confirmation: none. Step-up: none.
+      x-shopiyz-capability: discounts.redemptions.list_for_discount
+      x-shopiyz-risk: R0
+      x-shopiyz-confirmation: none
+      x-shopiyz-step-up: none
+      x-shopiyz-operation-kind: read
+      x-shopiyz-implemented: true
+      x-shopiyz-preview-required: false
+      x-shopiyz-rollback-supported: false
+      x-operation-kind: query
+      x-risk: R0
+      x-confirmation: none
+      x-step-up: none
+      x-idempotency: none
+      x-preview-supported: false
+      x-rollback-supported: false
+      x-required-roles:
+        - merchant_staff
+      x-required-scopes:
+        - "admin:read"
+        - "admin:write"
+      x-audit-event: discounts.redemptions.list_for_discount
+      parameters:
+        - name: discount_id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/AdminApiResponse"
+      security:
+        - ShopiyzAccessToken: []
+  /discounts/{discount_id}/restore.json:
+    post:
+      operationId: postDiscountsDiscountIdRestore
+      tags:
+        - "Discounts / Discounts"
+      summary: "Arşivden geri alma."
+      description: |-
+        Arşivden geri alma.. Risk R3; confirmation approval; step-up conditional.
+        Capability: discounts.discounts.restore. Risk: R3. Confirmation: approval. Step-up: conditional.
+      x-shopiyz-capability: discounts.discounts.restore
+      x-shopiyz-risk: R3
+      x-shopiyz-confirmation: approval
+      x-shopiyz-step-up: conditional
+      x-shopiyz-operation-kind: write
+      x-shopiyz-implemented: true
+      x-shopiyz-preview-required: true
+      x-shopiyz-rollback-supported: true
+      x-operation-kind: mutation
+      x-risk: R3
+      x-confirmation: preview
+      x-step-up: optional
+      x-idempotency: required
+      x-preview-supported: true
+      x-rollback-supported: true
+      x-required-roles:
+        - merchant_staff
+      x-required-scopes:
+        - "admin:write"
+      x-audit-event: discounts.discounts.restore
+      parameters:
+        - name: discount_id
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: false
+        content:
+          application/json:
+            schema:
+              type: object
+              additionalProperties: true
+      responses:
+        "201":
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/AdminApiResponse"
+      security:
+        - ShopiyzAccessToken: []
+  /discounts/{discount_id}/simulate.json:
+    post:
+      operationId: postDiscountsDiscountIdSimulate
+      tags:
+        - "Discounts / Discounts"
+      summary: "Örnek sepet/müşteri/kanal ile uygulanabilirlik simülasyonu."
+      description: |-
+        Örnek sepet/müşteri/kanal ile uygulanabilirlik simülasyonu.. Risk R0; confirmation none; step-up none.
+        Capability: discounts.discounts.simulate. Risk: R0. Confirmation: none. Step-up: none.
+      x-shopiyz-capability: discounts.discounts.simulate
+      x-shopiyz-risk: R0
+      x-shopiyz-confirmation: none
+      x-shopiyz-step-up: none
+      x-shopiyz-operation-kind: analysis
+      x-shopiyz-implemented: true
+      x-shopiyz-preview-required: false
+      x-shopiyz-rollback-supported: false
+      x-operation-kind: analytics
+      x-risk: R0
+      x-confirmation: none
+      x-step-up: none
+      x-idempotency: required
+      x-preview-supported: false
+      x-rollback-supported: false
+      x-required-roles:
+        - merchant_staff
+      x-required-scopes:
+        - "admin:write"
+      x-audit-event: discounts.discounts.simulate
+      parameters:
+        - name: discount_id
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: false
+        content:
+          application/json:
+            schema:
+              type: object
+              additionalProperties: true
+      responses:
+        "201":
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/AdminApiResponse"
+      security:
+        - ShopiyzAccessToken: []
+  /discounts/analytics/attribution.json:
+    get:
+      operationId: getDiscountsAnalyticsAttribution
+      tags:
+        - "Discounts / Analytics"
+      summary: "Kanal/kampanya/source attribution."
+      description: |-
+        Kanal/kampanya/source attribution.. Risk R0; confirmation none; step-up none.
+        Capability: discounts.analytics.attribution. Risk: R0. Confirmation: none. Step-up: none.
+      x-shopiyz-capability: discounts.analytics.attribution
+      x-shopiyz-risk: R0
+      x-shopiyz-confirmation: none
+      x-shopiyz-step-up: none
+      x-shopiyz-operation-kind: analysis
+      x-shopiyz-implemented: true
+      x-shopiyz-preview-required: false
+      x-shopiyz-rollback-supported: false
+      x-operation-kind: analytics
+      x-risk: R0
+      x-confirmation: none
+      x-step-up: none
+      x-idempotency: none
+      x-preview-supported: false
+      x-rollback-supported: false
+      x-required-roles:
+        - merchant_staff
+      x-required-scopes:
+        - "admin:read"
+        - "admin:write"
+      x-audit-event: discounts.analytics.attribution
+      responses:
+        "200":
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/AdminApiResponse"
+      security:
+        - ShopiyzAccessToken: []
+  /discounts/analytics/breakdown.json:
+    get:
+      operationId: getDiscountsAnalyticsBreakdown
+      tags:
+        - "Discounts / Analytics"
+      summary: "Tip/metot/kampanya/ürün/kategori/şehir/kanal kırılımı."
+      description: |-
+        Tip/metot/kampanya/ürün/kategori/şehir/kanal kırılımı.. Risk R0; confirmation none; step-up none.
+        Capability: discounts.analytics.breakdown. Risk: R0. Confirmation: none. Step-up: none.
+      x-shopiyz-capability: discounts.analytics.breakdown
+      x-shopiyz-risk: R0
+      x-shopiyz-confirmation: none
+      x-shopiyz-step-up: none
+      x-shopiyz-operation-kind: analysis
+      x-shopiyz-implemented: true
+      x-shopiyz-preview-required: false
+      x-shopiyz-rollback-supported: false
+      x-operation-kind: analytics
+      x-risk: R0
+      x-confirmation: none
+      x-step-up: none
+      x-idempotency: none
+      x-preview-supported: false
+      x-rollback-supported: false
+      x-required-roles:
+        - merchant_staff
+      x-required-scopes:
+        - "admin:read"
+        - "admin:write"
+      x-audit-event: discounts.analytics.breakdown
+      responses:
+        "200":
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/AdminApiResponse"
+      security:
+        - ShopiyzAccessToken: []
+  /discounts/analytics/customer_impact.json:
+    get:
+      operationId: getDiscountsAnalyticsCustomerImpact
+      tags:
+        - "Discounts / Analytics"
+      summary: "Yeni müşteri, retention, LTV etkisi."
+      description: |-
+        Yeni müşteri, retention, LTV etkisi.. Risk R0; confirmation none; step-up none.
+        Capability: discounts.analytics.customer_impact. Risk: R0. Confirmation: none. Step-up: none.
+      x-shopiyz-capability: discounts.analytics.customer_impact
+      x-shopiyz-risk: R0
+      x-shopiyz-confirmation: none
+      x-shopiyz-step-up: none
+      x-shopiyz-operation-kind: analysis
+      x-shopiyz-implemented: true
+      x-shopiyz-preview-required: false
+      x-shopiyz-rollback-supported: false
+      x-operation-kind: analytics
+      x-risk: R0
+      x-confirmation: none
+      x-step-up: none
+      x-idempotency: none
+      x-preview-supported: false
+      x-rollback-supported: false
+      x-required-roles:
+        - merchant_staff
+      x-required-scopes:
+        - "admin:read"
+        - "admin:write"
+      x-audit-event: discounts.analytics.customer_impact
+      responses:
+        "200":
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/AdminApiResponse"
+      security:
+        - ShopiyzAccessToken: []
+  /discounts/analytics/margin_impact.json:
+    get:
+      operationId: getDiscountsAnalyticsMarginImpact
+      tags:
+        - "Discounts / Analytics"
+      summary: "Marj ve kârlılık etkisi."
+      description: |-
+        Marj ve kârlılık etkisi.. Risk R0; confirmation none; step-up none.
+        Capability: discounts.analytics.margin_impact. Risk: R0. Confirmation: none. Step-up: none.
+      x-shopiyz-capability: discounts.analytics.margin_impact
+      x-shopiyz-risk: R0
+      x-shopiyz-confirmation: none
+      x-shopiyz-step-up: none
+      x-shopiyz-operation-kind: analysis
+      x-shopiyz-implemented: true
+      x-shopiyz-preview-required: false
+      x-shopiyz-rollback-supported: false
+      x-operation-kind: analytics
+      x-risk: R0
+      x-confirmation: none
+      x-step-up: none
+      x-idempotency: none
+      x-preview-supported: false
+      x-rollback-supported: false
+      x-required-roles:
+        - merchant_staff
+      x-required-scopes:
+        - "admin:read"
+        - "admin:write"
+      x-audit-event: discounts.analytics.margin_impact
+      responses:
+        "200":
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/AdminApiResponse"
+      security:
+        - ShopiyzAccessToken: []
+  /discounts/analytics/product_impact.json:
+    get:
+      operationId: getDiscountsAnalyticsProductImpact
+      tags:
+        - "Discounts / Analytics"
+      summary: "Ürün/koleksiyon/kategori/marka performansı."
+      description: |-
+        Ürün/koleksiyon/kategori/marka performansı.. Risk R0; confirmation none; step-up none.
+        Capability: discounts.analytics.product_impact. Risk: R0. Confirmation: none. Step-up: none.
+      x-shopiyz-capability: discounts.analytics.product_impact
+      x-shopiyz-risk: R0
+      x-shopiyz-confirmation: none
+      x-shopiyz-step-up: none
+      x-shopiyz-operation-kind: analysis
+      x-shopiyz-implemented: true
+      x-shopiyz-preview-required: false
+      x-shopiyz-rollback-supported: false
+      x-operation-kind: analytics
+      x-risk: R0
+      x-confirmation: none
+      x-step-up: none
+      x-idempotency: none
+      x-preview-supported: false
+      x-rollback-supported: false
+      x-required-roles:
+        - merchant_staff
+      x-required-scopes:
+        - "admin:read"
+        - "admin:write"
+      x-audit-event: discounts.analytics.product_impact
+      responses:
+        "200":
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/AdminApiResponse"
+      security:
+        - ShopiyzAccessToken: []
+  /discounts/analytics/rankings.json:
+    get:
+      operationId: getDiscountsAnalyticsRankings
+      tags:
+        - "Discounts / Analytics"
+      summary: "Kullanım, ciro, marj, redemption, AOV ranking."
+      description: |-
+        Kullanım, ciro, marj, redemption, AOV ranking.. Risk R0; confirmation none; step-up none.
+        Capability: discounts.analytics.rankings. Risk: R0. Confirmation: none. Step-up: none.
+      x-shopiyz-capability: discounts.analytics.rankings
+      x-shopiyz-risk: R0
+      x-shopiyz-confirmation: none
+      x-shopiyz-step-up: none
+      x-shopiyz-operation-kind: analysis
+      x-shopiyz-implemented: true
+      x-shopiyz-preview-required: false
+      x-shopiyz-rollback-supported: false
+      x-operation-kind: analytics
+      x-risk: R0
+      x-confirmation: none
+      x-step-up: none
+      x-idempotency: none
+      x-preview-supported: false
+      x-rollback-supported: false
+      x-required-roles:
+        - merchant_staff
+      x-required-scopes:
+        - "admin:read"
+        - "admin:write"
+      x-audit-event: discounts.analytics.rankings
+      responses:
+        "200":
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/AdminApiResponse"
+      security:
+        - ShopiyzAccessToken: []
+  /discounts/analytics/trends.json:
+    get:
+      operationId: getDiscountsAnalyticsTrends
+      tags:
+        - "Discounts / Analytics"
+      summary: "Zaman serisi trend."
+      description: |-
+        Zaman serisi trend.. Risk R0; confirmation none; step-up none.
+        Capability: discounts.analytics.trends. Risk: R0. Confirmation: none. Step-up: none.
+      x-shopiyz-capability: discounts.analytics.trends
+      x-shopiyz-risk: R0
+      x-shopiyz-confirmation: none
+      x-shopiyz-step-up: none
+      x-shopiyz-operation-kind: analysis
+      x-shopiyz-implemented: true
+      x-shopiyz-preview-required: false
+      x-shopiyz-rollback-supported: false
+      x-operation-kind: analytics
+      x-risk: R0
+      x-confirmation: none
+      x-step-up: none
+      x-idempotency: none
+      x-preview-supported: false
+      x-rollback-supported: false
+      x-required-roles:
+        - merchant_staff
+      x-required-scopes:
+        - "admin:read"
+        - "admin:write"
+      x-audit-event: discounts.analytics.trends
+      responses:
+        "200":
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/AdminApiResponse"
+      security:
+        - ShopiyzAccessToken: []
+  /discounts/bulk_actions.json:
+    post:
+      operationId: postDiscountsBulkActions
+      tags:
+        - "Discounts / Bulk"
+      summary: "Onaylı toplu işlem job."
+      description: |-
+        Onaylı toplu işlem job.. Risk R4; confirmation typed; step-up mfa.
+        Capability: discounts.bulk.execute. Risk: R4. Confirmation: typed. Step-up: mfa.
+      x-shopiyz-capability: discounts.bulk.execute
+      x-shopiyz-risk: R4
+      x-shopiyz-confirmation: typed
+      x-shopiyz-step-up: mfa
+      x-shopiyz-operation-kind: job
+      x-shopiyz-implemented: true
+      x-shopiyz-preview-required: true
+      x-shopiyz-rollback-supported: true
+      x-operation-kind: bulk_mutation
+      x-risk: R4
+      x-confirmation: typed
+      x-step-up: required
+      x-idempotency: required
+      x-preview-supported: true
+      x-rollback-supported: true
+      x-required-roles:
+        - merchant_staff
+      x-required-scopes:
+        - "admin:write"
+      x-audit-event: discounts.bulk.execute
+      requestBody:
+        required: false
+        content:
+          application/json:
+            schema:
+              type: object
+              additionalProperties: true
+      responses:
+        "201":
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/AdminApiResponse"
+      security:
+        - ShopiyzAccessToken: []
+  /discounts/bulk_preview.json:
+    post:
+      operationId: postDiscountsBulkPreview
+      tags:
+        - "Discounts / Bulk"
+      summary: "Filtre/target_set tabanlı toplu işlem preview."
+      description: |-
+        Filtre/target_set tabanlı toplu işlem preview.. Risk R3; confirmation preview; step-up conditional.
+        Capability: discounts.bulk.preview. Risk: R3. Confirmation: preview. Step-up: conditional.
+      x-shopiyz-capability: discounts.bulk.preview
+      x-shopiyz-risk: R3
+      x-shopiyz-confirmation: preview
+      x-shopiyz-step-up: conditional
+      x-shopiyz-operation-kind: analysis
+      x-shopiyz-implemented: true
+      x-shopiyz-preview-required: true
+      x-shopiyz-rollback-supported: true
+      x-operation-kind: bulk_mutation
+      x-risk: R3
+      x-confirmation: preview
+      x-step-up: optional
+      x-idempotency: required
+      x-preview-supported: true
+      x-rollback-supported: true
+      x-required-roles:
+        - merchant_staff
+      x-required-scopes:
+        - "admin:write"
+      x-audit-event: discounts.bulk.preview
+      requestBody:
+        required: false
+        content:
+          application/json:
+            schema:
+              type: object
+              additionalProperties: true
+      responses:
+        "201":
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/AdminApiResponse"
+      security:
+        - ShopiyzAccessToken: []
+  /discounts/count.json:
+    get:
+      operationId: getDiscountsCount
+      tags:
+        - "Discounts / Discounts"
+      summary: "Filtreli indirim sayımı."
+      description: |-
+        Filtreli indirim sayımı.. Risk R0; confirmation none; step-up none.
+        Capability: discounts.discounts.count. Risk: R0. Confirmation: none. Step-up: none.
+      x-shopiyz-capability: discounts.discounts.count
+      x-shopiyz-risk: R0
+      x-shopiyz-confirmation: none
+      x-shopiyz-step-up: none
+      x-shopiyz-operation-kind: read
+      x-shopiyz-implemented: true
+      x-shopiyz-preview-required: false
+      x-shopiyz-rollback-supported: false
+      x-operation-kind: query
+      x-risk: R0
+      x-confirmation: none
+      x-step-up: none
+      x-idempotency: none
+      x-preview-supported: false
+      x-rollback-supported: false
+      x-required-roles:
+        - merchant_staff
+      x-required-scopes:
+        - "admin:read"
+        - "admin:write"
+      x-audit-event: discounts.discounts.count
+      responses:
+        "200":
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/AdminApiResponse"
+      security:
+        - ShopiyzAccessToken: []
+  /discounts/export.json:
+    post:
+      operationId: postDiscountsExport
+      tags:
+        - "Discounts / Export"
+      summary: "Export job."
+      description: |-
+        Export job.. Risk R3; confirmation approval; step-up conditional.
+        Capability: discounts.export.create. Risk: R3. Confirmation: approval. Step-up: conditional.
+      x-shopiyz-capability: discounts.export.create
+      x-shopiyz-risk: R3
+      x-shopiyz-confirmation: approval
+      x-shopiyz-step-up: conditional
+      x-shopiyz-operation-kind: job
+      x-shopiyz-implemented: true
+      x-shopiyz-preview-required: true
+      x-shopiyz-rollback-supported: true
+      x-operation-kind: mutation
+      x-risk: R3
+      x-confirmation: preview
+      x-step-up: optional
+      x-idempotency: required
+      x-preview-supported: true
+      x-rollback-supported: true
+      x-required-roles:
+        - merchant_staff
+      x-required-scopes:
+        - "admin:write"
+      x-audit-event: discounts.export.create
+      requestBody:
+        required: false
+        content:
+          application/json:
+            schema:
+              type: object
+              additionalProperties: true
+      responses:
+        "201":
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/AdminApiResponse"
+      security:
+        - ShopiyzAccessToken: []
+  /discounts/import.json:
+    post:
+      operationId: postDiscountsImport
+      tags:
+        - "Discounts / Import"
+      summary: "CSV/XLSX import job."
+      description: |-
+        CSV/XLSX import job.. Risk R3; confirmation approval; step-up conditional.
+        Capability: discounts.import.create. Risk: R3. Confirmation: approval. Step-up: conditional.
+      x-shopiyz-capability: discounts.import.create
+      x-shopiyz-risk: R3
+      x-shopiyz-confirmation: approval
+      x-shopiyz-step-up: conditional
+      x-shopiyz-operation-kind: job
+      x-shopiyz-implemented: true
+      x-shopiyz-preview-required: true
+      x-shopiyz-rollback-supported: true
+      x-operation-kind: mutation
+      x-risk: R3
+      x-confirmation: preview
+      x-step-up: optional
+      x-idempotency: required
+      x-preview-supported: true
+      x-rollback-supported: true
+      x-required-roles:
+        - merchant_staff
+      x-required-scopes:
+        - "admin:write"
+      x-audit-event: discounts.import.create
+      requestBody:
+        required: false
+        content:
+          application/json:
+            schema:
+              type: object
+              additionalProperties: true
+      responses:
+        "201":
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/AdminApiResponse"
+      security:
+        - ShopiyzAccessToken: []
+  /discounts/import/{import_id}/execute.json:
+    post:
+      operationId: postDiscountsImportImportIdExecute
+      tags:
+        - "Discounts / Import"
+      summary: "Onaylı import."
+      description: |-
+        Onaylı import.. Risk R4; confirmation typed; step-up mfa.
+        Capability: discounts.import.execute. Risk: R4. Confirmation: typed. Step-up: mfa.
+      x-shopiyz-capability: discounts.import.execute
+      x-shopiyz-risk: R4
+      x-shopiyz-confirmation: typed
+      x-shopiyz-step-up: mfa
+      x-shopiyz-operation-kind: job
+      x-shopiyz-implemented: true
+      x-shopiyz-preview-required: true
+      x-shopiyz-rollback-supported: true
+      x-operation-kind: mutation
+      x-risk: R4
+      x-confirmation: typed
+      x-step-up: required
+      x-idempotency: required
+      x-preview-supported: true
+      x-rollback-supported: true
+      x-required-roles:
+        - merchant_staff
+      x-required-scopes:
+        - "admin:write"
+      x-audit-event: discounts.import.execute
+      parameters:
+        - name: import_id
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: false
+        content:
+          application/json:
+            schema:
+              type: object
+              additionalProperties: true
+      responses:
+        "201":
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/AdminApiResponse"
+      security:
+        - ShopiyzAccessToken: []
+  /discounts/import/{import_id}/preview.json:
+    post:
+      operationId: postDiscountsImportImportIdPreview
+      tags:
+        - "Discounts / Import"
+      summary: "Import dry-run/diff."
+      description: |-
+        Import dry-run/diff.. Risk R3; confirmation preview; step-up conditional.
+        Capability: discounts.import.preview. Risk: R3. Confirmation: preview. Step-up: conditional.
+      x-shopiyz-capability: discounts.import.preview
+      x-shopiyz-risk: R3
+      x-shopiyz-confirmation: preview
+      x-shopiyz-step-up: conditional
+      x-shopiyz-operation-kind: analysis
+      x-shopiyz-implemented: true
+      x-shopiyz-preview-required: true
+      x-shopiyz-rollback-supported: true
+      x-operation-kind: analytics
+      x-risk: R3
+      x-confirmation: preview
+      x-step-up: optional
+      x-idempotency: required
+      x-preview-supported: true
+      x-rollback-supported: true
+      x-required-roles:
+        - merchant_staff
+      x-required-scopes:
+        - "admin:write"
+      x-audit-event: discounts.import.preview
+      parameters:
+        - name: import_id
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: false
+        content:
+          application/json:
+            schema:
+              type: object
+              additionalProperties: true
+      responses:
+        "201":
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/AdminApiResponse"
+      security:
+        - ShopiyzAccessToken: []
+  /discounts/reports.json:
+    post:
+      operationId: postDiscountsReports
+      tags:
+        - "Discounts / Reports"
+      summary: "Rapor/export job."
+      description: |-
+        Rapor/export job.. Risk R2; confirmation approval; step-up none.
+        Capability: discounts.reports.create. Risk: R2. Confirmation: approval. Step-up: none.
+      x-shopiyz-capability: discounts.reports.create
+      x-shopiyz-risk: R2
+      x-shopiyz-confirmation: approval
+      x-shopiyz-step-up: none
+      x-shopiyz-operation-kind: job
+      x-shopiyz-implemented: true
+      x-shopiyz-preview-required: true
+      x-shopiyz-rollback-supported: true
+      x-operation-kind: analytics
+      x-risk: R2
+      x-confirmation: preview
+      x-step-up: none
+      x-idempotency: required
+      x-preview-supported: true
+      x-rollback-supported: true
+      x-required-roles:
+        - merchant_staff
+      x-required-scopes:
+        - "admin:write"
+      x-audit-event: discounts.reports.create
+      requestBody:
+        required: false
+        content:
+          application/json:
+            schema:
+              type: object
+              additionalProperties: true
+      responses:
+        "201":
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/AdminApiResponse"
+      security:
+        - ShopiyzAccessToken: []
+  /discounts/rollback.json:
+    post:
+      operationId: postDiscountsRollback
+      tags:
+        - "Discounts / Rollback"
+      summary: "Snapshot/job/operation bazlı rollback."
+      description: |-
+        Snapshot/job/operation bazlı rollback.. Risk R4; confirmation typed; step-up mfa.
+        Capability: discounts.rollback.create. Risk: R4. Confirmation: typed. Step-up: mfa.
+      x-shopiyz-capability: discounts.rollback.create
+      x-shopiyz-risk: R4
+      x-shopiyz-confirmation: typed
+      x-shopiyz-step-up: mfa
+      x-shopiyz-operation-kind: job
+      x-shopiyz-implemented: true
+      x-shopiyz-preview-required: true
+      x-shopiyz-rollback-supported: true
+      x-operation-kind: mutation
+      x-risk: R4
+      x-confirmation: typed
+      x-step-up: required
+      x-idempotency: required
+      x-preview-supported: true
+      x-rollback-supported: true
+      x-required-roles:
+        - merchant_staff
+      x-required-scopes:
+        - "admin:write"
+      x-audit-event: discounts.rollback.create
+      requestBody:
+        required: false
+        content:
+          application/json:
+            schema:
+              type: object
+              additionalProperties: true
+      responses:
+        "201":
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/AdminApiResponse"
+      security:
+        - ShopiyzAccessToken: []
+  /discounts/snapshots.json:
+    post:
+      operationId: postDiscountsSnapshots
+      tags:
+        - "Discounts / Snapshots"
+      summary: "Bulk/import öncesi snapshot."
+      description: |-
+        Bulk/import öncesi snapshot.. Risk R3; confirmation approval; step-up conditional.
+        Capability: discounts.snapshots.create. Risk: R3. Confirmation: approval. Step-up: conditional.
+      x-shopiyz-capability: discounts.snapshots.create
+      x-shopiyz-risk: R3
+      x-shopiyz-confirmation: approval
+      x-shopiyz-step-up: conditional
+      x-shopiyz-operation-kind: write
+      x-shopiyz-implemented: true
+      x-shopiyz-preview-required: true
+      x-shopiyz-rollback-supported: true
+      x-operation-kind: mutation
+      x-risk: R3
+      x-confirmation: preview
+      x-step-up: optional
+      x-idempotency: required
+      x-preview-supported: true
+      x-rollback-supported: true
+      x-required-roles:
+        - merchant_staff
+      x-required-scopes:
+        - "admin:write"
+      x-audit-event: discounts.snapshots.create
+      requestBody:
+        required: false
+        content:
+          application/json:
+            schema:
+              type: object
+              additionalProperties: true
+      responses:
+        "201":
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/AdminApiResponse"
+      security:
+        - ShopiyzAccessToken: []
+  /discounts/summary.json:
+    get:
+      operationId: getDiscountsSummary
+      tags:
+        - "Discounts / Analytics"
+      summary: "Toplam/aktif/planlı/kullanım kartları."
+      description: |-
+        Toplam/aktif/planlı/kullanım kartları.. Risk R0; confirmation none; step-up none.
+        Capability: discounts.analytics.summary. Risk: R0. Confirmation: none. Step-up: none.
+      x-shopiyz-capability: discounts.analytics.summary
+      x-shopiyz-risk: R0
+      x-shopiyz-confirmation: none
+      x-shopiyz-step-up: none
+      x-shopiyz-operation-kind: analysis
+      x-shopiyz-implemented: true
+      x-shopiyz-preview-required: false
+      x-shopiyz-rollback-supported: false
+      x-operation-kind: analytics
+      x-risk: R0
+      x-confirmation: none
+      x-step-up: none
+      x-idempotency: none
+      x-preview-supported: false
+      x-rollback-supported: false
+      x-required-roles:
+        - merchant_staff
+      x-required-scopes:
+        - "admin:read"
+        - "admin:write"
+      x-audit-event: discounts.analytics.summary
+      responses:
+        "200":
           description: Successful response
           content:
             application/json:
@@ -42668,6 +47583,89 @@ paths:
                 $ref: "#/components/schemas/AdminApiResponse"
       security:
         - ShopiyzAccessToken: []
+  /order_discounts.json:
+    get:
+      operationId: getOrderDiscounts
+      tags:
+        - "Orders / Order"
+      summary: "Sipariş indirimi tipleri."
+      description: |-
+        Sipariş indirimi tipleri.. Risk R0; confirmation none; step-up none.
+        Capability: discounts.order.list. Risk: R0. Confirmation: none. Step-up: none.
+      x-shopiyz-capability: discounts.order.list
+      x-shopiyz-risk: R0
+      x-shopiyz-confirmation: none
+      x-shopiyz-step-up: none
+      x-shopiyz-operation-kind: read
+      x-shopiyz-implemented: true
+      x-shopiyz-preview-required: false
+      x-shopiyz-rollback-supported: false
+      x-operation-kind: query
+      x-risk: R0
+      x-confirmation: none
+      x-step-up: none
+      x-idempotency: none
+      x-preview-supported: false
+      x-rollback-supported: false
+      x-required-roles:
+        - merchant_staff
+      x-required-scopes:
+        - "admin:read"
+        - "admin:write"
+      x-audit-event: discounts.order.list
+      responses:
+        "200":
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/AdminApiResponse"
+      security:
+        - ShopiyzAccessToken: []
+    post:
+      operationId: postOrderDiscounts
+      tags:
+        - "Orders / Order"
+      summary: "Sipariş indirimi oluştur."
+      description: |-
+        Sipariş indirimi oluştur.. Risk R2; confirmation approval; step-up none.
+        Capability: discounts.order.create. Risk: R2. Confirmation: approval. Step-up: none.
+      x-shopiyz-capability: discounts.order.create
+      x-shopiyz-risk: R2
+      x-shopiyz-confirmation: approval
+      x-shopiyz-step-up: none
+      x-shopiyz-operation-kind: write
+      x-shopiyz-implemented: true
+      x-shopiyz-preview-required: true
+      x-shopiyz-rollback-supported: true
+      x-operation-kind: mutation
+      x-risk: R2
+      x-confirmation: preview
+      x-step-up: none
+      x-idempotency: required
+      x-preview-supported: true
+      x-rollback-supported: true
+      x-required-roles:
+        - merchant_staff
+      x-required-scopes:
+        - "admin:write"
+      x-audit-event: discounts.order.create
+      requestBody:
+        required: false
+        content:
+          application/json:
+            schema:
+              type: object
+              additionalProperties: true
+      responses:
+        "201":
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/AdminApiResponse"
+      security:
+        - ShopiyzAccessToken: []
   /order_edits.json:
     get:
       operationId: getOrderEdits
@@ -51373,6 +56371,89 @@ paths:
           required: true
           schema:
             type: string
+      requestBody:
+        required: false
+        content:
+          application/json:
+            schema:
+              type: object
+              additionalProperties: true
+      responses:
+        "201":
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/AdminApiResponse"
+      security:
+        - ShopiyzAccessToken: []
+  /product_discounts.json:
+    get:
+      operationId: getProductDiscounts
+      tags:
+        - "Products / Product"
+      summary: "Ürün/varyant/koleksiyon hedefli indirimler."
+      description: |-
+        Ürün/varyant/koleksiyon hedefli indirimler.. Risk R0; confirmation none; step-up none.
+        Capability: discounts.product.list. Risk: R0. Confirmation: none. Step-up: none.
+      x-shopiyz-capability: discounts.product.list
+      x-shopiyz-risk: R0
+      x-shopiyz-confirmation: none
+      x-shopiyz-step-up: none
+      x-shopiyz-operation-kind: read
+      x-shopiyz-implemented: true
+      x-shopiyz-preview-required: false
+      x-shopiyz-rollback-supported: false
+      x-operation-kind: query
+      x-risk: R0
+      x-confirmation: none
+      x-step-up: none
+      x-idempotency: none
+      x-preview-supported: false
+      x-rollback-supported: false
+      x-required-roles:
+        - merchant_staff
+      x-required-scopes:
+        - "admin:read"
+        - "admin:write"
+      x-audit-event: discounts.product.list
+      responses:
+        "200":
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/AdminApiResponse"
+      security:
+        - ShopiyzAccessToken: []
+    post:
+      operationId: postProductDiscounts
+      tags:
+        - "Products / Product"
+      summary: "Ürün indirimi oluştur."
+      description: |-
+        Ürün indirimi oluştur.. Risk R2; confirmation approval; step-up none.
+        Capability: discounts.product.create. Risk: R2. Confirmation: approval. Step-up: none.
+      x-shopiyz-capability: discounts.product.create
+      x-shopiyz-risk: R2
+      x-shopiyz-confirmation: approval
+      x-shopiyz-step-up: none
+      x-shopiyz-operation-kind: write
+      x-shopiyz-implemented: true
+      x-shopiyz-preview-required: true
+      x-shopiyz-rollback-supported: true
+      x-operation-kind: mutation
+      x-risk: R2
+      x-confirmation: preview
+      x-step-up: none
+      x-idempotency: required
+      x-preview-supported: true
+      x-rollback-supported: true
+      x-required-roles:
+        - merchant_staff
+      x-required-scopes:
+        - "admin:write"
+      x-audit-event: discounts.product.create
       requestBody:
         required: false
         content:
@@ -60845,6 +65926,89 @@ paths:
                 $ref: "#/components/schemas/AdminApiResponse"
       security:
         - ShopiyzAccessToken: []
+  /shipping_discounts.json:
+    get:
+      operationId: getShippingDiscounts
+      tags:
+        - "Orders / Shipping"
+      summary: "Kargo/ücretsiz kargo indirimleri."
+      description: |-
+        Kargo/ücretsiz kargo indirimleri.. Risk R0; confirmation none; step-up none.
+        Capability: discounts.shipping.list. Risk: R0. Confirmation: none. Step-up: none.
+      x-shopiyz-capability: discounts.shipping.list
+      x-shopiyz-risk: R0
+      x-shopiyz-confirmation: none
+      x-shopiyz-step-up: none
+      x-shopiyz-operation-kind: read
+      x-shopiyz-implemented: true
+      x-shopiyz-preview-required: false
+      x-shopiyz-rollback-supported: false
+      x-operation-kind: query
+      x-risk: R0
+      x-confirmation: none
+      x-step-up: none
+      x-idempotency: none
+      x-preview-supported: false
+      x-rollback-supported: false
+      x-required-roles:
+        - merchant_staff
+      x-required-scopes:
+        - "admin:read"
+        - "admin:write"
+      x-audit-event: discounts.shipping.list
+      responses:
+        "200":
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/AdminApiResponse"
+      security:
+        - ShopiyzAccessToken: []
+    post:
+      operationId: postShippingDiscounts
+      tags:
+        - "Orders / Shipping"
+      summary: "Kargo indirimi oluştur; kargo maliyet preview zorunlu."
+      description: |-
+        Kargo indirimi oluştur; kargo maliyet preview zorunlu.. Risk R3; confirmation approval; step-up conditional.
+        Capability: discounts.shipping.create. Risk: R3. Confirmation: approval. Step-up: conditional.
+      x-shopiyz-capability: discounts.shipping.create
+      x-shopiyz-risk: R3
+      x-shopiyz-confirmation: approval
+      x-shopiyz-step-up: conditional
+      x-shopiyz-operation-kind: write
+      x-shopiyz-implemented: true
+      x-shopiyz-preview-required: true
+      x-shopiyz-rollback-supported: true
+      x-operation-kind: mutation
+      x-risk: R3
+      x-confirmation: preview
+      x-step-up: optional
+      x-idempotency: required
+      x-preview-supported: true
+      x-rollback-supported: true
+      x-required-roles:
+        - merchant_staff
+      x-required-scopes:
+        - "admin:write"
+      x-audit-event: discounts.shipping.create
+      requestBody:
+        required: false
+        content:
+          application/json:
+            schema:
+              type: object
+              additionalProperties: true
+      responses:
+        "201":
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/AdminApiResponse"
+      security:
+        - ShopiyzAccessToken: []
   /shipping_labels.json:
     get:
       operationId: getShippingLabels
@@ -65231,6 +70395,89 @@ paths:
                 $ref: "#/components/schemas/AdminApiResponse"
       security:
         - ShopiyzAccessToken: []
+  /subscription_discounts.json:
+    get:
+      operationId: getSubscriptionDiscounts
+      tags:
+        - "Discounts / Subscription"
+      summary: "Abonelik indirimleri."
+      description: |-
+        Abonelik indirimleri.. Risk R0; confirmation none; step-up none.
+        Capability: discounts.subscription.list. Risk: R0. Confirmation: none. Step-up: none.
+      x-shopiyz-capability: discounts.subscription.list
+      x-shopiyz-risk: R0
+      x-shopiyz-confirmation: none
+      x-shopiyz-step-up: none
+      x-shopiyz-operation-kind: read
+      x-shopiyz-implemented: true
+      x-shopiyz-preview-required: false
+      x-shopiyz-rollback-supported: false
+      x-operation-kind: query
+      x-risk: R0
+      x-confirmation: none
+      x-step-up: none
+      x-idempotency: none
+      x-preview-supported: false
+      x-rollback-supported: false
+      x-required-roles:
+        - merchant_staff
+      x-required-scopes:
+        - "admin:read"
+        - "admin:write"
+      x-audit-event: discounts.subscription.list
+      responses:
+        "200":
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/AdminApiResponse"
+      security:
+        - ShopiyzAccessToken: []
+    post:
+      operationId: postSubscriptionDiscounts
+      tags:
+        - "Discounts / Subscription"
+      summary: "Abonelik indirimi oluştur."
+      description: |-
+        Abonelik indirimi oluştur.. Risk R3; confirmation approval; step-up conditional.
+        Capability: discounts.subscription.create. Risk: R3. Confirmation: approval. Step-up: conditional.
+      x-shopiyz-capability: discounts.subscription.create
+      x-shopiyz-risk: R3
+      x-shopiyz-confirmation: approval
+      x-shopiyz-step-up: conditional
+      x-shopiyz-operation-kind: write
+      x-shopiyz-implemented: true
+      x-shopiyz-preview-required: true
+      x-shopiyz-rollback-supported: true
+      x-operation-kind: mutation
+      x-risk: R3
+      x-confirmation: preview
+      x-step-up: optional
+      x-idempotency: required
+      x-preview-supported: true
+      x-rollback-supported: true
+      x-required-roles:
+        - merchant_staff
+      x-required-scopes:
+        - "admin:write"
+      x-audit-event: discounts.subscription.create
+      requestBody:
+        required: false
+        content:
+          application/json:
+            schema:
+              type: object
+              additionalProperties: true
+      responses:
+        "201":
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/AdminApiResponse"
+      security:
+        - ShopiyzAccessToken: []
   /subscriptions.json:
     get:
       operationId: getSubscriptions
@@ -68812,6 +74059,89 @@ paths:
             type: string
       responses:
         "200":
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/AdminApiResponse"
+      security:
+        - ShopiyzAccessToken: []
+  /tiered_discounts.json:
+    get:
+      operationId: getTieredDiscounts
+      tags:
+        - "Discounts / Tiered"
+      summary: "Miktar/kademe indirimleri."
+      description: |-
+        Miktar/kademe indirimleri.. Risk R0; confirmation none; step-up none.
+        Capability: discounts.tiered.list. Risk: R0. Confirmation: none. Step-up: none.
+      x-shopiyz-capability: discounts.tiered.list
+      x-shopiyz-risk: R0
+      x-shopiyz-confirmation: none
+      x-shopiyz-step-up: none
+      x-shopiyz-operation-kind: read
+      x-shopiyz-implemented: true
+      x-shopiyz-preview-required: false
+      x-shopiyz-rollback-supported: false
+      x-operation-kind: query
+      x-risk: R0
+      x-confirmation: none
+      x-step-up: none
+      x-idempotency: none
+      x-preview-supported: false
+      x-rollback-supported: false
+      x-required-roles:
+        - merchant_staff
+      x-required-scopes:
+        - "admin:read"
+        - "admin:write"
+      x-audit-event: discounts.tiered.list
+      responses:
+        "200":
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/AdminApiResponse"
+      security:
+        - ShopiyzAccessToken: []
+    post:
+      operationId: postTieredDiscounts
+      tags:
+        - "Discounts / Tiered"
+      summary: "Kademe indirimi oluştur."
+      description: |-
+        Kademe indirimi oluştur.. Risk R2; confirmation approval; step-up none.
+        Capability: discounts.tiered.create. Risk: R2. Confirmation: approval. Step-up: none.
+      x-shopiyz-capability: discounts.tiered.create
+      x-shopiyz-risk: R2
+      x-shopiyz-confirmation: approval
+      x-shopiyz-step-up: none
+      x-shopiyz-operation-kind: write
+      x-shopiyz-implemented: true
+      x-shopiyz-preview-required: true
+      x-shopiyz-rollback-supported: true
+      x-operation-kind: mutation
+      x-risk: R2
+      x-confirmation: preview
+      x-step-up: none
+      x-idempotency: required
+      x-preview-supported: true
+      x-rollback-supported: true
+      x-required-roles:
+        - merchant_staff
+      x-required-scopes:
+        - "admin:write"
+      x-audit-event: discounts.tiered.create
+      requestBody:
+        required: false
+        content:
+          application/json:
+            schema:
+              type: object
+              additionalProperties: true
+      responses:
+        "201":
           description: Successful response
           content:
             application/json:
