@@ -909,6 +909,54 @@ const OPENAPI_COMPONENT_SCHEMAS = {
   },
   MediaAssetResponse: { type: "object", properties: { media_asset: ref("MediaAsset") }, additionalProperties: true },
   MediaAssetListResponse: { type: "object", properties: { media_assets: { type: "array", items: ref("MediaAsset") }, meta: ref("PaginationInfo") }, additionalProperties: true },
+  ThemeFile: {
+    type: "object",
+    properties: {
+      id: idString("theme_file_001"),
+      key: { type: "string", example: "assets/favicon.svg" },
+      theme_id: idString("theme_001"),
+      content_type: { type: "string", example: "image/svg+xml" },
+      size: { type: "integer", example: 1234 },
+      checksum: { type: "string", example: "8f14e45fceea167a5a36dedd4bea2543" },
+      public_url: { type: ["string", "null"], format: "uri", example: "https://cdn.shopiyz.com/stores/demo/theme-files/favicon.svg" },
+      url: { type: ["string", "null"], format: "uri" },
+      src: { type: ["string", "null"], format: "uri" },
+      value: { type: ["string", "null"], description: "Text content for text theme files. Binary files do not echo base64 attachments." },
+      created_at: dateTimeString,
+      updated_at: dateTimeString,
+    },
+    additionalProperties: true,
+  },
+  ThemeFileUpsertInput: {
+    type: "object",
+    properties: {
+      key: { type: "string", example: "sections/footer.json" },
+      value: { type: "string", description: "Text content for JSON, Liquid, CSS, JS, locale and section/template files." },
+      attachment: { type: "string", description: "Base64 or data URL content for binary theme assets." },
+      content_type: { type: "string", example: "application/json" },
+    },
+    additionalProperties: true,
+  },
+  ThemeFileUpsertRequest: {
+    type: "object",
+    properties: {
+      file: ref("ThemeFileUpsertInput"),
+      preview_confirmed: { type: "boolean", description: "Required for non-asset template/section updates." },
+    },
+    additionalProperties: true,
+  },
+  ThemeFileResponse: { type: "object", properties: { file: ref("ThemeFile"), theme_file: ref("ThemeFile"), action: { type: "string", example: "updated" } }, additionalProperties: true },
+  ThemeFileListResponse: { type: "object", properties: { files: { type: "array", items: ref("ThemeFile") }, page_info: { type: ["string", "null"] } }, additionalProperties: true },
+  ThemeFileDeleteResponse: {
+    type: "object",
+    properties: {
+      deleted: { type: "boolean", example: true },
+      key: { type: "string", example: "assets/favicon.svg" },
+      rollback_revision_stored: { type: "boolean", example: true },
+      asset_retained_for_rollback: { type: "boolean", example: true },
+    },
+    additionalProperties: true,
+  },
   Customer: {
     type: "object",
     properties: {
