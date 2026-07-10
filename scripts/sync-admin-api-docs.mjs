@@ -11,6 +11,7 @@ const appCatalogEntry = path.join(appRoot, "src", "lib", "adminApiCatalog.ts");
 const esbuildBin = path.join(appRoot, "node_modules", ".bin", process.platform === "win32" ? "esbuild.cmd" : "esbuild");
 
 const generatedAt = new Date().toISOString();
+const DEFAULT_ADMIN_API_BASE_PATH = "/admin/api/v1";
 
 const generatedDataStart = "      // BEGIN generated Admin API registry data";
 const generatedDataEnd = "      // END generated Admin API registry data";
@@ -46,8 +47,10 @@ function slug(value) {
     .replace(/^-+|-+$/g, "") || "api";
 }
 
-function apiPath(pathname) {
-  return pathname.startsWith("/admin/api") ? pathname : `/admin/api${pathname}`;
+function apiPath(pathname, basePath = DEFAULT_ADMIN_API_BASE_PATH) {
+  if (pathname.startsWith(`${basePath}/`) || pathname === basePath) return pathname;
+  const relativePath = pathname.replace(/^\/admin\/api(?:\/v1)?/, "") || "/";
+  return `${basePath}${relativePath.startsWith("/") ? relativePath : `/${relativePath}`}`;
 }
 
 function json(value) {
@@ -151,10 +154,37 @@ function standardIdempotency(operation) {
 }
 
 const ref = (schemaName) => ({ $ref: `#/components/schemas/${schemaName}` });
+const headerRef = (headerName) => ({ $ref: `#/components/headers/${headerName}` });
 const nullableString = { type: ["string", "null"] };
 const dateTimeString = { type: "string", format: "date-time", example: "2026-07-10T00:00:00.000Z" };
 const idString = (example) => ({ type: "string", example });
 const moneyNumber = { type: "number", example: 1299 };
+
+const OPENAPI_RATE_LIMIT_HEADERS = {
+  XShopiyzApiCallLimit: { schema: { type: "string", example: "12/40" }, description: "Current visible leaky bucket usage and bucket size." },
+  XShopiyzApiBucketSize: { schema: { type: "integer", example: 40 }, description: "Visible leaky bucket size for the request." },
+  XShopiyzApiRestoreRate: { schema: { type: "number", example: 2 }, description: "Bucket leak/restore rate per second." },
+  XShopiyzApiCost: { schema: { type: "integer", example: 3 }, description: "Cost charged for this operation." },
+  XShopiyzRateLimitRemaining: { schema: { type: "integer", example: 28 }, description: "Remaining capacity in the visible bucket after this request." },
+  XRequestId: { schema: { type: "string", example: "req_01HYSHOPIYZ" }, description: "Request correlation id for support and logs." },
+  XShopiyzRateLimitReset: { schema: { type: "string", format: "date-time" }, description: "Approximate UTC time when a limited bucket has capacity again." },
+  RetryAfter: { schema: { type: "integer", minimum: 1, example: 2 }, description: "Seconds to wait before retrying after a 429 response." },
+};
+
+const successRateLimitHeaderRefs = [
+  ["X-Shopiyz-Api-Call-Limit", "XShopiyzApiCallLimit"],
+  ["X-Shopiyz-Api-Bucket-Size", "XShopiyzApiBucketSize"],
+  ["X-Shopiyz-Api-Restore-Rate", "XShopiyzApiRestoreRate"],
+  ["X-Shopiyz-Api-Cost", "XShopiyzApiCost"],
+  ["X-Shopiyz-RateLimit-Remaining", "XShopiyzRateLimitRemaining"],
+  ["X-Request-Id", "XRequestId"],
+];
+
+const rateLimit429HeaderRefs = [
+  ...successRateLimitHeaderRefs,
+  ["Retry-After", "RetryAfter"],
+  ["X-Shopiyz-RateLimit-Reset", "XShopiyzRateLimitReset"],
+];
 
 const OPENAPI_COMPONENT_SCHEMAS = {
   AdminApiResponse: {
@@ -177,11 +207,44 @@ const OPENAPI_COMPONENT_SCHEMAS = {
         properties: {
           code: { type: "string", example: "invalid_request" },
           message: { type: "string", example: "Request payload is invalid." },
-          requestId: nullableString,
+          request_id: { type: ["string", "null"], example: "req_01HYSHOPIYZ" },
+          requestId: { type: ["string", "null"], deprecated: true, description: "Legacy camelCase alias kept for backwards-compatible clients." },
           details: { type: "object", additionalProperties: true },
         },
         additionalProperties: true,
       },
+    },
+    additionalProperties: true,
+  },
+  RateLimitError: {
+    type: "object",
+    required: ["error"],
+    properties: {
+      error: {
+        type: "object",
+        required: ["code", "message", "details", "request_id"],
+        properties: {
+          code: { type: "string", example: "rate_limited" },
+          message: { type: "string", example: "API rate limit exceeded. Retry after the indicated delay." },
+          request_id: { type: "string", example: "req_01HYSHOPIYZ" },
+          details: {
+            type: "object",
+            required: ["bucket_size", "currently_used", "restore_rate", "retry_after", "cost"],
+            properties: {
+              bucket_size: { type: "integer", example: 40 },
+              currently_used: { type: "integer", example: 41 },
+              restore_rate: { type: "number", example: 2 },
+              retry_after: { type: "integer", example: 1 },
+              cost: { type: "integer", example: 3 },
+              group: { type: "string", example: "products" },
+              scope: { type: "string", example: "resource" },
+            },
+            additionalProperties: true,
+          },
+        },
+        additionalProperties: true,
+      },
+      legacy_error: { type: "string", example: "Admin API rate limit aşıldı." },
     },
     additionalProperties: true,
   },
@@ -342,22 +405,189 @@ const OPENAPI_COMPONENT_SCHEMAS = {
   },
   ProductVariantResponse: { type: "object", properties: { variant: ref("ProductVariant"), variants: { type: "array", items: ref("ProductVariant") } }, additionalProperties: true },
   ProductImageResponse: { type: "object", properties: { image: ref("ProductImage"), images: { type: "array", items: ref("ProductImage") } }, additionalProperties: true },
+  CollectionImage: {
+    type: "object",
+    properties: {
+      src: { type: ["string", "null"], format: "uri", example: "https://cdn.shopiyz.com/demo/office.jpg" },
+      url: { type: ["string", "null"], format: "uri", example: "https://cdn.shopiyz.com/demo/office.jpg" },
+      alt: nullableString,
+      width: { type: ["integer", "null"], example: 1200 },
+      height: { type: ["integer", "null"], example: 800 },
+    },
+    additionalProperties: true,
+  },
+  CollectionInput: {
+    type: "object",
+    properties: {
+      title: { type: "string", example: "Office" },
+      handle: { type: "string", example: "office" },
+      body_html: { type: ["string", "null"], example: "Office products and accessories." },
+      description: { type: ["string", "null"], example: "Office products and accessories." },
+      status: { type: "string", enum: ["draft", "active", "archived"], example: "active" },
+      published: { type: "boolean", example: true },
+      published_at: dateTimeString,
+      sort_order: { type: "string", example: "manual" },
+      image: ref("CollectionImage"),
+      image_url: { type: ["string", "null"], format: "uri" },
+      image_alt: nullableString,
+      image_alt_text: nullableString,
+      image_width: { type: ["integer", "null"], example: 1200 },
+      image_height: { type: ["integer", "null"], example: 800 },
+      seo_title: nullableString,
+      seo_description: nullableString,
+      metafields_global_title_tag: nullableString,
+      metafields_global_description_tag: nullableString,
+      search_preview_title: nullableString,
+      search_preview_description: nullableString,
+      template_suffix: nullableString,
+      rules: { type: "array", items: { type: "object", additionalProperties: true } },
+      disjunctive: { type: "boolean", example: false },
+      product_ids: { type: "array", items: { type: "string" } },
+      productIds: { type: "array", items: { type: "string" } },
+    },
+    additionalProperties: true,
+  },
   Collection: {
     type: "object",
     properties: {
       id: idString("col_001"),
       title: { type: "string", example: "Office" },
       handle: { type: "string", example: "office" },
+      slug: { type: "string", example: "office" },
+      body_html: nullableString,
+      description: nullableString,
       type: { type: "string", enum: ["manual", "automated"], example: "manual" },
       status: { type: "string", enum: ["draft", "active", "archived"], example: "active" },
+      published: { type: "boolean", example: true },
+      published_at: dateTimeString,
       productIds: { type: "array", items: { type: "string" } },
+      product_ids: { type: "array", items: { type: "string" } },
+      productCount: { type: "integer", example: 12 },
+      products_count: { type: "integer", example: 12 },
       sortOrder: { type: "string", example: "manual" },
+      sort_order: { type: "string", example: "manual" },
+      rules: { type: ["object", "null"], additionalProperties: true },
+      image: ref("CollectionImage"),
+      image_url: { type: ["string", "null"], format: "uri" },
+      imageAlt: nullableString,
+      imageAltText: nullableString,
+      image_alt: nullableString,
+      image_alt_text: nullableString,
+      imageWidth: { type: ["integer", "null"], example: 1200 },
+      imageHeight: { type: ["integer", "null"], example: 800 },
+      image_width: { type: ["integer", "null"], example: 1200 },
+      image_height: { type: ["integer", "null"], example: 800 },
+      seoTitle: nullableString,
+      seoDescription: nullableString,
+      seo_title: nullableString,
+      seo_description: nullableString,
+      metafields_global_title_tag: nullableString,
+      metafields_global_description_tag: nullableString,
+      searchPreviewTitle: nullableString,
+      searchPreviewDescription: nullableString,
+      search_preview_title: nullableString,
+      search_preview_description: nullableString,
       createdAt: dateTimeString,
       updatedAt: dateTimeString,
+      created_at: dateTimeString,
+      updated_at: dateTimeString,
     },
     additionalProperties: true,
   },
-  CollectionListResponse: { type: "object", properties: { collections: { type: "array", items: ref("Collection") }, meta: ref("PaginationInfo") }, additionalProperties: true },
+  CollectionRequest: {
+    type: "object",
+    properties: {
+      collection: ref("CollectionInput"),
+      custom_collection: ref("CollectionInput"),
+      smart_collection: ref("CollectionInput"),
+      category: ref("CollectionInput"),
+    },
+    additionalProperties: true,
+  },
+  CollectionResponse: {
+    type: "object",
+    properties: {
+      collection: ref("Collection"),
+      custom_collection: ref("Collection"),
+      smart_collection: ref("Collection"),
+      category: ref("Collection"),
+    },
+    additionalProperties: true,
+  },
+  CollectionListResponse: {
+    type: "object",
+    properties: {
+      collections: { type: "array", items: ref("Collection") },
+      custom_collections: { type: "array", items: ref("Collection") },
+      smart_collections: { type: "array", items: ref("Collection") },
+      categories: { type: "array", items: ref("Collection") },
+      meta: ref("PaginationInfo"),
+    },
+    additionalProperties: true,
+  },
+  MediaAsset: {
+    type: "object",
+    properties: {
+      id: idString("med_001"),
+      url: { type: "string", format: "uri", example: "https://cdn.shopiyz.com/demo/office.jpg" },
+      src: { type: "string", format: "uri", example: "https://cdn.shopiyz.com/demo/office.jpg" },
+      file_url: { type: "string", format: "uri", example: "https://cdn.shopiyz.com/demo/office.jpg" },
+      file_name: nullableString,
+      alt: nullableString,
+      alt_text: nullableString,
+      width: { type: ["integer", "null"], example: 1200 },
+      height: { type: ["integer", "null"], example: 800 },
+      mime_type: { type: ["string", "null"], example: "image/jpeg" },
+      size: { type: ["integer", "null"], example: 182044 },
+      tags: { type: ["string", "null"], example: "[\"collection-cover\"]" },
+      created_at: dateTimeString,
+      updated_at: dateTimeString,
+    },
+    additionalProperties: true,
+  },
+  MediaAssetInput: {
+    type: "object",
+    properties: {
+      file_url: { type: ["string", "null"], format: "uri", example: "https://cdn.example.com/office.jpg" },
+      url: { type: ["string", "null"], format: "uri" },
+      src: { type: ["string", "null"], format: "uri" },
+      base64: { type: "string", description: "Base64 or data URL encoded upload body." },
+      data_url: { type: "string", example: "data:image/png;base64,iVBORw0KGgo..." },
+      file_name: { type: "string", example: "office.jpg" },
+      name: { type: "string", example: "office.jpg" },
+      mime_type: { type: "string", example: "image/jpeg" },
+      alt: nullableString,
+      alt_text: nullableString,
+      width: { type: ["integer", "null"], example: 1200 },
+      height: { type: ["integer", "null"], example: 800 },
+      tags: { type: "array", items: { type: "string" } },
+    },
+    additionalProperties: true,
+  },
+  MediaAssetRequest: {
+    type: "object",
+    properties: {
+      media_asset: ref("MediaAssetInput"),
+    },
+    additionalProperties: true,
+  },
+  MediaAssetMultipartRequest: {
+    type: "object",
+    properties: {
+      file: { type: "string", format: "binary" },
+      file_url: { type: "string", format: "uri" },
+      file_name: { type: "string", example: "office.jpg" },
+      mime_type: { type: "string", example: "image/jpeg" },
+      alt: nullableString,
+      alt_text: nullableString,
+      width: { type: "integer", example: 1200 },
+      height: { type: "integer", example: 800 },
+      tags: { type: "string", example: "collection-cover,hero" },
+    },
+    additionalProperties: true,
+  },
+  MediaAssetResponse: { type: "object", properties: { media_asset: ref("MediaAsset") }, additionalProperties: true },
+  MediaAssetListResponse: { type: "object", properties: { media_assets: { type: "array", items: ref("MediaAsset") }, meta: ref("PaginationInfo") }, additionalProperties: true },
   Customer: {
     type: "object",
     properties: {
@@ -662,7 +892,11 @@ const OPENAPI_ERROR_RESPONSES = {
   NotFound: { description: "The requested resource was not found.", content: { "application/json": { schema: ref("AdminApiError") } } },
   Conflict: { description: "The request conflicts with the current resource state.", content: { "application/json": { schema: ref("AdminApiError") } } },
   UnprocessableEntity: { description: "Validation failed.", content: { "application/json": { schema: ref("ValidationError") } } },
-  TooManyRequests: { description: "Rate limit exceeded.", content: { "application/json": { schema: ref("AdminApiError") } } },
+  TooManyRequests: {
+    description: "Rate limit exceeded. Wait for Retry-After before retrying.",
+    headers: Object.fromEntries(rateLimit429HeaderRefs.map(([name, component]) => [name, headerRef(component)])),
+    content: { "application/json": { schema: ref("RateLimitError") } },
+  },
   InternalServerError: { description: "Unexpected server error.", content: { "application/json": { schema: ref("AdminApiError") } } },
 };
 
@@ -1035,6 +1269,25 @@ function normalizeOperation(operation, usedOperationIds) {
     humanSummary: operation.description || operation.summary || operation.action || operation.operationId,
     beforeCall: operation.method === "GET" ? ["Validate store context and required read scope."] : ["Confirm the target resource and required scope before calling."],
   };
+  const throttlePolicy = operation.throttlePolicy || {
+    algorithm: "leaky_bucket",
+    tier: "standard",
+    group: operation.rateLimitGroup || "admin_api_global",
+    scope: operation.rateLimitScope || "store_token",
+    cost: Number(operation.rateLimitCost || 1),
+    bucketSize: 40,
+    restoreRatePerSecond: 2,
+    retryAfterHeader: "Retry-After",
+    headers: [
+      "X-Shopiyz-Api-Call-Limit",
+      "X-Shopiyz-Api-Bucket-Size",
+      "X-Shopiyz-Api-Restore-Rate",
+      "X-Shopiyz-Api-Cost",
+      "X-Shopiyz-RateLimit-Remaining",
+      "X-Request-Id",
+    ],
+    description: operation.rateLimitDescription || "Leaky bucket throttle scoped by store + API token/app.",
+  };
   return {
     method: operation.method,
     path: operation.path,
@@ -1059,6 +1312,13 @@ function normalizeOperation(operation, usedOperationIds) {
     errorCodes: Array.isArray(operation.errorCodes) ? operation.errorCodes : ["400", "401", "403", "404", "409", "422", "429", "500"],
     requiredHeaders: Array.isArray(operation.requiredHeaders) ? operation.requiredHeaders : [],
     aiSafety,
+    rateLimitGroup: operation.rateLimitGroup || throttlePolicy.group || "admin_api_global",
+    rateLimitCost: Number(operation.rateLimitCost || throttlePolicy.cost || 1),
+    rateLimitScope: operation.rateLimitScope || throttlePolicy.scope || "store_token",
+    throttlePolicy,
+    retryAfterHeader: operation.retryAfterHeader || throttlePolicy.retryAfterHeader || "Retry-After",
+    rateLimitHeaders: Array.isArray(operation.rateLimitHeaders) && operation.rateLimitHeaders.length ? operation.rateLimitHeaders : throttlePolicy.headers || [],
+    rateLimitDescription: operation.rateLimitDescription || throttlePolicy.description || "Leaky bucket throttle scoped by store + API token/app.",
   };
 }
 
@@ -1128,6 +1388,7 @@ async function loadCatalog() {
 
 function buildDocData(catalog, capabilities) {
   const usedOperationIds = new Set();
+  const basePath = catalog.basePath || DEFAULT_ADMIN_API_BASE_PATH;
   const operations = capabilities.operations.map((operation) => normalizeOperation(operation, usedOperationIds));
   const registeredOperations = catalog.requiredOperations.length;
   const implementedOperations = operations.filter((operation) => operation.implemented).length;
@@ -1136,7 +1397,7 @@ function buildDocData(catalog, capabilities) {
   return {
     generatedAt,
     source: "myshopiyz/src/lib/adminApiCatalog.ts",
-    basePath: "/admin/api",
+    basePath,
     openApiUrl: "https://dev.shopiyz.com/openapi/shopiyz-api.yaml",
     summary: {
       sections: sections.length,
@@ -1358,7 +1619,7 @@ function updateIndexHtml(docData) {
     .replace("<span>v1 preview</span>", "<span>unversioned</span>")
     .replace(
       "Bu sayfa ilk REST Admin API yapisini anlatir. Endpointler yayina alindikca referans bolumu genisleyecek.",
-      "Bu sayfa canli Admin API registry kaynaklarindan uretilir; tek yol /admin/api altindadir."
+        "Bu sayfa canli Admin API registry kaynaklarindan uretilir; tek yol /admin/api/v1 altindadir."
     )
     .replace(
       "<strong>API dokumanlari preview asamasinda.</strong>",
@@ -1370,7 +1631,7 @@ function updateIndexHtml(docData) {
     )
     .replace(
       /Shopiyz Admin API kaynak haritasi genis platform mantiginda, ama ilk\s+surum icin daha okunabilir ve REST odakli tutulur\. Bu bolum canli\s+endpointleri, planlanan pathleri ve dokumanlarda yer alacak temel alanlari\s+gosterir\./,
-      "Shopiyz Admin API kaynak haritasi canli runtime registry'den uretilir. Bu bolum Customer, Product, Order, Collection, Inventory ve diger tum ailelerdeki mevcut operasyonlari tek /admin/api yolu altinda gosterir."
+        "Shopiyz Admin API kaynak haritasi canli runtime registry'den uretilir. Bu bolum Customer, Product, Order, Collection, Inventory ve diger tum ailelerdeki mevcut operasyonlari tek /admin/api/v1 yolu altinda gosterir."
     )
     .replace(
       /<strong>Apps endpointleri ayri kartlarda<\/strong>[\s\S]*?Her uygulamanin pathleri kendi kartinda durur; diger kaynak aileleri kapsam genisledikce canli hale gelir\./,
@@ -1413,6 +1674,8 @@ function updateIndexHtml(docData) {
     "observed sections"
   );
 
+  html = html.replace(/\/admin\/api(?!\/v1)/g, docData.basePath);
+
   fs.writeFileSync(indexPath, html);
   fs.copyFileSync(indexPath, path.join(docsRoot, "public", "index.html"));
 }
@@ -1423,6 +1686,21 @@ function openApiPathParams(pathname) {
 
 function normalizeSchemaRef(schemaRef) {
   return schemaRef || "#/components/schemas/AdminApiResponse";
+}
+
+function isGenericSchemaRef(schemaRef) {
+  return ["#/components/schemas/AdminApiResponse", "#/components/schemas/AdminApiMutationRequest"].includes(normalizeSchemaRef(schemaRef));
+}
+
+function schemaNoteFor(operation) {
+  const notes = [];
+  if (operation.requestSchemaRef && isGenericSchemaRef(operation.requestSchemaRef)) {
+    notes.push("Request body uses the generic mutation envelope because this operation currently accepts a flexible domain payload in runtime.");
+  }
+  if (isGenericSchemaRef(operation.responseSchemaRef)) {
+    notes.push("Response uses the generic Admin API wrapper because a verified typed response model is not yet available for this endpoint.");
+  }
+  return notes.length ? notes.join(" ") : "";
 }
 
 function successStatusFor(operation) {
@@ -1443,6 +1721,11 @@ function renderContentExamples(lines, examples, indent = 14) {
 function renderResponse(lines, status, schemaRef, example) {
   lines.push(`        "${status}":`);
   lines.push("          description: Successful response");
+  lines.push("          headers:");
+  for (const [name, component] of successRateLimitHeaderRefs) {
+    lines.push(`            ${name}:`);
+    lines.push(`              $ref: ${yamlString(`#/components/headers/${component}`)}`);
+  }
   lines.push("          content:");
   lines.push("            application/json:");
   lines.push("              schema:");
@@ -1465,6 +1748,48 @@ function renderParameter(lines, parameter) {
   if (parameter.example !== undefined) lines.push(`          example: ${yamlScalar(parameter.example)}`);
 }
 
+function operationParameters(operation) {
+  const catalogParameters = Array.isArray(operation.parameters) ? operation.parameters : [];
+  const byKey = new Map();
+  for (const parameter of catalogParameters) {
+    byKey.set(`${parameter.in}:${parameter.name}`, parameter);
+  }
+
+  for (const name of openApiPathParams(operation.path)) {
+    const key = `path:${name}`;
+    if (!byKey.has(key)) {
+      byKey.set(key, {
+        name,
+        in: "path",
+        required: true,
+        type: "string",
+        description: `${toTitle(name)} path parameter.`,
+        example: `${name.replace(/_id$/, "")}_123`,
+      });
+    }
+  }
+
+  for (const header of operation.requiredHeaders || []) {
+    if (["X-Shopiyz-Access-Token", "Authorization"].includes(header.name)) continue;
+    const key = `header:${header.name}`;
+    if (!byKey.has(key)) {
+      byKey.set(key, {
+        name: header.name,
+        in: "header",
+        required: Boolean(header.required),
+        type: "string",
+        description: header.description || `${header.name} header.`,
+        example: header.example,
+      });
+    }
+  }
+
+  return Array.from(byKey.values()).sort((left, right) => {
+    const order = { path: 0, query: 1, header: 2 };
+    return (order[left.in] ?? 9) - (order[right.in] ?? 9) || left.name.localeCompare(right.name);
+  });
+}
+
 function renderOpenApiOperation(operation, tagName) {
   const lines = [];
   lines.push(`    ${operation.method.toLowerCase()}:`);
@@ -1479,6 +1804,14 @@ function renderOpenApiOperation(operation, tagName) {
   lines.push(`      x-shopiyz-confirmation: ${yamlString(operation.confirmation)}`);
   lines.push(`      x-shopiyz-step-up: ${yamlString(operation.stepUp)}`);
   lines.push(`      x-shopiyz-operation-kind: ${yamlString(operation.operationKind)}`);
+  lines.push(`      x-shopiyz-rate-limit-group: ${yamlString(operation.rateLimitGroup || operation.throttlePolicy?.group || "admin_api_global")}`);
+  lines.push(`      x-shopiyz-rate-limit-cost: ${Number(operation.rateLimitCost || operation.throttlePolicy?.cost || 1)}`);
+  lines.push(`      x-shopiyz-rate-limit-bucket: ${Number(operation.throttlePolicy?.bucketSize || 40)}`);
+  lines.push(`      x-shopiyz-rate-limit-restore-rate: ${Number(operation.throttlePolicy?.restoreRatePerSecond || 2)}`);
+  lines.push(`      x-shopiyz-rate-limit-scope: ${yamlString(operation.rateLimitScope || operation.throttlePolicy?.scope || "store_token")}`);
+  lines.push(`      x-shopiyz-rate-limit-algorithm: ${yamlString(operation.throttlePolicy?.algorithm || "leaky_bucket")}`);
+  lines.push("      x-shopiyz-rate-limit-headers:");
+  lines.push(yamlList(operation.rateLimitHeaders || [], "        "));
   lines.push(`      x-shopiyz-implemented: ${operation.implemented ? "true" : "false"}`);
   lines.push(`      x-shopiyz-preview-required: ${operation.previewRequired ? "true" : "false"}`);
   lines.push(`      x-shopiyz-rollback-supported: ${operation.rollbackSupported ? "true" : "false"}`);
@@ -1504,32 +1837,18 @@ function renderOpenApiOperation(operation, tagName) {
   lines.push(`      x-audit-event: ${yamlString(operation.capability)}`);
   if (operation.requestSchemaRef) lines.push(`      x-request-schema: ${yamlString(operation.requestSchemaRef)}`);
   lines.push(`      x-response-schema: ${yamlString(normalizeSchemaRef(operation.responseSchemaRef))}`);
+  const schemaNote = schemaNoteFor(operation);
+  if (schemaNote) lines.push(`      x-shopiyz-schema-note: ${yamlString(schemaNote)}`);
+  if (operation.requiredHeaders?.length) {
+    lines.push("      x-required-headers:");
+    lines.push(...yamlValue(operation.requiredHeaders, 8));
+  }
   if (operation.examples) {
     lines.push("      x-examples:");
     lines.push(...yamlValue(operation.examples, 8));
   }
 
-  const params = [
-    ...openApiPathParams(operation.path).map((name) => ({
-      name,
-      in: "path",
-      required: true,
-      type: "string",
-      description: `${toTitle(name)} path parameter.`,
-      example: `${name.replace(/_id$/, "")}_123`,
-    })),
-    ...(operation.parameters || []).filter((parameter) => parameter.in !== "path"),
-  ];
-  if (operation.idempotencyRequired) {
-    params.push({
-      name: "Idempotency-Key",
-      in: "header",
-      required: true,
-      type: "string",
-      description: "Stable key required for retry-safe execution of this operation.",
-      example: `${operation.operationId}-20260710`,
-    });
-  }
+  const params = operationParameters(operation);
   if (params.length) {
     lines.push("      parameters:");
     for (const param of params) renderParameter(lines, param);
@@ -1543,11 +1862,18 @@ function renderOpenApiOperation(operation, tagName) {
     lines.push("            schema:");
     lines.push(`              $ref: ${yamlString(normalizeSchemaRef(operation.requestSchemaRef || "#/components/schemas/AdminApiMutationRequest"))}`);
     renderContentExamples(lines, operation.examples?.request, 12);
+    if (operation.path === "/media_assets.json" && operation.method === "POST") {
+      lines.push("          multipart/form-data:");
+      lines.push("            schema:");
+      lines.push("              $ref: '#/components/schemas/MediaAssetMultipartRequest'");
+    }
   }
 
   lines.push("      responses:");
   renderResponse(lines, successStatusFor(operation), operation.responseSchemaRef, operation.examples?.response);
+  const errorCodes = new Set(operation.errorCodes?.length ? operation.errorCodes : operationErrorResponseRefs.map(([status]) => status));
   for (const [status, responseRef] of operationErrorResponseRefs) {
+    if (!errorCodes.has(status)) continue;
     lines.push(`        "${status}":`);
     lines.push(`          $ref: ${yamlString(responseRef)}`);
   }
@@ -1579,15 +1905,16 @@ function renderOpenApi(docData) {
     "  title: Shopiyz Admin API",
     "  version: unversioned",
     "  description: |-",
-    yamlBlock("Shopiyz Admin API reference generated from the live Admin API registry. All endpoints use the single unversioned /admin/api base path.", "    "),
+    yamlBlock(`Shopiyz Admin API reference generated from the live Admin API registry. All endpoints use the ${docData.basePath} base path.`, "    "),
     "servers:",
-    "  - url: https://{store}.shopiyz.com/admin/api",
+    `  - url: https://{store}.shopiyz.com${docData.basePath}`,
     "    variables:",
     "      store:",
     "        default: development",
     "        description: Store subdomain or custom store host.",
     "x-shopiyz-generated-at: " + yamlString(docData.generatedAt),
     "x-shopiyz-source: " + yamlString(docData.source),
+    "x-shopiyz-base-path: " + yamlString(docData.basePath),
     "x-shopiyz-summary:",
     `  sections: ${docData.summary.sections}`,
     `  resources: ${docData.summary.resources}`,
@@ -1617,6 +1944,11 @@ function renderOpenApi(docData) {
   lines.push("      type: http");
   lines.push("      scheme: bearer");
   lines.push("      bearerFormat: shpat");
+  lines.push("  headers:");
+  for (const [name, header] of Object.entries(OPENAPI_RATE_LIMIT_HEADERS)) {
+    lines.push(`    ${name}:`);
+    lines.push(...yamlValue(header, 6));
+  }
   lines.push("  responses:");
   for (const [name, response] of Object.entries(OPENAPI_ERROR_RESPONSES)) {
     lines.push(`    ${name}:`);
