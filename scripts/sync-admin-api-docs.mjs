@@ -664,6 +664,8 @@ const OPENAPI_COMPONENT_SCHEMAS = {
       key: { type: "string", example: "material" },
       value: { type: "string", example: "steel" },
       type: { type: "string", example: "single_line_text_field" },
+      created_at: dateTimeString,
+      updated_at: dateTimeString,
     },
     additionalProperties: true,
   },
