@@ -74,6 +74,54 @@ function yamlList(values, indent = "        ") {
   return values.map((value) => `${indent}- ${yamlString(value)}`).join("\n");
 }
 
+function yamlScalar(value) {
+  if (value === null) return "null";
+  if (typeof value === "number" || typeof value === "boolean") return String(value);
+  return yamlString(value);
+}
+
+function yamlValue(value, indent = 0) {
+  const prefix = " ".repeat(indent);
+  if (Array.isArray(value)) {
+    if (!value.length) return [`${prefix}[]`];
+    const lines = [];
+    for (const item of value) {
+      if (item && typeof item === "object") {
+        lines.push(`${prefix}-`);
+        lines.push(...yamlValue(item, indent + 2));
+      } else {
+        lines.push(`${prefix}- ${yamlScalar(item)}`);
+      }
+    }
+    return lines;
+  }
+  if (value && typeof value === "object") {
+    const entries = Object.entries(value).filter(([, entryValue]) => entryValue !== undefined);
+    if (!entries.length) return [`${prefix}{}`];
+    const lines = [];
+    for (const [key, entryValue] of entries) {
+      if (entryValue && typeof entryValue === "object") {
+        lines.push(`${prefix}${key}:`);
+        lines.push(...yamlValue(entryValue, indent + 2));
+      } else {
+        lines.push(`${prefix}${key}: ${yamlScalar(entryValue)}`);
+      }
+    }
+    return lines;
+  }
+  return [`${prefix}${yamlScalar(value)}`];
+}
+
+function pushYaml(lines, key, value, indent = 0) {
+  const prefix = " ".repeat(indent);
+  if (value && typeof value === "object") {
+    lines.push(`${prefix}${key}:`);
+    lines.push(...yamlValue(value, indent + 2));
+  } else {
+    lines.push(`${prefix}${key}: ${yamlScalar(value)}`);
+  }
+}
+
 function standardOperationKind(operation) {
   const pathText = `${operation.path} ${operation.capability} ${operation.operationId}`.toLowerCase();
   if (pathText.includes("bulk")) return "bulk_mutation";
@@ -101,6 +149,533 @@ function standardIdempotency(operation) {
   if (["POST", "PUT", "PATCH", "DELETE"].includes(operation.method)) return "recommended";
   return "none";
 }
+
+const ref = (schemaName) => ({ $ref: `#/components/schemas/${schemaName}` });
+const nullableString = { type: ["string", "null"] };
+const dateTimeString = { type: "string", format: "date-time", example: "2026-07-10T00:00:00.000Z" };
+const idString = (example) => ({ type: "string", example });
+const moneyNumber = { type: "number", example: 1299 };
+
+const OPENAPI_COMPONENT_SCHEMAS = {
+  AdminApiResponse: {
+    type: "object",
+    description: "Generic response wrapper for endpoints that do not yet expose a typed schema.",
+    additionalProperties: true,
+  },
+  AdminApiMutationRequest: {
+    type: "object",
+    description: "Generic mutation payload for planned endpoints where the exact runtime request body is not yet verified.",
+    additionalProperties: true,
+  },
+  AdminApiError: {
+    type: "object",
+    required: ["error"],
+    properties: {
+      error: {
+        type: "object",
+        required: ["message"],
+        properties: {
+          code: { type: "string", example: "invalid_request" },
+          message: { type: "string", example: "Request payload is invalid." },
+          requestId: nullableString,
+          details: { type: "object", additionalProperties: true },
+        },
+        additionalProperties: true,
+      },
+    },
+    additionalProperties: true,
+  },
+  ValidationError: {
+    type: "object",
+    required: ["error"],
+    properties: {
+      error: {
+        type: "object",
+        properties: {
+          code: { type: "string", example: "validation_error" },
+          message: { type: "string", example: "One or more fields are invalid." },
+          fields: {
+            type: "array",
+            items: {
+              type: "object",
+              properties: {
+                path: { type: "string", example: "product.title" },
+                message: { type: "string", example: "Title is required." },
+              },
+            },
+          },
+        },
+        additionalProperties: true,
+      },
+    },
+    additionalProperties: true,
+  },
+  PaginationInfo: {
+    type: "object",
+    properties: {
+      total: { type: "integer", example: 1 },
+      limit: { type: "integer", example: 50 },
+      offset: { type: "integer", example: 0 },
+      cursor: nullableString,
+      nextCursor: nullableString,
+      pageInfo: nullableString,
+      hasMore: { type: "boolean", example: false },
+    },
+    additionalProperties: true,
+  },
+  ProductVariant: {
+    type: "object",
+    properties: {
+      id: idString("var_001"),
+      productId: idString("prod_ergonomic_desk"),
+      title: nullableString,
+      sku: nullableString,
+      barcode: nullableString,
+      price: moneyNumber,
+      compareAtPrice: { type: ["number", "null"], example: 1499 },
+      cost: { type: ["number", "null"], example: 899 },
+      inventoryQuantity: { type: "integer", example: 10 },
+      inventoryPolicy: { type: "string", enum: ["deny", "continue"], example: "deny" },
+      trackInventory: { type: "boolean", example: true },
+      taxable: { type: "boolean", example: true },
+      requiresShipping: { type: "boolean", example: true },
+      weight: { type: "number", example: 12.5 },
+      weightUnit: { type: "string", example: "kg" },
+      imageUrl: nullableString,
+      position: { type: "integer", example: 1 },
+      createdAt: dateTimeString,
+      updatedAt: dateTimeString,
+    },
+    additionalProperties: true,
+  },
+  ProductImage: {
+    type: "object",
+    properties: {
+      id: idString("img_001"),
+      productId: idString("prod_ergonomic_desk"),
+      url: { type: "string", format: "uri", example: "https://cdn.shopiyz.com/demo/desk.jpg" },
+      altText: nullableString,
+      mediaType: { type: "string", example: "image" },
+      position: { type: "integer", example: 1 },
+      isFeatured: { type: "boolean", example: true },
+      width: { type: ["integer", "null"], example: 1200 },
+      height: { type: ["integer", "null"], example: 800 },
+      createdAt: dateTimeString,
+      updatedAt: dateTimeString,
+    },
+    additionalProperties: true,
+  },
+  Product: {
+    type: "object",
+    required: ["id", "title", "handle", "status"],
+    properties: {
+      id: idString("prod_ergonomic_desk"),
+      storeId: idString("store_demo"),
+      title: { type: "string", example: "Ergonomic Desk" },
+      handle: { type: "string", example: "ergonomic-desk" },
+      slug: { type: "string", example: "ergonomic-desk" },
+      status: { type: "string", enum: ["draft", "active", "unlisted", "archived"], example: "active" },
+      vendor: nullableString,
+      productType: nullableString,
+      productCategory: nullableString,
+      description: nullableString,
+      seoTitle: nullableString,
+      seoDescription: nullableString,
+      tags: { type: "array", items: { type: "string" } },
+      featuredImageUrl: nullableString,
+      trackInventory: { type: "boolean", example: true },
+      continueSellingWhenOutOfStock: { type: "boolean", example: false },
+      requiresShipping: { type: "boolean", example: true },
+      variantCount: { type: "integer", example: 1 },
+      inventoryQuantity: { type: "integer", example: 10 },
+      minPrice: moneyNumber,
+      maxPrice: moneyNumber,
+      variants: { type: "array", items: ref("ProductVariant") },
+      images: { type: "array", items: ref("ProductImage") },
+      createdAt: dateTimeString,
+      updatedAt: dateTimeString,
+    },
+    additionalProperties: true,
+  },
+  ProductCreateRequest: {
+    type: "object",
+    required: ["product"],
+    properties: {
+      product: {
+        type: "object",
+        required: ["title"],
+        properties: {
+          title: { type: "string", example: "Ergonomic Desk" },
+          handle: { type: "string", example: "ergonomic-desk" },
+          status: { type: "string", enum: ["draft", "active", "unlisted", "archived"], example: "draft" },
+          vendor: { type: "string", example: "Shopiyz Demo" },
+          description: { type: "string", example: "Height-adjustable desk for home office." },
+          tags: { type: "array", items: { type: "string" }, example: ["office", "desk"] },
+          variants: { type: "array", items: { type: "object", additionalProperties: true } },
+          images: { type: "array", items: { type: "object", additionalProperties: true } },
+        },
+        additionalProperties: true,
+      },
+    },
+  },
+  ProductUpdateRequest: {
+    type: "object",
+    required: ["product"],
+    properties: {
+      product: {
+        type: "object",
+        properties: {
+          title: { type: "string", example: "Ergonomic Desk Pro" },
+          status: { type: "string", enum: ["draft", "active", "unlisted", "archived"], example: "active" },
+          vendor: { type: "string", example: "Shopiyz Demo" },
+          tags: { type: "array", items: { type: "string" } },
+        },
+        additionalProperties: true,
+      },
+    },
+  },
+  ProductResponse: { type: "object", properties: { product: ref("Product") }, additionalProperties: true },
+  ProductListResponse: {
+    type: "object",
+    properties: { products: { type: "array", items: ref("Product") }, meta: ref("PaginationInfo") },
+    additionalProperties: true,
+  },
+  ProductVariantResponse: { type: "object", properties: { variant: ref("ProductVariant"), variants: { type: "array", items: ref("ProductVariant") } }, additionalProperties: true },
+  ProductImageResponse: { type: "object", properties: { image: ref("ProductImage"), images: { type: "array", items: ref("ProductImage") } }, additionalProperties: true },
+  Collection: {
+    type: "object",
+    properties: {
+      id: idString("col_001"),
+      title: { type: "string", example: "Office" },
+      handle: { type: "string", example: "office" },
+      type: { type: "string", enum: ["manual", "automated"], example: "manual" },
+      status: { type: "string", enum: ["draft", "active", "archived"], example: "active" },
+      productIds: { type: "array", items: { type: "string" } },
+      sortOrder: { type: "string", example: "manual" },
+      createdAt: dateTimeString,
+      updatedAt: dateTimeString,
+    },
+    additionalProperties: true,
+  },
+  CollectionListResponse: { type: "object", properties: { collections: { type: "array", items: ref("Collection") }, meta: ref("PaginationInfo") }, additionalProperties: true },
+  Customer: {
+    type: "object",
+    properties: {
+      id: idString("cus_001"),
+      email: { type: "string", format: "email", example: "customer@example.com" },
+      firstName: nullableString,
+      lastName: nullableString,
+      phone: nullableString,
+      country: nullableString,
+      tags: { type: "array", items: { type: "string" } },
+      acceptsMarketingEmail: { type: "boolean", example: true },
+      ordersCount: { type: "integer", example: 2 },
+      totalSpent: moneyNumber,
+      createdAt: dateTimeString,
+      updatedAt: dateTimeString,
+    },
+    additionalProperties: true,
+  },
+  CustomerListResponse: { type: "object", properties: { customers: { type: "array", items: ref("Customer") }, meta: ref("PaginationInfo") }, additionalProperties: true },
+  OrderLineItem: {
+    type: "object",
+    properties: {
+      id: idString("line_1"),
+      productId: nullableString,
+      variantId: nullableString,
+      title: { type: "string", example: "Ergonomic Desk" },
+      sku: nullableString,
+      quantity: { type: "integer", example: 1 },
+      fulfilledQuantity: { type: "integer", example: 0 },
+      unitPrice: moneyNumber,
+      totalPrice: moneyNumber,
+      requiresShipping: { type: "boolean", example: true },
+    },
+    additionalProperties: true,
+  },
+  Order: {
+    type: "object",
+    properties: {
+      id: idString("ord_1001"),
+      name: { type: "string", example: "#1001" },
+      customerId: nullableString,
+      email: { type: ["string", "null"], format: "email" },
+      status: { type: "string", example: "open" },
+      financialStatus: { type: "string", example: "paid" },
+      fulfillmentStatus: { type: "string", example: "unfulfilled" },
+      currency: { type: "string", example: "TRY" },
+      subtotalPrice: moneyNumber,
+      totalPrice: moneyNumber,
+      lineItems: { type: "array", items: ref("OrderLineItem") },
+      createdAt: dateTimeString,
+      updatedAt: dateTimeString,
+    },
+    additionalProperties: true,
+  },
+  OrderResponse: { type: "object", properties: { order: ref("Order") }, additionalProperties: true },
+  OrderListResponse: { type: "object", properties: { orders: { type: "array", items: ref("Order") }, meta: ref("PaginationInfo") }, additionalProperties: true },
+  OrderCancelPreviewRequest: {
+    type: "object",
+    properties: { reason: { type: "string", example: "customer" }, restock: { type: "boolean", example: true }, notifyCustomer: { type: "boolean", example: false } },
+    additionalProperties: true,
+  },
+  OrderCancelRequest: {
+    type: "object",
+    properties: { reason: { type: "string", example: "customer" }, restock: { type: "boolean", example: true }, notifyCustomer: { type: "boolean", example: false }, previewId: idString("preview_cancel_1001") },
+    additionalProperties: true,
+  },
+  Metafield: {
+    type: "object",
+    properties: {
+      id: idString("product:prod_ergonomic_desk:specs.material"),
+      owner_type: { type: "string", example: "product" },
+      owner_id: idString("prod_ergonomic_desk"),
+      namespace: { type: "string", example: "specs" },
+      key: { type: "string", example: "material" },
+      value: { type: "string", example: "steel" },
+      type: { type: "string", example: "single_line_text_field" },
+    },
+    additionalProperties: true,
+  },
+  MetafieldRequest: {
+    type: "object",
+    properties: {
+      metafield: {
+        type: "object",
+        required: ["owner_type", "owner_id", "namespace", "key", "value"],
+        properties: {
+          owner_type: { type: "string", example: "product" },
+          owner_id: idString("prod_ergonomic_desk"),
+          namespace: { type: "string", example: "specs" },
+          key: { type: "string", example: "material" },
+          value: { example: "steel" },
+          type: { type: "string", example: "single_line_text_field" },
+        },
+        additionalProperties: true,
+      },
+    },
+    additionalProperties: true,
+  },
+  MetafieldResponse: { type: "object", properties: { metafield: ref("Metafield") }, additionalProperties: true },
+  MetafieldListResponse: { type: "object", properties: { metafields: { type: "array", items: ref("Metafield") }, meta: ref("PaginationInfo") }, additionalProperties: true },
+  MetafieldDefinition: {
+    type: "object",
+    properties: {
+      id: idString("mfd_material"),
+      owner_type: { type: "string", example: "product" },
+      namespace: { type: "string", example: "specs" },
+      key: { type: "string", example: "material" },
+      name: { type: "string", example: "Material" },
+      description: nullableString,
+      type: { type: "string", example: "single_line_text_field" },
+      validations: { type: "array", items: { type: "object", additionalProperties: true } },
+      default_value: nullableString,
+      is_pinned: { type: "boolean", example: true },
+      is_active: { type: "boolean", example: true },
+      visible_to_storefront: { type: "boolean", example: true },
+      created_at: dateTimeString,
+      updated_at: dateTimeString,
+    },
+    additionalProperties: true,
+  },
+  MetafieldDefinitionRequest: {
+    type: "object",
+    properties: {
+      definition: {
+        type: "object",
+        required: ["owner_type", "namespace", "key", "name", "type"],
+        properties: {
+          owner_type: { type: "string", example: "product" },
+          namespace: { type: "string", example: "specs" },
+          key: { type: "string", example: "material" },
+          name: { type: "string", example: "Material" },
+          description: nullableString,
+          type: { type: "string", example: "single_line_text_field" },
+          validations: { type: "array", items: { type: "object", additionalProperties: true } },
+          default_value: nullableString,
+          is_pinned: { type: "boolean", example: true },
+          is_active: { type: "boolean", example: true },
+          visible_to_storefront: { type: "boolean", example: true },
+        },
+        additionalProperties: true,
+      },
+    },
+    additionalProperties: true,
+  },
+  MetafieldDefinitionResponse: { type: "object", properties: { metafield_definition: ref("MetafieldDefinition"), definition: ref("MetafieldDefinition") }, additionalProperties: true },
+  MetafieldDefinitionListResponse: { type: "object", properties: { metafield_definitions: { type: "array", items: ref("MetafieldDefinition") }, definitions: { type: "array", items: ref("MetafieldDefinition") }, meta: ref("PaginationInfo") }, additionalProperties: true },
+  MetaobjectFieldDefinition: {
+    type: "object",
+    properties: {
+      id: idString("field_title"),
+      name: { type: "string", example: "Title" },
+      key: { type: "string", example: "title" },
+      type: { type: "string", example: "single_line_text_field" },
+      required: { type: "boolean", example: true },
+      useAsDisplayName: { type: "boolean", example: true },
+      filterable: { type: "boolean", example: false },
+      position: { type: "integer", example: 0 },
+    },
+    additionalProperties: true,
+  },
+  MetaobjectDefinition: {
+    type: "object",
+    properties: {
+      id: idString("mod_size_guide"),
+      type: { type: "string", example: "size_guide" },
+      name: { type: "string", example: "Size guide" },
+      description: nullableString,
+      fields: { type: "array", items: ref("MetaobjectFieldDefinition") },
+      options: { type: "object", additionalProperties: true },
+      entry_count: { type: "integer", example: 3 },
+      created_at: dateTimeString,
+      updated_at: dateTimeString,
+    },
+    additionalProperties: true,
+  },
+  MetaobjectDefinitionRequest: {
+    type: "object",
+    properties: {
+      definition: {
+        type: "object",
+        required: ["type", "name", "fields"],
+        properties: {
+          type: { type: "string", example: "size_guide" },
+          name: { type: "string", example: "Size guide" },
+          description: nullableString,
+          fields: { type: "array", items: ref("MetaobjectFieldDefinition") },
+          options: { type: "object", additionalProperties: true },
+        },
+        additionalProperties: true,
+      },
+    },
+    additionalProperties: true,
+  },
+  MetaobjectDefinitionResponse: { type: "object", properties: { metaobject_definition: ref("MetaobjectDefinition"), definition: ref("MetaobjectDefinition") }, additionalProperties: true },
+  MetaobjectDefinitionListResponse: { type: "object", properties: { metaobject_definitions: { type: "array", items: ref("MetaobjectDefinition") }, definitions: { type: "array", items: ref("MetaobjectDefinition") }, meta: ref("PaginationInfo") }, additionalProperties: true },
+  MetaobjectEntry: {
+    type: "object",
+    properties: {
+      id: idString("mo_desk_size_guide"),
+      definition_id: idString("mod_size_guide"),
+      type: { type: "string", example: "size_guide" },
+      handle: { type: "string", example: "desk-size-guide" },
+      display_name: { type: "string", example: "Desk size guide" },
+      status: { type: "string", example: "active" },
+      fields: { type: "object", additionalProperties: true },
+      created_at: dateTimeString,
+      updated_at: dateTimeString,
+    },
+    additionalProperties: true,
+  },
+  MetaobjectEntryRequest: {
+    type: "object",
+    properties: {
+      metaobject: {
+        type: "object",
+        properties: {
+          definition_id: idString("mod_size_guide"),
+          type: { type: "string", example: "size_guide" },
+          handle: { type: "string", example: "desk-size-guide" },
+          status: { type: "string", example: "active" },
+          fields: { type: "object", additionalProperties: true, example: { title: "Desk size guide" } },
+        },
+        additionalProperties: true,
+      },
+    },
+    additionalProperties: true,
+  },
+  MetaobjectEntryResponse: { type: "object", properties: { metaobject: ref("MetaobjectEntry"), entry: ref("MetaobjectEntry") }, additionalProperties: true },
+  MetaobjectEntryListResponse: { type: "object", properties: { metaobjects: { type: "array", items: ref("MetaobjectEntry") }, entries: { type: "array", items: ref("MetaobjectEntry") }, meta: ref("PaginationInfo") }, additionalProperties: true },
+  CustomDataSummaryResponse: {
+    type: "object",
+    properties: {
+      summary: {
+        type: "object",
+        properties: {
+          metafield_definitions: { type: "integer", example: 3 },
+          metafield_values: { type: "integer", example: 12 },
+          pinned_metafields: { type: "integer", example: 1 },
+          metaobject_definitions: { type: "integer", example: 2 },
+          metaobject_entries: { type: "integer", example: 8 },
+          storefront_visible: { type: "integer", example: 2 },
+        },
+        additionalProperties: true,
+      },
+    },
+    additionalProperties: true,
+  },
+  App: {
+    type: "object",
+    properties: { id: idString("app_product_faq"), handle: { type: "string", example: "product-faq-studio" }, name: { type: "string", example: "Product FAQ Studio" }, status: { type: "string", example: "enabled" } },
+    additionalProperties: true,
+  },
+  AppSettings: { type: "object", additionalProperties: true },
+  AppListResponse: { type: "object", properties: { apps: { type: "array", items: ref("App") } }, additionalProperties: true },
+  ProductFaq: {
+    type: "object",
+    properties: { id: idString("faq_shipping"), question: { type: "string", example: "Kargo süresi nedir?" }, answer: { type: "string", example: "Genellikle 1-3 iş günü." }, status: { type: "string", enum: ["published", "draft"], example: "published" }, group: { type: "string", example: "Kargo" }, sortOrder: { type: "integer", example: 10 } },
+    additionalProperties: true,
+  },
+  ProductFaqCreateRequest: { type: "object", properties: { faq: ref("ProductFaq") }, additionalProperties: true },
+  ProductFaqResponse: { type: "object", properties: { faq: ref("ProductFaq") }, additionalProperties: true },
+  ProductFaqListResponse: { type: "object", properties: { faqs: { type: "array", items: ref("ProductFaq") } }, additionalProperties: true },
+  ProductTab: {
+    type: "object",
+    properties: { id: idString("tab_shipping"), label: { type: "string", example: "Kargo" }, source: { type: "string", example: "static_content" }, enabled: { type: "boolean", example: true }, sortOrder: { type: "integer", example: 10 }, content: { type: "string", example: "1-3 iş günü içinde gönderilir." } },
+    additionalProperties: true,
+  },
+  ProductTabCreateRequest: { type: "object", properties: { tab: ref("ProductTab") }, additionalProperties: true },
+  ProductTabResponse: { type: "object", properties: { tab: ref("ProductTab") }, additionalProperties: true },
+  ProductTabListResponse: { type: "object", properties: { tabs: { type: "array", items: ref("ProductTab") } }, additionalProperties: true },
+  BulkActionRequest: {
+    type: "object",
+    properties: { ids: { type: "array", items: { type: "string" } }, action: { type: "string", example: "archive" }, previewId: nullableString },
+    additionalProperties: true,
+  },
+  BulkActionResponse: {
+    type: "object",
+    properties: { job: ref("JobStatusResponse"), result: { type: "object", additionalProperties: true } },
+    additionalProperties: true,
+  },
+  JobStatusResponse: {
+    type: "object",
+    properties: { job: { type: "object", properties: { id: idString("job_001"), status: { type: "string", example: "queued" }, progress: { type: "number", example: 0 } }, additionalProperties: true } },
+    additionalProperties: true,
+  },
+  PreviewResponse: {
+    type: "object",
+    properties: { previewId: idString("preview_001"), requiresApproval: { type: "boolean", example: true }, impact: { type: "object", additionalProperties: true }, warnings: { type: "array", items: { type: "string" } } },
+    additionalProperties: true,
+  },
+  ApprovalRequiredResponse: {
+    type: "object",
+    properties: { approvalRequired: { type: "boolean", example: true }, previewId: idString("preview_001"), confirmation: { type: "string", example: "typed" }, stepUp: { type: "string", example: "mfa" } },
+    additionalProperties: true,
+  },
+};
+
+const OPENAPI_ERROR_RESPONSES = {
+  BadRequest: { description: "Bad request.", content: { "application/json": { schema: ref("AdminApiError") } } },
+  Unauthorized: { description: "Authentication token is missing or invalid.", content: { "application/json": { schema: ref("AdminApiError") } } },
+  Forbidden: { description: "The token does not have the required scope or role.", content: { "application/json": { schema: ref("AdminApiError") } } },
+  NotFound: { description: "The requested resource was not found.", content: { "application/json": { schema: ref("AdminApiError") } } },
+  Conflict: { description: "The request conflicts with the current resource state.", content: { "application/json": { schema: ref("AdminApiError") } } },
+  UnprocessableEntity: { description: "Validation failed.", content: { "application/json": { schema: ref("ValidationError") } } },
+  TooManyRequests: { description: "Rate limit exceeded.", content: { "application/json": { schema: ref("AdminApiError") } } },
+  InternalServerError: { description: "Unexpected server error.", content: { "application/json": { schema: ref("AdminApiError") } } },
+};
+
+const operationErrorResponseRefs = [
+  ["400", "#/components/responses/BadRequest"],
+  ["401", "#/components/responses/Unauthorized"],
+  ["403", "#/components/responses/Forbidden"],
+  ["404", "#/components/responses/NotFound"],
+  ["409", "#/components/responses/Conflict"],
+  ["422", "#/components/responses/UnprocessableEntity"],
+  ["429", "#/components/responses/TooManyRequests"],
+  ["500", "#/components/responses/InternalServerError"],
+];
 
 function requiredScopesFor(operation) {
   if (Array.isArray(operation.requiredScopes) && operation.requiredScopes.length) return operation.requiredScopes;
@@ -451,6 +1026,15 @@ function classify(operation) {
 }
 
 function normalizeOperation(operation, usedOperationIds) {
+  const aiSafety = operation.aiSafety || {
+    safe: operation.method === "GET" && operation.risk === "R0",
+    readOnly: operation.method === "GET" || operation.operationKind === "read" || operation.operationKind === "audit",
+    requiresConfirmation: operation.method !== "GET" && operation.confirmation !== "none",
+    destructive: operation.method === "DELETE" || operation.risk === "R5",
+    idempotencyRequired: Boolean(operation.idempotencyRequired),
+    humanSummary: operation.description || operation.summary || operation.action || operation.operationId,
+    beforeCall: operation.method === "GET" ? ["Validate store context and required read scope."] : ["Confirm the target resource and required scope before calling."],
+  };
   return {
     method: operation.method,
     path: operation.path,
@@ -468,6 +1052,13 @@ function normalizeOperation(operation, usedOperationIds) {
     idempotencyRequired: Boolean(operation.idempotencyRequired),
     previewRequired: Boolean(operation.previewRequired),
     rollbackSupported: Boolean(operation.rollbackSupported),
+    parameters: Array.isArray(operation.parameters) ? operation.parameters : [],
+    requestSchemaRef: operation.requestSchemaRef || null,
+    responseSchemaRef: operation.responseSchemaRef || "#/components/schemas/AdminApiResponse",
+    examples: operation.examples || undefined,
+    errorCodes: Array.isArray(operation.errorCodes) ? operation.errorCodes : ["400", "401", "403", "404", "409", "422", "429", "500"],
+    requiredHeaders: Array.isArray(operation.requiredHeaders) ? operation.requiredHeaders : [],
+    aiSafety,
   };
 }
 
@@ -632,6 +1223,14 @@ function renderGeneratedRenderingBlock() {
         }
 
         const fixedLinks = [
+          ["quickstart", "Quickstart"],
+          ["pagination", "Pagination"],
+          ["filtering", "Filtering"],
+          ["idempotency", "Idempotency"],
+          ["preview-approval", "Preview and approval"],
+          ["error-format", "Error format"],
+          ["ai-tool-usage", "AI/tool usage"],
+          ["implemented-planned", "Implemented vs planned"],
           ["rate-limits", "Rate limits"],
           ["status", "Errors"],
         ];
@@ -730,9 +1329,17 @@ function renderObservedSectionsBlock() {
   return `${generatedSectionsStart}
       const observedSectionIds = [
         "overview",
+        "quickstart",
         "libraries",
         "authentication",
         "endpoints",
+        "pagination",
+        "filtering",
+        "idempotency",
+        "preview-approval",
+        "error-format",
+        "ai-tool-usage",
+        "implemented-planned",
         "rate-limits",
         "status",
         "resource-reference",
@@ -814,15 +1421,48 @@ function openApiPathParams(pathname) {
   return Array.from(pathname.matchAll(/\{([^}]+)\}/g)).map((match) => match[1]);
 }
 
-function responseBlock(status = "200") {
-  return [
-    `        "${status}":`,
-    "          description: Successful response",
-    "          content:",
-    "            application/json:",
-    "              schema:",
-    "                $ref: \"#/components/schemas/AdminApiResponse\"",
-  ].join("\n");
+function normalizeSchemaRef(schemaRef) {
+  return schemaRef || "#/components/schemas/AdminApiResponse";
+}
+
+function successStatusFor(operation) {
+  if (operation.method === "POST") return "201";
+  return "200";
+}
+
+function renderContentExamples(lines, examples, indent = 14) {
+  if (!examples) return;
+  const prefix = " ".repeat(indent);
+  lines.push(`${prefix}examples:`);
+  lines.push(`${prefix}  default:`);
+  lines.push(`${prefix}    summary: Example payload`);
+  lines.push(`${prefix}    value:`);
+  lines.push(...yamlValue(examples, indent + 6));
+}
+
+function renderResponse(lines, status, schemaRef, example) {
+  lines.push(`        "${status}":`);
+  lines.push("          description: Successful response");
+  lines.push("          content:");
+  lines.push("            application/json:");
+  lines.push("              schema:");
+  lines.push(`                $ref: ${yamlString(normalizeSchemaRef(schemaRef))}`);
+  renderContentExamples(lines, example, 14);
+}
+
+function renderParameter(lines, parameter) {
+  lines.push(`        - name: ${yamlString(parameter.name)}`);
+  lines.push(`          in: ${yamlString(parameter.in)}`);
+  lines.push(`          required: ${parameter.required ? "true" : "false"}`);
+  lines.push(`          description: ${yamlString(parameter.description || "")}`);
+  lines.push("          schema:");
+  lines.push(`            type: ${yamlString(parameter.type || "string")}`);
+  if (Array.isArray(parameter.enum) && parameter.enum.length) {
+    lines.push("            enum:");
+    lines.push(yamlList(parameter.enum, "              "));
+  }
+  if (parameter.default !== undefined) lines.push(`            default: ${yamlScalar(parameter.default)}`);
+  if (parameter.example !== undefined) lines.push(`          example: ${yamlScalar(parameter.example)}`);
 }
 
 function renderOpenApiOperation(operation, tagName) {
@@ -842,6 +1482,14 @@ function renderOpenApiOperation(operation, tagName) {
   lines.push(`      x-shopiyz-implemented: ${operation.implemented ? "true" : "false"}`);
   lines.push(`      x-shopiyz-preview-required: ${operation.previewRequired ? "true" : "false"}`);
   lines.push(`      x-shopiyz-rollback-supported: ${operation.rollbackSupported ? "true" : "false"}`);
+  lines.push(`      x-ai-safe: ${operation.aiSafety.safe ? "true" : "false"}`);
+  lines.push(`      x-ai-readonly: ${operation.aiSafety.readOnly ? "true" : "false"}`);
+  lines.push(`      x-ai-requires-confirmation: ${operation.aiSafety.requiresConfirmation ? "true" : "false"}`);
+  lines.push(`      x-ai-destructive: ${operation.aiSafety.destructive ? "true" : "false"}`);
+  lines.push(`      x-ai-idempotency-required: ${operation.aiSafety.idempotencyRequired ? "true" : "false"}`);
+  lines.push(`      x-ai-human-summary: ${yamlString(operation.aiSafety.humanSummary)}`);
+  lines.push("      x-ai-before-call:");
+  lines.push(yamlList(operation.aiSafety.beforeCall || [], "        "));
   lines.push(`      x-operation-kind: ${yamlString(standardOperationKind(operation))}`);
   lines.push(`      x-risk: ${yamlString(operation.risk)}`);
   lines.push(`      x-confirmation: ${yamlString(standardConfirmation(operation.confirmation))}`);
@@ -854,17 +1502,37 @@ function renderOpenApiOperation(operation, tagName) {
   lines.push("      x-required-scopes:");
   lines.push(yamlList(requiredScopesFor(operation)));
   lines.push(`      x-audit-event: ${yamlString(operation.capability)}`);
+  if (operation.requestSchemaRef) lines.push(`      x-request-schema: ${yamlString(operation.requestSchemaRef)}`);
+  lines.push(`      x-response-schema: ${yamlString(normalizeSchemaRef(operation.responseSchemaRef))}`);
+  if (operation.examples) {
+    lines.push("      x-examples:");
+    lines.push(...yamlValue(operation.examples, 8));
+  }
 
-  const params = openApiPathParams(operation.path);
+  const params = [
+    ...openApiPathParams(operation.path).map((name) => ({
+      name,
+      in: "path",
+      required: true,
+      type: "string",
+      description: `${toTitle(name)} path parameter.`,
+      example: `${name.replace(/_id$/, "")}_123`,
+    })),
+    ...(operation.parameters || []).filter((parameter) => parameter.in !== "path"),
+  ];
+  if (operation.idempotencyRequired) {
+    params.push({
+      name: "Idempotency-Key",
+      in: "header",
+      required: true,
+      type: "string",
+      description: "Stable key required for retry-safe execution of this operation.",
+      example: `${operation.operationId}-20260710`,
+    });
+  }
   if (params.length) {
     lines.push("      parameters:");
-    for (const param of params) {
-      lines.push(`        - name: ${yamlString(param)}`);
-      lines.push("          in: path");
-      lines.push("          required: true");
-      lines.push("          schema:");
-      lines.push("            type: string");
-    }
+    for (const param of params) renderParameter(lines, param);
   }
 
   if (!["GET", "HEAD", "DELETE"].includes(operation.method)) {
@@ -873,14 +1541,19 @@ function renderOpenApiOperation(operation, tagName) {
     lines.push("        content:");
     lines.push("          application/json:");
     lines.push("            schema:");
-    lines.push("              type: object");
-    lines.push("              additionalProperties: true");
+    lines.push(`              $ref: ${yamlString(normalizeSchemaRef(operation.requestSchemaRef || "#/components/schemas/AdminApiMutationRequest"))}`);
+    renderContentExamples(lines, operation.examples?.request, 12);
   }
 
   lines.push("      responses:");
-  lines.push(responseBlock(operation.method === "POST" ? "201" : operation.method === "DELETE" ? "200" : "200"));
+  renderResponse(lines, successStatusFor(operation), operation.responseSchemaRef, operation.examples?.response);
+  for (const [status, responseRef] of operationErrorResponseRefs) {
+    lines.push(`        "${status}":`);
+    lines.push(`          $ref: ${yamlString(responseRef)}`);
+  }
   lines.push("      security:");
   lines.push("        - ShopiyzAccessToken: []");
+  lines.push("        - ShopiyzBearerAuth: []");
   return lines.join("\n");
 }
 
@@ -940,18 +1613,23 @@ function renderOpenApi(docData) {
   lines.push("      type: apiKey");
   lines.push("      in: header");
   lines.push("      name: X-Shopiyz-Access-Token");
+  lines.push("    ShopiyzBearerAuth:");
+  lines.push("      type: http");
+  lines.push("      scheme: bearer");
+  lines.push("      bearerFormat: shpat");
+  lines.push("  responses:");
+  for (const [name, response] of Object.entries(OPENAPI_ERROR_RESPONSES)) {
+    lines.push(`    ${name}:`);
+    lines.push(...yamlValue(response, 6));
+  }
   lines.push("  schemas:");
-  lines.push("    AdminApiResponse:");
-  lines.push("      type: object");
-  lines.push("      additionalProperties: true");
-  lines.push("    AdminApiError:");
-  lines.push("      type: object");
-  lines.push("      properties:");
-  lines.push("        error:");
-  lines.push("          type: object");
-  lines.push("          additionalProperties: true");
+  for (const [name, schema] of Object.entries(OPENAPI_COMPONENT_SCHEMAS)) {
+    lines.push(`    ${name}:`);
+    lines.push(...yamlValue(schema, 6));
+  }
   lines.push("security:");
   lines.push("  - ShopiyzAccessToken: []");
+  lines.push("  - ShopiyzBearerAuth: []");
   return `${lines.join("\n")}\n`;
 }
 
