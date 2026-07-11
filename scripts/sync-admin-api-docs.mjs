@@ -397,6 +397,109 @@ const OPENAPI_COMPONENT_SCHEMAS = {
     },
     additionalProperties: true,
   },
+  ArticleRequest: {
+    type: "object",
+    properties: {
+      article: {
+        type: "object",
+        properties: {
+          title: { type: "string", example: "Standing desk setup guide" },
+          handle: { type: "string", example: "standing-desk-setup-guide" },
+          blog_id: nullableString,
+          body_html: { type: ["string", "null"], example: "<p>Setup guide...</p>" },
+          body_markdown: { type: ["string", "null"], example: "# Setup guide" },
+          summary: nullableString,
+          author: nullableString,
+          tags: { type: "array", items: { type: "string" }, example: ["ergonomics"] },
+          status: { type: "string", enum: ["draft", "published", "archived"], example: "draft" },
+          seo_title: nullableString,
+          seo_description: nullableString,
+          published_at: { type: ["string", "null"], format: "date-time" },
+        },
+        additionalProperties: true,
+      },
+    },
+    additionalProperties: true,
+  },
+  BlogRequest: {
+    type: "object",
+    properties: {
+      blog: {
+        type: "object",
+        properties: {
+          title: { type: "string", example: "Guides" },
+          handle: { type: "string", example: "guides" },
+          description: nullableString,
+          status: { type: "string", enum: ["draft", "published", "archived"], example: "published" },
+          seo_title: nullableString,
+          seo_description: nullableString,
+        },
+        additionalProperties: true,
+      },
+    },
+    additionalProperties: true,
+  },
+  CommentRequest: {
+    type: "object",
+    properties: {
+      comment: {
+        type: "object",
+        properties: {
+          article_id: nullableString,
+          author: nullableString,
+          email: { type: ["string", "null"], format: "email" },
+          body: { type: "string", example: "Helpful guide." },
+          status: { type: "string", enum: ["pending", "approved", "spam", "rejected"], example: "pending" },
+          reply: nullableString,
+        },
+        additionalProperties: true,
+      },
+    },
+    additionalProperties: true,
+  },
+  CommentModerationRequest: {
+    type: "object",
+    properties: {
+      reason: nullableString,
+      note: nullableString,
+      reply: nullableString,
+      notify_author: { type: "boolean", example: false },
+      apply: { type: "boolean", example: false },
+    },
+    additionalProperties: true,
+  },
+  ContentActionRequest: {
+    type: "object",
+    properties: {
+      action: { type: "string", example: "schedule_publish" },
+      locale: { type: "string", example: "de" },
+      scheduled_at: { type: ["string", "null"], format: "date-time" },
+      target_locale: { type: ["string", "null"], example: "en" },
+      fields: { type: "array", items: { type: "string" }, example: ["title", "body_html", "seo_title"] },
+      options: { type: "object", additionalProperties: true },
+    },
+    additionalProperties: true,
+  },
+  ContentImportExportRequest: {
+    type: "object",
+    properties: {
+      format: { type: "string", enum: ["jsonl", "csv", "html"], example: "jsonl" },
+      source_url: { type: ["string", "null"], format: "uri" },
+      filters: { type: "object", additionalProperties: true },
+      dry_run: { type: "boolean", example: true },
+    },
+    additionalProperties: true,
+  },
+  ContentResourceResponse: {
+    type: "object",
+    properties: {
+      article: { type: "object", additionalProperties: true },
+      blog: { type: "object", additionalProperties: true },
+      comment: { type: "object", additionalProperties: true },
+      job: { type: "object", additionalProperties: true },
+    },
+    additionalProperties: true,
+  },
   Policy: {
     type: "object",
     required: ["id", "type", "title", "handle"],
@@ -1094,6 +1197,127 @@ const OPENAPI_COMPONENT_SCHEMAS = {
   FileFolderResponse: { type: "object", properties: { folder: ref("FileFolder") }, additionalProperties: true },
   FileFolderListResponse: { type: "object", properties: { folders: { type: "array", items: ref("FileFolder") }, pagination: ref("PaginationInfo") }, additionalProperties: true },
   FileRelationRequest: { type: "object", properties: { owner_type: { type: "string", example: "product" }, owner_id: idString("prod_001"), usage_type: { type: "string", example: "product_image" } }, additionalProperties: true },
+  DiscountRequest: {
+    type: "object",
+    properties: {
+      discount: {
+        type: "object",
+        properties: {
+          title: { type: "string", example: "Summer desk sale" },
+          code: nullableString,
+          method: { type: "string", enum: ["code", "automatic"], example: "code" },
+          kind: { type: "string", example: "amountOffProducts" },
+          value_type: { type: "string", enum: ["percentage", "fixed_amount"], example: "percentage" },
+          value: { type: "number", example: 10 },
+          starts_at: { type: ["string", "null"], format: "date-time" },
+          ends_at: { type: ["string", "null"], format: "date-time" },
+          targets: { type: "array", items: { type: "object", additionalProperties: true } },
+          conditions: { type: "array", items: { type: "object", additionalProperties: true } },
+          enabled: { type: "boolean", example: true },
+        },
+        additionalProperties: true,
+      },
+    },
+    additionalProperties: true,
+  },
+  DiscountActionRequest: {
+    type: "object",
+    properties: {
+      reason: nullableString,
+      preview_id: nullableString,
+      dry_run: { type: "boolean", example: true },
+      filters: { type: "object", additionalProperties: true },
+      targets: { type: "array", items: { type: "object", additionalProperties: true } },
+      options: { type: "object", additionalProperties: true },
+    },
+    additionalProperties: true,
+  },
+  DiscountResponse: {
+    type: "object",
+    properties: {
+      discount: { type: "object", additionalProperties: true },
+      automatic_discount: { type: "object", additionalProperties: true },
+      discount_code: { type: "object", additionalProperties: true },
+      job: { type: "object", additionalProperties: true },
+    },
+    additionalProperties: true,
+  },
+  CartRuleRequest: {
+    type: "object",
+    properties: {
+      cart_rule: {
+        type: "object",
+        properties: {
+          title: { type: "string", example: "Minimum order quantity" },
+          conditions: { type: "array", items: { type: "object", additionalProperties: true } },
+          actions: { type: "array", items: { type: "object", additionalProperties: true } },
+          status: { type: "string", enum: ["active", "draft", "archived"], example: "active" },
+        },
+        additionalProperties: true,
+      },
+      cart: { type: "object", additionalProperties: true },
+      dry_run: { type: "boolean", example: true },
+    },
+    additionalProperties: true,
+  },
+  CartRuleResponse: {
+    type: "object",
+    properties: {
+      cart_rule: { type: "object", additionalProperties: true },
+      cart: { type: "object", additionalProperties: true },
+      job: { type: "object", additionalProperties: true },
+    },
+    additionalProperties: true,
+  },
+  CheckoutSettingsRequest: {
+    type: "object",
+    properties: {
+      checkout: { type: "object", additionalProperties: true },
+      checkout_branding: { type: "object", additionalProperties: true },
+      extension: { type: "object", additionalProperties: true },
+      validation: { type: "object", additionalProperties: true },
+      enabled: { type: "boolean", example: true },
+    },
+    additionalProperties: true,
+  },
+  CheckoutSettingsResponse: {
+    type: "object",
+    properties: {
+      checkout: { type: "object", additionalProperties: true },
+      checkout_branding: { type: "object", additionalProperties: true },
+      extension: { type: "object", additionalProperties: true },
+      validation: { type: "object", additionalProperties: true },
+    },
+    additionalProperties: true,
+  },
+  XmlFeedRequest: {
+    type: "object",
+    properties: {
+      feed: {
+        type: "object",
+        properties: {
+          name: { type: "string", example: "ERP product feed" },
+          source_url: { type: ["string", "null"], format: "uri" },
+          mapping: { type: "object", additionalProperties: true },
+          schedule: { type: "object", additionalProperties: true },
+          status: { type: "string", enum: ["active", "paused", "draft"], example: "active" },
+        },
+        additionalProperties: true,
+      },
+      dry_run: { type: "boolean", example: true },
+      preview_id: nullableString,
+    },
+    additionalProperties: true,
+  },
+  XmlFeedResponse: {
+    type: "object",
+    properties: {
+      feed: { type: "object", additionalProperties: true },
+      xml_feed: { type: "object", additionalProperties: true },
+      job: { type: "object", additionalProperties: true },
+    },
+    additionalProperties: true,
+  },
   BulkOperation: {
     type: "object",
     properties: {
@@ -1641,6 +1865,106 @@ const OPENAPI_COMPONENT_SCHEMAS = {
   },
   MediaAssetResponse: { type: "object", properties: { media_asset: ref("MediaAsset") }, additionalProperties: true },
   MediaAssetListResponse: { type: "object", properties: { media_assets: { type: "array", items: ref("MediaAsset") }, meta: ref("PaginationInfo") }, additionalProperties: true },
+  MediaAltTextSuggestionRequest: {
+    type: "object",
+    properties: {
+      mode: { type: "string", enum: ["preview", "apply"], example: "preview" },
+      locale: { type: "string", example: "de" },
+      context: { type: "string", example: "collection cover image for standing desks" },
+      overwrite_existing: { type: "boolean", example: false },
+    },
+    additionalProperties: true,
+    example: { mode: "preview", locale: "de", overwrite_existing: false },
+  },
+  MediaAltTextSuggestionResponse: {
+    type: "object",
+    properties: {
+      alt_text_suggestions: {
+        type: "array",
+        items: {
+          type: "object",
+          properties: {
+            asset_id: idString("media_img_001"),
+            alt: { type: "string", example: "Height-adjustable desk in a bright office" },
+            confidence: { type: "number", example: 0.84 },
+            source: { type: "string", example: "ai_suggestion" },
+          },
+          additionalProperties: true,
+        },
+      },
+      media_asset: { type: "object", additionalProperties: true },
+    },
+    additionalProperties: true,
+  },
+  MediaTransformRequest: {
+    type: "object",
+    properties: {
+      transform: {
+        type: "object",
+        properties: {
+          resize: { type: "object", additionalProperties: true, example: { width: 1200, height: 800, fit: "cover" } },
+          crop: { type: "object", additionalProperties: true, example: { x: 0, y: 0, width: 1200, height: 800 } },
+          format: { type: "string", enum: ["jpg", "png", "webp", "avif"], example: "webp" },
+          quality: { type: "integer", minimum: 1, maximum: 100, example: 82 },
+        },
+        additionalProperties: true,
+      },
+      preview: { type: "boolean", example: true },
+    },
+    additionalProperties: true,
+  },
+  MediaTransformResponse: {
+    type: "object",
+    properties: {
+      transform: { type: "object", additionalProperties: true },
+      media_asset: ref("MediaAsset"),
+    },
+    additionalProperties: true,
+  },
+  MediaBulkActionRequest: {
+    type: "object",
+    properties: {
+      action: { type: "string", enum: ["update_alt_text", "attach", "detach", "replace_folder", "delete"], example: "update_alt_text" },
+      ids: { type: "array", items: { type: "string" }, example: ["media_img_001"] },
+      alt: nullableString,
+      owner_type: nullableString,
+      owner_id: nullableString,
+      dry_run: { type: "boolean", example: true },
+      preview_id: nullableString,
+    },
+    additionalProperties: true,
+  },
+  MediaExportRequest: {
+    type: "object",
+    properties: {
+      format: { type: "string", enum: ["jsonl", "csv", "zip"], example: "jsonl" },
+      filters: { type: "object", additionalProperties: true },
+      include_binary: { type: "boolean", example: false },
+      fields: { type: "array", items: { type: "string" }, example: ["id", "url", "alt", "mime_type"] },
+    },
+    additionalProperties: true,
+  },
+  MediaImportRequest: {
+    type: "object",
+    properties: {
+      source_url: { type: ["string", "null"], format: "uri", example: "https://example.com/media-export.jsonl" },
+      assets: { type: "array", items: ref("MediaAssetInput") },
+      mode: { type: "string", enum: ["create", "upsert"], example: "upsert" },
+      dry_run: { type: "boolean", example: true },
+    },
+    additionalProperties: true,
+  },
+  MediaOptimizeRequest: {
+    type: "object",
+    properties: {
+      ids: { type: "array", items: { type: "string" }, example: ["media_img_001"] },
+      preset: { type: "string", enum: ["web", "storefront", "thumbnail"], example: "storefront" },
+      formats: { type: "array", items: { type: "string" }, example: ["webp", "avif"] },
+      quality: { type: "integer", minimum: 1, maximum: 100, example: 82 },
+      dry_run: { type: "boolean", example: true },
+    },
+    additionalProperties: true,
+  },
   ThemeFile: {
     type: "object",
     properties: {
@@ -1745,6 +2069,105 @@ const OPENAPI_COMPONENT_SCHEMAS = {
   },
   OrderResponse: { type: "object", properties: { order: ref("Order") }, additionalProperties: true },
   OrderListResponse: { type: "object", properties: { orders: { type: "array", items: ref("Order") }, meta: ref("PaginationInfo") }, additionalProperties: true },
+  OrderUpdateRequest: {
+    type: "object",
+    properties: {
+      order: {
+        type: "object",
+        properties: {
+          status: { type: "string", example: "open" },
+          financial_status: { type: "string", example: "paid" },
+          fulfillment_status: { type: "string", example: "unfulfilled" },
+          note: nullableString,
+          tags: { type: "array", items: { type: "string" }, example: ["vip", "manual-review"] },
+        },
+        additionalProperties: true,
+      },
+      reason: nullableString,
+      preview_id: nullableString,
+    },
+    additionalProperties: true,
+    example: { order: { note: "Reviewed by support", tags: ["vip"] }, reason: "support_update" },
+  },
+  OrderArchiveInput: {
+    type: "object",
+    properties: {
+      reason: { type: "string", example: "completed_workflow" },
+      notify_customer: { type: "boolean", example: false },
+      preview_id: nullableString,
+    },
+    additionalProperties: true,
+    example: { reason: "completed_workflow", notify_customer: false },
+  },
+  OrderActionRequest: {
+    type: "object",
+    properties: {
+      action: { type: "string", example: "hold_fulfillment" },
+      reason: nullableString,
+      note: nullableString,
+      notify_customer: { type: "boolean", example: false },
+      preview_id: nullableString,
+      metadata: { type: "object", additionalProperties: true },
+    },
+    additionalProperties: true,
+    example: { action: "hold_fulfillment", reason: "risk_review", notify_customer: false },
+  },
+  OrderNoteInput: {
+    type: "object",
+    properties: {
+      note: {
+        type: "object",
+        properties: {
+          body: { type: "string", example: "Customer requested delivery after Friday." },
+          visibility: { type: "string", enum: ["admin", "customer", "fulfillment"], example: "admin" },
+          pinned: { type: "boolean", example: false },
+        },
+        additionalProperties: true,
+      },
+      body: { type: "string", example: "Customer requested delivery after Friday." },
+      visibility: { type: "string", enum: ["admin", "customer", "fulfillment"], example: "admin" },
+    },
+    additionalProperties: true,
+  },
+  OrderTagInput: {
+    type: "object",
+    properties: {
+      tags: { type: "array", items: { type: "string" }, example: ["vip", "priority"] },
+      tag: { type: "string", example: "vip" },
+      mode: { type: "string", enum: ["add", "remove", "replace"], example: "add" },
+    },
+    additionalProperties: true,
+    example: { tags: ["vip"], mode: "add" },
+  },
+  OrderRiskInput: {
+    type: "object",
+    properties: {
+      risk: {
+        type: "object",
+        properties: {
+          level: { type: "string", enum: ["low", "medium", "high"], example: "medium" },
+          score: { type: "number", example: 0.62 },
+          recommendation: { type: "string", enum: ["accept", "review", "cancel"], example: "review" },
+          message: nullableString,
+        },
+        additionalProperties: true,
+      },
+      level: { type: "string", enum: ["low", "medium", "high"], example: "medium" },
+      recommendation: { type: "string", enum: ["accept", "review", "cancel"], example: "review" },
+    },
+    additionalProperties: true,
+  },
+  OrderActionPreviewResponse: {
+    type: "object",
+    properties: {
+      order_action: { type: "object", additionalProperties: true },
+      preview: { type: "object", additionalProperties: true },
+      preview_id: nullableString,
+      requires_approval: { type: "boolean", example: true },
+      warnings: { type: "array", items: { type: "string" } },
+    },
+    additionalProperties: true,
+  },
   OrderCancelPreviewRequest: {
     type: "object",
     properties: { reason: { type: "string", example: "customer" }, restock: { type: "boolean", example: true }, notifyCustomer: { type: "boolean", example: false } },
