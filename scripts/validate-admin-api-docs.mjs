@@ -48,6 +48,38 @@ const requiredRateLimitDocsSnippets = [
   "PHP/cURL",
 ];
 const genericSchemaRefs = new Set(["#/components/schemas/AdminApiResponse", "#/components/schemas/AdminApiMutationRequest"]);
+const requiredTypedRequestSchemas = new Map([
+  ["POST /pages.json", "#/components/schemas/PageRequest"],
+  ["PATCH /pages/{page_id}.json", "#/components/schemas/PageRequest"],
+  ["PATCH /settings/policies.json", "#/components/schemas/PolicySettingsRequest"],
+  ["POST /legal_documents.json", "#/components/schemas/LegalDocumentRequest"],
+  ["PATCH /legal_documents/{document_id}.json", "#/components/schemas/LegalDocumentRequest"],
+  ["POST /legal_documents/preview_bundle.json", "#/components/schemas/LegalDocumentBundleRequest"],
+  ["POST /legal_documents/apply_bundle.json", "#/components/schemas/LegalDocumentBundleRequest"],
+  ["POST /menus.json", "#/components/schemas/MenuRequest"],
+  ["PATCH /menus/{menu_id}.json", "#/components/schemas/MenuRequest"],
+  ["POST /menus/{menu_id}/items.json", "#/components/schemas/MenuItemRequest"],
+  ["PATCH /menus/{menu_id}/items/{item_id}.json", "#/components/schemas/MenuItemRequest"],
+  ["POST /orders/{order_id}/withdrawals.json", "#/components/schemas/WithdrawalRequest"],
+  ["POST /api_tokens.json", "#/components/schemas/ApiTokenInput"],
+  ["POST /storefront/tokens.json", "#/components/schemas/StorefrontTokenInput"],
+  ["POST /users.json", "#/components/schemas/UserInput"],
+  ["PATCH /users/{user_id}.json", "#/components/schemas/UserUpdateInput"],
+  ["POST /roles.json", "#/components/schemas/RoleInput"],
+  ["PATCH /roles/{role_id}.json", "#/components/schemas/RoleUpdateInput"],
+  ["POST /webhooks.json", "#/components/schemas/WebhookInput"],
+  ["PATCH /webhooks/{webhook_id}.json", "#/components/schemas/WebhookUpdateInput"],
+  ["PATCH /settings/payments.json", "#/components/schemas/PaymentSettingsInput"],
+  ["POST /settings/payments/providers.json", "#/components/schemas/PaymentProviderInput"],
+  ["PATCH /settings/payments/providers/{provider_id}.json", "#/components/schemas/PaymentProviderInput"],
+  ["PATCH /settings/customer_privacy.json", "#/components/schemas/CustomerPrivacySettingsInput"],
+  ["POST /domains.json", "#/components/schemas/DomainInput"],
+  ["PATCH /domains/{domain_id}.json", "#/components/schemas/DomainInput"],
+  ["POST /dns_records.json", "#/components/schemas/DnsRecordInput"],
+  ["PATCH /dns_records/{record_id}.json", "#/components/schemas/DnsRecordInput"],
+  ["POST /ssl_certificates.json", "#/components/schemas/SslCertificateInput"],
+  ["POST /ssl_certificates/{certificate_id}/renew.json", "#/components/schemas/SslCertificateInput"],
+]);
 
 function read(filePath) {
   return fs.readFileSync(filePath, "utf8");
@@ -317,6 +349,23 @@ function validate() {
     .map((ref) => ({ ref, name: schemaName(ref) }))
     .filter(({ name }) => name && !parsed.schemas.has(name));
   if (catalogRefsWithoutSchemas.length) fail("Catalog schemaRef missing OpenAPI component schema", { catalogRefsWithoutSchemas });
+
+  const operationsByMethodPath = new Map(operations.map((operation) => [`${operation.method} ${operation.path}`, operation]));
+  const typedRequestMismatches = [];
+  for (const [key, expectedRef] of requiredTypedRequestSchemas.entries()) {
+    const operation = operationsByMethodPath.get(key);
+    if (!operation) {
+      typedRequestMismatches.push({ key, expectedRef, problem: "operation_missing" });
+      continue;
+    }
+    if (operation.requestSchemaRef !== expectedRef) {
+      typedRequestMismatches.push({ key, expectedRef, actualRef: operation.requestSchemaRef || null, problem: "request_schema_mismatch" });
+    }
+    if (isGeneric(operation.requestSchemaRef)) {
+      typedRequestMismatches.push({ key, expectedRef, actualRef: operation.requestSchemaRef || null, problem: "generic_request_schema" });
+    }
+  }
+  if (typedRequestMismatches.length) fail("Production-ready operations are missing typed request schemas", { typedRequestMismatches });
 
   const metrics = {
     openApiOperations: operations.length,
