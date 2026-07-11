@@ -1127,6 +1127,7 @@ const OPENAPI_COMPONENT_SCHEMAS = {
   BulkOperationListResponse: { type: "object", properties: { bulk_operations: { type: "array", items: ref("BulkOperation") }, pagination: ref("PaginationInfo") }, additionalProperties: true },
   WebhookTopicsResponse: { type: "object", properties: { webhook_topics: { type: "array", items: { type: "object", additionalProperties: true } } }, additionalProperties: true },
   WebhookTestDeliveryRequest: { type: "object", properties: { topic: { type: "string", example: "orders/create" }, address: { type: "string", format: "uri", example: "https://example.com/webhook" }, payload: { type: "object", additionalProperties: true } }, additionalProperties: true },
+  WebhookDeliveryRetryRequest: { type: "object", properties: { reason: { type: "string", example: "manual_retry" }, force: { type: "boolean", example: false } }, additionalProperties: true },
   WebhookDeliveryResponse: { type: "object", properties: { webhook_delivery: { type: "object", additionalProperties: true }, webhook_test_delivery: { type: "object", additionalProperties: true } }, additionalProperties: true },
   ApiTokenInput: {
     type: "object",
