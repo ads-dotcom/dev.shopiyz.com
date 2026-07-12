@@ -659,7 +659,7 @@ const OPENAPI_COMPONENT_SCHEMAS = {
   },
   LegalDocumentBundleInput: {
     type: "object",
-    description: "Shopify-style legal page/policy/footer-menu bundle input. preview_bundle reads this without writes; apply_bundle upserts idempotently.",
+    description: "Shopiyz legal page, policy and footer-menu bundle input. preview_bundle reads this without writes; apply_bundle upserts idempotently.",
     properties: {
       locale: { type: "string", example: "de" },
       mode: { type: "string", enum: ["upsert", "preview"], example: "upsert" },
