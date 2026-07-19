@@ -21,6 +21,8 @@ Cloudflare Pages can also serve this repository with:
 
 ## Files
 
-- `index.html` renders the API overview documentation page.
+- `index.html` renders the Admin API documentation page.
+- `storefront.html` renders the versioned Storefront API documentation page.
 - `openapi/shopiyz-api.yaml` is generated from the live Admin API registry and is the AI/integration source of truth.
+- `openapi/shopiyz-storefront-api.yaml` is generated from the Storefront API registry.
 - `CNAME` binds GitHub Pages to `dev.shopiyz.com`.

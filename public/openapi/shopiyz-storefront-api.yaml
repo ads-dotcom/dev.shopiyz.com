@@ -1,0 +1,1438 @@
+openapi: 3.1.0
+info:
+  title: Shopiyz Storefront API
+  version: "2026-07-19"
+  description: |-
+    Versioned, read-optimized storefront contract used by Shopiyz themes and headless clients.
+    First-party same-origin themes may read public endpoints without a token. Cross-origin clients use a storefront token with storefront:read.
+servers:
+  - url: https://{store}.myshopiyz.com/api/storefront/v1
+    variables:
+      store:
+        default: development
+        description: Store subdomain or custom store hostname.
+x-shopiyz-base-path: "/api/storefront/v1"
+x-shopiyz-generated-at: "2026-07-19T01:26:54.561Z"
+paths:
+  /health:
+    get:
+      operationId: getStorefrontHealth
+      summary: "Storefront API health"
+      description: "Dağıtılan site Worker'ında Storefront API v1 yönlendirmesinin hazır olduğunu doğrular."
+      tags: ["Runtime"]
+      x-shopiyz-auth: public
+      x-shopiyz-cache: none
+      responses:
+        '200':
+          description: Successful Storefront response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/StorefrontResponse'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '429':
+          $ref: '#/components/responses/RateLimited'
+        '500':
+          $ref: '#/components/responses/InternalError'
+      security: []
+  /page:
+    get:
+      operationId: getStorefrontPage
+      summary: "Get page runtime payload"
+      description: "Mağaza, yayınlanmış tema, sayfa düzenleri, gerekli katalog verileri, menüler ve sayfaya özel kaynağı tek payload içinde döndürür."
+      tags: ["Runtime"]
+      x-shopiyz-auth: public_or_storefront_token
+      x-shopiyz-cache: edge
+      x-required-scopes: ["storefront:read"]
+      parameters:
+        - name: storeId
+          in: query
+          required: false
+          schema: { type: string }
+        - name: preview
+          in: query
+          required: false
+          schema: { type: boolean }
+        - name: previewThemeId
+          in: query
+          required: false
+          schema: { type: string }
+        - name: designId
+          in: query
+          required: false
+          schema: { type: string }
+        - name: pageType
+          in: query
+          required: false
+          schema: { type: string }
+        - name: path
+          in: query
+          required: false
+          schema: { type: string }
+        - name: product
+          in: query
+          required: false
+          schema: { type: string }
+        - name: collection
+          in: query
+          required: false
+          schema: { type: string }
+        - name: blog
+          in: query
+          required: false
+          schema: { type: string }
+        - name: blogPost
+          in: query
+          required: false
+          schema: { type: string }
+        - name: page
+          in: query
+          required: false
+          schema: { type: string }
+        - name: policy
+          in: query
+          required: false
+          schema: { type: string }
+        - name: limit
+          in: query
+          required: false
+          schema: { type: integer }
+      responses:
+        '200':
+          description: Successful Storefront response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/StorefrontResponse'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '429':
+          $ref: '#/components/responses/RateLimited'
+        '500':
+          $ref: '#/components/responses/InternalError'
+      security:
+        - {}
+        - StorefrontAccessToken: []
+        - StorefrontBearerAuth: []
+  /shop:
+    get:
+      operationId: getStorefrontShop
+      summary: "Get shop and theme shell"
+      description: "Mağaza kimliği, herkese açık ayarlar, aktif tema ve header/footer düzenlerini döndürür."
+      tags: ["Runtime"]
+      x-shopiyz-auth: public_or_storefront_token
+      x-shopiyz-cache: edge
+      x-required-scopes: ["storefront:read"]
+      parameters:
+        - name: storeId
+          in: query
+          required: false
+          schema: { type: string }
+        - name: preview
+          in: query
+          required: false
+          schema: { type: boolean }
+        - name: previewThemeId
+          in: query
+          required: false
+          schema: { type: string }
+        - name: designId
+          in: query
+          required: false
+          schema: { type: string }
+      responses:
+        '200':
+          description: Successful Storefront response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/StorefrontResponse'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '429':
+          $ref: '#/components/responses/RateLimited'
+        '500':
+          $ref: '#/components/responses/InternalError'
+      security:
+        - {}
+        - StorefrontAccessToken: []
+        - StorefrontBearerAuth: []
+  /products:
+    get:
+      operationId: listStorefrontProducts
+      summary: "List published products"
+      description: "Online mağaza satış kanalındaki aktif ürünleri, sayfa boyutu sınırlarıyla listeler."
+      tags: ["Catalog"]
+      x-shopiyz-auth: public_or_storefront_token
+      x-shopiyz-cache: edge
+      x-required-scopes: ["storefront:read"]
+      parameters:
+        - name: storeId
+          in: query
+          required: false
+          schema: { type: string }
+        - name: preview
+          in: query
+          required: false
+          schema: { type: boolean }
+        - name: previewThemeId
+          in: query
+          required: false
+          schema: { type: string }
+        - name: designId
+          in: query
+          required: false
+          schema: { type: string }
+        - name: limit
+          in: query
+          required: false
+          schema: { type: integer }
+      responses:
+        '200':
+          description: Successful Storefront response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/StorefrontResponse'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '429':
+          $ref: '#/components/responses/RateLimited'
+        '500':
+          $ref: '#/components/responses/InternalError'
+      security:
+        - {}
+        - StorefrontAccessToken: []
+        - StorefrontBearerAuth: []
+  /products/{handle}:
+    get:
+      operationId: getStorefrontProduct
+      summary: "Get published product"
+      description: "Ürün handle veya kimliğiyle ürün detayını döndürür; taslak ürünleri yalnızca yetkili preview oturumu görebilir."
+      tags: ["Catalog"]
+      x-shopiyz-auth: public_or_storefront_token
+      x-shopiyz-cache: edge
+      x-required-scopes: ["storefront:read"]
+      parameters:
+        - name: handle
+          in: path
+          required: true
+          schema: { type: string }
+      responses:
+        '200':
+          description: Successful Storefront response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/StorefrontResponse'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '429':
+          $ref: '#/components/responses/RateLimited'
+        '500':
+          $ref: '#/components/responses/InternalError'
+      security:
+        - {}
+        - StorefrontAccessToken: []
+        - StorefrontBearerAuth: []
+  /collections:
+    get:
+      operationId: listStorefrontCollections
+      summary: "List published collections"
+      description: "Yayınlanmış koleksiyonları ve Storefront kart alanlarını listeler."
+      tags: ["Catalog"]
+      x-shopiyz-auth: public_or_storefront_token
+      x-shopiyz-cache: edge
+      x-required-scopes: ["storefront:read"]
+      parameters:
+        - name: storeId
+          in: query
+          required: false
+          schema: { type: string }
+        - name: preview
+          in: query
+          required: false
+          schema: { type: boolean }
+        - name: previewThemeId
+          in: query
+          required: false
+          schema: { type: string }
+        - name: designId
+          in: query
+          required: false
+          schema: { type: string }
+        - name: limit
+          in: query
+          required: false
+          schema: { type: integer }
+      responses:
+        '200':
+          description: Successful Storefront response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/StorefrontResponse'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '429':
+          $ref: '#/components/responses/RateLimited'
+        '500':
+          $ref: '#/components/responses/InternalError'
+      security:
+        - {}
+        - StorefrontAccessToken: []
+        - StorefrontBearerAuth: []
+  /collections/{handle}:
+    get:
+      operationId: getStorefrontCollection
+      summary: "Get collection and products"
+      description: "Koleksiyon bilgisi ile o koleksiyona ait sıralanmış ürünleri döndürür."
+      tags: ["Catalog"]
+      x-shopiyz-auth: public_or_storefront_token
+      x-shopiyz-cache: edge
+      x-required-scopes: ["storefront:read"]
+      parameters:
+        - name: handle
+          in: path
+          required: true
+          schema: { type: string }
+        - name: limit
+          in: query
+          required: false
+          schema: { type: integer }
+      responses:
+        '200':
+          description: Successful Storefront response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/StorefrontResponse'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '429':
+          $ref: '#/components/responses/RateLimited'
+        '500':
+          $ref: '#/components/responses/InternalError'
+      security:
+        - {}
+        - StorefrontAccessToken: []
+        - StorefrontBearerAuth: []
+  /menus:
+    get:
+      operationId: listStorefrontMenus
+      summary: "List storefront menus"
+      description: "Tema navigasyonunda kullanılabilecek normalize edilmiş yayınlanmış menüleri döndürür."
+      tags: ["Catalog"]
+      x-shopiyz-auth: public_or_storefront_token
+      x-shopiyz-cache: edge
+      x-required-scopes: ["storefront:read"]
+      parameters:
+        - name: storeId
+          in: query
+          required: false
+          schema: { type: string }
+        - name: preview
+          in: query
+          required: false
+          schema: { type: boolean }
+        - name: previewThemeId
+          in: query
+          required: false
+          schema: { type: string }
+        - name: designId
+          in: query
+          required: false
+          schema: { type: string }
+      responses:
+        '200':
+          description: Successful Storefront response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/StorefrontResponse'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '429':
+          $ref: '#/components/responses/RateLimited'
+        '500':
+          $ref: '#/components/responses/InternalError'
+      security:
+        - {}
+        - StorefrontAccessToken: []
+        - StorefrontBearerAuth: []
+  /image:
+    get:
+      operationId: getStorefrontImage
+      summary: "Proxy a storefront image"
+      description: "İzin verilen medya kaynağını Storefront için güvenli response başlıklarıyla iletir."
+      tags: ["Catalog"]
+      x-shopiyz-auth: public
+      x-shopiyz-cache: edge
+      parameters:
+        - name: storeId
+          in: query
+          required: false
+          schema: { type: string }
+        - name: source
+          in: query
+          required: false
+          schema: { type: string }
+        - name: width
+          in: query
+          required: false
+          schema: { type: integer }
+        - name: quality
+          in: query
+          required: false
+          schema: { type: integer }
+        - name: format
+          in: query
+          required: false
+          schema: { type: string }
+      responses:
+        '200':
+          description: Successful Storefront response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/StorefrontResponse'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '429':
+          $ref: '#/components/responses/RateLimited'
+        '500':
+          $ref: '#/components/responses/InternalError'
+      security: []
+  /search:
+    get:
+      operationId: searchStorefront
+      summary: "Search storefront"
+      description: "Ürün, koleksiyon, sayfa ve blog sonuçlarını filtre ve sıralama seçenekleriyle döndürür."
+      tags: ["Search and discovery"]
+      x-shopiyz-auth: public_or_storefront_token
+      x-shopiyz-cache: edge
+      x-required-scopes: ["storefront:read"]
+      parameters:
+        - name: storeId
+          in: query
+          required: false
+          schema: { type: string }
+        - name: preview
+          in: query
+          required: false
+          schema: { type: boolean }
+        - name: previewThemeId
+          in: query
+          required: false
+          schema: { type: string }
+        - name: designId
+          in: query
+          required: false
+          schema: { type: string }
+        - name: q
+          in: query
+          required: false
+          schema: { type: string }
+        - name: searchPage
+          in: query
+          required: false
+          schema: { type: integer }
+        - name: limit
+          in: query
+          required: false
+          schema: { type: integer }
+        - name: searchSort
+          in: query
+          required: false
+          schema: { type: string }
+        - name: searchType
+          in: query
+          required: false
+          schema: { type: string }
+        - name: searchVendor
+          in: query
+          required: false
+          schema: { type: string }
+        - name: searchCategory
+          in: query
+          required: false
+          schema: { type: string }
+        - name: searchAvailability
+          in: query
+          required: false
+          schema: { type: boolean }
+        - name: searchPriceMax
+          in: query
+          required: false
+          schema: { type: string }
+      responses:
+        '200':
+          description: Successful Storefront response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/StorefrontResponse'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '429':
+          $ref: '#/components/responses/RateLimited'
+        '500':
+          $ref: '#/components/responses/InternalError'
+      security:
+        - {}
+        - StorefrontAccessToken: []
+        - StorefrontBearerAuth: []
+  /smart-search:
+    get:
+      operationId: getSmartSearch
+      summary: "Get predictive search results"
+      description: "Arama önerileri ve yapılandırılmış akıllı arama sonuçlarını döndürür."
+      tags: ["Search and discovery"]
+      x-shopiyz-auth: public
+      x-shopiyz-cache: private
+      parameters:
+        - name: storeId
+          in: query
+          required: false
+          schema: { type: string }
+        - name: q
+          in: query
+          required: false
+          schema: { type: string }
+        - name: limit
+          in: query
+          required: false
+          schema: { type: integer }
+        - name: sessionId
+          in: query
+          required: false
+          schema: { type: string }
+        - name: deviceType
+          in: query
+          required: false
+          schema: { type: string }
+      responses:
+        '200':
+          description: Successful Storefront response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/StorefrontResponse'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '429':
+          $ref: '#/components/responses/RateLimited'
+        '500':
+          $ref: '#/components/responses/InternalError'
+      security: []
+  /smart-search-click:
+    post:
+      operationId: trackSmartSearchClick
+      summary: "Track a search click"
+      description: "Arama sonucuna tıklama sinyalini anonim oturum kapsamında kaydeder."
+      tags: ["Search and discovery"]
+      x-shopiyz-auth: same_origin
+      x-shopiyz-cache: none
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              additionalProperties: true
+      responses:
+        '200':
+          description: Successful Storefront response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/StorefrontResponse'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '429':
+          $ref: '#/components/responses/RateLimited'
+        '500':
+          $ref: '#/components/responses/InternalError'
+      security:
+        - StorefrontSession: []
+  /quick-view-product:
+    get:
+      operationId: getQuickViewProduct
+      summary: "Get quick-view products"
+      description: "Hızlı görünüm ve son görüntülenenler bileşenleri için bir veya daha fazla ürün döndürür."
+      tags: ["Search and discovery"]
+      x-shopiyz-auth: public
+      x-shopiyz-cache: edge
+      parameters:
+        - name: storeId
+          in: query
+          required: false
+          schema: { type: string }
+        - name: product
+          in: query
+          required: false
+          schema: { type: string }
+        - name: products
+          in: query
+          required: false
+          schema: { type: string }
+        - name: preview
+          in: query
+          required: false
+          schema: { type: boolean }
+        - name: revision
+          in: query
+          required: false
+          schema: { type: string }
+      responses:
+        '200':
+          description: Successful Storefront response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/StorefrontResponse'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '429':
+          $ref: '#/components/responses/RateLimited'
+        '500':
+          $ref: '#/components/responses/InternalError'
+      security: []
+  /product-viewers:
+    get:
+      operationId: getProductViewers
+      summary: "Get product viewer count"
+      description: "Ürün için anonim ve yaklaşık aktif görüntüleyici sayısını döndürür."
+      tags: ["Search and discovery"]
+      x-shopiyz-auth: public
+      x-shopiyz-cache: private
+      parameters:
+        - name: storeId
+          in: query
+          required: false
+          schema: { type: string }
+        - name: productId
+          in: query
+          required: false
+          schema: { type: string }
+        - name: productHandle
+          in: query
+          required: false
+          schema: { type: string }
+        - name: windowSeconds
+          in: query
+          required: false
+          schema: { type: integer }
+      responses:
+        '200':
+          description: Successful Storefront response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/StorefrontResponse'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '429':
+          $ref: '#/components/responses/RateLimited'
+        '500':
+          $ref: '#/components/responses/InternalError'
+      security: []
+    post:
+      operationId: recordProductViewer
+      summary: "Record product viewer"
+      description: "Ürün görüntüleme oturumunu günceller."
+      tags: ["Search and discovery"]
+      x-shopiyz-auth: same_origin
+      x-shopiyz-cache: none
+      parameters:
+        - name: storeId
+          in: query
+          required: false
+          schema: { type: string }
+        - name: productId
+          in: query
+          required: false
+          schema: { type: string }
+        - name: productHandle
+          in: query
+          required: false
+          schema: { type: string }
+        - name: windowSeconds
+          in: query
+          required: false
+          schema: { type: integer }
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              additionalProperties: true
+      responses:
+        '200':
+          description: Successful Storefront response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/StorefrontResponse'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '429':
+          $ref: '#/components/responses/RateLimited'
+        '500':
+          $ref: '#/components/responses/InternalError'
+      security:
+        - StorefrontSession: []
+  /customer:
+    get:
+      operationId: getStorefrontCustomer
+      summary: "Get customer session"
+      description: "Mevcut müşteri oturumunu ve hesap özetini döndürür."
+      tags: ["Customer and access"]
+      x-shopiyz-auth: same_origin
+      x-shopiyz-cache: private
+      responses:
+        '200':
+          description: Successful Storefront response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/StorefrontResponse'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '429':
+          $ref: '#/components/responses/RateLimited'
+        '500':
+          $ref: '#/components/responses/InternalError'
+      security:
+        - StorefrontSession: []
+    post:
+      operationId: mutateStorefrontCustomer
+      summary: "Run customer action"
+      description: "Giriş, kayıt, çıkış, profil ve bülten gibi müşteri eylemlerini çalıştırır."
+      tags: ["Customer and access"]
+      x-shopiyz-auth: same_origin
+      x-shopiyz-cache: none
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              additionalProperties: true
+      responses:
+        '200':
+          description: Successful Storefront response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/StorefrontResponse'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '429':
+          $ref: '#/components/responses/RateLimited'
+        '500':
+          $ref: '#/components/responses/InternalError'
+      security:
+        - StorefrontSession: []
+  /password:
+    post:
+      operationId: verifyStorefrontPassword
+      summary: "Verify storefront password"
+      description: "Parola korumalı mağaza erişimini doğrular ve güvenli erişim çerezi oluşturur."
+      tags: ["Customer and access"]
+      x-shopiyz-auth: same_origin
+      x-shopiyz-cache: none
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              additionalProperties: true
+      responses:
+        '200':
+          description: Successful Storefront response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/StorefrontResponse'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '429':
+          $ref: '#/components/responses/RateLimited'
+        '500':
+          $ref: '#/components/responses/InternalError'
+      security:
+        - StorefrontSession: []
+  /contact-us:
+    post:
+      operationId: submitStorefrontContact
+      summary: "Submit contact form"
+      description: "Tema iletişim formunu doğrular ve mağaza iletişim akışına iletir."
+      tags: ["Customer and access"]
+      x-shopiyz-auth: same_origin
+      x-shopiyz-cache: none
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              additionalProperties: true
+      responses:
+        '200':
+          description: Successful Storefront response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/StorefrontResponse'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '429':
+          $ref: '#/components/responses/RateLimited'
+        '500':
+          $ref: '#/components/responses/InternalError'
+      security:
+        - StorefrontSession: []
+  /blog-comments:
+    post:
+      operationId: submitBlogComment
+      summary: "Submit blog comment"
+      description: "Blog yazısı yorumunu moderasyon kuyruğuna gönderir."
+      tags: ["Customer and access"]
+      x-shopiyz-auth: same_origin
+      x-shopiyz-cache: none
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              additionalProperties: true
+      responses:
+        '200':
+          description: Successful Storefront response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/StorefrontResponse'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '429':
+          $ref: '#/components/responses/RateLimited'
+        '500':
+          $ref: '#/components/responses/InternalError'
+      security:
+        - StorefrontSession: []
+  /customer/social/{provider}/start:
+    get:
+      operationId: startStorefrontSocialLogin
+      summary: "Start social login"
+      description: "Yapılandırılmış sosyal giriş sağlayıcısı için state doğrulamalı OAuth yönlendirmesini başlatır."
+      tags: ["Customer and access"]
+      x-shopiyz-auth: public
+      x-shopiyz-cache: none
+      parameters:
+        - name: provider
+          in: path
+          required: true
+          schema: { type: string }
+      responses:
+        '200':
+          description: Successful Storefront response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/StorefrontResponse'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '429':
+          $ref: '#/components/responses/RateLimited'
+        '500':
+          $ref: '#/components/responses/InternalError'
+      security: []
+  /customer/social/{provider}/callback:
+    get:
+      operationId: completeStorefrontSocialLogin
+      summary: "Complete social login"
+      description: "Sağlayıcı callback'ini doğrular, müşteri oturumunu oluşturur ve güvenli dönüş adresine yönlendirir."
+      tags: ["Customer and access"]
+      x-shopiyz-auth: public
+      x-shopiyz-cache: none
+      parameters:
+        - name: provider
+          in: path
+          required: true
+          schema: { type: string }
+      responses:
+        '200':
+          description: Successful Storefront response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/StorefrontResponse'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '429':
+          $ref: '#/components/responses/RateLimited'
+        '500':
+          $ref: '#/components/responses/InternalError'
+      security: []
+  /customer/social/{provider}/revoke:
+    get:
+      operationId: getStorefrontSocialRevokeStatus
+      summary: "Validate social revoke route"
+      description: "Sosyal bağlantı kaldırma callback'i için sağlayıcı anahtarını doğrular."
+      tags: ["Customer and access"]
+      x-shopiyz-auth: same_origin
+      x-shopiyz-cache: none
+      parameters:
+        - name: provider
+          in: path
+          required: true
+          schema: { type: string }
+      responses:
+        '200':
+          description: Successful Storefront response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/StorefrontResponse'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '429':
+          $ref: '#/components/responses/RateLimited'
+        '500':
+          $ref: '#/components/responses/InternalError'
+      security:
+        - StorefrontSession: []
+    post:
+      operationId: acknowledgeStorefrontSocialRevoke
+      summary: "Acknowledge social revoke callback"
+      description: "Sağlayıcı tarafından gönderilen bağlantı kaldırma callback'ini doğrular ve kabul eder."
+      tags: ["Customer and access"]
+      x-shopiyz-auth: same_origin
+      x-shopiyz-cache: none
+      parameters:
+        - name: provider
+          in: path
+          required: true
+          schema: { type: string }
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              additionalProperties: true
+      responses:
+        '200':
+          description: Successful Storefront response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/StorefrontResponse'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '429':
+          $ref: '#/components/responses/RateLimited'
+        '500':
+          $ref: '#/components/responses/InternalError'
+      security:
+        - StorefrontSession: []
+  /wishlist-share:
+    post:
+      operationId: shareWishlist
+      summary: "Share wishlist"
+      description: "İstek listesi paylaşım bağlantısını veya e-posta teslimatını oluşturur."
+      tags: ["Commerce and engagement"]
+      x-shopiyz-auth: same_origin
+      x-shopiyz-cache: none
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              additionalProperties: true
+      responses:
+        '200':
+          description: Successful Storefront response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/StorefrontResponse'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '429':
+          $ref: '#/components/responses/RateLimited'
+        '500':
+          $ref: '#/components/responses/InternalError'
+      security:
+        - StorefrontSession: []
+  /ask-expert:
+    post:
+      operationId: submitAskExpert
+      summary: "Submit ask-an-expert request"
+      description: "Ürün uzmanı talebini mağazanın yapılandırılmış destek kanalına iletir."
+      tags: ["Commerce and engagement"]
+      x-shopiyz-auth: same_origin
+      x-shopiyz-cache: none
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              additionalProperties: true
+      responses:
+        '200':
+          description: Successful Storefront response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/StorefrontResponse'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '429':
+          $ref: '#/components/responses/RateLimited'
+        '500':
+          $ref: '#/components/responses/InternalError'
+      security:
+        - StorefrontSession: []
+  /stock-alerts:
+    post:
+      operationId: manageStockAlert
+      summary: "Create or manage stock alert"
+      description: "Stok bildirimi aboneliği oluşturur, doğrular veya iptal eder."
+      tags: ["Commerce and engagement"]
+      x-shopiyz-auth: same_origin
+      x-shopiyz-cache: none
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              additionalProperties: true
+      responses:
+        '200':
+          description: Successful Storefront response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/StorefrontResponse'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '429':
+          $ref: '#/components/responses/RateLimited'
+        '500':
+          $ref: '#/components/responses/InternalError'
+      security:
+        - StorefrontSession: []
+  /cart-recovery-cart:
+    get:
+      operationId: getRecoveredCart
+      summary: "Get recovered cart"
+      description: "Geçerli kurtarma belirteci için sepet içeriğini döndürür."
+      tags: ["Commerce and engagement"]
+      x-shopiyz-auth: same_origin
+      x-shopiyz-cache: private
+      parameters:
+        - name: storeId
+          in: query
+          required: false
+          schema: { type: string }
+        - name: cartToken
+          in: query
+          required: false
+          schema: { type: string }
+      responses:
+        '200':
+          description: Successful Storefront response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/StorefrontResponse'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '429':
+          $ref: '#/components/responses/RateLimited'
+        '500':
+          $ref: '#/components/responses/InternalError'
+      security:
+        - StorefrontSession: []
+  /cart-recovery-event:
+    post:
+      operationId: recordCartRecoveryEvent
+      summary: "Record cart recovery event"
+      description: "Sepet kurtarma akışı için anonim oturum olayını kaydeder."
+      tags: ["Commerce and engagement"]
+      x-shopiyz-auth: same_origin
+      x-shopiyz-cache: none
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              additionalProperties: true
+      responses:
+        '200':
+          description: Successful Storefront response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/StorefrontResponse'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '429':
+          $ref: '#/components/responses/RateLimited'
+        '500':
+          $ref: '#/components/responses/InternalError'
+      security:
+        - StorefrontSession: []
+  /shopify-checkout:
+    post:
+      operationId: createExternalCheckout
+      summary: "Create external checkout"
+      description: "Yapılandırılmış harici ödeme sağlayıcısına güvenli checkout devri oluşturur."
+      tags: ["Commerce and engagement"]
+      x-shopiyz-auth: same_origin
+      x-shopiyz-cache: none
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              additionalProperties: true
+      responses:
+        '200':
+          description: Successful Storefront response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/StorefrontResponse'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '429':
+          $ref: '#/components/responses/RateLimited'
+        '500':
+          $ref: '#/components/responses/InternalError'
+      security:
+        - StorefrontSession: []
+  /reviews:
+    post:
+      operationId: submitProductReview
+      summary: "Submit product review"
+      description: "Ürün değerlendirmesini doğrulama ve moderasyon akışına gönderir."
+      tags: ["Commerce and engagement"]
+      x-shopiyz-auth: same_origin
+      x-shopiyz-cache: none
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              additionalProperties: true
+      responses:
+        '200':
+          description: Successful Storefront response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/StorefrontResponse'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '429':
+          $ref: '#/components/responses/RateLimited'
+        '500':
+          $ref: '#/components/responses/InternalError'
+      security:
+        - StorefrontSession: []
+  /review-questions:
+    post:
+      operationId: submitProductQuestion
+      summary: "Submit product question"
+      description: "Ürün sorusunu doğrulama ve moderasyon akışına gönderir."
+      tags: ["Commerce and engagement"]
+      x-shopiyz-auth: same_origin
+      x-shopiyz-cache: none
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              additionalProperties: true
+      responses:
+        '200':
+          description: Successful Storefront response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/StorefrontResponse'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '429':
+          $ref: '#/components/responses/RateLimited'
+        '500':
+          $ref: '#/components/responses/InternalError'
+      security:
+        - StorefrontSession: []
+components:
+  securitySchemes:
+    StorefrontAccessToken:
+      type: apiKey
+      in: header
+      name: X-Shopiyz-Storefront-Access-Token
+    StorefrontBearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: shpft
+    StorefrontSession:
+      type: apiKey
+      in: cookie
+      name: faprika_session
+  schemas:
+    StorefrontResponse:
+      type: object
+      additionalProperties: true
+    StorefrontError:
+      type: object
+      required: [error]
+      properties:
+        error: { type: string }
+  responses:
+    BadRequest:
+      description: HTTP 400
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/StorefrontError'
+    Unauthorized:
+      description: HTTP 401
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/StorefrontError'
+    Forbidden:
+      description: HTTP 403
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/StorefrontError'
+    NotFound:
+      description: HTTP 404
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/StorefrontError'
+    RateLimited:
+      description: HTTP 429
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/StorefrontError'
+    InternalError:
+      description: HTTP 500
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/StorefrontError'
