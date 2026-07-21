@@ -23,7 +23,7 @@ const checks = [
   [yaml.includes("/customer:"), "Müşteri endpointi belgelenmedi"],
   [yaml.includes("bearerFormat: shpft"), "Storefront token formatı belgelenmedi"],
   [yaml.includes("storefront:read"), "Storefront scope belgelenmedi"],
-  [operationIds.length === 38 && new Set(operationIds).size === operationIds.length, "Storefront OpenAPI operationId listesi eksik veya yineleniyor"],
+  [operationIds.length === 46 && new Set(operationIds).size === operationIds.length, "Storefront OpenAPI operationId listesi eksik veya yineleniyor"],
   [yaml.includes("ProductConnectionResponse:") && yaml.includes("CatalogFacets:") && yaml.includes("PromotionListResponse:"), "Typed katalog/facet/promosyon şemaları eksik"],
   [yaml.includes("name: color") && yaml.includes("name: size") && yaml.includes("name: priceMin") && yaml.includes("name: priceMax"), "Katalog filtre parametreleri eksik"],
   [yaml.includes("/localization:") && yaml.includes("/promotions:") && yaml.includes("/blogs/{blogHandle}/{postHandle}:"), "Yeni tema veri uçları belgelenmedi"],
@@ -32,6 +32,11 @@ const checks = [
   [html.includes("data-resource-toggle") && html.includes("applySearch"), "Storefront kaynak aç/kapat veya arama etkileşimi eksik"],
   [pathKeys.length === new Set(pathKeys).size, "Storefront OpenAPI aynı path anahtarını birden fazla kez üretiyor"],
   [(yaml.match(/^  \/customer:$/gm) || []).length === 1 && yaml.includes("      operationId: getStorefrontCustomer") && yaml.includes("      operationId: mutateStorefrontCustomer"), "GET ve POST customer işlemleri aynı OpenAPI path nesnesinde birleşmeli"],
+  [yaml.includes("/checkout-sessions:") && yaml.includes("Idempotency-Key") && yaml.includes("storefront:checkout"), "Headless checkout sözleşmesi eksik"],
+  [yaml.includes("/customer/oauth/authorize:") && yaml.includes("code_challenge_method") && yaml.includes("CustomerOAuthBearer"), "Müşteri PKCE OAuth sözleşmesi eksik"],
+  [yaml.includes("/newsletter-subscriptions:") && yaml.includes("NewsletterSubscriptionRequest") && yaml.includes("'202':"), "Newsletter double opt-in sözleşmesi eksik"],
+  [yaml.includes("'409':") && yaml.includes("'422':") && yaml.includes("ErrorResponse:"), "Yeni Storefront hata şemaları eksik"],
+  [html.includes('id="headless-security"') && html.includes("React PKCE özeti") && html.includes("Tehdit modeli"), "Headless örnekleri ve tehdit modeli eksik"],
 ];
 
 const failures = checks.filter(([ok]) => !ok).map(([, message]) => message);

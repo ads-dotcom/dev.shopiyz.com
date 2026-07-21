@@ -12,7 +12,7 @@ servers:
         default: development
         description: Store subdomain or custom store hostname.
 x-shopiyz-base-path: "/api/storefront/v1"
-x-shopiyz-generated-at: "2026-07-21T09:21:32.504Z"
+x-shopiyz-generated-at: "2026-07-21T11:40:38.671Z"
 paths:
   /health:
     get:
@@ -37,6 +37,10 @@ paths:
           $ref: '#/components/responses/Forbidden'
         '404':
           $ref: '#/components/responses/NotFound'
+        '409':
+          $ref: '#/components/responses/Conflict'
+        '422':
+          $ref: '#/components/responses/UnprocessableEntity'
         '429':
           $ref: '#/components/responses/RateLimited'
         '500':
@@ -132,6 +136,10 @@ paths:
           $ref: '#/components/responses/Forbidden'
         '404':
           $ref: '#/components/responses/NotFound'
+        '409':
+          $ref: '#/components/responses/Conflict'
+        '422':
+          $ref: '#/components/responses/UnprocessableEntity'
         '429':
           $ref: '#/components/responses/RateLimited'
         '500':
@@ -185,6 +193,10 @@ paths:
           $ref: '#/components/responses/Forbidden'
         '404':
           $ref: '#/components/responses/NotFound'
+        '409':
+          $ref: '#/components/responses/Conflict'
+        '422':
+          $ref: '#/components/responses/UnprocessableEntity'
         '429':
           $ref: '#/components/responses/RateLimited'
         '500':
@@ -238,6 +250,10 @@ paths:
           $ref: '#/components/responses/Forbidden'
         '404':
           $ref: '#/components/responses/NotFound'
+        '409':
+          $ref: '#/components/responses/Conflict'
+        '422':
+          $ref: '#/components/responses/UnprocessableEntity'
         '429':
           $ref: '#/components/responses/RateLimited'
         '500':
@@ -351,6 +367,10 @@ paths:
           $ref: '#/components/responses/Forbidden'
         '404':
           $ref: '#/components/responses/NotFound'
+        '409':
+          $ref: '#/components/responses/Conflict'
+        '422':
+          $ref: '#/components/responses/UnprocessableEntity'
         '429':
           $ref: '#/components/responses/RateLimited'
         '500':
@@ -408,6 +428,10 @@ paths:
           $ref: '#/components/responses/Forbidden'
         '404':
           $ref: '#/components/responses/NotFound'
+        '409':
+          $ref: '#/components/responses/Conflict'
+        '422':
+          $ref: '#/components/responses/UnprocessableEntity'
         '429':
           $ref: '#/components/responses/RateLimited'
         '500':
@@ -461,6 +485,10 @@ paths:
           $ref: '#/components/responses/Forbidden'
         '404':
           $ref: '#/components/responses/NotFound'
+        '409':
+          $ref: '#/components/responses/Conflict'
+        '422':
+          $ref: '#/components/responses/UnprocessableEntity'
         '429':
           $ref: '#/components/responses/RateLimited'
         '500':
@@ -578,6 +606,10 @@ paths:
           $ref: '#/components/responses/Forbidden'
         '404':
           $ref: '#/components/responses/NotFound'
+        '409':
+          $ref: '#/components/responses/Conflict'
+        '422':
+          $ref: '#/components/responses/UnprocessableEntity'
         '429':
           $ref: '#/components/responses/RateLimited'
         '500':
@@ -631,6 +663,10 @@ paths:
           $ref: '#/components/responses/Forbidden'
         '404':
           $ref: '#/components/responses/NotFound'
+        '409':
+          $ref: '#/components/responses/Conflict'
+        '422':
+          $ref: '#/components/responses/UnprocessableEntity'
         '429':
           $ref: '#/components/responses/RateLimited'
         '500':
@@ -688,6 +724,10 @@ paths:
           $ref: '#/components/responses/Forbidden'
         '404':
           $ref: '#/components/responses/NotFound'
+        '409':
+          $ref: '#/components/responses/Conflict'
+        '422':
+          $ref: '#/components/responses/UnprocessableEntity'
         '429':
           $ref: '#/components/responses/RateLimited'
         '500':
@@ -742,6 +782,10 @@ paths:
           $ref: '#/components/responses/Forbidden'
         '404':
           $ref: '#/components/responses/NotFound'
+        '409':
+          $ref: '#/components/responses/Conflict'
+        '422':
+          $ref: '#/components/responses/UnprocessableEntity'
         '429':
           $ref: '#/components/responses/RateLimited'
         '500':
@@ -795,6 +839,10 @@ paths:
           $ref: '#/components/responses/Forbidden'
         '404':
           $ref: '#/components/responses/NotFound'
+        '409':
+          $ref: '#/components/responses/Conflict'
+        '422':
+          $ref: '#/components/responses/UnprocessableEntity'
         '429':
           $ref: '#/components/responses/RateLimited'
         '500':
@@ -852,6 +900,10 @@ paths:
           $ref: '#/components/responses/Forbidden'
         '404':
           $ref: '#/components/responses/NotFound'
+        '409':
+          $ref: '#/components/responses/Conflict'
+        '422':
+          $ref: '#/components/responses/UnprocessableEntity'
         '429':
           $ref: '#/components/responses/RateLimited'
         '500':
@@ -913,6 +965,10 @@ paths:
           $ref: '#/components/responses/Forbidden'
         '404':
           $ref: '#/components/responses/NotFound'
+        '409':
+          $ref: '#/components/responses/Conflict'
+        '422':
+          $ref: '#/components/responses/UnprocessableEntity'
         '429':
           $ref: '#/components/responses/RateLimited'
         '500':
@@ -966,6 +1022,10 @@ paths:
           $ref: '#/components/responses/Forbidden'
         '404':
           $ref: '#/components/responses/NotFound'
+        '409':
+          $ref: '#/components/responses/Conflict'
+        '422':
+          $ref: '#/components/responses/UnprocessableEntity'
         '429':
           $ref: '#/components/responses/RateLimited'
         '500':
@@ -1079,6 +1139,10 @@ paths:
           $ref: '#/components/responses/Forbidden'
         '404':
           $ref: '#/components/responses/NotFound'
+        '409':
+          $ref: '#/components/responses/Conflict'
+        '422':
+          $ref: '#/components/responses/UnprocessableEntity'
         '429':
           $ref: '#/components/responses/RateLimited'
         '500':
@@ -1151,6 +1215,10 @@ paths:
           $ref: '#/components/responses/Forbidden'
         '404':
           $ref: '#/components/responses/NotFound'
+        '409':
+          $ref: '#/components/responses/Conflict'
+        '422':
+          $ref: '#/components/responses/UnprocessableEntity'
         '429':
           $ref: '#/components/responses/RateLimited'
         '500':
@@ -1186,6 +1254,10 @@ paths:
           $ref: '#/components/responses/Forbidden'
         '404':
           $ref: '#/components/responses/NotFound'
+        '409':
+          $ref: '#/components/responses/Conflict'
+        '422':
+          $ref: '#/components/responses/UnprocessableEntity'
         '429':
           $ref: '#/components/responses/RateLimited'
         '500':
@@ -1251,6 +1323,10 @@ paths:
           $ref: '#/components/responses/Forbidden'
         '404':
           $ref: '#/components/responses/NotFound'
+        '409':
+          $ref: '#/components/responses/Conflict'
+        '422':
+          $ref: '#/components/responses/UnprocessableEntity'
         '429':
           $ref: '#/components/responses/RateLimited'
         '500':
@@ -1315,6 +1391,10 @@ paths:
           $ref: '#/components/responses/Forbidden'
         '404':
           $ref: '#/components/responses/NotFound'
+        '409':
+          $ref: '#/components/responses/Conflict'
+        '422':
+          $ref: '#/components/responses/UnprocessableEntity'
         '429':
           $ref: '#/components/responses/RateLimited'
         '500':
@@ -1370,6 +1450,10 @@ paths:
           $ref: '#/components/responses/Forbidden'
         '404':
           $ref: '#/components/responses/NotFound'
+        '409':
+          $ref: '#/components/responses/Conflict'
+        '422':
+          $ref: '#/components/responses/UnprocessableEntity'
         '429':
           $ref: '#/components/responses/RateLimited'
         '500':
@@ -1420,6 +1504,10 @@ paths:
           $ref: '#/components/responses/Forbidden'
         '404':
           $ref: '#/components/responses/NotFound'
+        '409':
+          $ref: '#/components/responses/Conflict'
+        '422':
+          $ref: '#/components/responses/UnprocessableEntity'
         '429':
           $ref: '#/components/responses/RateLimited'
         '500':
@@ -1455,12 +1543,345 @@ paths:
           $ref: '#/components/responses/Forbidden'
         '404':
           $ref: '#/components/responses/NotFound'
+        '409':
+          $ref: '#/components/responses/Conflict'
+        '422':
+          $ref: '#/components/responses/UnprocessableEntity'
         '429':
           $ref: '#/components/responses/RateLimited'
         '500':
           $ref: '#/components/responses/InternalError'
       security:
         - StorefrontSession: []
+  /customer/oauth/authorize:
+    get:
+      operationId: authorizeStorefrontCustomer
+      summary: "Authorize external customer client"
+      description: "OAuth Authorization Code + PKCE S256 akışını başlatır; state, nonce ve tam redirect URI eşleşmesi zorunludur."
+      tags: ["Customer and access"]
+      x-shopiyz-auth: public
+      x-shopiyz-cache: none
+      parameters:
+        - name: storeId
+          in: query
+          required: false
+          description: "Yalnız development/preview ortamında açık mağaza kimliği."
+          schema: { type: string }
+        - name: preview
+          in: query
+          required: false
+          description: "Yetkili aynı-origin oturumunda taslak içerik ön izlemesi."
+          schema: { type: boolean }
+        - name: previewThemeId
+          in: query
+          required: false
+          description: "Ön izlenecek kurulu tema kimliği."
+          schema: { type: string }
+        - name: designId
+          in: query
+          required: false
+          description: "Ön izlenecek tema düzeni kimliği."
+          schema: { type: string }
+        - name: response_type
+          in: query
+          required: false
+          description: "OAuth Authorization Code akışı."
+          schema: { type: string, enum: ["code"] }
+        - name: client_id
+          in: query
+          required: false
+          description: "Admin panelindeki Storefront token kaydının client ID değeri."
+          schema: { type: string }
+        - name: redirect_uri
+          in: query
+          required: false
+          description: "İstemciye kayıtlı adresle tam eşleşen HTTPS callback URI."
+          schema: { type: string }
+        - name: scope
+          in: query
+          required: false
+          description: "Boşlukla ayrılmış customer:read ve customer:write kapsamları."
+          schema: { type: string }
+        - name: state
+          in: query
+          required: false
+          description: "CSRF koruması için en az 16 karakterlik tek kullanımlık istemci state değeri."
+          schema: { type: string }
+        - name: nonce
+          in: query
+          required: false
+          description: "Replay koruması için en az 16 karakterlik tek kullanımlık nonce."
+          schema: { type: string }
+        - name: code_challenge
+          in: query
+          required: false
+          description: "PKCE S256 code challenge."
+          schema: { type: string }
+        - name: code_challenge_method
+          in: query
+          required: false
+          description: "Yalnız S256 desteklenir."
+          schema: { type: string, enum: ["S256"] }
+      responses:
+        '200':
+          description: Successful Storefront response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/StorefrontResponse'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '409':
+          $ref: '#/components/responses/Conflict'
+        '422':
+          $ref: '#/components/responses/UnprocessableEntity'
+        '429':
+          $ref: '#/components/responses/RateLimited'
+        '500':
+          $ref: '#/components/responses/InternalError'
+      security: []
+  /customer/oauth/token:
+    post:
+      operationId: exchangeStorefrontCustomerToken
+      summary: "Exchange or refresh customer token"
+      description: "Tek kullanımlık yetkilendirme kodunu veya dönen refresh tokeni kısa ömürlü access token ile değiştirir."
+      tags: ["Customer and access"]
+      x-shopiyz-auth: public
+      x-shopiyz-cache: none
+      parameters:
+        - name: storeId
+          in: query
+          required: false
+          description: "Yalnız development/preview ortamında açık mağaza kimliği."
+          schema: { type: string }
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/OAuthTokenRequest'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/OAuthTokenRequest'
+      responses:
+        '200':
+          description: Successful Storefront response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OAuthTokenResponse'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '409':
+          $ref: '#/components/responses/Conflict'
+        '422':
+          $ref: '#/components/responses/UnprocessableEntity'
+        '429':
+          $ref: '#/components/responses/RateLimited'
+        '500':
+          $ref: '#/components/responses/InternalError'
+      security: []
+  /customer/oauth/revoke:
+    post:
+      operationId: revokeStorefrontCustomerToken
+      summary: "Revoke customer token family"
+      description: "Access veya refresh token ailesini güvenli biçimde iptal eder."
+      tags: ["Customer and access"]
+      x-shopiyz-auth: public
+      x-shopiyz-cache: none
+      parameters:
+        - name: storeId
+          in: query
+          required: false
+          description: "Yalnız development/preview ortamında açık mağaza kimliği."
+          schema: { type: string }
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/OAuthRevokeRequest'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/OAuthRevokeRequest'
+      responses:
+        '200':
+          description: Successful Storefront response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OAuthRevokeResponse'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '409':
+          $ref: '#/components/responses/Conflict'
+        '422':
+          $ref: '#/components/responses/UnprocessableEntity'
+        '429':
+          $ref: '#/components/responses/RateLimited'
+        '500':
+          $ref: '#/components/responses/InternalError'
+      security: []
+  /customer/me:
+    get:
+      operationId: getExternalStorefrontCustomer
+      summary: "Get authorized customer profile"
+      description: "customer:read kapsamıyla minimum müşteri profilini döndürür."
+      tags: ["Customer and access"]
+      x-shopiyz-auth: customer_oauth
+      x-shopiyz-cache: private
+      x-required-scopes: ["customer:read"]
+      parameters:
+        - name: storeId
+          in: query
+          required: false
+          description: "Yalnız development/preview ortamında açık mağaza kimliği."
+          schema: { type: string }
+        - name: preview
+          in: query
+          required: false
+          description: "Yetkili aynı-origin oturumunda taslak içerik ön izlemesi."
+          schema: { type: boolean }
+        - name: previewThemeId
+          in: query
+          required: false
+          description: "Ön izlenecek kurulu tema kimliği."
+          schema: { type: string }
+        - name: designId
+          in: query
+          required: false
+          description: "Ön izlenecek tema düzeni kimliği."
+          schema: { type: string }
+      responses:
+        '200':
+          description: Successful Storefront response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CustomerProfileResponse'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '409':
+          $ref: '#/components/responses/Conflict'
+        '422':
+          $ref: '#/components/responses/UnprocessableEntity'
+        '429':
+          $ref: '#/components/responses/RateLimited'
+        '500':
+          $ref: '#/components/responses/InternalError'
+      security:
+        - CustomerOAuthBearer: []
+    patch:
+      operationId: updateExternalStorefrontCustomer
+      summary: "Update authorized customer profile"
+      description: "customer:write kapsamıyla izin verilen minimum profil alanlarını günceller."
+      tags: ["Customer and access"]
+      x-shopiyz-auth: customer_oauth
+      x-shopiyz-cache: none
+      x-required-scopes: ["customer:write"]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CustomerProfilePatch'
+      responses:
+        '200':
+          description: Successful Storefront response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CustomerProfileResponse'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '409':
+          $ref: '#/components/responses/Conflict'
+        '422':
+          $ref: '#/components/responses/UnprocessableEntity'
+        '429':
+          $ref: '#/components/responses/RateLimited'
+        '500':
+          $ref: '#/components/responses/InternalError'
+      security:
+        - CustomerOAuthBearer: []
+  /newsletter-subscriptions:
+    post:
+      operationId: createNewsletterSubscription
+      summary: "Request newsletter subscription"
+      description: "Çift onaylı e-posta aboneliği başlatır; enumeration-safe 202 yanıtı, bot koruması ve consent kaydı kullanır."
+      tags: ["Customer and access"]
+      x-shopiyz-auth: public_or_storefront_token
+      x-shopiyz-cache: none
+      x-required-scopes: ["storefront:read"]
+      parameters:
+        - name: storeId
+          in: query
+          required: false
+          description: "Yalnız development/preview ortamında açık mağaza kimliği."
+          schema: { type: string }
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/NewsletterSubscriptionRequest'
+      responses:
+        '202':
+          description: Successful Storefront response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NewsletterAcceptedResponse'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '409':
+          $ref: '#/components/responses/Conflict'
+        '422':
+          $ref: '#/components/responses/UnprocessableEntity'
+        '429':
+          $ref: '#/components/responses/RateLimited'
+        '500':
+          $ref: '#/components/responses/InternalError'
+      security:
+        - {}
+        - StorefrontAccessToken: []
+        - StorefrontBearerAuth: []
   /password:
     post:
       operationId: verifyStorefrontPassword
@@ -1491,6 +1912,10 @@ paths:
           $ref: '#/components/responses/Forbidden'
         '404':
           $ref: '#/components/responses/NotFound'
+        '409':
+          $ref: '#/components/responses/Conflict'
+        '422':
+          $ref: '#/components/responses/UnprocessableEntity'
         '429':
           $ref: '#/components/responses/RateLimited'
         '500':
@@ -1527,6 +1952,10 @@ paths:
           $ref: '#/components/responses/Forbidden'
         '404':
           $ref: '#/components/responses/NotFound'
+        '409':
+          $ref: '#/components/responses/Conflict'
+        '422':
+          $ref: '#/components/responses/UnprocessableEntity'
         '429':
           $ref: '#/components/responses/RateLimited'
         '500':
@@ -1563,6 +1992,10 @@ paths:
           $ref: '#/components/responses/Forbidden'
         '404':
           $ref: '#/components/responses/NotFound'
+        '409':
+          $ref: '#/components/responses/Conflict'
+        '422':
+          $ref: '#/components/responses/UnprocessableEntity'
         '429':
           $ref: '#/components/responses/RateLimited'
         '500':
@@ -1617,6 +2050,10 @@ paths:
           $ref: '#/components/responses/Forbidden'
         '404':
           $ref: '#/components/responses/NotFound'
+        '409':
+          $ref: '#/components/responses/Conflict'
+        '422':
+          $ref: '#/components/responses/UnprocessableEntity'
         '429':
           $ref: '#/components/responses/RateLimited'
         '500':
@@ -1670,6 +2107,10 @@ paths:
           $ref: '#/components/responses/Forbidden'
         '404':
           $ref: '#/components/responses/NotFound'
+        '409':
+          $ref: '#/components/responses/Conflict'
+        '422':
+          $ref: '#/components/responses/UnprocessableEntity'
         '429':
           $ref: '#/components/responses/RateLimited'
         '500':
@@ -1723,6 +2164,10 @@ paths:
           $ref: '#/components/responses/Forbidden'
         '404':
           $ref: '#/components/responses/NotFound'
+        '409':
+          $ref: '#/components/responses/Conflict'
+        '422':
+          $ref: '#/components/responses/UnprocessableEntity'
         '429':
           $ref: '#/components/responses/RateLimited'
         '500':
@@ -1763,6 +2208,10 @@ paths:
           $ref: '#/components/responses/Forbidden'
         '404':
           $ref: '#/components/responses/NotFound'
+        '409':
+          $ref: '#/components/responses/Conflict'
+        '422':
+          $ref: '#/components/responses/UnprocessableEntity'
         '429':
           $ref: '#/components/responses/RateLimited'
         '500':
@@ -1799,6 +2248,10 @@ paths:
           $ref: '#/components/responses/Forbidden'
         '404':
           $ref: '#/components/responses/NotFound'
+        '409':
+          $ref: '#/components/responses/Conflict'
+        '422':
+          $ref: '#/components/responses/UnprocessableEntity'
         '429':
           $ref: '#/components/responses/RateLimited'
         '500':
@@ -1835,6 +2288,10 @@ paths:
           $ref: '#/components/responses/Forbidden'
         '404':
           $ref: '#/components/responses/NotFound'
+        '409':
+          $ref: '#/components/responses/Conflict'
+        '422':
+          $ref: '#/components/responses/UnprocessableEntity'
         '429':
           $ref: '#/components/responses/RateLimited'
         '500':
@@ -1871,6 +2328,10 @@ paths:
           $ref: '#/components/responses/Forbidden'
         '404':
           $ref: '#/components/responses/NotFound'
+        '409':
+          $ref: '#/components/responses/Conflict'
+        '422':
+          $ref: '#/components/responses/UnprocessableEntity'
         '429':
           $ref: '#/components/responses/RateLimited'
         '500':
@@ -1926,6 +2387,10 @@ paths:
           $ref: '#/components/responses/Forbidden'
         '404':
           $ref: '#/components/responses/NotFound'
+        '409':
+          $ref: '#/components/responses/Conflict'
+        '422':
+          $ref: '#/components/responses/UnprocessableEntity'
         '429':
           $ref: '#/components/responses/RateLimited'
         '500':
@@ -1962,6 +2427,10 @@ paths:
           $ref: '#/components/responses/Forbidden'
         '404':
           $ref: '#/components/responses/NotFound'
+        '409':
+          $ref: '#/components/responses/Conflict'
+        '422':
+          $ref: '#/components/responses/UnprocessableEntity'
         '429':
           $ref: '#/components/responses/RateLimited'
         '500':
@@ -1998,12 +2467,124 @@ paths:
           $ref: '#/components/responses/Forbidden'
         '404':
           $ref: '#/components/responses/NotFound'
+        '409':
+          $ref: '#/components/responses/Conflict'
+        '422':
+          $ref: '#/components/responses/UnprocessableEntity'
         '429':
           $ref: '#/components/responses/RateLimited'
         '500':
           $ref: '#/components/responses/InternalError'
       security:
         - StorefrontSession: []
+  /checkout-sessions:
+    post:
+      operationId: createHeadlessCheckoutSession
+      summary: "Create headless checkout session"
+      description: "Kanonik ürün, fiyat, stok, kampanya ve vergi doğrulamasıyla kısa ömürlü tek kullanımlık checkout URL'si oluşturur."
+      tags: ["Commerce and engagement"]
+      x-shopiyz-auth: storefront_token
+      x-shopiyz-cache: none
+      x-required-scopes: ["storefront:checkout"]
+      parameters:
+        - name: storeId
+          in: query
+          required: false
+          description: "Yalnız development/preview ortamında açık mağaza kimliği."
+          schema: { type: string }
+        - name: Idempotency-Key
+          in: header
+          required: true
+          schema: { type: string, minLength: 8, maxLength: 200 }
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CheckoutSessionRequest'
+      responses:
+        '201':
+          description: Successful Storefront response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CheckoutSessionResponse'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '409':
+          $ref: '#/components/responses/Conflict'
+        '422':
+          $ref: '#/components/responses/UnprocessableEntity'
+        '429':
+          $ref: '#/components/responses/RateLimited'
+        '500':
+          $ref: '#/components/responses/InternalError'
+      security:
+        - StorefrontAccessToken: []
+        - StorefrontBearerAuth: []
+  /checkout-sessions/{token}:
+    get:
+      operationId: consumeHeadlessCheckoutSession
+      summary: "Consume headless checkout session"
+      description: "İmzalı checkout tokenini bir kez kullanır ve native checkout'a aktarılacak kanonik sepeti döndürür."
+      tags: ["Commerce and engagement"]
+      x-shopiyz-auth: public
+      x-shopiyz-cache: none
+      parameters:
+        - name: token
+          in: path
+          required: true
+          schema: { type: string }
+        - name: storeId
+          in: query
+          required: false
+          description: "Yalnız development/preview ortamında açık mağaza kimliği."
+          schema: { type: string }
+        - name: preview
+          in: query
+          required: false
+          description: "Yetkili aynı-origin oturumunda taslak içerik ön izlemesi."
+          schema: { type: boolean }
+        - name: previewThemeId
+          in: query
+          required: false
+          description: "Ön izlenecek kurulu tema kimliği."
+          schema: { type: string }
+        - name: designId
+          in: query
+          required: false
+          description: "Ön izlenecek tema düzeni kimliği."
+          schema: { type: string }
+      responses:
+        '200':
+          description: Successful Storefront response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CheckoutSessionConsumeResponse'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '409':
+          $ref: '#/components/responses/Conflict'
+        '422':
+          $ref: '#/components/responses/UnprocessableEntity'
+        '429':
+          $ref: '#/components/responses/RateLimited'
+        '500':
+          $ref: '#/components/responses/InternalError'
+      security: []
   /reviews:
     post:
       operationId: submitProductReview
@@ -2034,6 +2615,10 @@ paths:
           $ref: '#/components/responses/Forbidden'
         '404':
           $ref: '#/components/responses/NotFound'
+        '409':
+          $ref: '#/components/responses/Conflict'
+        '422':
+          $ref: '#/components/responses/UnprocessableEntity'
         '429':
           $ref: '#/components/responses/RateLimited'
         '500':
@@ -2070,6 +2655,10 @@ paths:
           $ref: '#/components/responses/Forbidden'
         '404':
           $ref: '#/components/responses/NotFound'
+        '409':
+          $ref: '#/components/responses/Conflict'
+        '422':
+          $ref: '#/components/responses/UnprocessableEntity'
         '429':
           $ref: '#/components/responses/RateLimited'
         '500':
@@ -2090,10 +2679,124 @@ components:
       type: apiKey
       in: cookie
       name: faprika_session
+    CustomerOAuthBearer:
+      type: http
+      scheme: bearer
+      bearerFormat: shpcat
   schemas:
     StorefrontResponse:
       type: object
       additionalProperties: true
+    ErrorResponse:
+      type: object
+      required: [error]
+      properties:
+        error:
+          type: object
+          required: [code, message]
+          properties:
+            code: { type: string }
+            message: { type: string }
+            details: {}
+    CheckoutLineInput:
+      type: object
+      additionalProperties: false
+      required: [variantId, quantity]
+      properties:
+        variantId: { type: string, minLength: 1 }
+        quantity: { type: integer, minimum: 1, maximum: 99 }
+    CheckoutSessionRequest:
+      type: object
+      additionalProperties: false
+      required: [lines, returnUrl, cancelUrl]
+      properties:
+        lines: { type: array, minItems: 1, maxItems: 50, items: { $ref: '#/components/schemas/CheckoutLineInput' } }
+        locale: { type: string }
+        currency: { type: string, pattern: '^[A-Z]{3}$' }
+        returnUrl: { type: string, format: uri }
+        cancelUrl: { type: string, format: uri }
+    CheckoutSessionResponse:
+      type: object
+      required: [id, status, checkoutUrl, expiresAt, currency, lines, pricing]
+      properties:
+        id: { type: string }
+        status: { type: string, enum: [pending] }
+        checkoutUrl: { type: string, format: uri }
+        expiresAt: { type: string, format: date-time }
+        locale: { type: string }
+        currency: { type: string }
+        lines: { type: array, items: { type: object, additionalProperties: true } }
+        pricing: { type: object, additionalProperties: true }
+    CheckoutSessionConsumeResponse:
+      allOf:
+        - $ref: '#/components/schemas/CheckoutSessionResponse'
+        - type: object
+          properties:
+            status: { type: string, enum: [consumed] }
+            returnUrl: { type: string, format: uri }
+            cancelUrl: { type: string, format: uri }
+    OAuthTokenRequest:
+      type: object
+      required: [grant_type, client_id]
+      properties:
+        grant_type: { type: string, enum: [authorization_code, refresh_token] }
+        client_id: { type: string }
+        code: { type: string }
+        code_verifier: { type: string, minLength: 43, maxLength: 128 }
+        redirect_uri: { type: string, format: uri }
+        refresh_token: { type: string }
+    OAuthTokenResponse:
+      type: object
+      required: [token_type, access_token, expires_in, refresh_token, scope]
+      properties:
+        token_type: { type: string, enum: [Bearer] }
+        access_token: { type: string }
+        expires_in: { type: integer }
+        refresh_token: { type: string }
+        refresh_token_expires_in: { type: integer }
+        scope: { type: string }
+        nonce: { type: string }
+    OAuthRevokeRequest:
+      type: object
+      required: [client_id, token]
+      properties:
+        client_id: { type: string }
+        token: { type: string }
+    OAuthRevokeResponse:
+      type: object
+      required: [revoked]
+      properties: { revoked: { type: boolean } }
+    CustomerProfilePatch:
+      type: object
+      additionalProperties: false
+      properties:
+        firstName: { type: [string, 'null'] }
+        lastName: { type: [string, 'null'] }
+        phone: { type: [string, 'null'] }
+        locale: { type: string }
+        acceptsMarketingEmail: { type: boolean }
+    CustomerProfileResponse:
+      type: object
+      required: [customer]
+      properties:
+        customer: { type: object, additionalProperties: false }
+    NewsletterSubscriptionRequest:
+      type: object
+      additionalProperties: false
+      required: [email, consent]
+      properties:
+        email: { type: string, format: email }
+        locale: { type: string }
+        source: { type: string, maxLength: 120 }
+        consent: { type: boolean, const: true }
+        website: { type: string, description: Honeypot; gerçek kullanıcılar boş bırakır. }
+        turnstileToken: { type: string }
+    NewsletterAcceptedResponse:
+      type: object
+      required: [accepted, message]
+      properties:
+        accepted: { type: boolean, const: true }
+        message: { type: string }
     StorefrontMeta:
       type: object
       properties:
@@ -2397,34 +3100,62 @@ components:
       content:
         application/json:
           schema:
-            $ref: '#/components/schemas/StorefrontError'
+            oneOf:
+              - $ref: '#/components/schemas/StorefrontError'
+              - $ref: '#/components/schemas/ErrorResponse'
     Unauthorized:
       description: HTTP 401
       content:
         application/json:
           schema:
-            $ref: '#/components/schemas/StorefrontError'
+            oneOf:
+              - $ref: '#/components/schemas/StorefrontError'
+              - $ref: '#/components/schemas/ErrorResponse'
     Forbidden:
       description: HTTP 403
       content:
         application/json:
           schema:
-            $ref: '#/components/schemas/StorefrontError'
+            oneOf:
+              - $ref: '#/components/schemas/StorefrontError'
+              - $ref: '#/components/schemas/ErrorResponse'
     NotFound:
       description: HTTP 404
       content:
         application/json:
           schema:
-            $ref: '#/components/schemas/StorefrontError'
+            oneOf:
+              - $ref: '#/components/schemas/StorefrontError'
+              - $ref: '#/components/schemas/ErrorResponse'
+    Conflict:
+      description: HTTP 409
+      content:
+        application/json:
+          schema:
+            oneOf:
+              - $ref: '#/components/schemas/StorefrontError'
+              - $ref: '#/components/schemas/ErrorResponse'
+    UnprocessableEntity:
+      description: HTTP 422
+      content:
+        application/json:
+          schema:
+            oneOf:
+              - $ref: '#/components/schemas/StorefrontError'
+              - $ref: '#/components/schemas/ErrorResponse'
     RateLimited:
       description: HTTP 429
       content:
         application/json:
           schema:
-            $ref: '#/components/schemas/StorefrontError'
+            oneOf:
+              - $ref: '#/components/schemas/StorefrontError'
+              - $ref: '#/components/schemas/ErrorResponse'
     InternalError:
       description: HTTP 500
       content:
         application/json:
           schema:
-            $ref: '#/components/schemas/StorefrontError'
+            oneOf:
+              - $ref: '#/components/schemas/StorefrontError'
+              - $ref: '#/components/schemas/ErrorResponse'
