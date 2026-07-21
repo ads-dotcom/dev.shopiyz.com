@@ -28,6 +28,8 @@ const checks = [
   [yaml.includes("storefront:read"), "Storefront scope belgelenmedi"],
   [operationIds.length === 46 && new Set(operationIds).size === operationIds.length, "Storefront OpenAPI operationId listesi eksik veya yineleniyor"],
   [yaml.includes("ProductConnectionResponse:") && yaml.includes("CatalogFacets:") && yaml.includes("PromotionListResponse:"), "Typed katalog/facet/promosyon şemaları eksik"],
+  [yaml.includes("ShopIdentity:") && yaml.includes("StorefrontIdentity:") && yaml.includes("StorefrontBranding:") && yaml.includes("StorefrontSeo:"), "Dinamik mağaza kimliği ve marka şemaları eksik"],
+  [yaml.includes("canonicalOrigin:") && yaml.includes("platformDomain:") && yaml.includes("supportedLocales:") && yaml.includes("domainStatus:"), "Domain ve locale sözleşmesi güçlü biçimde belgelenmedi"],
   [yaml.includes("name: color") && yaml.includes("name: size") && yaml.includes("name: priceMin") && yaml.includes("name: priceMax"), "Katalog filtre parametreleri eksik"],
   [yaml.includes("/localization:") && yaml.includes("/promotions:") && yaml.includes("/blogs/{blogHandle}/{postHandle}:"), "Yeni tema veri uçları belgelenmedi"],
   [html.includes('id="theme-coverage"') && html.includes("Koleksiyon filtreleri") && html.includes("Fiyat ve kampanya"), "Tema geliştirme kapsamı ve örnekleri eksik"],
