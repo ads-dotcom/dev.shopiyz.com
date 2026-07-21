@@ -26,3 +26,14 @@ Cloudflare Pages can also serve this repository with:
 - `openapi/shopiyz-api.yaml` is generated from the live Admin API registry and is the AI/integration source of truth.
 - `openapi/shopiyz-storefront-api.yaml` is generated from the Storefront API registry.
 - `CNAME` binds GitHub Pages to `dev.shopiyz.com`.
+
+## Storefront documentation sync
+
+Generate the HTML and typed OpenAPI files from the current Development `main` checkout:
+
+```sh
+SHOPIYZ_APP_REPO=/absolute/path/to/shopiyz-development node scripts/sync-storefront-api-docs.mjs
+node scripts/validate-storefront-api-docs.mjs
+```
+
+The generated Storefront page uses the canonical `/storefront` route; `/` always returns to the Admin API reference.

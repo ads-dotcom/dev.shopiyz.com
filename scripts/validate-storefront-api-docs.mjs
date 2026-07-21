@@ -11,8 +11,8 @@ const operationIds = Array.from(yaml.matchAll(/^      operationId: (\S+)$/gm), (
 const pathKeys = Array.from(yaml.matchAll(/^  (\/[^:]+):$/gm), (match) => match[1]);
 
 const checks = [
-  [admin.includes('href="./storefront.html">Storefront API</a>'), "Admin API sayfasında Storefront API sekmesi yok"],
-  [html.includes('class="active" href="./storefront.html">Storefront API</a>'), "Storefront API sekmesi aktif değil"],
+  [admin.includes('href="/storefront">Storefront API</a>'), "Admin API sayfasında kanonik Storefront API sekmesi yok"],
+  [html.includes('href="/">Admin API</a>') && html.includes('class="active" href="/storefront">Storefront API</a>'), "Storefront/Admin API sekme linkleri kanonik değil"],
   [html.includes("Temalar için tek, hızlı ve güvenli veri sözleşmesi"), "Storefront mimari açıklaması yok"],
   [yaml.includes("title: Shopiyz Storefront API"), "Storefront OpenAPI başlığı yok"],
   [yaml.includes("/page:"), "Page runtime endpointi belgelenmedi"],
@@ -21,7 +21,12 @@ const checks = [
   [yaml.includes("/customer:"), "Müşteri endpointi belgelenmedi"],
   [yaml.includes("bearerFormat: shpft"), "Storefront token formatı belgelenmedi"],
   [yaml.includes("storefront:read"), "Storefront scope belgelenmedi"],
-  [operationIds.length === 32 && new Set(operationIds).size === operationIds.length, "Storefront OpenAPI operationId listesi eksik veya yineleniyor"],
+  [operationIds.length === 38 && new Set(operationIds).size === operationIds.length, "Storefront OpenAPI operationId listesi eksik veya yineleniyor"],
+  [yaml.includes("ProductConnectionResponse:") && yaml.includes("CatalogFacets:") && yaml.includes("PromotionListResponse:"), "Typed katalog/facet/promosyon şemaları eksik"],
+  [yaml.includes("name: color") && yaml.includes("name: size") && yaml.includes("name: priceMin") && yaml.includes("name: priceMax"), "Katalog filtre parametreleri eksik"],
+  [yaml.includes("/localization:") && yaml.includes("/promotions:") && yaml.includes("/blogs/{blogHandle}/{postHandle}:"), "Yeni tema veri uçları belgelenmedi"],
+  [html.includes('id="theme-coverage"') && html.includes("Koleksiyon filtreleri") && html.includes("Fiyat ve kampanya"), "Tema geliştirme kapsamı ve örnekleri eksik"],
+  [html.includes("overflow-x:hidden") && html.includes("minmax(0,1fr)") && html.includes("overflow-wrap:anywhere"), "Doküman yatay taşma koruması eksik"],
   [pathKeys.length === new Set(pathKeys).size, "Storefront OpenAPI aynı path anahtarını birden fazla kez üretiyor"],
   [(yaml.match(/^  \/customer:$/gm) || []).length === 1 && yaml.includes("      operationId: getStorefrontCustomer") && yaml.includes("      operationId: mutateStorefrontCustomer"), "GET ve POST customer işlemleri aynı OpenAPI path nesnesinde birleşmeli"],
 ];

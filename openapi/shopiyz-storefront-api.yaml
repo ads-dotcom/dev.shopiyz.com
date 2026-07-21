@@ -1,7 +1,7 @@
 openapi: 3.1.0
 info:
   title: Shopiyz Storefront API
-  version: "2026-07-19"
+  version: "2026-07-21"
   description: |-
     Versioned, read-optimized storefront contract used by Shopiyz themes and headless clients.
     First-party same-origin themes may read public endpoints without a token. Cross-origin clients use a storefront token with storefront:read.
@@ -12,7 +12,7 @@ servers:
         default: development
         description: Store subdomain or custom store hostname.
 x-shopiyz-base-path: "/api/storefront/v1"
-x-shopiyz-generated-at: "2026-07-19T01:26:54.561Z"
+x-shopiyz-generated-at: "2026-07-21T01:50:19.073Z"
 paths:
   /health:
     get:
@@ -55,62 +55,75 @@ paths:
         - name: storeId
           in: query
           required: false
+          description: "Yalnız development/preview ortamında açık mağaza kimliği."
           schema: { type: string }
         - name: preview
           in: query
           required: false
+          description: "Yetkili aynı-origin oturumunda taslak içerik ön izlemesi."
           schema: { type: boolean }
         - name: previewThemeId
           in: query
           required: false
+          description: "Ön izlenecek kurulu tema kimliği."
           schema: { type: string }
         - name: designId
           in: query
           required: false
+          description: "Ön izlenecek tema düzeni kimliği."
           schema: { type: string }
         - name: pageType
           in: query
           required: false
+          description: "home, product, collection, collection-list, search, page, blog-category veya blog-post."
           schema: { type: string }
         - name: path
           in: query
           required: false
+          description: "Tarayıcıdaki kanonik storefront yolu."
           schema: { type: string }
         - name: product
           in: query
           required: false
+          description: "Ürün handle veya kimliği."
           schema: { type: string }
         - name: collection
           in: query
           required: false
+          description: "Koleksiyon handle veya kimliği."
           schema: { type: string }
         - name: blog
           in: query
           required: false
+          description: "Blog handle."
           schema: { type: string }
         - name: blogPost
           in: query
           required: false
+          description: "Blog yazısı handle."
           schema: { type: string }
         - name: page
           in: query
           required: false
+          description: "İçerik sayfası handle."
           schema: { type: string }
         - name: policy
           in: query
           required: false
+          description: "Politika handle."
           schema: { type: string }
         - name: limit
           in: query
           required: false
-          schema: { type: integer }
+          description: "Sayfa başına sonuç; en fazla 48."
+          schema: { type: integer, minimum: 1, maximum: 48 }
       responses:
         '200':
           description: Successful Storefront response
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/StorefrontResponse'
+                $ref: '#/components/schemas/StorefrontPageResponse'
         '400':
           $ref: '#/components/responses/BadRequest'
         '401':
@@ -140,18 +153,22 @@ paths:
         - name: storeId
           in: query
           required: false
+          description: "Yalnız development/preview ortamında açık mağaza kimliği."
           schema: { type: string }
         - name: preview
           in: query
           required: false
+          description: "Yetkili aynı-origin oturumunda taslak içerik ön izlemesi."
           schema: { type: boolean }
         - name: previewThemeId
           in: query
           required: false
+          description: "Ön izlenecek kurulu tema kimliği."
           schema: { type: string }
         - name: designId
           in: query
           required: false
+          description: "Ön izlenecek tema düzeni kimliği."
           schema: { type: string }
       responses:
         '200':
@@ -159,7 +176,60 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/StorefrontResponse'
+                $ref: '#/components/schemas/ShopResponse'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '429':
+          $ref: '#/components/responses/RateLimited'
+        '500':
+          $ref: '#/components/responses/InternalError'
+      security:
+        - {}
+        - StorefrontAccessToken: []
+        - StorefrontBearerAuth: []
+  /localization:
+    get:
+      operationId: getStorefrontLocalization
+      summary: "Get locale, currency and markets"
+      description: "Tema fiyat formatı için mağaza para birimini, locale bilgisini, ondalık basamakları ve aktif pazar ülkelerini döndürür."
+      tags: ["Runtime"]
+      x-shopiyz-auth: public_or_storefront_token
+      x-shopiyz-cache: edge
+      x-required-scopes: ["storefront:read"]
+      parameters:
+        - name: storeId
+          in: query
+          required: false
+          description: "Yalnız development/preview ortamında açık mağaza kimliği."
+          schema: { type: string }
+        - name: preview
+          in: query
+          required: false
+          description: "Yetkili aynı-origin oturumunda taslak içerik ön izlemesi."
+          schema: { type: boolean }
+        - name: previewThemeId
+          in: query
+          required: false
+          description: "Ön izlenecek kurulu tema kimliği."
+          schema: { type: string }
+        - name: designId
+          in: query
+          required: false
+          description: "Ön izlenecek tema düzeni kimliği."
+          schema: { type: string }
+      responses:
+        '200':
+          description: Successful Storefront response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/LocalizationResponse'
         '400':
           $ref: '#/components/responses/BadRequest'
         '401':
@@ -179,8 +249,8 @@ paths:
   /products:
     get:
       operationId: listStorefrontProducts
-      summary: "List published products"
-      description: "Online mağaza satış kanalındaki aktif ürünleri, sayfa boyutu sınırlarıyla listeler."
+      summary: "List and filter published products"
+      description: "Aktif ürünleri fiyat, marka, kategori, ürün tipi, etiket, renk, beden ve stok facetleri; sıralama ve kararlı sayfalama bilgileriyle listeler."
       tags: ["Catalog"]
       x-shopiyz-auth: public_or_storefront_token
       x-shopiyz-cache: edge
@@ -189,30 +259,90 @@ paths:
         - name: storeId
           in: query
           required: false
+          description: "Yalnız development/preview ortamında açık mağaza kimliği."
           schema: { type: string }
         - name: preview
           in: query
           required: false
+          description: "Yetkili aynı-origin oturumunda taslak içerik ön izlemesi."
           schema: { type: boolean }
         - name: previewThemeId
           in: query
           required: false
+          description: "Ön izlenecek kurulu tema kimliği."
           schema: { type: string }
         - name: designId
           in: query
           required: false
+          description: "Ön izlenecek tema düzeni kimliği."
           schema: { type: string }
+        - name: page
+          in: query
+          required: false
+          description: "Birden başlayan sonuç sayfası."
+          schema: { type: integer, minimum: 1 }
         - name: limit
           in: query
           required: false
-          schema: { type: integer }
+          description: "Sayfa başına sonuç; en fazla 48."
+          schema: { type: integer, minimum: 1, maximum: 48 }
+        - name: sort
+          in: query
+          required: false
+          description: "Katalog sıralaması."
+          schema: { type: string, enum: ["default", "title-asc", "title-desc", "newest", "oldest", "price-asc", "price-desc"] }
+        - name: vendor
+          in: query
+          required: false
+          description: "Virgülle ayrılmış veya tekrarlanan marka değerleri."
+          schema: { type: string }
+        - name: productType
+          in: query
+          required: false
+          description: "Virgülle ayrılmış veya tekrarlanan ürün tipi değerleri."
+          schema: { type: string }
+        - name: category
+          in: query
+          required: false
+          description: "Virgülle ayrılmış veya tekrarlanan kategori değerleri."
+          schema: { type: string }
+        - name: tag
+          in: query
+          required: false
+          description: "Virgülle ayrılmış veya tekrarlanan etiket değerleri."
+          schema: { type: string }
+        - name: color
+          in: query
+          required: false
+          description: "Varyant renk seçeneği; Color, Colour, Renk, Farbe ve Couleur adları tanınır."
+          schema: { type: string }
+        - name: size
+          in: query
+          required: false
+          description: "Varyant beden seçeneği; Size, Beden, Größe ve Taille adları tanınır."
+          schema: { type: string }
+        - name: availability
+          in: query
+          required: false
+          description: "Satılabilirlik filtresi."
+          schema: { type: string, enum: ["in-stock", "out-of-stock", "preorder"] }
+        - name: priceMin
+          in: query
+          required: false
+          description: "Mağaza para biriminde minimum fiyat."
+          schema: { type: number, minimum: 0 }
+        - name: priceMax
+          in: query
+          required: false
+          description: "Mağaza para biriminde maksimum fiyat."
+          schema: { type: number, minimum: 0 }
       responses:
         '200':
           description: Successful Storefront response
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/StorefrontResponse'
+                $ref: '#/components/schemas/ProductConnectionResponse'
         '400':
           $ref: '#/components/responses/BadRequest'
         '401':
@@ -243,13 +373,33 @@ paths:
           in: path
           required: true
           schema: { type: string }
+        - name: storeId
+          in: query
+          required: false
+          description: "Yalnız development/preview ortamında açık mağaza kimliği."
+          schema: { type: string }
+        - name: preview
+          in: query
+          required: false
+          description: "Yetkili aynı-origin oturumunda taslak içerik ön izlemesi."
+          schema: { type: boolean }
+        - name: previewThemeId
+          in: query
+          required: false
+          description: "Ön izlenecek kurulu tema kimliği."
+          schema: { type: string }
+        - name: designId
+          in: query
+          required: false
+          description: "Ön izlenecek tema düzeni kimliği."
+          schema: { type: string }
       responses:
         '200':
           description: Successful Storefront response
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/StorefrontResponse'
+                $ref: '#/components/schemas/ProductResponse'
         '400':
           $ref: '#/components/responses/BadRequest'
         '401':
@@ -279,30 +429,30 @@ paths:
         - name: storeId
           in: query
           required: false
+          description: "Yalnız development/preview ortamında açık mağaza kimliği."
           schema: { type: string }
         - name: preview
           in: query
           required: false
+          description: "Yetkili aynı-origin oturumunda taslak içerik ön izlemesi."
           schema: { type: boolean }
         - name: previewThemeId
           in: query
           required: false
+          description: "Ön izlenecek kurulu tema kimliği."
           schema: { type: string }
         - name: designId
           in: query
           required: false
+          description: "Ön izlenecek tema düzeni kimliği."
           schema: { type: string }
-        - name: limit
-          in: query
-          required: false
-          schema: { type: integer }
       responses:
         '200':
           description: Successful Storefront response
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/StorefrontResponse'
+                $ref: '#/components/schemas/CollectionListResponse'
         '400':
           $ref: '#/components/responses/BadRequest'
         '401':
@@ -322,8 +472,8 @@ paths:
   /collections/{handle}:
     get:
       operationId: getStorefrontCollection
-      summary: "Get collection and products"
-      description: "Koleksiyon bilgisi ile o koleksiyona ait sıralanmış ürünleri döndürür."
+      summary: "Get collection, products and facets"
+      description: "Koleksiyon bilgisiyle birlikte filtrelenmiş ürünleri, facet sayılarını, aktif filtreleri, sıralamayı ve sayfalama meta verisini döndürür."
       tags: ["Catalog"]
       x-shopiyz-auth: public_or_storefront_token
       x-shopiyz-cache: edge
@@ -333,17 +483,93 @@ paths:
           in: path
           required: true
           schema: { type: string }
+        - name: storeId
+          in: query
+          required: false
+          description: "Yalnız development/preview ortamında açık mağaza kimliği."
+          schema: { type: string }
+        - name: preview
+          in: query
+          required: false
+          description: "Yetkili aynı-origin oturumunda taslak içerik ön izlemesi."
+          schema: { type: boolean }
+        - name: previewThemeId
+          in: query
+          required: false
+          description: "Ön izlenecek kurulu tema kimliği."
+          schema: { type: string }
+        - name: designId
+          in: query
+          required: false
+          description: "Ön izlenecek tema düzeni kimliği."
+          schema: { type: string }
+        - name: page
+          in: query
+          required: false
+          description: "Birden başlayan sonuç sayfası."
+          schema: { type: integer, minimum: 1 }
         - name: limit
           in: query
           required: false
-          schema: { type: integer }
+          description: "Sayfa başına sonuç; en fazla 48."
+          schema: { type: integer, minimum: 1, maximum: 48 }
+        - name: sort
+          in: query
+          required: false
+          description: "Katalog sıralaması."
+          schema: { type: string, enum: ["default", "title-asc", "title-desc", "newest", "oldest", "price-asc", "price-desc"] }
+        - name: vendor
+          in: query
+          required: false
+          description: "Virgülle ayrılmış veya tekrarlanan marka değerleri."
+          schema: { type: string }
+        - name: productType
+          in: query
+          required: false
+          description: "Virgülle ayrılmış veya tekrarlanan ürün tipi değerleri."
+          schema: { type: string }
+        - name: category
+          in: query
+          required: false
+          description: "Virgülle ayrılmış veya tekrarlanan kategori değerleri."
+          schema: { type: string }
+        - name: tag
+          in: query
+          required: false
+          description: "Virgülle ayrılmış veya tekrarlanan etiket değerleri."
+          schema: { type: string }
+        - name: color
+          in: query
+          required: false
+          description: "Varyant renk seçeneği; Color, Colour, Renk, Farbe ve Couleur adları tanınır."
+          schema: { type: string }
+        - name: size
+          in: query
+          required: false
+          description: "Varyant beden seçeneği; Size, Beden, Größe ve Taille adları tanınır."
+          schema: { type: string }
+        - name: availability
+          in: query
+          required: false
+          description: "Satılabilirlik filtresi."
+          schema: { type: string, enum: ["in-stock", "out-of-stock", "preorder"] }
+        - name: priceMin
+          in: query
+          required: false
+          description: "Mağaza para biriminde minimum fiyat."
+          schema: { type: number, minimum: 0 }
+        - name: priceMax
+          in: query
+          required: false
+          description: "Mağaza para biriminde maksimum fiyat."
+          schema: { type: number, minimum: 0 }
       responses:
         '200':
           description: Successful Storefront response
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/StorefrontResponse'
+                $ref: '#/components/schemas/CollectionResponse'
         '400':
           $ref: '#/components/responses/BadRequest'
         '401':
@@ -364,7 +590,7 @@ paths:
     get:
       operationId: listStorefrontMenus
       summary: "List storefront menus"
-      description: "Tema navigasyonunda kullanılabilecek normalize edilmiş yayınlanmış menüleri döndürür."
+      description: "Header, footer, müşteri hesabı ve özel konumlardaki çok seviyeli menü ağacını; güvenli URL ve yeni sekme davranışıyla döndürür."
       tags: ["Catalog"]
       x-shopiyz-auth: public_or_storefront_token
       x-shopiyz-cache: edge
@@ -373,18 +599,22 @@ paths:
         - name: storeId
           in: query
           required: false
+          description: "Yalnız development/preview ortamında açık mağaza kimliği."
           schema: { type: string }
         - name: preview
           in: query
           required: false
+          description: "Yetkili aynı-origin oturumunda taslak içerik ön izlemesi."
           schema: { type: boolean }
         - name: previewThemeId
           in: query
           required: false
+          description: "Ön izlenecek kurulu tema kimliği."
           schema: { type: string }
         - name: designId
           in: query
           required: false
+          description: "Ön izlenecek tema düzeni kimliği."
           schema: { type: string }
       responses:
         '200':
@@ -392,7 +622,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/StorefrontResponse'
+                $ref: '#/components/schemas/MenuListResponse'
         '400':
           $ref: '#/components/responses/BadRequest'
         '401':
@@ -421,23 +651,28 @@ paths:
         - name: storeId
           in: query
           required: false
+          description: "Yalnız development/preview ortamında açık mağaza kimliği."
           schema: { type: string }
         - name: source
           in: query
           required: false
+          description: "İzin verilen kaynak görsel URL'si."
           schema: { type: string }
         - name: width
           in: query
           required: false
-          schema: { type: integer }
+          description: "Dönüştürülen görsel genişliği."
+          schema: { type: integer, minimum: 1 }
         - name: quality
           in: query
           required: false
-          schema: { type: integer }
+          description: "Görsel kalite yüzdesi."
+          schema: { type: integer, minimum: 1, maximum: 100 }
         - name: format
           in: query
           required: false
-          schema: { type: string }
+          description: "Çıktı formatı."
+          schema: { type: string, enum: ["auto", "avif", "webp", "jpeg", "png"] }
       responses:
         '200':
           description: Successful Storefront response
@@ -458,6 +693,287 @@ paths:
         '500':
           $ref: '#/components/responses/InternalError'
       security: []
+  /pages/{handle}:
+    get:
+      operationId: getStorefrontContentPage
+      summary: "Get published content page"
+      description: "Yayınlanmış kurumsal, iletişim, hakkımızda, SSS veya özel sayfayı handle ile döndürür."
+      tags: ["Content"]
+      x-shopiyz-auth: public_or_storefront_token
+      x-shopiyz-cache: edge
+      x-required-scopes: ["storefront:read"]
+      parameters:
+        - name: handle
+          in: path
+          required: true
+          schema: { type: string }
+        - name: storeId
+          in: query
+          required: false
+          description: "Yalnız development/preview ortamında açık mağaza kimliği."
+          schema: { type: string }
+        - name: preview
+          in: query
+          required: false
+          description: "Yetkili aynı-origin oturumunda taslak içerik ön izlemesi."
+          schema: { type: boolean }
+        - name: previewThemeId
+          in: query
+          required: false
+          description: "Ön izlenecek kurulu tema kimliği."
+          schema: { type: string }
+        - name: designId
+          in: query
+          required: false
+          description: "Ön izlenecek tema düzeni kimliği."
+          schema: { type: string }
+      responses:
+        '200':
+          description: Successful Storefront response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ContentPageResponse'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '429':
+          $ref: '#/components/responses/RateLimited'
+        '500':
+          $ref: '#/components/responses/InternalError'
+      security:
+        - {}
+        - StorefrontAccessToken: []
+        - StorefrontBearerAuth: []
+  /blogs:
+    get:
+      operationId: listStorefrontBlogs
+      summary: "List published blogs"
+      description: "Yayınlanmış blog kategorilerini ve tema kart alanlarını listeler."
+      tags: ["Content"]
+      x-shopiyz-auth: public_or_storefront_token
+      x-shopiyz-cache: edge
+      x-required-scopes: ["storefront:read"]
+      parameters:
+        - name: storeId
+          in: query
+          required: false
+          description: "Yalnız development/preview ortamında açık mağaza kimliği."
+          schema: { type: string }
+        - name: preview
+          in: query
+          required: false
+          description: "Yetkili aynı-origin oturumunda taslak içerik ön izlemesi."
+          schema: { type: boolean }
+        - name: previewThemeId
+          in: query
+          required: false
+          description: "Ön izlenecek kurulu tema kimliği."
+          schema: { type: string }
+        - name: designId
+          in: query
+          required: false
+          description: "Ön izlenecek tema düzeni kimliği."
+          schema: { type: string }
+      responses:
+        '200':
+          description: Successful Storefront response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BlogListResponse'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '429':
+          $ref: '#/components/responses/RateLimited'
+        '500':
+          $ref: '#/components/responses/InternalError'
+      security:
+        - {}
+        - StorefrontAccessToken: []
+        - StorefrontBearerAuth: []
+  /blogs/{handle}:
+    get:
+      operationId: getStorefrontBlog
+      summary: "Get blog and posts"
+      description: "Blog bilgisi ile yayınlanmış yazı listesini döndürür."
+      tags: ["Content"]
+      x-shopiyz-auth: public_or_storefront_token
+      x-shopiyz-cache: edge
+      x-required-scopes: ["storefront:read"]
+      parameters:
+        - name: handle
+          in: path
+          required: true
+          schema: { type: string }
+        - name: storeId
+          in: query
+          required: false
+          description: "Yalnız development/preview ortamında açık mağaza kimliği."
+          schema: { type: string }
+        - name: preview
+          in: query
+          required: false
+          description: "Yetkili aynı-origin oturumunda taslak içerik ön izlemesi."
+          schema: { type: boolean }
+        - name: previewThemeId
+          in: query
+          required: false
+          description: "Ön izlenecek kurulu tema kimliği."
+          schema: { type: string }
+        - name: designId
+          in: query
+          required: false
+          description: "Ön izlenecek tema düzeni kimliği."
+          schema: { type: string }
+      responses:
+        '200':
+          description: Successful Storefront response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BlogResponse'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '429':
+          $ref: '#/components/responses/RateLimited'
+        '500':
+          $ref: '#/components/responses/InternalError'
+      security:
+        - {}
+        - StorefrontAccessToken: []
+        - StorefrontBearerAuth: []
+  /blogs/{blogHandle}/{postHandle}:
+    get:
+      operationId: getStorefrontBlogPost
+      summary: "Get blog post"
+      description: "Blog yazısını, blog bağlamını ve yazıya atanmış ürünleri döndürür."
+      tags: ["Content"]
+      x-shopiyz-auth: public_or_storefront_token
+      x-shopiyz-cache: edge
+      x-required-scopes: ["storefront:read"]
+      parameters:
+        - name: blogHandle
+          in: path
+          required: true
+          schema: { type: string }
+        - name: postHandle
+          in: path
+          required: true
+          schema: { type: string }
+        - name: storeId
+          in: query
+          required: false
+          description: "Yalnız development/preview ortamında açık mağaza kimliği."
+          schema: { type: string }
+        - name: preview
+          in: query
+          required: false
+          description: "Yetkili aynı-origin oturumunda taslak içerik ön izlemesi."
+          schema: { type: boolean }
+        - name: previewThemeId
+          in: query
+          required: false
+          description: "Ön izlenecek kurulu tema kimliği."
+          schema: { type: string }
+        - name: designId
+          in: query
+          required: false
+          description: "Ön izlenecek tema düzeni kimliği."
+          schema: { type: string }
+      responses:
+        '200':
+          description: Successful Storefront response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BlogPostResponse'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '429':
+          $ref: '#/components/responses/RateLimited'
+        '500':
+          $ref: '#/components/responses/InternalError'
+      security:
+        - {}
+        - StorefrontAccessToken: []
+        - StorefrontBearerAuth: []
+  /promotions:
+    get:
+      operationId: listStorefrontPromotions
+      summary: "List public automatic promotions"
+      description: "İndirim kodlarını veya özel müşteri kurallarını açmadan aktif otomatik ürün, sipariş, X al Y kazan ve ücretsiz kargo promosyonlarını döndürür."
+      tags: ["Merchandising"]
+      x-shopiyz-auth: public_or_storefront_token
+      x-shopiyz-cache: edge
+      x-required-scopes: ["storefront:read"]
+      parameters:
+        - name: storeId
+          in: query
+          required: false
+          description: "Yalnız development/preview ortamında açık mağaza kimliği."
+          schema: { type: string }
+        - name: preview
+          in: query
+          required: false
+          description: "Yetkili aynı-origin oturumunda taslak içerik ön izlemesi."
+          schema: { type: boolean }
+        - name: previewThemeId
+          in: query
+          required: false
+          description: "Ön izlenecek kurulu tema kimliği."
+          schema: { type: string }
+        - name: designId
+          in: query
+          required: false
+          description: "Ön izlenecek tema düzeni kimliği."
+          schema: { type: string }
+      responses:
+        '200':
+          description: Successful Storefront response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PromotionListResponse'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '429':
+          $ref: '#/components/responses/RateLimited'
+        '500':
+          $ref: '#/components/responses/InternalError'
+      security:
+        - {}
+        - StorefrontAccessToken: []
+        - StorefrontBearerAuth: []
   /search:
     get:
       operationId: searchStorefront
@@ -471,62 +987,90 @@ paths:
         - name: storeId
           in: query
           required: false
+          description: "Yalnız development/preview ortamında açık mağaza kimliği."
           schema: { type: string }
         - name: preview
           in: query
           required: false
+          description: "Yetkili aynı-origin oturumunda taslak içerik ön izlemesi."
           schema: { type: boolean }
         - name: previewThemeId
           in: query
           required: false
+          description: "Ön izlenecek kurulu tema kimliği."
           schema: { type: string }
         - name: designId
           in: query
           required: false
+          description: "Ön izlenecek tema düzeni kimliği."
           schema: { type: string }
         - name: q
           in: query
           required: false
+          description: "Arama metni."
           schema: { type: string }
         - name: searchPage
           in: query
           required: false
-          schema: { type: integer }
+          description: "Arama sonuç sayfası."
+          schema: { type: integer, minimum: 1 }
         - name: limit
           in: query
           required: false
-          schema: { type: integer }
+          description: "Sayfa başına sonuç; en fazla 48."
+          schema: { type: integer, minimum: 1, maximum: 48 }
         - name: searchSort
           in: query
           required: false
-          schema: { type: string }
+          description: "Arama sıralaması."
+          schema: { type: string, enum: ["relevance", "title", "newest", "price-asc", "price-desc"] }
         - name: searchType
           in: query
           required: false
-          schema: { type: string }
+          description: "Arama sonuç türü."
+          schema: { type: string, enum: ["all", "products", "collections", "pages", "blog_posts"] }
         - name: searchVendor
           in: query
           required: false
+          description: "Arama marka filtresi."
           schema: { type: string }
         - name: searchCategory
           in: query
           required: false
+          description: "Arama kategori filtresi."
+          schema: { type: string }
+        - name: searchProductType
+          in: query
+          required: false
+          description: "Arama ürün tipi filtresi."
+          schema: { type: string }
+        - name: searchColor
+          in: query
+          required: false
+          description: "Arama renk filtresi."
+          schema: { type: string }
+        - name: searchSize
+          in: query
+          required: false
+          description: "Arama beden filtresi."
           schema: { type: string }
         - name: searchAvailability
           in: query
           required: false
+          description: "Yalnız stokta satılabilir ürünler."
           schema: { type: boolean }
         - name: searchPriceMax
           in: query
           required: false
-          schema: { type: string }
+          description: "Arama maksimum fiyatı."
+          schema: { type: number, minimum: 0 }
       responses:
         '200':
           description: Successful Storefront response
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/StorefrontResponse'
+                $ref: '#/components/schemas/SearchResponse'
         '400':
           $ref: '#/components/responses/BadRequest'
         '401':
@@ -555,22 +1099,42 @@ paths:
         - name: storeId
           in: query
           required: false
+          description: "Yalnız development/preview ortamında açık mağaza kimliği."
+          schema: { type: string }
+        - name: preview
+          in: query
+          required: false
+          description: "Yetkili aynı-origin oturumunda taslak içerik ön izlemesi."
+          schema: { type: boolean }
+        - name: previewThemeId
+          in: query
+          required: false
+          description: "Ön izlenecek kurulu tema kimliği."
+          schema: { type: string }
+        - name: designId
+          in: query
+          required: false
+          description: "Ön izlenecek tema düzeni kimliği."
           schema: { type: string }
         - name: q
           in: query
           required: false
+          description: "Arama metni."
           schema: { type: string }
         - name: limit
           in: query
           required: false
-          schema: { type: integer }
+          description: "Sayfa başına sonuç; en fazla 48."
+          schema: { type: integer, minimum: 1, maximum: 48 }
         - name: sessionId
           in: query
           required: false
+          description: "Anonim arama oturumu."
           schema: { type: string }
         - name: deviceType
           in: query
           required: false
+          description: "İstemci cihaz sınıfı."
           schema: { type: string }
       responses:
         '200':
@@ -640,22 +1204,37 @@ paths:
         - name: storeId
           in: query
           required: false
-          schema: { type: string }
-        - name: product
-          in: query
-          required: false
-          schema: { type: string }
-        - name: products
-          in: query
-          required: false
+          description: "Yalnız development/preview ortamında açık mağaza kimliği."
           schema: { type: string }
         - name: preview
           in: query
           required: false
+          description: "Yetkili aynı-origin oturumunda taslak içerik ön izlemesi."
           schema: { type: boolean }
+        - name: previewThemeId
+          in: query
+          required: false
+          description: "Ön izlenecek kurulu tema kimliği."
+          schema: { type: string }
+        - name: designId
+          in: query
+          required: false
+          description: "Ön izlenecek tema düzeni kimliği."
+          schema: { type: string }
+        - name: product
+          in: query
+          required: false
+          description: "Ürün handle veya kimliği."
+          schema: { type: string }
+        - name: products
+          in: query
+          required: false
+          description: "Virgülle ayrılmış ürün kimlikleri."
+          schema: { type: string }
         - name: revision
           in: query
           required: false
+          description: "Storefront cache revision."
           schema: { type: string }
       responses:
         '200':
@@ -689,19 +1268,38 @@ paths:
         - name: storeId
           in: query
           required: false
+          description: "Yalnız development/preview ortamında açık mağaza kimliği."
+          schema: { type: string }
+        - name: preview
+          in: query
+          required: false
+          description: "Yetkili aynı-origin oturumunda taslak içerik ön izlemesi."
+          schema: { type: boolean }
+        - name: previewThemeId
+          in: query
+          required: false
+          description: "Ön izlenecek kurulu tema kimliği."
+          schema: { type: string }
+        - name: designId
+          in: query
+          required: false
+          description: "Ön izlenecek tema düzeni kimliği."
           schema: { type: string }
         - name: productId
           in: query
           required: false
+          description: "Ürün kimliği."
           schema: { type: string }
         - name: productHandle
           in: query
           required: false
+          description: "Ürün handle."
           schema: { type: string }
         - name: windowSeconds
           in: query
           required: false
-          schema: { type: integer }
+          description: "Aktif izleyici zaman penceresi."
+          schema: { type: integer, minimum: 30 }
       responses:
         '200':
           description: Successful Storefront response
@@ -733,19 +1331,23 @@ paths:
         - name: storeId
           in: query
           required: false
+          description: "Yalnız development/preview ortamında açık mağaza kimliği."
           schema: { type: string }
         - name: productId
           in: query
           required: false
+          description: "Ürün kimliği."
           schema: { type: string }
         - name: productHandle
           in: query
           required: false
+          description: "Ürün handle."
           schema: { type: string }
         - name: windowSeconds
           in: query
           required: false
-          schema: { type: integer }
+          description: "Aktif izleyici zaman penceresi."
+          schema: { type: integer, minimum: 30 }
       requestBody:
         required: true
         content:
@@ -782,6 +1384,27 @@ paths:
       tags: ["Customer and access"]
       x-shopiyz-auth: same_origin
       x-shopiyz-cache: private
+      parameters:
+        - name: storeId
+          in: query
+          required: false
+          description: "Yalnız development/preview ortamında açık mağaza kimliği."
+          schema: { type: string }
+        - name: preview
+          in: query
+          required: false
+          description: "Yetkili aynı-origin oturumunda taslak içerik ön izlemesi."
+          schema: { type: boolean }
+        - name: previewThemeId
+          in: query
+          required: false
+          description: "Ön izlenecek kurulu tema kimliği."
+          schema: { type: string }
+        - name: designId
+          in: query
+          required: false
+          description: "Ön izlenecek tema düzeni kimliği."
+          schema: { type: string }
       responses:
         '200':
           description: Successful Storefront response
@@ -959,6 +1582,26 @@ paths:
           in: path
           required: true
           schema: { type: string }
+        - name: storeId
+          in: query
+          required: false
+          description: "Yalnız development/preview ortamında açık mağaza kimliği."
+          schema: { type: string }
+        - name: preview
+          in: query
+          required: false
+          description: "Yetkili aynı-origin oturumunda taslak içerik ön izlemesi."
+          schema: { type: boolean }
+        - name: previewThemeId
+          in: query
+          required: false
+          description: "Ön izlenecek kurulu tema kimliği."
+          schema: { type: string }
+        - name: designId
+          in: query
+          required: false
+          description: "Ön izlenecek tema düzeni kimliği."
+          schema: { type: string }
       responses:
         '200':
           description: Successful Storefront response
@@ -992,6 +1635,26 @@ paths:
           in: path
           required: true
           schema: { type: string }
+        - name: storeId
+          in: query
+          required: false
+          description: "Yalnız development/preview ortamında açık mağaza kimliği."
+          schema: { type: string }
+        - name: preview
+          in: query
+          required: false
+          description: "Yetkili aynı-origin oturumunda taslak içerik ön izlemesi."
+          schema: { type: boolean }
+        - name: previewThemeId
+          in: query
+          required: false
+          description: "Ön izlenecek kurulu tema kimliği."
+          schema: { type: string }
+        - name: designId
+          in: query
+          required: false
+          description: "Ön izlenecek tema düzeni kimliği."
+          schema: { type: string }
       responses:
         '200':
           description: Successful Storefront response
@@ -1024,6 +1687,26 @@ paths:
         - name: provider
           in: path
           required: true
+          schema: { type: string }
+        - name: storeId
+          in: query
+          required: false
+          description: "Yalnız development/preview ortamında açık mağaza kimliği."
+          schema: { type: string }
+        - name: preview
+          in: query
+          required: false
+          description: "Yetkili aynı-origin oturumunda taslak içerik ön izlemesi."
+          schema: { type: boolean }
+        - name: previewThemeId
+          in: query
+          required: false
+          description: "Ön izlenecek kurulu tema kimliği."
+          schema: { type: string }
+        - name: designId
+          in: query
+          required: false
+          description: "Ön izlenecek tema düzeni kimliği."
           schema: { type: string }
       responses:
         '200':
@@ -1206,10 +1889,27 @@ paths:
         - name: storeId
           in: query
           required: false
+          description: "Yalnız development/preview ortamında açık mağaza kimliği."
+          schema: { type: string }
+        - name: preview
+          in: query
+          required: false
+          description: "Yetkili aynı-origin oturumunda taslak içerik ön izlemesi."
+          schema: { type: boolean }
+        - name: previewThemeId
+          in: query
+          required: false
+          description: "Ön izlenecek kurulu tema kimliği."
+          schema: { type: string }
+        - name: designId
+          in: query
+          required: false
+          description: "Ön izlenecek tema düzeni kimliği."
           schema: { type: string }
         - name: cartToken
           in: query
           required: false
+          description: "Tek kullanımlık sepet kurtarma belirteci."
           schema: { type: string }
       responses:
         '200':
@@ -1394,6 +2094,298 @@ components:
     StorefrontResponse:
       type: object
       additionalProperties: true
+    StorefrontMeta:
+      type: object
+      properties:
+        apiVersion: { type: string }
+        storefrontRevision: { type: [string, 'null'] }
+    Localization:
+      type: object
+      required: [currency, locale, currencySymbol, minimumFractionDigits, maximumFractionDigits, markets, availableCountries]
+      properties:
+        currency: { type: string, pattern: '^[A-Z]{3}$' }
+        locale: { type: string }
+        currencySymbol: { type: string }
+        minimumFractionDigits: { type: integer, minimum: 0 }
+        maximumFractionDigits: { type: integer, minimum: 0 }
+        timezone: { type: string }
+        markets:
+          type: array
+          items:
+            type: object
+            required: [id, name, countries, currency]
+            properties:
+              id: { type: string }
+              name: { type: string }
+              countries: { type: array, items: { type: string, pattern: '^[A-Z]{2}$' } }
+              currency: { type: string, pattern: '^[A-Z]{3}$' }
+        availableCountries: { type: array, items: { type: string, pattern: '^[A-Z]{2}$' } }
+    ProductVariant:
+      type: object
+      required: [id, productId, price, inventoryQuantity, availableForSale]
+      properties:
+        id: { type: string }
+        productId: { type: string }
+        title: { type: [string, 'null'] }
+        sku: { type: [string, 'null'] }
+        price: { type: number, minimum: 0 }
+        compareAtPrice: { type: [number, 'null'], minimum: 0 }
+        inventoryQuantity: { type: integer }
+        availableForSale: { type: boolean }
+        optionValues: { type: array, items: { type: string } }
+        imageUrl: { type: [string, 'null'], format: uri-reference }
+      description: Maliyet değeri Storefront yanıtında null olarak maskelenir; tedarikçi maliyet verisi yayınlanmaz.
+    ProductImage:
+      type: object
+      required: [id, url, mediaType, position]
+      properties:
+        id: { type: string }
+        url: { type: string, format: uri-reference }
+        altText: { type: [string, 'null'] }
+        mediaType: { type: string }
+        position: { type: integer }
+        width: { type: [integer, 'null'] }
+        height: { type: [integer, 'null'] }
+    Product:
+      type: object
+      required: [id, title, handle, status, tags, minPrice, maxPrice, inventoryQuantity]
+      properties:
+        id: { type: string }
+        title: { type: string }
+        handle: { type: string }
+        status: { type: string, enum: [active] }
+        vendor: { type: [string, 'null'] }
+        productType: { type: [string, 'null'] }
+        productCategory: { type: [string, 'null'] }
+        description: { type: [string, 'null'] }
+        tags: { type: array, items: { type: string } }
+        featuredImageUrl: { type: [string, 'null'], format: uri-reference }
+        availableForSale: { type: boolean }
+        preorderOnly: { type: boolean }
+        inventoryQuantity: { type: integer }
+        minPrice: { type: number, minimum: 0 }
+        maxPrice: { type: number, minimum: 0 }
+        minCompareAtPrice: { type: [number, 'null'], minimum: 0 }
+        optionNames: { type: array, items: { type: string } }
+        variants: { type: array, items: { $ref: '#/components/schemas/ProductVariant' } }
+        images: { type: array, items: { $ref: '#/components/schemas/ProductImage' } }
+        metafields: { type: object, additionalProperties: true }
+      additionalProperties: true
+    Collection:
+      type: object
+      required: [id, title, slug, status, productCount]
+      properties:
+        id: { type: string }
+        title: { type: string }
+        slug: { type: string }
+        status: { type: string, enum: [active] }
+        description: { type: [string, 'null'] }
+        imageUrl: { type: [string, 'null'], format: uri-reference }
+        productCount: { type: integer, minimum: 0 }
+        sortOrder: { type: string }
+      additionalProperties: true
+    FacetValue:
+      type: object
+      required: [value, count]
+      properties:
+        value: { type: string }
+        count: { type: integer, minimum: 0 }
+    CatalogFacets:
+      type: object
+      required: [vendors, productTypes, categories, tags, colors, sizes, availability, price]
+      properties:
+        vendors: { type: array, items: { $ref: '#/components/schemas/FacetValue' } }
+        productTypes: { type: array, items: { $ref: '#/components/schemas/FacetValue' } }
+        categories: { type: array, items: { $ref: '#/components/schemas/FacetValue' } }
+        tags: { type: array, items: { $ref: '#/components/schemas/FacetValue' } }
+        colors: { type: array, items: { $ref: '#/components/schemas/FacetValue' } }
+        sizes: { type: array, items: { $ref: '#/components/schemas/FacetValue' } }
+        availability: { type: array, items: { $ref: '#/components/schemas/FacetValue' } }
+        price:
+          type: object
+          properties:
+            minimum: { type: number, minimum: 0 }
+            maximum: { type: number, minimum: 0 }
+    Pagination:
+      type: object
+      required: [page, limit, total, unfilteredTotal, pageCount, hasPreviousPage, hasNextPage, capped]
+      properties:
+        page: { type: integer, minimum: 1 }
+        limit: { type: integer, minimum: 1, maximum: 48 }
+        total: { type: integer, minimum: 0 }
+        unfilteredTotal: { type: integer, minimum: 0 }
+        pageCount: { type: integer, minimum: 1 }
+        hasPreviousPage: { type: boolean }
+        hasNextPage: { type: boolean }
+        capped: { type: boolean, description: 'true ise katalog güvenlik penceresi 250 üründe sınırlandı.' }
+    ProductConnectionResponse:
+      allOf:
+        - $ref: '#/components/schemas/StorefrontMeta'
+        - type: object
+          required: [products, facets, pagination, appliedFilters, sort, localization]
+          properties:
+            products: { type: array, items: { $ref: '#/components/schemas/Product' } }
+            facets: { $ref: '#/components/schemas/CatalogFacets' }
+            pagination: { $ref: '#/components/schemas/Pagination' }
+            appliedFilters: { type: object, additionalProperties: true }
+            sort: { type: string }
+            localization: { $ref: '#/components/schemas/Localization' }
+    ProductResponse:
+      allOf:
+        - $ref: '#/components/schemas/StorefrontMeta'
+        - type: object
+          required: [product, localization]
+          properties:
+            product: { $ref: '#/components/schemas/Product' }
+            localization: { $ref: '#/components/schemas/Localization' }
+    CollectionListResponse:
+      allOf:
+        - $ref: '#/components/schemas/StorefrontMeta'
+        - type: object
+          required: [collections]
+          properties:
+            collections: { type: array, items: { $ref: '#/components/schemas/Collection' } }
+    CollectionResponse:
+      allOf:
+        - $ref: '#/components/schemas/ProductConnectionResponse'
+        - type: object
+          required: [collection]
+          properties:
+            collection: { $ref: '#/components/schemas/Collection' }
+            filterSettings: { type: [object, 'null'], additionalProperties: true }
+    MenuItem:
+      type: object
+      required: [id, title, itemType, url, openInNewTab, children]
+      properties:
+        id: { type: string }
+        title: { type: string }
+        itemType: { type: string }
+        url: { type: string, format: uri-reference }
+        openInNewTab: { type: boolean }
+        children: { type: array, items: { $ref: '#/components/schemas/MenuItem' } }
+    Menu:
+      type: object
+      required: [id, title, handle, location, items]
+      properties:
+        id: { type: string }
+        title: { type: string }
+        handle: { type: string }
+        location: { type: string, enum: [main, footer, customer_accounts, custom] }
+        items: { type: array, items: { $ref: '#/components/schemas/MenuItem' } }
+    MenuListResponse:
+      allOf:
+        - $ref: '#/components/schemas/StorefrontMeta'
+        - type: object
+          required: [menus]
+          properties:
+            menus: { type: array, items: { $ref: '#/components/schemas/Menu' } }
+    Promotion:
+      type: object
+      required: [id, title, kind, valueType, appliesToType, productIds, collectionIds, startsAt]
+      properties:
+        id: { type: string }
+        title: { type: string }
+        kind: { type: string, enum: [amountOffProducts, amountOffOrder, buyXGetY, freeShipping] }
+        valueType: { type: string, enum: [percentage, fixed, free] }
+        valueAmount: { type: [number, 'null'] }
+        maximumDiscountAmount: { type: [number, 'null'] }
+        appliesToType: { type: string, enum: [all, products, collections] }
+        productIds: { type: array, items: { type: string } }
+        collectionIds: { type: array, items: { type: string } }
+        minimumRequirementType: { type: string, enum: [none, subtotal, quantity] }
+        minimumSubtotal: { type: [number, 'null'] }
+        minimumQuantity: { type: [integer, 'null'] }
+        startsAt: { type: string, format: date-time }
+        endsAt: { type: [string, 'null'], format: date-time }
+        config: { type: object, additionalProperties: true }
+      description: Yalnız herkese açık otomatik kampanyalar döner; indirim kodu alanı bulunmaz.
+    PromotionListResponse:
+      allOf:
+        - $ref: '#/components/schemas/StorefrontMeta'
+        - type: object
+          required: [promotions, localization]
+          properties:
+            promotions: { type: array, items: { $ref: '#/components/schemas/Promotion' } }
+            localization: { $ref: '#/components/schemas/Localization' }
+    LocalizationResponse:
+      allOf:
+        - $ref: '#/components/schemas/StorefrontMeta'
+        - type: object
+          required: [localization]
+          properties:
+            localization: { $ref: '#/components/schemas/Localization' }
+    ShopResponse:
+      allOf:
+        - $ref: '#/components/schemas/StorefrontMeta'
+        - type: object
+          required: [shop, settings, localization, promotions]
+          properties:
+            shop: { type: object, additionalProperties: true }
+            settings: { type: object, additionalProperties: true }
+            activeTheme: { type: [object, 'null'], additionalProperties: true }
+            headerLayout: { type: [object, 'null'], additionalProperties: true }
+            footerLayout: { type: [object, 'null'], additionalProperties: true }
+            localization: { $ref: '#/components/schemas/Localization' }
+            promotions: { type: array, items: { $ref: '#/components/schemas/Promotion' } }
+    StorefrontPageResponse:
+      type: object
+      required: [store, settings, products, collections, menus, localization, promotions, storefrontRevision]
+      properties:
+        store: { type: object, additionalProperties: true }
+        settings: { type: object, additionalProperties: true }
+        activeTheme: { type: [object, 'null'], additionalProperties: true }
+        themeLayout: { type: [object, 'null'], additionalProperties: true }
+        headerLayout: { type: [object, 'null'], additionalProperties: true }
+        footerLayout: { type: [object, 'null'], additionalProperties: true }
+        products: { type: array, items: { $ref: '#/components/schemas/Product' } }
+        collections: { type: array, items: { $ref: '#/components/schemas/Collection' } }
+        menus: { type: array, items: { $ref: '#/components/schemas/Menu' } }
+        selectedProduct: { oneOf: [{ $ref: '#/components/schemas/Product' }, { type: 'null' }] }
+        selectedCollection: { oneOf: [{ $ref: '#/components/schemas/Collection' }, { type: 'null' }] }
+        localization: { $ref: '#/components/schemas/Localization' }
+        promotions: { type: array, items: { $ref: '#/components/schemas/Promotion' } }
+        storefrontRevision: { type: string }
+      additionalProperties: true
+    ContentPageResponse:
+      allOf:
+        - $ref: '#/components/schemas/StorefrontMeta'
+        - type: object
+          required: [page]
+          properties:
+            page: { type: object, additionalProperties: true }
+    BlogListResponse:
+      allOf:
+        - $ref: '#/components/schemas/StorefrontMeta'
+        - type: object
+          required: [blogs]
+          properties:
+            blogs: { type: array, items: { type: object, additionalProperties: true } }
+    BlogResponse:
+      allOf:
+        - $ref: '#/components/schemas/StorefrontMeta'
+        - type: object
+          required: [blog, posts]
+          properties:
+            blog: { type: object, additionalProperties: true }
+            posts: { type: array, items: { type: object, additionalProperties: true } }
+    BlogPostResponse:
+      allOf:
+        - $ref: '#/components/schemas/StorefrontMeta'
+        - type: object
+          required: [blog, post, products]
+          properties:
+            blog: { type: object, additionalProperties: true }
+            post: { type: object, additionalProperties: true }
+            products: { type: array, items: { $ref: '#/components/schemas/Product' } }
+    SearchResponse:
+      allOf:
+        - $ref: '#/components/schemas/StorefrontMeta'
+        - type: object
+          required: [search, products, collections]
+          properties:
+            search: { type: [object, 'null'], additionalProperties: true }
+            products: { type: array, items: { $ref: '#/components/schemas/Product' } }
+            collections: { type: array, items: { $ref: '#/components/schemas/Collection' } }
     StorefrontError:
       type: object
       required: [error]
