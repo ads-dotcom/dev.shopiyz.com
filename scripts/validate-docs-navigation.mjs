@@ -17,7 +17,7 @@ const checks = [
   [admin.includes('<li>\n              <a class="nav-link active" href="#overview"') && admin.includes('id !== "overview"'), "Admin Overview alt menüsü varsayılan kapalı değil"],
   [storefront.includes('href="/openapi">OpenAPI</a>'), "Storefront OpenAPI bağlantısı merkez sayfaya gitmiyor"],
   [openapi.includes("shopiyz-api.yaml") && openapi.includes("shopiyz-storefront-api.yaml"), "OpenAPI merkezinde iki sözleşme birlikte sunulmuyor"],
-  [redirects.includes("/admin /admin.html 200") && redirects.includes("/storefront /storefront.html 200") && redirects.includes("/openapi /openapi/index.html 200"), "Kanonik doküman yönlendirmeleri eksik"],
+  [!redirects.includes("/admin /admin.html") && !redirects.includes("/storefront /storefront.html") && redirects.includes("/openapi /openapi/index.html 200"), "HTML handling ile çakışan yönlendirme kuralı bulundu"],
 ];
 
 const failures = checks.filter(([ok]) => !ok).map(([, message]) => message);
