@@ -21,8 +21,10 @@ Cloudflare Pages can also serve this repository with:
 
 ## Files
 
-- `index.html` renders the Admin API documentation page.
+- `index.html` renders the Admin/Storefront welcome page.
+- `admin.html` renders the Admin API documentation page at `/admin`.
 - `storefront.html` renders the versioned Storefront API documentation page.
+- `openapi/index.html` presents both OpenAPI contracts together.
 - `openapi/shopiyz-api.yaml` is generated from the live Admin API registry and is the AI/integration source of truth.
 - `openapi/shopiyz-storefront-api.yaml` is generated from the Storefront API registry.
 - `CNAME` binds GitHub Pages to `dev.shopiyz.com`.
@@ -36,4 +38,4 @@ SHOPIYZ_APP_REPO=/absolute/path/to/shopiyz-development node scripts/sync-storefr
 node scripts/validate-storefront-api-docs.mjs
 ```
 
-The generated Storefront page uses the canonical `/storefront` route; `/` always returns to the Admin API reference.
+The generated Storefront page uses the canonical `/storefront` route. `/` is the API choice page, `/admin` is the Admin API reference and `/openapi` presents both contracts.

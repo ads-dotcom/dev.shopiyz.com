@@ -1,20 +1,21 @@
 <!doctype html>
-<html lang="tr"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Shopiyz Storefront API</title><meta name="description" content="Shopiyz Storefront API v1 dokümantasyonu"><link rel="icon" href="./favicon.svg"><style>
-:root{--ink:#111;--muted:#646464;--line:#e5e5e5;--soft:#f7f7f7;--blue:#075985;--green:#166534}*{box-sizing:border-box}html{max-width:100%;scroll-behavior:smooth;overflow-x:hidden}body{max-width:100%;margin:0;color:var(--ink);font:15px/1.6 Inter,ui-sans-serif,system-ui;background:#fff;overflow-x:hidden}a{color:inherit}.topbar{position:sticky;top:0;z-index:10;display:grid;grid-template-columns:270px minmax(0,1fr) auto;align-items:center;min-height:72px;border-bottom:1px solid var(--line);background:rgba(255,255,255,.96);backdrop-filter:blur(12px)}.brand{display:flex;align-items:center;gap:10px;padding:0 26px;font-weight:800;text-decoration:none}.brand img{width:34px;height:34px}.tabs{display:flex;justify-content:center;gap:8px;min-width:0}.tabs a{padding:9px 13px;border-radius:8px;text-decoration:none;font-weight:700}.tabs .active{background:#111;color:#fff}.topbar>.openapi{margin-right:24px;padding:9px 13px;border:1px solid var(--line);border-radius:8px;text-decoration:none;font-weight:700}.layout{display:grid;grid-template-columns:270px minmax(0,1fr);width:100%;max-width:100%}aside{position:sticky;top:72px;height:calc(100vh - 72px);padding:24px 18px;border-right:1px solid var(--line);overflow:auto}aside p{margin:0 10px 12px;color:#8a8a8a;font-size:12px;font-weight:800;letter-spacing:.12em}aside a{display:flex;justify-content:space-between;padding:9px 10px;border-radius:7px;text-decoration:none}aside a:hover{background:var(--soft)}aside span{color:#999}main{min-width:0;max-width:100%}.container{width:100%;max-width:1120px;min-width:0;margin:auto;padding:52px 42px 100px}.hero{padding:42px;border:1px solid var(--line);border-radius:12px;background:linear-gradient(135deg,#f4f4f4,#fff 55%)}.eyebrow{margin:0 0 8px;color:#666;font-size:12px;font-weight:850;letter-spacing:.14em}.hero h1{max-width:780px;margin:0 0 16px;font-size:48px;line-height:1.05}.hero>p{max-width:760px;color:var(--muted);font-size:18px}.badges,.meta{display:flex;flex-wrap:wrap;gap:8px}.badges span,.meta span,.auth{padding:4px 8px;border:1px solid var(--line);border-radius:999px;background:#fff;font-size:12px}.architecture{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px;margin-top:28px}.architecture div{padding:16px;border:1px solid var(--line);border-radius:9px;background:#fff;font-weight:750;text-align:center}.architecture b{display:block;color:#777;font-size:11px}.guide{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:18px;margin:24px 0 54px}.card{min-width:0;overflow:hidden;padding:24px;border:1px solid var(--line);border-radius:10px}.card h2{margin:0 0 8px}.card pre{width:100%;max-width:100%;overflow-x:auto;padding:16px;border-radius:8px;background:#111;color:#f5f5f5;font:13px/1.5 ui-monospace,SFMono-Regular,monospace;white-space:pre}.coverage{scroll-margin-top:90px;margin:54px 0}.coverage-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;margin-top:18px}.coverage-grid article{min-width:0;padding:20px;border:1px solid var(--line);border-radius:9px;background:var(--soft)}.coverage-grid article b{font-size:16px}.coverage-grid article p{margin:6px 0 0;color:var(--muted)}.resource{scroll-margin-top:90px;margin-top:54px}.resource-head{display:flex;justify-content:space-between;gap:20px;align-items:start;padding-bottom:18px;border-bottom:1px solid var(--line)}.resource-head h2{margin:0}.resource-head p:last-child{max-width:760px;margin:6px 0 0;color:var(--muted)}.resource-head>strong{white-space:nowrap}.operations{display:grid;gap:12px;margin-top:18px}.operation{min-width:0;overflow:hidden;padding:20px;border:1px solid var(--line);border-radius:9px}.operation-line{display:flex;align-items:center;gap:10px;min-width:0}.operation-line code{min-width:0;overflow-wrap:anywhere;font:13px ui-monospace,SFMono-Regular,monospace}.method{min-width:48px;padding:4px 7px;border-radius:5px;color:#fff;font-size:11px;font-weight:900;text-align:center}.method.get{background:var(--blue)}.method.post{background:var(--green)}.operation h3{margin:15px 0 5px}.operation p{margin:0 0 12px;color:var(--muted)}.contract-row{display:grid;grid-template-columns:100px minmax(0,1fr);gap:10px;align-items:start;margin:10px 0}.contract-row>code{overflow-wrap:anywhere}.parameter-list{display:flex;flex-wrap:wrap;gap:6px;min-width:0}.parameter-list code{padding:2px 7px;border-radius:5px;background:var(--soft);overflow-wrap:anywhere}@media(max-width:820px){.topbar{grid-template-columns:minmax(0,1fr) auto}.brand{padding:0 14px}.tabs{grid-column:1/-1;grid-row:2;padding:8px;border-top:1px solid var(--line)}.layout{display:block}aside{display:none}.container{padding:28px 18px 70px}.hero{padding:26px}.hero h1{font-size:36px}.architecture,.coverage-grid{grid-template-columns:1fr}.guide{grid-template-columns:1fr}.topbar>.openapi{margin-right:14px}.resource-head{display:block}.resource-head>strong{display:inline-block;margin-top:10px}.operation-line{align-items:flex-start;flex-wrap:wrap}.contract-row{grid-template-columns:1fr}}
-</style></head><body><header class="topbar"><a class="brand" href="/"><img src="/favicon.svg" alt=""><span>Shopiyz <strong>Docs</strong></span></a><nav class="tabs" aria-label="API seçimi"><a href="/">Admin API</a><a class="active" href="/storefront">Storefront API</a></nav><a class="openapi" href="/openapi/shopiyz-storefront-api.yaml">OpenAPI</a></header><div class="layout"><aside><p>STOREFRONT API</p><a href="#overview">Overview</a><a href="#quickstart">Quickstart</a><a href="#theme-coverage">Tema kapsamı</a><a href="#runtime">Runtime <span>4</span></a><a href="#catalog">Catalog <span>6</span></a><a href="#content">Content <span>4</span></a><a href="#merchandising">Merchandising <span>1</span></a><a href="#discovery">Search and discovery <span>6</span></a><a href="#customer">Customer and access <span>9</span></a><a href="#commerce">Commerce and engagement <span>8</span></a></aside><main><div class="container"><section id="overview" class="hero"><p class="eyebrow">STOREFRONT API v1</p><h1>Temalar için tek, hızlı ve güvenli veri sözleşmesi.</h1><p>Shopiyz temaları D1'e bağlanmaz. Aynı-origin Storefront Runtime veya mağazaya bağlı headless token bu API'yi çağırır; fiyat, varyant, menü, filtre, içerik ve kampanya verisi tek sürümlü sözleşmeden gelir.</p><div class="badges"><span>7 kaynak</span><span>38 endpoint</span><span>storefront:read</span><span>Edge cache</span><span>Typed OpenAPI</span></div><div class="architecture"><div><b>1</b>D1 / R2</div><div><b>2</b>Storefront API v1</div><div><b>3</b>Ortak Runtime</div><div><b>4</b>Tema 1…300</div></div></section><section id="quickstart" class="guide"><article class="card"><h2>Aynı origin tema</h2><p>Shopiyz temaları public GET uçlarını token taşımadan çağırır. Müşteri ve checkout işlemleri güvenli oturum çereziyle aynı origin'de kalır.</p><pre>const page = await fetch(
-  "/api/storefront/v1/page?pageType=home&path=/"
-).then(r =&gt; r.json());</pre></article><article class="card"><h2>Headless istemci</h2><p>Harici istemci mağazaya bağlı Storefront tokenı kullanır. Token yalnızca <code>storefront:read</code> kapsamına sahiptir.</p><pre>curl -H   "X-Shopiyz-Storefront-Access-Token: shpft_…"   "https://store.myshopiyz.com/api/storefront/v1/products"</pre></article><article class="card"><h2>Koleksiyon filtreleri</h2><p>Facet değerleri ve ürünler aynı yanıtta gelir; tema yalnız URL query'sini yönetir.</p><pre>const listing = await fetch(
-  "/api/storefront/v1/collections/all" +
-  "?color=Siyah&size=M&sort=price-asc&page=1"
-).then(r =&gt; r.json());
+<html lang="tr"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Shopiyz Storefront API</title><meta name="description" content="Shopiyz Storefront API v1 dokümantasyonu"><link rel="icon" href="/favicon.svg"><style>
+:root{color-scheme:light;--bg:#fff;--page:#f7f7f7;--surface:#fff;--soft:#f5f5f5;--ink:#111;--ink-strong:#000;--muted:#666;--subtle:#888;--line:#e5e5e5;--line-strong:#d0d0d0;--code-bg:#111;--code:#f5f5f5;--blue:#075985;--green:#166534;--sans:Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;--mono:"SFMono-Regular","Cascadia Code","JetBrains Mono",Consolas,monospace}*{box-sizing:border-box}html{max-width:100%;scroll-behavior:smooth;overflow-x:hidden}body{max-width:100%;margin:0;background:var(--bg);color:var(--ink);font-family:var(--sans);font-size:15px;line-height:1.6;overflow-x:hidden}a{color:inherit}button,input{font:inherit}code,pre{font-family:var(--mono)}.topbar{position:sticky;top:0;z-index:50;display:grid;grid-template-columns:300px minmax(0,1fr) auto;align-items:center;min-height:74px;border-bottom:1px solid var(--line);background:rgba(255,255,255,.94);backdrop-filter:blur(16px)}.brand{display:inline-flex;align-items:center;gap:12px;height:100%;padding:0 28px;color:var(--ink-strong);font-weight:780;text-decoration:none}.brand-logo{display:grid;width:36px;height:36px;place-items:center;border:1px solid #d8d8d8;border-radius:8px;background:#f3f3f3}.brand img{display:block;width:34px;height:34px;object-fit:contain}.global-nav{display:flex;align-items:center;justify-content:center;gap:8px;min-width:0;padding:0 18px}.global-nav a,.top-action{display:inline-flex;align-items:center;min-height:36px;padding:0 12px;border-radius:8px;color:#333;font-size:14px;font-weight:650;line-height:1;text-decoration:none}.global-nav a:hover,.top-action:hover{background:#f2f2f2}.global-nav a.active{background:var(--ink);color:#fff}.top-actions{display:flex;align-items:center;gap:10px;padding:0 24px 0 12px}.top-search{width:min(240px,28vw);min-height:38px;padding:0 14px;border:1px solid var(--line);border-radius:8px;background:#fff;outline:none}.top-search:focus,.sidebar-filter:focus{border-color:#9b9b9b;box-shadow:0 0 0 3px rgba(0,0,0,.06)}.shell{display:grid;grid-template-columns:300px minmax(0,1fr);min-height:calc(100vh - 74px)}.sidebar{position:sticky;top:74px;align-self:start;height:calc(100vh - 74px);overflow-y:auto;border-right:1px solid var(--line);background:#fafafa;padding:22px 22px 28px}.api-title{display:grid;gap:8px;margin-bottom:18px}.api-title strong{text-transform:uppercase}.version-row{display:flex;align-items:center;gap:8px;color:var(--muted);font-size:13px}.version-pill{padding:3px 9px;border-radius:7px;background:#efefef;color:#111;font-weight:800}.sidebar-filter{width:100%;min-height:38px;margin-bottom:10px;padding:0 12px;border:1px solid var(--line);border-radius:8px;background:#fff;outline:none}.side-nav{display:grid;gap:2px}.side-nav a{display:flex;align-items:center;justify-content:space-between;gap:10px;min-height:36px;padding:7px 10px;border-radius:8px;color:#555;font-size:13px;font-weight:650;text-decoration:none}.side-nav a:hover,.side-nav a.active{background:#f0f0f0;color:#111}.side-nav a.active{box-shadow:inset 3px 0 #111}.nav-count{color:#999;font-weight:600}.side-separator{height:1px;margin:14px 0;background:var(--line)}.sidebar-note{margin-top:22px;padding-top:18px;border-top:1px solid var(--line);color:var(--muted);font-size:13px}.sidebar-note strong{display:block;margin-bottom:4px;color:#333}.content{min-width:0;background:var(--page)}.content-inner{width:min(100%,1140px);margin:0 auto;padding:24px 28px 100px}.notice{display:flex;gap:14px;margin-bottom:20px;padding:16px 18px;border:1px solid var(--line-strong);border-radius:10px;background:var(--surface)}.notice-label{display:grid;width:26px;height:26px;flex:0 0 auto;place-items:center;border:1px solid #aaa;border-radius:999px;font-weight:800}.notice strong{display:block}.notice p{margin:2px 0 0;color:var(--muted)}.hero{display:grid;grid-template-columns:minmax(0,1fr) minmax(360px,.9fr);gap:34px;padding:34px;border:1px solid var(--line);border-radius:10px;background:var(--surface)}.eyebrow{display:block;margin:0 0 8px;color:#666;font-size:12px;font-weight:850;letter-spacing:.14em}.hero h1{max-width:650px;margin:0 0 16px;color:#000;font-size:40px;line-height:1.1;letter-spacing:-.035em}.lead{max-width:660px;margin:0;color:#555;font-size:17px;line-height:1.65}.feature-row{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:18px;margin-top:24px}.feature-row strong{display:block;margin-bottom:3px;color:#111;font-size:14px}.feature-row span{display:block;color:var(--muted);font-size:13px;line-height:1.5}.hero-actions{display:flex;flex-wrap:wrap;gap:10px;margin-top:24px}.button{display:inline-flex;align-items:center;justify-content:center;min-height:42px;padding:0 15px;border:1px solid var(--line-strong);border-radius:8px;background:#fff;font-size:13px;font-weight:750;text-decoration:none}.button.primary{border-color:#111;background:#111;color:#fff}.code-surface{min-width:0;overflow:hidden;border:1px solid var(--line);border-radius:10px;background:#111;box-shadow:0 18px 48px rgba(0,0,0,.08)}.code-bar{display:flex;align-items:center;gap:8px;padding:9px;background:#fff;border-bottom:1px solid var(--line)}.code-bar span{padding:5px 9px;border-radius:7px;background:#f2f2f2;font-size:12px;font-weight:750}.code-surface pre{min-height:285px;margin:0;padding:24px;color:var(--code);font-size:13px;line-height:1.55;white-space:pre-wrap;overflow-wrap:anywhere}.overview-links{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));margin-top:24px;border:1px solid var(--line);border-radius:10px;background:#fff;overflow:hidden}.overview-links article{padding:24px;border-right:1px solid var(--line)}.overview-links article:last-child{border-right:0}.overview-links h2{margin:0 0 7px;font-size:19px}.overview-links p{min-height:72px;margin:0 0 16px;color:var(--muted);font-size:14px}.overview-links a{font-size:13px;font-weight:750}.docs-section{scroll-margin-top:92px;margin-top:24px;padding:30px;border:1px solid var(--line);border-radius:10px;background:#fff}.section-copy{max-width:760px}.section-copy h2{margin:0;color:#000;font-size:28px;line-height:1.2;letter-spacing:-.02em}.section-copy>p:last-child{margin:8px 0 0;color:var(--muted)}.quick-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px;margin-top:22px}.card{min-width:0;overflow:hidden;padding:22px;border:1px solid var(--line);border-radius:9px;background:#fff}.card h3{margin:0 0 7px;font-size:18px}.card p{margin:0 0 14px;color:var(--muted)}.card pre{width:100%;max-width:100%;overflow-x:auto;margin:0;padding:16px;border-radius:8px;background:#111;color:#f5f5f5;font-size:12px;line-height:1.55;white-space:pre}.coverage-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;margin-top:22px}.coverage-grid article{min-width:0;padding:18px;border:1px solid var(--line);border-radius:9px;background:var(--soft)}.coverage-grid article b{font-size:15px}.coverage-grid article p{margin:5px 0 0;color:var(--muted);font-size:14px}.resource-group{scroll-margin-top:92px;margin-top:16px;border:1px solid var(--line);border-radius:10px;background:#fff;overflow:hidden}.resource-head{display:flex;width:100%;align-items:center;justify-content:space-between;gap:24px;padding:22px 24px;border:0;background:#fff;color:inherit;text-align:left;cursor:pointer}.resource-head:hover{background:#fafafa}.resource-head>span:first-child{display:grid;min-width:0}.resource-head strong{font-size:20px}.resource-head small{max-width:760px;margin-top:3px;color:var(--muted);font-size:14px;font-weight:400}.resource-meta{display:flex;align-items:center;gap:16px;white-space:nowrap}.resource-meta b{font-size:13px}.resource-meta i{display:grid;width:32px;height:32px;place-items:center;border:1px solid var(--line);border-radius:8px;font-style:normal;font-size:18px}.operations{display:grid;gap:12px;padding:0 24px 24px}.operation{min-width:0;overflow:hidden;padding:20px;border:1px solid var(--line);border-radius:9px;background:#fff}.operation-line{display:flex;align-items:center;gap:10px;min-width:0}.operation-line code{min-width:0;overflow-wrap:anywhere;font-size:13px}.method{min-width:48px;padding:4px 7px;border-radius:5px;color:#fff;font-size:11px;font-weight:900;text-align:center}.method.get{background:var(--blue)}.method.post{background:var(--green)}.auth,.meta span{padding:3px 8px;border:1px solid var(--line);border-radius:999px;background:#fff;font-size:11px}.operation h3{margin:15px 0 5px;font-size:17px}.operation p{margin:0 0 12px;color:var(--muted);font-size:14px}.contract-row{display:grid;grid-template-columns:100px minmax(0,1fr);gap:10px;align-items:start;margin:10px 0;font-size:13px}.contract-row>code{overflow-wrap:anywhere}.parameter-list{display:flex;flex-wrap:wrap;gap:6px;min-width:0}.parameter-list code{padding:2px 7px;border-radius:5px;background:var(--soft);overflow-wrap:anywhere}.meta{display:flex;flex-wrap:wrap;gap:7px}.empty-search{display:none;margin-top:18px;padding:18px;border:1px solid var(--line);border-radius:9px;background:#fff;color:var(--muted)}.mobile-nav{display:none}.mobile-nav summary{font-weight:750;cursor:pointer}.mobile-nav div{display:grid;gap:4px;margin-top:12px}.mobile-nav a{display:flex;justify-content:space-between;padding:8px 0;text-decoration:none}.mobile-nav span{color:var(--subtle)}@media(max-width:1060px){.topbar{grid-template-columns:250px minmax(0,1fr) auto}.shell{grid-template-columns:250px minmax(0,1fr)}.sidebar{padding-inline:16px}.hero{grid-template-columns:1fr}.code-surface pre{min-height:220px}}@media(max-width:820px){.topbar{grid-template-columns:minmax(0,1fr) auto;min-height:64px}.brand{padding:0 14px}.brand-logo{width:32px;height:32px}.brand img{width:30px;height:30px}.global-nav{grid-column:1/-1;grid-row:2;justify-content:flex-start;overflow-x:auto;border-top:1px solid var(--line);padding:7px 12px}.top-actions{grid-column:2;grid-row:1;padding-right:12px}.top-search{display:none}.top-action{min-height:34px}.shell{display:block}.sidebar{display:none}.content-inner{padding:18px 14px 70px}.mobile-nav{display:block;margin-bottom:16px;padding:14px 16px;border:1px solid var(--line);border-radius:9px;background:#fff}.notice{padding:14px}.hero{padding:24px}.hero h1{font-size:32px}.lead{font-size:15px}.feature-row,.overview-links,.quick-grid,.coverage-grid{grid-template-columns:1fr}.overview-links article{border-right:0;border-bottom:1px solid var(--line)}.overview-links article:last-child{border-bottom:0}.overview-links p{min-height:0}.docs-section{padding:22px}.resource-head{align-items:flex-start;padding:18px}.resource-meta b{display:none}.operations{padding:0 16px 16px}.operation-line{align-items:flex-start;flex-wrap:wrap}.contract-row{grid-template-columns:1fr}.code-surface pre{min-height:0}.section-copy h2{font-size:24px}}@media(max-width:460px){.brand span:last-child{display:none}.global-nav a{padding-inline:10px;font-size:13px}.top-action{padding-inline:9px}.hero h1{font-size:29px}.feature-row{gap:12px}.resource-head small{font-size:13px}}
+</style></head><body><header class="topbar"><a class="brand" href="/" aria-label="Shopiyz Docs"><span class="brand-logo"><img src="/favicon.svg" alt=""></span><span>Shopiyz <strong>Docs</strong></span></a><nav class="global-nav" aria-label="Ana doküman navigasyonu"><a href="/admin">Admin API</a><a class="active" href="/storefront">Storefront API</a><a href="#runtime">API reference</a><a href="/openapi">OpenAPI</a></nav><div class="top-actions"><input class="top-search" id="globalSearch" type="search" aria-label="Dokümanlarda ara" placeholder="Search"><a class="top-action" href="#quickstart">Help</a></div></header><div class="shell"><aside class="sidebar" aria-label="Storefront API navigasyonu"><div class="api-title"><strong>Storefront API</strong><div class="version-row"><span class="version-pill">REST</span><span>v1</span></div></div><input class="sidebar-filter" id="sectionFilter" type="search" aria-label="Bölüm filtrele" placeholder="Filter sections"><nav class="side-nav"><a class="active" href="#overview" data-sidebar-link><span>Overview</span></a><a href="#quickstart" data-sidebar-link><span>Quickstart</span></a><a href="#theme-coverage" data-sidebar-link><span>Tema kapsamı</span></a><div class="side-separator"></div><a href="#runtime" data-sidebar-link><span>Runtime</span><span class="nav-count">4</span></a><a href="#catalog" data-sidebar-link><span>Catalog</span><span class="nav-count">6</span></a><a href="#content" data-sidebar-link><span>Content</span><span class="nav-count">4</span></a><a href="#merchandising" data-sidebar-link><span>Merchandising</span><span class="nav-count">1</span></a><a href="#discovery" data-sidebar-link><span>Search and discovery</span><span class="nav-count">6</span></a><a href="#customer" data-sidebar-link><span>Customer and access</span><span class="nav-count">9</span></a><a href="#commerce" data-sidebar-link><span>Commerce and engagement</span><span class="nav-count">8</span></a></nav><div class="sidebar-note"><strong>Güvenli tema sözleşmesi</strong>Temalar yalnız yayınlanmış mağaza verisini Storefront API üzerinden okur.</div></aside><main class="content"><div class="content-inner"><details class="mobile-nav"><summary>Storefront API bölümleri</summary><div><a href="#overview">Overview</a><a href="#quickstart">Quickstart</a><a href="#theme-coverage">Tema kapsamı</a><a href="#runtime">Runtime <span>4</span></a><a href="#catalog">Catalog <span>6</span></a><a href="#content">Content <span>4</span></a><a href="#merchandising">Merchandising <span>1</span></a><a href="#discovery">Search and discovery <span>6</span></a><a href="#customer">Customer and access <span>9</span></a><a href="#commerce">Commerce and engagement <span>8</span></a></div></details><div class="notice" role="note"><span class="notice-label">i</span><div><strong>Storefront API, tema runtime'ı ile aynı sözleşmeyi kullanır.</strong><p>Yayınlanmış katalog, içerik ve müşteri deneyimi verileri güvenli kapsamlarla tek API yüzeyinden sunulur.</p></div></div><section id="overview" class="hero"><div><p class="eyebrow">STOREFRONT API v1</p><h1>Temalar için hızlı, güvenli ve tutarlı veri katmanı.</h1><p class="lead">Shopiyz temaları D1'e bağlanmaz. Aynı-origin Storefront Runtime veya mağazaya bağlı headless token; fiyat, varyant, menü, filtre, içerik ve kampanya verisini tek sürümlü sözleşmeden alır.</p><div class="feature-row"><div><strong>Mağaza bazlı erişim</strong><span>Her istek doğru mağaza ve yayınlanmış tema bağlamında çözülür.</span></div><div><strong>Güvenli kapsam</strong><span>Headless token yalnızca <code>storefront:read</code> yetkisi taşır.</span></div><div><strong>Edge performansı</strong><span>Katalog ve içerik yanıtları kararlı cache politikalarıyla sunulur.</span></div></div><div class="hero-actions"><a class="button primary" href="#quickstart">Başlayın</a><a class="button" href="#runtime">Endpointleri inceleyin</a></div></div><div class="code-surface" aria-label="Storefront API istek örneği"><div class="code-bar"><span>JavaScript</span></div><pre><code>// Ana sayfa tema verisini alın
+const page = await fetch(
+  "/api/storefront/v1/page?pageType=home&amp;path=/"
+).then((response) =&gt; response.json());
 
-renderFilters(listing.facets);
-renderProducts(listing.products);</pre></article><article class="card"><h2>Fiyat ve kampanya</h2><p>Fiyatlar <code>localization.currency</code> ile formatlanır. Yalnız herkese açık otomatik promosyonlar okunur.</p><pre>const [pricing, campaign] = await Promise.all([
-  fetch("/api/storefront/v1/localization").then(r =&gt; r.json()),
-  fetch("/api/storefront/v1/promotions").then(r =&gt; r.json())
-]);</pre></article></section>
-    <section id="theme-coverage" class="coverage">
-      <div class="resource-head"><div><p class="eyebrow">TEMA GELİŞTİRME KAPSAMI</p><h2>Harici bir temanın ihtiyaç duyduğu veri yüzeyi</h2><p>ThemeForest veya özel bir frontend, yönetim veritabanına bağlanmadan aşağıdaki sözleşmelerle çalışır.</p></div><strong>6 alan</strong></div>
+renderTheme(page);</code></pre></div></section><section class="overview-links" aria-label="Storefront API özet bağlantıları"><article><h2>Tema runtime</h2><p>Sayfa shell'i, layout ve yayınlanmış içerikleri tek payload ile alın.</p><a href="#runtime">Runtime uçlarını görüntüleyin</a></article><article><h2>Katalog ve içerik</h2><p>Ürün, koleksiyon, menü, blog ve arama verilerini aynı sözleşmeyle kullanın.</p><a href="#catalog">Katalog uçlarını görüntüleyin</a></article><article><h2>Müşteri deneyimi</h2><p>Giriş, wishlist, yorum ve checkout devrini güvenli oturumla yönetin.</p><a href="#customer">Müşteri uçlarını görüntüleyin</a></article></section><section id="quickstart" class="docs-section"><div class="section-copy"><p class="eyebrow">QUICKSTART</p><h2>Doğru istemci tipini seçerek başlayın</h2><p>Aynı-origin temalar public uçları kullanır; harici istemciler mağazaya bağlı Storefront tokenı taşır.</p></div><div class="quick-grid"><article class="card"><h3>Aynı-origin tema</h3><p>Public GET uçları token taşımadan çağrılır. Müşteri ve checkout işlemleri güvenli oturum çereziyle aynı origin'de kalır.</p><pre>const page = await fetch(
+  "/api/storefront/v1/page?pageType=home&amp;path=/"
+).then((response) =&gt; response.json());</pre></article><article class="card"><h3>Headless istemci</h3><p>Harici istemci yalnızca <code>storefront:read</code> kapsamına sahip mağaza tokenını kullanır.</p><pre>curl -H   "X-Shopiyz-Storefront-Access-Token: shpft_…"   "https://store.myshopiyz.com/api/storefront/v1/products"</pre></article><article class="card"><h3>Koleksiyon filtreleri</h3><p>Facet değerleri ve ürünler aynı yanıtta gelir; tema yalnız URL sorgusunu yönetir.</p><pre>const listing = await fetch(
+  "/api/storefront/v1/collections/all" +
+  "?color=Siyah&amp;size=M&amp;sort=price-asc&amp;page=1"
+).then((response) =&gt; response.json());</pre></article><article class="card"><h3>Fiyat ve kampanya</h3><p>Fiyatlar mağaza para birimiyle biçimlenir; yalnız herkese açık otomatik promosyonlar okunur.</p><pre>const localization = await fetch(
+  "/api/storefront/v1/localization"
+).then((response) =&gt; response.json());</pre></article></div></section>
+    <section id="theme-coverage" class="docs-section coverage">
+      <div class="section-copy"><p class="eyebrow">TEMA GELİŞTİRME KAPSAMI</p><h2>Harici bir temanın ihtiyaç duyduğu veri yüzeyi</h2><p>ThemeForest veya özel bir frontend, yönetim veritabanına bağlanmadan aşağıdaki sözleşmelerle çalışır.</p></div>
       <div class="coverage-grid">
         <article><b>Navigasyon</b><p>Header, mega menu, mobil menü ve footer için konumlu, çok seviyeli <code>/menus</code> ağacı.</p></article>
         <article><b>Kategori ve filtre</b><p>Koleksiyon, marka, ürün tipi, kategori, etiket, renk, beden, stok ve fiyat facetleri; sayfalama ve sıralama.</p></article>
@@ -23,32 +24,35 @@ renderProducts(listing.products);</pre></article><article class="card"><h2>Fiyat
         <article><b>İçerik ve SEO</b><p>Sayfalar, bloglar, blog yazıları, SEO alanları, tema layout'u ve header/footer shell verisi.</p></article>
         <article><b>Müşteri ve ticaret</b><p>Aynı-origin güvenli oturumla giriş, kayıt, parola, wishlist, yorum, stok bildirimi ve checkout devri.</p></article>
       </div>
-    </section>
-    <section id="runtime" class="resource">
-      <div class="resource-head"><div><p class="eyebrow">RESOURCE</p><h2>Runtime</h2><p>Tema runtime'ının sayfa verisini tek istekte alması ve dağıtım sağlığını doğrulaması için uçlar.</p></div><strong>4 endpoint</strong></div>
-      <div class="operations">
-        <article class="operation">
+    </section><div id="resourceResults">
+    <section id="runtime" class="resource-group" data-resource-group>
+      <button class="resource-head" type="button" aria-expanded="false" data-resource-toggle>
+        <span><span class="eyebrow">RESOURCE</span><strong>Runtime</strong><small>Tema runtime'ının sayfa verisini tek istekte alması ve dağıtım sağlığını doğrulaması için uçlar.</small></span>
+        <span class="resource-meta"><b>4 endpoint</b><i aria-hidden="true">+</i></span>
+      </button>
+      <div class="operations" hidden>
+        <article class="operation" data-operation-card data-search-text="get /api/storefront/v1/health storefront api health dağıtılan site worker'ında storefront api v1 yönlendirmesinin hazır olduğunu doğrular.">
           <div class="operation-line"><span class="method get">GET</span><code>/api/storefront/v1/health</code><span class="auth">public</span></div>
           <h3>Storefront API health</h3><p>Dağıtılan site Worker'ında Storefront API v1 yönlendirmesinin hazır olduğunu doğrular.</p>
           <div class="contract-row"><strong>Parametreler</strong><div class="parameter-list"><span>Yok</span></div></div>
           <div class="contract-row"><strong>Yanıt</strong><code>StorefrontResponse</code></div>
           <div class="meta"><span>Cache: none</span></div>
         </article>
-        <article class="operation">
+        <article class="operation" data-operation-card data-search-text="get /api/storefront/v1/page get page runtime payload mağaza, yayınlanmış tema, sayfa düzenleri, gerekli katalog verileri, menüler ve sayfaya özel kaynağı tek payload içinde döndürür.">
           <div class="operation-line"><span class="method get">GET</span><code>/api/storefront/v1/page</code><span class="auth">public_or_storefront_token</span></div>
           <h3>Get page runtime payload</h3><p>Mağaza, yayınlanmış tema, sayfa düzenleri, gerekli katalog verileri, menüler ve sayfaya özel kaynağı tek payload içinde döndürür.</p>
           <div class="contract-row"><strong>Parametreler</strong><div class="parameter-list"><code>storeId</code><code>preview</code><code>previewThemeId</code><code>designId</code><code>pageType</code><code>path</code><code>product</code><code>collection</code><code>blog</code><code>blogPost</code><code>page</code><code>policy</code><code>limit</code></div></div>
           <div class="contract-row"><strong>Yanıt</strong><code>StorefrontPageResponse</code></div>
           <div class="meta"><span>Cache: edge</span><span>Scope: storefront:read</span></div>
         </article>
-        <article class="operation">
+        <article class="operation" data-operation-card data-search-text="get /api/storefront/v1/shop get shop and theme shell mağaza kimliği, herkese açık ayarlar, aktif tema ve header/footer düzenlerini döndürür.">
           <div class="operation-line"><span class="method get">GET</span><code>/api/storefront/v1/shop</code><span class="auth">public_or_storefront_token</span></div>
           <h3>Get shop and theme shell</h3><p>Mağaza kimliği, herkese açık ayarlar, aktif tema ve header/footer düzenlerini döndürür.</p>
           <div class="contract-row"><strong>Parametreler</strong><div class="parameter-list"><code>storeId</code><code>preview</code><code>previewThemeId</code><code>designId</code></div></div>
           <div class="contract-row"><strong>Yanıt</strong><code>ShopResponse</code></div>
           <div class="meta"><span>Cache: edge</span><span>Scope: storefront:read</span></div>
         </article>
-        <article class="operation">
+        <article class="operation" data-operation-card data-search-text="get /api/storefront/v1/localization get locale, currency and markets tema fiyat formatı için mağaza para birimini, locale bilgisini, ondalık basamakları ve aktif pazar ülkelerini döndürür.">
           <div class="operation-line"><span class="method get">GET</span><code>/api/storefront/v1/localization</code><span class="auth">public_or_storefront_token</span></div>
           <h3>Get locale, currency and markets</h3><p>Tema fiyat formatı için mağaza para birimini, locale bilgisini, ondalık basamakları ve aktif pazar ülkelerini döndürür.</p>
           <div class="contract-row"><strong>Parametreler</strong><div class="parameter-list"><code>storeId</code><code>preview</code><code>previewThemeId</code><code>designId</code></div></div>
@@ -56,45 +60,48 @@ renderProducts(listing.products);</pre></article><article class="card"><h2>Fiyat
           <div class="meta"><span>Cache: edge</span><span>Scope: storefront:read</span></div>
         </article></div>
     </section>
-    <section id="catalog" class="resource">
-      <div class="resource-head"><div><p class="eyebrow">RESOURCE</p><h2>Catalog</h2><p>Yayınlanmış ürün, koleksiyon ve menü verileri için salt okunur Storefront kaynakları.</p></div><strong>6 endpoint</strong></div>
-      <div class="operations">
-        <article class="operation">
+    <section id="catalog" class="resource-group" data-resource-group>
+      <button class="resource-head" type="button" aria-expanded="false" data-resource-toggle>
+        <span><span class="eyebrow">RESOURCE</span><strong>Catalog</strong><small>Yayınlanmış ürün, koleksiyon ve menü verileri için salt okunur Storefront kaynakları.</small></span>
+        <span class="resource-meta"><b>6 endpoint</b><i aria-hidden="true">+</i></span>
+      </button>
+      <div class="operations" hidden>
+        <article class="operation" data-operation-card data-search-text="get /api/storefront/v1/products list and filter published products aktif ürünleri fiyat, marka, kategori, ürün tipi, etiket, renk, beden ve stok facetleri; sıralama ve kararlı sayfalama bilgileriyle listeler.">
           <div class="operation-line"><span class="method get">GET</span><code>/api/storefront/v1/products</code><span class="auth">public_or_storefront_token</span></div>
           <h3>List and filter published products</h3><p>Aktif ürünleri fiyat, marka, kategori, ürün tipi, etiket, renk, beden ve stok facetleri; sıralama ve kararlı sayfalama bilgileriyle listeler.</p>
           <div class="contract-row"><strong>Parametreler</strong><div class="parameter-list"><code>storeId</code><code>preview</code><code>previewThemeId</code><code>designId</code><code>page</code><code>limit</code><code>sort</code><code>vendor</code><code>productType</code><code>category</code><code>tag</code><code>color</code><code>size</code><code>availability</code><code>priceMin</code><code>priceMax</code></div></div>
           <div class="contract-row"><strong>Yanıt</strong><code>ProductConnectionResponse</code></div>
           <div class="meta"><span>Cache: edge</span><span>Scope: storefront:read</span></div>
         </article>
-        <article class="operation">
+        <article class="operation" data-operation-card data-search-text="get /api/storefront/v1/products/{handle} get published product ürün handle veya kimliğiyle ürün detayını döndürür; taslak ürünleri yalnızca yetkili preview oturumu görebilir.">
           <div class="operation-line"><span class="method get">GET</span><code>/api/storefront/v1/products/{handle}</code><span class="auth">public_or_storefront_token</span></div>
           <h3>Get published product</h3><p>Ürün handle veya kimliğiyle ürün detayını döndürür; taslak ürünleri yalnızca yetkili preview oturumu görebilir.</p>
           <div class="contract-row"><strong>Parametreler</strong><div class="parameter-list"><code>handle</code><code>storeId</code><code>preview</code><code>previewThemeId</code><code>designId</code></div></div>
           <div class="contract-row"><strong>Yanıt</strong><code>ProductResponse</code></div>
           <div class="meta"><span>Cache: edge</span><span>Scope: storefront:read</span></div>
         </article>
-        <article class="operation">
+        <article class="operation" data-operation-card data-search-text="get /api/storefront/v1/collections list published collections yayınlanmış koleksiyonları ve storefront kart alanlarını listeler.">
           <div class="operation-line"><span class="method get">GET</span><code>/api/storefront/v1/collections</code><span class="auth">public_or_storefront_token</span></div>
           <h3>List published collections</h3><p>Yayınlanmış koleksiyonları ve Storefront kart alanlarını listeler.</p>
           <div class="contract-row"><strong>Parametreler</strong><div class="parameter-list"><code>storeId</code><code>preview</code><code>previewThemeId</code><code>designId</code></div></div>
           <div class="contract-row"><strong>Yanıt</strong><code>CollectionListResponse</code></div>
           <div class="meta"><span>Cache: edge</span><span>Scope: storefront:read</span></div>
         </article>
-        <article class="operation">
+        <article class="operation" data-operation-card data-search-text="get /api/storefront/v1/collections/{handle} get collection, products and facets koleksiyon bilgisiyle birlikte filtrelenmiş ürünleri, facet sayılarını, aktif filtreleri, sıralamayı ve sayfalama meta verisini döndürür.">
           <div class="operation-line"><span class="method get">GET</span><code>/api/storefront/v1/collections/{handle}</code><span class="auth">public_or_storefront_token</span></div>
           <h3>Get collection, products and facets</h3><p>Koleksiyon bilgisiyle birlikte filtrelenmiş ürünleri, facet sayılarını, aktif filtreleri, sıralamayı ve sayfalama meta verisini döndürür.</p>
           <div class="contract-row"><strong>Parametreler</strong><div class="parameter-list"><code>handle</code><code>storeId</code><code>preview</code><code>previewThemeId</code><code>designId</code><code>page</code><code>limit</code><code>sort</code><code>vendor</code><code>productType</code><code>category</code><code>tag</code><code>color</code><code>size</code><code>availability</code><code>priceMin</code><code>priceMax</code></div></div>
           <div class="contract-row"><strong>Yanıt</strong><code>CollectionResponse</code></div>
           <div class="meta"><span>Cache: edge</span><span>Scope: storefront:read</span></div>
         </article>
-        <article class="operation">
+        <article class="operation" data-operation-card data-search-text="get /api/storefront/v1/menus list storefront menus header, footer, müşteri hesabı ve özel konumlardaki çok seviyeli menü ağacını; güvenli url ve yeni sekme davranışıyla döndürür.">
           <div class="operation-line"><span class="method get">GET</span><code>/api/storefront/v1/menus</code><span class="auth">public_or_storefront_token</span></div>
           <h3>List storefront menus</h3><p>Header, footer, müşteri hesabı ve özel konumlardaki çok seviyeli menü ağacını; güvenli URL ve yeni sekme davranışıyla döndürür.</p>
           <div class="contract-row"><strong>Parametreler</strong><div class="parameter-list"><code>storeId</code><code>preview</code><code>previewThemeId</code><code>designId</code></div></div>
           <div class="contract-row"><strong>Yanıt</strong><code>MenuListResponse</code></div>
           <div class="meta"><span>Cache: edge</span><span>Scope: storefront:read</span></div>
         </article>
-        <article class="operation">
+        <article class="operation" data-operation-card data-search-text="get /api/storefront/v1/image proxy a storefront image i̇zin verilen medya kaynağını storefront için güvenli response başlıklarıyla iletir.">
           <div class="operation-line"><span class="method get">GET</span><code>/api/storefront/v1/image</code><span class="auth">public</span></div>
           <h3>Proxy a storefront image</h3><p>İzin verilen medya kaynağını Storefront için güvenli response başlıklarıyla iletir.</p>
           <div class="contract-row"><strong>Parametreler</strong><div class="parameter-list"><code>storeId</code><code>source</code><code>width</code><code>quality</code><code>format</code></div></div>
@@ -102,31 +109,34 @@ renderProducts(listing.products);</pre></article><article class="card"><h2>Fiyat
           <div class="meta"><span>Cache: edge</span></div>
         </article></div>
     </section>
-    <section id="content" class="resource">
-      <div class="resource-head"><div><p class="eyebrow">RESOURCE</p><h2>Content</h2><p>Harici temaların sayfa, blog listesi, blog detayı ve yazı detayını ayrı kaynaklar olarak okuyabilmesi için uçlar.</p></div><strong>4 endpoint</strong></div>
-      <div class="operations">
-        <article class="operation">
+    <section id="content" class="resource-group" data-resource-group>
+      <button class="resource-head" type="button" aria-expanded="false" data-resource-toggle>
+        <span><span class="eyebrow">RESOURCE</span><strong>Content</strong><small>Harici temaların sayfa, blog listesi, blog detayı ve yazı detayını ayrı kaynaklar olarak okuyabilmesi için uçlar.</small></span>
+        <span class="resource-meta"><b>4 endpoint</b><i aria-hidden="true">+</i></span>
+      </button>
+      <div class="operations" hidden>
+        <article class="operation" data-operation-card data-search-text="get /api/storefront/v1/pages/{handle} get published content page yayınlanmış kurumsal, iletişim, hakkımızda, sss veya özel sayfayı handle ile döndürür.">
           <div class="operation-line"><span class="method get">GET</span><code>/api/storefront/v1/pages/{handle}</code><span class="auth">public_or_storefront_token</span></div>
           <h3>Get published content page</h3><p>Yayınlanmış kurumsal, iletişim, hakkımızda, SSS veya özel sayfayı handle ile döndürür.</p>
           <div class="contract-row"><strong>Parametreler</strong><div class="parameter-list"><code>handle</code><code>storeId</code><code>preview</code><code>previewThemeId</code><code>designId</code></div></div>
           <div class="contract-row"><strong>Yanıt</strong><code>ContentPageResponse</code></div>
           <div class="meta"><span>Cache: edge</span><span>Scope: storefront:read</span></div>
         </article>
-        <article class="operation">
+        <article class="operation" data-operation-card data-search-text="get /api/storefront/v1/blogs list published blogs yayınlanmış blog kategorilerini ve tema kart alanlarını listeler.">
           <div class="operation-line"><span class="method get">GET</span><code>/api/storefront/v1/blogs</code><span class="auth">public_or_storefront_token</span></div>
           <h3>List published blogs</h3><p>Yayınlanmış blog kategorilerini ve tema kart alanlarını listeler.</p>
           <div class="contract-row"><strong>Parametreler</strong><div class="parameter-list"><code>storeId</code><code>preview</code><code>previewThemeId</code><code>designId</code></div></div>
           <div class="contract-row"><strong>Yanıt</strong><code>BlogListResponse</code></div>
           <div class="meta"><span>Cache: edge</span><span>Scope: storefront:read</span></div>
         </article>
-        <article class="operation">
+        <article class="operation" data-operation-card data-search-text="get /api/storefront/v1/blogs/{handle} get blog and posts blog bilgisi ile yayınlanmış yazı listesini döndürür.">
           <div class="operation-line"><span class="method get">GET</span><code>/api/storefront/v1/blogs/{handle}</code><span class="auth">public_or_storefront_token</span></div>
           <h3>Get blog and posts</h3><p>Blog bilgisi ile yayınlanmış yazı listesini döndürür.</p>
           <div class="contract-row"><strong>Parametreler</strong><div class="parameter-list"><code>handle</code><code>storeId</code><code>preview</code><code>previewThemeId</code><code>designId</code></div></div>
           <div class="contract-row"><strong>Yanıt</strong><code>BlogResponse</code></div>
           <div class="meta"><span>Cache: edge</span><span>Scope: storefront:read</span></div>
         </article>
-        <article class="operation">
+        <article class="operation" data-operation-card data-search-text="get /api/storefront/v1/blogs/{bloghandle}/{posthandle} get blog post blog yazısını, blog bağlamını ve yazıya atanmış ürünleri döndürür.">
           <div class="operation-line"><span class="method get">GET</span><code>/api/storefront/v1/blogs/{blogHandle}/{postHandle}</code><span class="auth">public_or_storefront_token</span></div>
           <h3>Get blog post</h3><p>Blog yazısını, blog bağlamını ve yazıya atanmış ürünleri döndürür.</p>
           <div class="contract-row"><strong>Parametreler</strong><div class="parameter-list"><code>blogHandle</code><code>postHandle</code><code>storeId</code><code>preview</code><code>previewThemeId</code><code>designId</code></div></div>
@@ -134,10 +144,13 @@ renderProducts(listing.products);</pre></article><article class="card"><h2>Fiyat
           <div class="meta"><span>Cache: edge</span><span>Scope: storefront:read</span></div>
         </article></div>
     </section>
-    <section id="merchandising" class="resource">
-      <div class="resource-head"><div><p class="eyebrow">RESOURCE</p><h2>Merchandising</h2><p>Tema rozetleri ve kampanya anlatımı için yalnızca herkese açık, aktif ve otomatik promosyonlar.</p></div><strong>1 endpoint</strong></div>
-      <div class="operations">
-        <article class="operation">
+    <section id="merchandising" class="resource-group" data-resource-group>
+      <button class="resource-head" type="button" aria-expanded="false" data-resource-toggle>
+        <span><span class="eyebrow">RESOURCE</span><strong>Merchandising</strong><small>Tema rozetleri ve kampanya anlatımı için yalnızca herkese açık, aktif ve otomatik promosyonlar.</small></span>
+        <span class="resource-meta"><b>1 endpoint</b><i aria-hidden="true">+</i></span>
+      </button>
+      <div class="operations" hidden>
+        <article class="operation" data-operation-card data-search-text="get /api/storefront/v1/promotions list public automatic promotions i̇ndirim kodlarını veya özel müşteri kurallarını açmadan aktif otomatik ürün, sipariş, x al y kazan ve ücretsiz kargo promosyonlarını döndürür.">
           <div class="operation-line"><span class="method get">GET</span><code>/api/storefront/v1/promotions</code><span class="auth">public_or_storefront_token</span></div>
           <h3>List public automatic promotions</h3><p>İndirim kodlarını veya özel müşteri kurallarını açmadan aktif otomatik ürün, sipariş, X al Y kazan ve ücretsiz kargo promosyonlarını döndürür.</p>
           <div class="contract-row"><strong>Parametreler</strong><div class="parameter-list"><code>storeId</code><code>preview</code><code>previewThemeId</code><code>designId</code></div></div>
@@ -145,45 +158,48 @@ renderProducts(listing.products);</pre></article><article class="card"><h2>Fiyat
           <div class="meta"><span>Cache: edge</span><span>Scope: storefront:read</span></div>
         </article></div>
     </section>
-    <section id="discovery" class="resource">
-      <div class="resource-head"><div><p class="eyebrow">RESOURCE</p><h2>Search and discovery</h2><p>Arama, hızlı ürün görünümü ve anonim ürün görüntüleme sinyalleri.</p></div><strong>6 endpoint</strong></div>
-      <div class="operations">
-        <article class="operation">
+    <section id="discovery" class="resource-group" data-resource-group>
+      <button class="resource-head" type="button" aria-expanded="false" data-resource-toggle>
+        <span><span class="eyebrow">RESOURCE</span><strong>Search and discovery</strong><small>Arama, hızlı ürün görünümü ve anonim ürün görüntüleme sinyalleri.</small></span>
+        <span class="resource-meta"><b>6 endpoint</b><i aria-hidden="true">+</i></span>
+      </button>
+      <div class="operations" hidden>
+        <article class="operation" data-operation-card data-search-text="get /api/storefront/v1/search search storefront ürün, koleksiyon, sayfa ve blog sonuçlarını filtre ve sıralama seçenekleriyle döndürür.">
           <div class="operation-line"><span class="method get">GET</span><code>/api/storefront/v1/search</code><span class="auth">public_or_storefront_token</span></div>
           <h3>Search storefront</h3><p>Ürün, koleksiyon, sayfa ve blog sonuçlarını filtre ve sıralama seçenekleriyle döndürür.</p>
           <div class="contract-row"><strong>Parametreler</strong><div class="parameter-list"><code>storeId</code><code>preview</code><code>previewThemeId</code><code>designId</code><code>q</code><code>searchPage</code><code>limit</code><code>searchSort</code><code>searchType</code><code>searchVendor</code><code>searchCategory</code><code>searchProductType</code><code>searchColor</code><code>searchSize</code><code>searchAvailability</code><code>searchPriceMax</code></div></div>
           <div class="contract-row"><strong>Yanıt</strong><code>SearchResponse</code></div>
           <div class="meta"><span>Cache: edge</span><span>Scope: storefront:read</span></div>
         </article>
-        <article class="operation">
+        <article class="operation" data-operation-card data-search-text="get /api/storefront/v1/smart-search get predictive search results arama önerileri ve yapılandırılmış akıllı arama sonuçlarını döndürür.">
           <div class="operation-line"><span class="method get">GET</span><code>/api/storefront/v1/smart-search</code><span class="auth">public</span></div>
           <h3>Get predictive search results</h3><p>Arama önerileri ve yapılandırılmış akıllı arama sonuçlarını döndürür.</p>
           <div class="contract-row"><strong>Parametreler</strong><div class="parameter-list"><code>storeId</code><code>preview</code><code>previewThemeId</code><code>designId</code><code>q</code><code>limit</code><code>sessionId</code><code>deviceType</code></div></div>
           <div class="contract-row"><strong>Yanıt</strong><code>StorefrontResponse</code></div>
           <div class="meta"><span>Cache: private</span></div>
         </article>
-        <article class="operation">
+        <article class="operation" data-operation-card data-search-text="post /api/storefront/v1/smart-search-click track a search click arama sonucuna tıklama sinyalini anonim oturum kapsamında kaydeder.">
           <div class="operation-line"><span class="method post">POST</span><code>/api/storefront/v1/smart-search-click</code><span class="auth">same_origin</span></div>
           <h3>Track a search click</h3><p>Arama sonucuna tıklama sinyalini anonim oturum kapsamında kaydeder.</p>
           <div class="contract-row"><strong>Parametreler</strong><div class="parameter-list"><span>Yok</span></div></div>
           <div class="contract-row"><strong>Yanıt</strong><code>StorefrontResponse</code></div>
           <div class="meta"><span>Cache: none</span></div>
         </article>
-        <article class="operation">
+        <article class="operation" data-operation-card data-search-text="get /api/storefront/v1/quick-view-product get quick-view products hızlı görünüm ve son görüntülenenler bileşenleri için bir veya daha fazla ürün döndürür.">
           <div class="operation-line"><span class="method get">GET</span><code>/api/storefront/v1/quick-view-product</code><span class="auth">public</span></div>
           <h3>Get quick-view products</h3><p>Hızlı görünüm ve son görüntülenenler bileşenleri için bir veya daha fazla ürün döndürür.</p>
           <div class="contract-row"><strong>Parametreler</strong><div class="parameter-list"><code>storeId</code><code>preview</code><code>previewThemeId</code><code>designId</code><code>product</code><code>products</code><code>revision</code></div></div>
           <div class="contract-row"><strong>Yanıt</strong><code>StorefrontResponse</code></div>
           <div class="meta"><span>Cache: edge</span></div>
         </article>
-        <article class="operation">
+        <article class="operation" data-operation-card data-search-text="get /api/storefront/v1/product-viewers get product viewer count ürün için anonim ve yaklaşık aktif görüntüleyici sayısını döndürür.">
           <div class="operation-line"><span class="method get">GET</span><code>/api/storefront/v1/product-viewers</code><span class="auth">public</span></div>
           <h3>Get product viewer count</h3><p>Ürün için anonim ve yaklaşık aktif görüntüleyici sayısını döndürür.</p>
           <div class="contract-row"><strong>Parametreler</strong><div class="parameter-list"><code>storeId</code><code>preview</code><code>previewThemeId</code><code>designId</code><code>productId</code><code>productHandle</code><code>windowSeconds</code></div></div>
           <div class="contract-row"><strong>Yanıt</strong><code>StorefrontResponse</code></div>
           <div class="meta"><span>Cache: private</span></div>
         </article>
-        <article class="operation">
+        <article class="operation" data-operation-card data-search-text="post /api/storefront/v1/product-viewers record product viewer ürün görüntüleme oturumunu günceller.">
           <div class="operation-line"><span class="method post">POST</span><code>/api/storefront/v1/product-viewers</code><span class="auth">same_origin</span></div>
           <h3>Record product viewer</h3><p>Ürün görüntüleme oturumunu günceller.</p>
           <div class="contract-row"><strong>Parametreler</strong><div class="parameter-list"><code>storeId</code><code>productId</code><code>productHandle</code><code>windowSeconds</code></div></div>
@@ -191,66 +207,69 @@ renderProducts(listing.products);</pre></article><article class="card"><h2>Fiyat
           <div class="meta"><span>Cache: none</span></div>
         </article></div>
     </section>
-    <section id="customer" class="resource">
-      <div class="resource-head"><div><p class="eyebrow">RESOURCE</p><h2>Customer and access</h2><p>Aynı origin tema runtime'ı için müşteri hesabı, parola ve pazarlama işlemleri.</p></div><strong>9 endpoint</strong></div>
-      <div class="operations">
-        <article class="operation">
+    <section id="customer" class="resource-group" data-resource-group>
+      <button class="resource-head" type="button" aria-expanded="false" data-resource-toggle>
+        <span><span class="eyebrow">RESOURCE</span><strong>Customer and access</strong><small>Aynı origin tema runtime'ı için müşteri hesabı, parola ve pazarlama işlemleri.</small></span>
+        <span class="resource-meta"><b>9 endpoint</b><i aria-hidden="true">+</i></span>
+      </button>
+      <div class="operations" hidden>
+        <article class="operation" data-operation-card data-search-text="get /api/storefront/v1/customer get customer session mevcut müşteri oturumunu ve hesap özetini döndürür.">
           <div class="operation-line"><span class="method get">GET</span><code>/api/storefront/v1/customer</code><span class="auth">same_origin</span></div>
           <h3>Get customer session</h3><p>Mevcut müşteri oturumunu ve hesap özetini döndürür.</p>
           <div class="contract-row"><strong>Parametreler</strong><div class="parameter-list"><code>storeId</code><code>preview</code><code>previewThemeId</code><code>designId</code></div></div>
           <div class="contract-row"><strong>Yanıt</strong><code>StorefrontResponse</code></div>
           <div class="meta"><span>Cache: private</span></div>
         </article>
-        <article class="operation">
+        <article class="operation" data-operation-card data-search-text="post /api/storefront/v1/customer run customer action giriş, kayıt, çıkış, profil ve bülten gibi müşteri eylemlerini çalıştırır.">
           <div class="operation-line"><span class="method post">POST</span><code>/api/storefront/v1/customer</code><span class="auth">same_origin</span></div>
           <h3>Run customer action</h3><p>Giriş, kayıt, çıkış, profil ve bülten gibi müşteri eylemlerini çalıştırır.</p>
           <div class="contract-row"><strong>Parametreler</strong><div class="parameter-list"><span>Yok</span></div></div>
           <div class="contract-row"><strong>Yanıt</strong><code>StorefrontResponse</code></div>
           <div class="meta"><span>Cache: none</span></div>
         </article>
-        <article class="operation">
+        <article class="operation" data-operation-card data-search-text="post /api/storefront/v1/password verify storefront password parola korumalı mağaza erişimini doğrular ve güvenli erişim çerezi oluşturur.">
           <div class="operation-line"><span class="method post">POST</span><code>/api/storefront/v1/password</code><span class="auth">same_origin</span></div>
           <h3>Verify storefront password</h3><p>Parola korumalı mağaza erişimini doğrular ve güvenli erişim çerezi oluşturur.</p>
           <div class="contract-row"><strong>Parametreler</strong><div class="parameter-list"><span>Yok</span></div></div>
           <div class="contract-row"><strong>Yanıt</strong><code>StorefrontResponse</code></div>
           <div class="meta"><span>Cache: none</span></div>
         </article>
-        <article class="operation">
+        <article class="operation" data-operation-card data-search-text="post /api/storefront/v1/contact-us submit contact form tema iletişim formunu doğrular ve mağaza iletişim akışına iletir.">
           <div class="operation-line"><span class="method post">POST</span><code>/api/storefront/v1/contact-us</code><span class="auth">same_origin</span></div>
           <h3>Submit contact form</h3><p>Tema iletişim formunu doğrular ve mağaza iletişim akışına iletir.</p>
           <div class="contract-row"><strong>Parametreler</strong><div class="parameter-list"><span>Yok</span></div></div>
           <div class="contract-row"><strong>Yanıt</strong><code>StorefrontResponse</code></div>
           <div class="meta"><span>Cache: none</span></div>
         </article>
-        <article class="operation">
+        <article class="operation" data-operation-card data-search-text="post /api/storefront/v1/blog-comments submit blog comment blog yazısı yorumunu moderasyon kuyruğuna gönderir.">
           <div class="operation-line"><span class="method post">POST</span><code>/api/storefront/v1/blog-comments</code><span class="auth">same_origin</span></div>
           <h3>Submit blog comment</h3><p>Blog yazısı yorumunu moderasyon kuyruğuna gönderir.</p>
           <div class="contract-row"><strong>Parametreler</strong><div class="parameter-list"><span>Yok</span></div></div>
           <div class="contract-row"><strong>Yanıt</strong><code>StorefrontResponse</code></div>
           <div class="meta"><span>Cache: none</span></div>
         </article>
-        <article class="operation">
+        <article class="operation" data-operation-card data-search-text="get /api/storefront/v1/customer/social/{provider}/start start social login yapılandırılmış sosyal giriş sağlayıcısı için state doğrulamalı oauth yönlendirmesini başlatır.">
           <div class="operation-line"><span class="method get">GET</span><code>/api/storefront/v1/customer/social/{provider}/start</code><span class="auth">public</span></div>
           <h3>Start social login</h3><p>Yapılandırılmış sosyal giriş sağlayıcısı için state doğrulamalı OAuth yönlendirmesini başlatır.</p>
           <div class="contract-row"><strong>Parametreler</strong><div class="parameter-list"><code>provider</code><code>storeId</code><code>preview</code><code>previewThemeId</code><code>designId</code></div></div>
           <div class="contract-row"><strong>Yanıt</strong><code>StorefrontResponse</code></div>
           <div class="meta"><span>Cache: none</span></div>
         </article>
-        <article class="operation">
+        <article class="operation" data-operation-card data-search-text="get /api/storefront/v1/customer/social/{provider}/callback complete social login sağlayıcı callback'ini doğrular, müşteri oturumunu oluşturur ve güvenli dönüş adresine yönlendirir.">
           <div class="operation-line"><span class="method get">GET</span><code>/api/storefront/v1/customer/social/{provider}/callback</code><span class="auth">public</span></div>
           <h3>Complete social login</h3><p>Sağlayıcı callback'ini doğrular, müşteri oturumunu oluşturur ve güvenli dönüş adresine yönlendirir.</p>
           <div class="contract-row"><strong>Parametreler</strong><div class="parameter-list"><code>provider</code><code>storeId</code><code>preview</code><code>previewThemeId</code><code>designId</code></div></div>
           <div class="contract-row"><strong>Yanıt</strong><code>StorefrontResponse</code></div>
           <div class="meta"><span>Cache: none</span></div>
         </article>
-        <article class="operation">
+        <article class="operation" data-operation-card data-search-text="get /api/storefront/v1/customer/social/{provider}/revoke validate social revoke route sosyal bağlantı kaldırma callback'i için sağlayıcı anahtarını doğrular.">
           <div class="operation-line"><span class="method get">GET</span><code>/api/storefront/v1/customer/social/{provider}/revoke</code><span class="auth">same_origin</span></div>
           <h3>Validate social revoke route</h3><p>Sosyal bağlantı kaldırma callback'i için sağlayıcı anahtarını doğrular.</p>
           <div class="contract-row"><strong>Parametreler</strong><div class="parameter-list"><code>provider</code><code>storeId</code><code>preview</code><code>previewThemeId</code><code>designId</code></div></div>
           <div class="contract-row"><strong>Yanıt</strong><code>StorefrontResponse</code></div>
           <div class="meta"><span>Cache: none</span></div>
         </article>
-        <article class="operation">
+        <article class="operation" data-operation-card data-search-text="post /api/storefront/v1/customer/social/{provider}/revoke acknowledge social revoke callback sağlayıcı tarafından gönderilen bağlantı kaldırma callback'ini doğrular ve kabul eder.">
           <div class="operation-line"><span class="method post">POST</span><code>/api/storefront/v1/customer/social/{provider}/revoke</code><span class="auth">same_origin</span></div>
           <h3>Acknowledge social revoke callback</h3><p>Sağlayıcı tarafından gönderilen bağlantı kaldırma callback'ini doğrular ve kabul eder.</p>
           <div class="contract-row"><strong>Parametreler</strong><div class="parameter-list"><code>provider</code></div></div>
@@ -258,63 +277,73 @@ renderProducts(listing.products);</pre></article><article class="card"><h2>Fiyat
           <div class="meta"><span>Cache: none</span></div>
         </article></div>
     </section>
-    <section id="commerce" class="resource">
-      <div class="resource-head"><div><p class="eyebrow">RESOURCE</p><h2>Commerce and engagement</h2><p>Sepet kurtarma, ödeme devri ve tema içi müşteri etkileşimleri.</p></div><strong>8 endpoint</strong></div>
-      <div class="operations">
-        <article class="operation">
+    <section id="commerce" class="resource-group" data-resource-group>
+      <button class="resource-head" type="button" aria-expanded="false" data-resource-toggle>
+        <span><span class="eyebrow">RESOURCE</span><strong>Commerce and engagement</strong><small>Sepet kurtarma, ödeme devri ve tema içi müşteri etkileşimleri.</small></span>
+        <span class="resource-meta"><b>8 endpoint</b><i aria-hidden="true">+</i></span>
+      </button>
+      <div class="operations" hidden>
+        <article class="operation" data-operation-card data-search-text="post /api/storefront/v1/wishlist-share share wishlist i̇stek listesi paylaşım bağlantısını veya e-posta teslimatını oluşturur.">
           <div class="operation-line"><span class="method post">POST</span><code>/api/storefront/v1/wishlist-share</code><span class="auth">same_origin</span></div>
           <h3>Share wishlist</h3><p>İstek listesi paylaşım bağlantısını veya e-posta teslimatını oluşturur.</p>
           <div class="contract-row"><strong>Parametreler</strong><div class="parameter-list"><span>Yok</span></div></div>
           <div class="contract-row"><strong>Yanıt</strong><code>StorefrontResponse</code></div>
           <div class="meta"><span>Cache: none</span></div>
         </article>
-        <article class="operation">
+        <article class="operation" data-operation-card data-search-text="post /api/storefront/v1/ask-expert submit ask-an-expert request ürün uzmanı talebini mağazanın yapılandırılmış destek kanalına iletir.">
           <div class="operation-line"><span class="method post">POST</span><code>/api/storefront/v1/ask-expert</code><span class="auth">same_origin</span></div>
           <h3>Submit ask-an-expert request</h3><p>Ürün uzmanı talebini mağazanın yapılandırılmış destek kanalına iletir.</p>
           <div class="contract-row"><strong>Parametreler</strong><div class="parameter-list"><span>Yok</span></div></div>
           <div class="contract-row"><strong>Yanıt</strong><code>StorefrontResponse</code></div>
           <div class="meta"><span>Cache: none</span></div>
         </article>
-        <article class="operation">
+        <article class="operation" data-operation-card data-search-text="post /api/storefront/v1/stock-alerts create or manage stock alert stok bildirimi aboneliği oluşturur, doğrular veya iptal eder.">
           <div class="operation-line"><span class="method post">POST</span><code>/api/storefront/v1/stock-alerts</code><span class="auth">same_origin</span></div>
           <h3>Create or manage stock alert</h3><p>Stok bildirimi aboneliği oluşturur, doğrular veya iptal eder.</p>
           <div class="contract-row"><strong>Parametreler</strong><div class="parameter-list"><span>Yok</span></div></div>
           <div class="contract-row"><strong>Yanıt</strong><code>StorefrontResponse</code></div>
           <div class="meta"><span>Cache: none</span></div>
         </article>
-        <article class="operation">
+        <article class="operation" data-operation-card data-search-text="get /api/storefront/v1/cart-recovery-cart get recovered cart geçerli kurtarma belirteci için sepet içeriğini döndürür.">
           <div class="operation-line"><span class="method get">GET</span><code>/api/storefront/v1/cart-recovery-cart</code><span class="auth">same_origin</span></div>
           <h3>Get recovered cart</h3><p>Geçerli kurtarma belirteci için sepet içeriğini döndürür.</p>
           <div class="contract-row"><strong>Parametreler</strong><div class="parameter-list"><code>storeId</code><code>preview</code><code>previewThemeId</code><code>designId</code><code>cartToken</code></div></div>
           <div class="contract-row"><strong>Yanıt</strong><code>StorefrontResponse</code></div>
           <div class="meta"><span>Cache: private</span></div>
         </article>
-        <article class="operation">
+        <article class="operation" data-operation-card data-search-text="post /api/storefront/v1/cart-recovery-event record cart recovery event sepet kurtarma akışı için anonim oturum olayını kaydeder.">
           <div class="operation-line"><span class="method post">POST</span><code>/api/storefront/v1/cart-recovery-event</code><span class="auth">same_origin</span></div>
           <h3>Record cart recovery event</h3><p>Sepet kurtarma akışı için anonim oturum olayını kaydeder.</p>
           <div class="contract-row"><strong>Parametreler</strong><div class="parameter-list"><span>Yok</span></div></div>
           <div class="contract-row"><strong>Yanıt</strong><code>StorefrontResponse</code></div>
           <div class="meta"><span>Cache: none</span></div>
         </article>
-        <article class="operation">
+        <article class="operation" data-operation-card data-search-text="post /api/storefront/v1/shopify-checkout create external checkout yapılandırılmış harici ödeme sağlayıcısına güvenli checkout devri oluşturur.">
           <div class="operation-line"><span class="method post">POST</span><code>/api/storefront/v1/shopify-checkout</code><span class="auth">same_origin</span></div>
           <h3>Create external checkout</h3><p>Yapılandırılmış harici ödeme sağlayıcısına güvenli checkout devri oluşturur.</p>
           <div class="contract-row"><strong>Parametreler</strong><div class="parameter-list"><span>Yok</span></div></div>
           <div class="contract-row"><strong>Yanıt</strong><code>StorefrontResponse</code></div>
           <div class="meta"><span>Cache: none</span></div>
         </article>
-        <article class="operation">
+        <article class="operation" data-operation-card data-search-text="post /api/storefront/v1/reviews submit product review ürün değerlendirmesini doğrulama ve moderasyon akışına gönderir.">
           <div class="operation-line"><span class="method post">POST</span><code>/api/storefront/v1/reviews</code><span class="auth">same_origin</span></div>
           <h3>Submit product review</h3><p>Ürün değerlendirmesini doğrulama ve moderasyon akışına gönderir.</p>
           <div class="contract-row"><strong>Parametreler</strong><div class="parameter-list"><span>Yok</span></div></div>
           <div class="contract-row"><strong>Yanıt</strong><code>StorefrontResponse</code></div>
           <div class="meta"><span>Cache: none</span></div>
         </article>
-        <article class="operation">
+        <article class="operation" data-operation-card data-search-text="post /api/storefront/v1/review-questions submit product question ürün sorusunu doğrulama ve moderasyon akışına gönderir.">
           <div class="operation-line"><span class="method post">POST</span><code>/api/storefront/v1/review-questions</code><span class="auth">same_origin</span></div>
           <h3>Submit product question</h3><p>Ürün sorusunu doğrulama ve moderasyon akışına gönderir.</p>
           <div class="contract-row"><strong>Parametreler</strong><div class="parameter-list"><span>Yok</span></div></div>
           <div class="contract-row"><strong>Yanıt</strong><code>StorefrontResponse</code></div>
           <div class="meta"><span>Cache: none</span></div>
         </article></div>
-    </section></div></main></div></body></html>
+    </section></div><div class="empty-search" id="emptySearch">Aramanızla eşleşen Storefront API kaynağı bulunamadı.</div></div></main></div><script>
+const toggles=Array.from(document.querySelectorAll("[data-resource-toggle]"));
+const setGroupOpen=(group,open)=>{const button=group.querySelector("[data-resource-toggle]");const panel=group.querySelector(".operations");button.setAttribute("aria-expanded",String(open));button.querySelector(".resource-meta i").textContent=open?"−":"+";panel.hidden=!open};
+toggles.forEach((button)=>button.addEventListener("click",()=>{const group=button.closest("[data-resource-group]");setGroupOpen(group,button.getAttribute("aria-expanded")!=="true")}));
+const openHashGroup=()=>{const target=document.querySelector(location.hash||"#overview");const group=target?.closest?.("[data-resource-group]");if(group)setGroupOpen(group,true)};openHashGroup();window.addEventListener("hashchange",openHashGroup);
+const sideLinks=Array.from(document.querySelectorAll("[data-sidebar-link]"));const observed=sideLinks.map((link)=>document.querySelector(link.getAttribute("href"))).filter(Boolean);const observer=new IntersectionObserver((entries)=>{const visible=entries.filter((entry)=>entry.isIntersecting).sort((a,b)=>b.intersectionRatio-a.intersectionRatio)[0];if(!visible)return;sideLinks.forEach((link)=>link.classList.toggle("active",link.getAttribute("href")==="#"+visible.target.id))},{rootMargin:"-18% 0px -68% 0px",threshold:[.05,.2,.5]});observed.forEach((section)=>observer.observe(section));
+const resourceGroups=Array.from(document.querySelectorAll("[data-resource-group]"));const applySearch=(value)=>{const query=value.trim().toLowerCase();let visibleGroups=0;resourceGroups.forEach((group)=>{const cards=Array.from(group.querySelectorAll("[data-operation-card]"));let matches=0;cards.forEach((card)=>{const visible=!query||card.dataset.searchText.includes(query);card.hidden=!visible;if(visible)matches+=1});const groupText=group.textContent.toLowerCase();const groupVisible=!query||matches>0||groupText.includes(query);group.hidden=!groupVisible;if(groupVisible)visibleGroups+=1;if(query&&groupVisible)setGroupOpen(group,true)});document.getElementById("emptySearch").style.display=query&&visibleGroups===0?"block":"none";sideLinks.forEach((link)=>{const target=document.querySelector(link.getAttribute("href"));link.hidden=Boolean(query&&target&&target.dataset.resourceGroup!==undefined&&target.hidden)})};document.getElementById("sectionFilter").addEventListener("input",(event)=>applySearch(event.currentTarget.value));document.getElementById("globalSearch").addEventListener("input",(event)=>applySearch(event.currentTarget.value));
+</script></body></html>

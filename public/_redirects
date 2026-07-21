@@ -1,2 +1,6 @@
+/admin /admin.html 200
+/admin.html /admin 301
 /storefrontapi /storefront 301
 /storefront.html /storefront 301
+/storefront /storefront.html 200
+/openapi /openapi/index.html 200

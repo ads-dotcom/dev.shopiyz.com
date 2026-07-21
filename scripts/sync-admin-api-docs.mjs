@@ -3039,7 +3039,7 @@ function renderGeneratedRenderingBlock() {
         const openApiItem = document.createElement("li");
         const openApiLink = document.createElement("a");
         openApiLink.className = "nav-link";
-        openApiLink.href = "./openapi/shopiyz-api.yaml";
+        openApiLink.href = "/openapi";
         const openApiText = document.createElement("span");
         openApiText.textContent = "OpenAPI YAML";
         const openApiArrow = document.createElement("span");
@@ -3137,12 +3137,17 @@ function renderObservedSectionsBlock() {
 ${generatedSectionsEnd}`;
 }
 
-function updateIndexHtml(docData) {
-  const indexPath = path.join(docsRoot, "index.html");
-  let html = fs.readFileSync(indexPath, "utf8");
+function updateAdminHtml(docData) {
+  const adminPath = path.join(docsRoot, "admin.html");
+  let html = fs.readFileSync(adminPath, "utf8");
 
   html = html
-    .replace("<span>v1 preview</span>", "<span>unversioned</span>")
+    .replace("<span>v1 preview</span>", "")
+    .replace("<span>unversioned</span>", "")
+    .replace('<a class="active" href="./">Admin API</a>', '<a class="active" href="/admin">Admin API</a>')
+    .replace('<a href="./openapi/shopiyz-api.yaml">OpenAPI</a>', '<a href="/openapi">OpenAPI</a>')
+    .replace('<li class="nav-open">', '<li>')
+    .replace('if (activeItem) activeItem.classList.add("nav-open");', 'if (activeItem && id !== "overview") activeItem.classList.add("nav-open");')
     .replace(
       "Bu sayfa ilk REST Admin API yapisini anlatir. Endpointler yayina alindikca referans bolumu genisleyecek.",
         "Bu sayfa canli Admin API registry kaynaklarindan uretilir; tek yol /admin/api/v1 altindadir."
@@ -3202,8 +3207,8 @@ function updateIndexHtml(docData) {
 
   html = html.replace(/\/admin\/api(?!\/v1)/g, docData.basePath);
 
-  fs.writeFileSync(indexPath, html);
-  fs.copyFileSync(indexPath, path.join(docsRoot, "public", "index.html"));
+  fs.writeFileSync(adminPath, html);
+  fs.copyFileSync(adminPath, path.join(docsRoot, "public", "admin.html"));
 }
 
 function openApiPathParams(pathname) {
@@ -3520,7 +3525,7 @@ function updateReadme() {
 
 const { catalog, capabilities } = await loadCatalog();
 const docData = buildDocData(catalog, capabilities);
-updateIndexHtml(docData);
+updateAdminHtml(docData);
 updateOpenApi(docData);
 updateReadme();
 
