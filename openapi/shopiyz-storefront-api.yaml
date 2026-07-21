@@ -1,7 +1,7 @@
 openapi: 3.1.0
 info:
   title: Shopiyz Storefront API
-  version: "2026-07-21"
+  version: "2026-07-22"
   description: |-
     Versioned, read-optimized storefront contract used by Shopiyz themes and headless clients.
     First-party same-origin themes may read public endpoints without a token. Cross-origin clients use a storefront token with storefront:read.
@@ -12,7 +12,7 @@ servers:
         default: development
         description: Store subdomain or custom store hostname.
 x-shopiyz-base-path: "/api/storefront/v1"
-x-shopiyz-generated-at: "2026-07-21T20:23:33.697Z"
+x-shopiyz-generated-at: "2026-07-21T22:20:48.419Z"
 paths:
   /health:
     get:
@@ -37,6 +37,8 @@ paths:
           $ref: '#/components/responses/Forbidden'
         '404':
           $ref: '#/components/responses/NotFound'
+        '405':
+          $ref: '#/components/responses/MethodNotAllowed'
         '409':
           $ref: '#/components/responses/Conflict'
         '422':
@@ -136,6 +138,8 @@ paths:
           $ref: '#/components/responses/Forbidden'
         '404':
           $ref: '#/components/responses/NotFound'
+        '405':
+          $ref: '#/components/responses/MethodNotAllowed'
         '409':
           $ref: '#/components/responses/Conflict'
         '422':
@@ -185,6 +189,10 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ShopResponse'
+              example:
+                settings:
+                  socialLinks: []
+                  commerceDisplay: { freeShippingThreshold: null, paymentBrands: [] }
         '400':
           $ref: '#/components/responses/BadRequest'
         '401':
@@ -193,6 +201,8 @@ paths:
           $ref: '#/components/responses/Forbidden'
         '404':
           $ref: '#/components/responses/NotFound'
+        '405':
+          $ref: '#/components/responses/MethodNotAllowed'
         '409':
           $ref: '#/components/responses/Conflict'
         '422':
@@ -250,6 +260,8 @@ paths:
           $ref: '#/components/responses/Forbidden'
         '404':
           $ref: '#/components/responses/NotFound'
+        '405':
+          $ref: '#/components/responses/MethodNotAllowed'
         '409':
           $ref: '#/components/responses/Conflict'
         '422':
@@ -367,6 +379,8 @@ paths:
           $ref: '#/components/responses/Forbidden'
         '404':
           $ref: '#/components/responses/NotFound'
+        '405':
+          $ref: '#/components/responses/MethodNotAllowed'
         '409':
           $ref: '#/components/responses/Conflict'
         '422':
@@ -428,6 +442,8 @@ paths:
           $ref: '#/components/responses/Forbidden'
         '404':
           $ref: '#/components/responses/NotFound'
+        '405':
+          $ref: '#/components/responses/MethodNotAllowed'
         '409':
           $ref: '#/components/responses/Conflict'
         '422':
@@ -485,6 +501,8 @@ paths:
           $ref: '#/components/responses/Forbidden'
         '404':
           $ref: '#/components/responses/NotFound'
+        '405':
+          $ref: '#/components/responses/MethodNotAllowed'
         '409':
           $ref: '#/components/responses/Conflict'
         '422':
@@ -606,6 +624,8 @@ paths:
           $ref: '#/components/responses/Forbidden'
         '404':
           $ref: '#/components/responses/NotFound'
+        '405':
+          $ref: '#/components/responses/MethodNotAllowed'
         '409':
           $ref: '#/components/responses/Conflict'
         '422':
@@ -663,6 +683,8 @@ paths:
           $ref: '#/components/responses/Forbidden'
         '404':
           $ref: '#/components/responses/NotFound'
+        '405':
+          $ref: '#/components/responses/MethodNotAllowed'
         '409':
           $ref: '#/components/responses/Conflict'
         '422':
@@ -724,6 +746,8 @@ paths:
           $ref: '#/components/responses/Forbidden'
         '404':
           $ref: '#/components/responses/NotFound'
+        '405':
+          $ref: '#/components/responses/MethodNotAllowed'
         '409':
           $ref: '#/components/responses/Conflict'
         '422':
@@ -782,6 +806,8 @@ paths:
           $ref: '#/components/responses/Forbidden'
         '404':
           $ref: '#/components/responses/NotFound'
+        '405':
+          $ref: '#/components/responses/MethodNotAllowed'
         '409':
           $ref: '#/components/responses/Conflict'
         '422':
@@ -839,6 +865,8 @@ paths:
           $ref: '#/components/responses/Forbidden'
         '404':
           $ref: '#/components/responses/NotFound'
+        '405':
+          $ref: '#/components/responses/MethodNotAllowed'
         '409':
           $ref: '#/components/responses/Conflict'
         '422':
@@ -900,6 +928,8 @@ paths:
           $ref: '#/components/responses/Forbidden'
         '404':
           $ref: '#/components/responses/NotFound'
+        '405':
+          $ref: '#/components/responses/MethodNotAllowed'
         '409':
           $ref: '#/components/responses/Conflict'
         '422':
@@ -965,6 +995,8 @@ paths:
           $ref: '#/components/responses/Forbidden'
         '404':
           $ref: '#/components/responses/NotFound'
+        '405':
+          $ref: '#/components/responses/MethodNotAllowed'
         '409':
           $ref: '#/components/responses/Conflict'
         '422':
@@ -1022,6 +1054,8 @@ paths:
           $ref: '#/components/responses/Forbidden'
         '404':
           $ref: '#/components/responses/NotFound'
+        '405':
+          $ref: '#/components/responses/MethodNotAllowed'
         '409':
           $ref: '#/components/responses/Conflict'
         '422':
@@ -1139,6 +1173,8 @@ paths:
           $ref: '#/components/responses/Forbidden'
         '404':
           $ref: '#/components/responses/NotFound'
+        '405':
+          $ref: '#/components/responses/MethodNotAllowed'
         '409':
           $ref: '#/components/responses/Conflict'
         '422':
@@ -1215,6 +1251,8 @@ paths:
           $ref: '#/components/responses/Forbidden'
         '404':
           $ref: '#/components/responses/NotFound'
+        '405':
+          $ref: '#/components/responses/MethodNotAllowed'
         '409':
           $ref: '#/components/responses/Conflict'
         '422':
@@ -1254,6 +1292,8 @@ paths:
           $ref: '#/components/responses/Forbidden'
         '404':
           $ref: '#/components/responses/NotFound'
+        '405':
+          $ref: '#/components/responses/MethodNotAllowed'
         '409':
           $ref: '#/components/responses/Conflict'
         '422':
@@ -1323,6 +1363,8 @@ paths:
           $ref: '#/components/responses/Forbidden'
         '404':
           $ref: '#/components/responses/NotFound'
+        '405':
+          $ref: '#/components/responses/MethodNotAllowed'
         '409':
           $ref: '#/components/responses/Conflict'
         '422':
@@ -1391,6 +1433,8 @@ paths:
           $ref: '#/components/responses/Forbidden'
         '404':
           $ref: '#/components/responses/NotFound'
+        '405':
+          $ref: '#/components/responses/MethodNotAllowed'
         '409':
           $ref: '#/components/responses/Conflict'
         '422':
@@ -1450,6 +1494,8 @@ paths:
           $ref: '#/components/responses/Forbidden'
         '404':
           $ref: '#/components/responses/NotFound'
+        '405':
+          $ref: '#/components/responses/MethodNotAllowed'
         '409':
           $ref: '#/components/responses/Conflict'
         '422':
@@ -1504,6 +1550,8 @@ paths:
           $ref: '#/components/responses/Forbidden'
         '404':
           $ref: '#/components/responses/NotFound'
+        '405':
+          $ref: '#/components/responses/MethodNotAllowed'
         '409':
           $ref: '#/components/responses/Conflict'
         '422':
@@ -1543,6 +1591,8 @@ paths:
           $ref: '#/components/responses/Forbidden'
         '404':
           $ref: '#/components/responses/NotFound'
+        '405':
+          $ref: '#/components/responses/MethodNotAllowed'
         '409':
           $ref: '#/components/responses/Conflict'
         '422':
@@ -1637,6 +1687,8 @@ paths:
           $ref: '#/components/responses/Forbidden'
         '404':
           $ref: '#/components/responses/NotFound'
+        '405':
+          $ref: '#/components/responses/MethodNotAllowed'
         '409':
           $ref: '#/components/responses/Conflict'
         '422':
@@ -1684,6 +1736,8 @@ paths:
           $ref: '#/components/responses/Forbidden'
         '404':
           $ref: '#/components/responses/NotFound'
+        '405':
+          $ref: '#/components/responses/MethodNotAllowed'
         '409':
           $ref: '#/components/responses/Conflict'
         '422':
@@ -1731,6 +1785,8 @@ paths:
           $ref: '#/components/responses/Forbidden'
         '404':
           $ref: '#/components/responses/NotFound'
+        '405':
+          $ref: '#/components/responses/MethodNotAllowed'
         '409':
           $ref: '#/components/responses/Conflict'
         '422':
@@ -1785,6 +1841,8 @@ paths:
           $ref: '#/components/responses/Forbidden'
         '404':
           $ref: '#/components/responses/NotFound'
+        '405':
+          $ref: '#/components/responses/MethodNotAllowed'
         '409':
           $ref: '#/components/responses/Conflict'
         '422':
@@ -1824,6 +1882,8 @@ paths:
           $ref: '#/components/responses/Forbidden'
         '404':
           $ref: '#/components/responses/NotFound'
+        '405':
+          $ref: '#/components/responses/MethodNotAllowed'
         '409':
           $ref: '#/components/responses/Conflict'
         '422':
@@ -1870,6 +1930,8 @@ paths:
           $ref: '#/components/responses/Forbidden'
         '404':
           $ref: '#/components/responses/NotFound'
+        '405':
+          $ref: '#/components/responses/MethodNotAllowed'
         '409':
           $ref: '#/components/responses/Conflict'
         '422':
@@ -1912,6 +1974,8 @@ paths:
           $ref: '#/components/responses/Forbidden'
         '404':
           $ref: '#/components/responses/NotFound'
+        '405':
+          $ref: '#/components/responses/MethodNotAllowed'
         '409':
           $ref: '#/components/responses/Conflict'
         '422':
@@ -1952,6 +2016,8 @@ paths:
           $ref: '#/components/responses/Forbidden'
         '404':
           $ref: '#/components/responses/NotFound'
+        '405':
+          $ref: '#/components/responses/MethodNotAllowed'
         '409':
           $ref: '#/components/responses/Conflict'
         '422':
@@ -1992,6 +2058,8 @@ paths:
           $ref: '#/components/responses/Forbidden'
         '404':
           $ref: '#/components/responses/NotFound'
+        '405':
+          $ref: '#/components/responses/MethodNotAllowed'
         '409':
           $ref: '#/components/responses/Conflict'
         '422':
@@ -2050,6 +2118,8 @@ paths:
           $ref: '#/components/responses/Forbidden'
         '404':
           $ref: '#/components/responses/NotFound'
+        '405':
+          $ref: '#/components/responses/MethodNotAllowed'
         '409':
           $ref: '#/components/responses/Conflict'
         '422':
@@ -2107,6 +2177,8 @@ paths:
           $ref: '#/components/responses/Forbidden'
         '404':
           $ref: '#/components/responses/NotFound'
+        '405':
+          $ref: '#/components/responses/MethodNotAllowed'
         '409':
           $ref: '#/components/responses/Conflict'
         '422':
@@ -2164,6 +2236,8 @@ paths:
           $ref: '#/components/responses/Forbidden'
         '404':
           $ref: '#/components/responses/NotFound'
+        '405':
+          $ref: '#/components/responses/MethodNotAllowed'
         '409':
           $ref: '#/components/responses/Conflict'
         '422':
@@ -2208,6 +2282,8 @@ paths:
           $ref: '#/components/responses/Forbidden'
         '404':
           $ref: '#/components/responses/NotFound'
+        '405':
+          $ref: '#/components/responses/MethodNotAllowed'
         '409':
           $ref: '#/components/responses/Conflict'
         '422':
@@ -2248,6 +2324,8 @@ paths:
           $ref: '#/components/responses/Forbidden'
         '404':
           $ref: '#/components/responses/NotFound'
+        '405':
+          $ref: '#/components/responses/MethodNotAllowed'
         '409':
           $ref: '#/components/responses/Conflict'
         '422':
@@ -2288,6 +2366,8 @@ paths:
           $ref: '#/components/responses/Forbidden'
         '404':
           $ref: '#/components/responses/NotFound'
+        '405':
+          $ref: '#/components/responses/MethodNotAllowed'
         '409':
           $ref: '#/components/responses/Conflict'
         '422':
@@ -2328,6 +2408,8 @@ paths:
           $ref: '#/components/responses/Forbidden'
         '404':
           $ref: '#/components/responses/NotFound'
+        '405':
+          $ref: '#/components/responses/MethodNotAllowed'
         '409':
           $ref: '#/components/responses/Conflict'
         '422':
@@ -2387,6 +2469,8 @@ paths:
           $ref: '#/components/responses/Forbidden'
         '404':
           $ref: '#/components/responses/NotFound'
+        '405':
+          $ref: '#/components/responses/MethodNotAllowed'
         '409':
           $ref: '#/components/responses/Conflict'
         '422':
@@ -2427,6 +2511,8 @@ paths:
           $ref: '#/components/responses/Forbidden'
         '404':
           $ref: '#/components/responses/NotFound'
+        '405':
+          $ref: '#/components/responses/MethodNotAllowed'
         '409':
           $ref: '#/components/responses/Conflict'
         '422':
@@ -2467,6 +2553,8 @@ paths:
           $ref: '#/components/responses/Forbidden'
         '404':
           $ref: '#/components/responses/NotFound'
+        '405':
+          $ref: '#/components/responses/MethodNotAllowed'
         '409':
           $ref: '#/components/responses/Conflict'
         '422':
@@ -2517,6 +2605,8 @@ paths:
           $ref: '#/components/responses/Forbidden'
         '404':
           $ref: '#/components/responses/NotFound'
+        '405':
+          $ref: '#/components/responses/MethodNotAllowed'
         '409':
           $ref: '#/components/responses/Conflict'
         '422':
@@ -2576,6 +2666,8 @@ paths:
           $ref: '#/components/responses/Forbidden'
         '404':
           $ref: '#/components/responses/NotFound'
+        '405':
+          $ref: '#/components/responses/MethodNotAllowed'
         '409':
           $ref: '#/components/responses/Conflict'
         '422':
@@ -2586,6 +2678,102 @@ paths:
           $ref: '#/components/responses/InternalError'
       security: []
   /reviews:
+    get:
+      operationId: listPublishedProductReviews
+      summary: "List approved storefront reviews"
+      description: "Yalnız onaylanmış ve yayınlanmış yorumları ürün veya featured testimonial kapsamıyla; aggregate, opaque cursor ve PII-redacted yazar bilgisiyle döndürür."
+      tags: ["Commerce and engagement"]
+      x-shopiyz-auth: public_or_storefront_token
+      x-shopiyz-cache: edge
+      x-shopiyz-cache-control: public, max-age=60, s-maxage=300, stale-while-revalidate=600
+      x-required-scopes: ["storefront:read"]
+      parameters:
+        - name: storeId
+          in: query
+          required: false
+          description: "Yalnız development/preview ortamında açık mağaza kimliği."
+          schema: { type: string }
+        - name: preview
+          in: query
+          required: false
+          description: "Yetkili aynı-origin oturumunda taslak içerik ön izlemesi."
+          schema: { type: boolean }
+        - name: previewThemeId
+          in: query
+          required: false
+          description: "Ön izlenecek kurulu tema kimliği."
+          schema: { type: string }
+        - name: designId
+          in: query
+          required: false
+          description: "Ön izlenecek tema düzeni kimliği."
+          schema: { type: string }
+        - name: productId
+          in: query
+          required: false
+          description: "Ürün kimliği."
+          schema: { type: string }
+        - name: productHandle
+          in: query
+          required: false
+          description: "Ürün handle."
+          schema: { type: string }
+        - name: featured
+          in: query
+          required: false
+          description: "Öne çıkarılmış yorum filtresi. Ürün belirtilmediyse true zorunludur."
+          schema: { type: boolean }
+        - name: limit
+          in: query
+          required: false
+          description: "Sayfa başına sonuç; en fazla 48."
+          schema: { type: integer, minimum: 1, maximum: 48 }
+        - name: cursor
+          in: query
+          required: false
+          description: "Önceki yanıttan alınan opaque sayfalama imleci."
+          schema: { type: string }
+        - name: sort
+          in: query
+          required: false
+          description: "Yorum sıralaması."
+          schema: { type: string, enum: ["newest", "highest_rating", "lowest_rating", "featured"] }
+      responses:
+        '200':
+          description: Successful Storefront response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ReviewConnectionResponse'
+              example:
+                apiVersion: "2026-07-22"
+                storefrontRevision: '2026-07-22T00:00:00.000Z'
+                localization: null
+                aggregate: { averageRating: 0, reviewCount: 0, distribution: { '1': 0, '2': 0, '3': 0, '4': 0, '5': 0 } }
+                reviews: []
+                pageInfo: { hasNextPage: false, endCursor: null }
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '405':
+          $ref: '#/components/responses/MethodNotAllowed'
+        '409':
+          $ref: '#/components/responses/Conflict'
+        '422':
+          $ref: '#/components/responses/UnprocessableEntity'
+        '429':
+          $ref: '#/components/responses/RateLimited'
+        '500':
+          $ref: '#/components/responses/InternalError'
+      security:
+        - {}
+        - StorefrontAccessToken: []
+        - StorefrontBearerAuth: []
     post:
       operationId: submitProductReview
       summary: "Submit product review"
@@ -2615,6 +2803,8 @@ paths:
           $ref: '#/components/responses/Forbidden'
         '404':
           $ref: '#/components/responses/NotFound'
+        '405':
+          $ref: '#/components/responses/MethodNotAllowed'
         '409':
           $ref: '#/components/responses/Conflict'
         '422':
@@ -2655,6 +2845,8 @@ paths:
           $ref: '#/components/responses/Forbidden'
         '404':
           $ref: '#/components/responses/NotFound'
+        '405':
+          $ref: '#/components/responses/MethodNotAllowed'
         '409':
           $ref: '#/components/responses/Conflict'
         '422':
@@ -2895,6 +3087,49 @@ components:
         siteName: { type: string }
         homeTitle: { type: string }
         metaDescription: { type: string }
+    StorefrontSocialLink:
+      type: object
+      additionalProperties: false
+      required: [id, platform, label, url, sortOrder]
+      properties:
+        id: { type: string }
+        platform: { type: string }
+        label: { type: string }
+        url: { type: string, format: uri, pattern: '^https?://' }
+        sortOrder: { type: integer, minimum: 0 }
+    StorefrontMoney:
+      type: object
+      additionalProperties: false
+      required: [amount, currency]
+      properties:
+        amount: { type: number, minimum: 0 }
+        currency: { type: string, pattern: '^[A-Z]{3}$' }
+    StorefrontPaymentBrand:
+      type: object
+      additionalProperties: false
+      required: [id, label]
+      properties:
+        id: { type: string }
+        label: { type: string }
+        iconUrl: { type: string, format: uri, pattern: '^https?://' }
+    StorefrontCommerceDisplay:
+      type: object
+      additionalProperties: false
+      required: [freeShippingThreshold, paymentBrands]
+      properties:
+        freeShippingThreshold:
+          oneOf:
+            - $ref: '#/components/schemas/StorefrontMoney'
+            - type: 'null'
+        paymentBrands: { type: array, items: { $ref: '#/components/schemas/StorefrontPaymentBrand' } }
+    StorefrontPublicSettings:
+      type: object
+      required: [socialLinks, commerceDisplay]
+      properties:
+        socialLinks: { type: array, items: { $ref: '#/components/schemas/StorefrontSocialLink' } }
+        commerceDisplay: { $ref: '#/components/schemas/StorefrontCommerceDisplay' }
+      additionalProperties: true
+      description: Sunum alanları yalnız bu tenantın aktif ayarlarından üretilir; yapılandırılmamış değerler [] veya null döner.
     ProductVariant:
       type: object
       required: [id, productId, price, inventoryQuantity, availableForSale]
@@ -3089,6 +3324,69 @@ components:
           required: [localization]
           properties:
             localization: { $ref: '#/components/schemas/Localization' }
+    ReviewMedia:
+      type: object
+      additionalProperties: false
+      required: [url, altText]
+      properties:
+        url: { type: string, format: uri, pattern: '^https?://' }
+        altText: { type: string }
+        width: { type: integer, minimum: 1, maximum: 16384 }
+        height: { type: integer, minimum: 1, maximum: 16384 }
+    StorefrontReview:
+      type: object
+      additionalProperties: false
+      required: [id, productId, productHandle, rating, title, body, authorDisplayName, verifiedPurchase, featured, publishedAt, media]
+      properties:
+        id: { type: string }
+        productId: { type: string }
+        productHandle: { type: string }
+        rating: { type: integer, minimum: 1, maximum: 5 }
+        title: { type: [string, 'null'] }
+        body: { type: string }
+        authorDisplayName: { type: string, description: PII içermeyen maskelenmiş yazar adı. }
+        verifiedPurchase: { type: boolean }
+        featured: { type: boolean }
+        publishedAt: { type: string, format: date-time }
+        media: { type: array, maxItems: 8, items: { $ref: '#/components/schemas/ReviewMedia' } }
+    ReviewAggregate:
+      type: object
+      additionalProperties: false
+      required: [averageRating, reviewCount, distribution]
+      properties:
+        averageRating: { type: number, minimum: 0, maximum: 5 }
+        reviewCount: { type: integer, minimum: 0 }
+        distribution:
+          type: object
+          additionalProperties: false
+          required: ['1', '2', '3', '4', '5']
+          properties:
+            '1': { type: integer, minimum: 0 }
+            '2': { type: integer, minimum: 0 }
+            '3': { type: integer, minimum: 0 }
+            '4': { type: integer, minimum: 0 }
+            '5': { type: integer, minimum: 0 }
+    ReviewPageInfo:
+      type: object
+      additionalProperties: false
+      required: [hasNextPage, endCursor]
+      properties:
+        hasNextPage: { type: boolean }
+        endCursor: { type: [string, 'null'], description: Opaque cursor; istemci içeriğini yorumlamamalıdır. }
+    ReviewConnectionResponse:
+      allOf:
+        - $ref: '#/components/schemas/StorefrontMeta'
+        - type: object
+          additionalProperties: false
+          required: [apiVersion, storefrontRevision, localization, aggregate, reviews, pageInfo]
+          properties:
+            localization:
+              oneOf:
+                - $ref: '#/components/schemas/Localization'
+                - type: 'null'
+            aggregate: { $ref: '#/components/schemas/ReviewAggregate' }
+            reviews: { type: array, items: { $ref: '#/components/schemas/StorefrontReview' } }
+            pageInfo: { $ref: '#/components/schemas/ReviewPageInfo' }
     ShopResponse:
       allOf:
         - $ref: '#/components/schemas/StorefrontMeta'
@@ -3099,7 +3397,7 @@ components:
             storefront: { $ref: '#/components/schemas/StorefrontIdentity' }
             branding: { $ref: '#/components/schemas/StorefrontBranding' }
             seo: { $ref: '#/components/schemas/StorefrontSeo' }
-            settings: { type: object, additionalProperties: true }
+            settings: { $ref: '#/components/schemas/StorefrontPublicSettings' }
             activeTheme: { type: [object, 'null'], additionalProperties: true }
             headerLayout: { type: [object, 'null'], additionalProperties: true }
             footerLayout: { type: [object, 'null'], additionalProperties: true }
@@ -3196,6 +3494,19 @@ components:
               - $ref: '#/components/schemas/ErrorResponse'
     NotFound:
       description: HTTP 404
+      content:
+        application/json:
+          schema:
+            oneOf:
+              - $ref: '#/components/schemas/StorefrontError'
+              - $ref: '#/components/schemas/ErrorResponse'
+    MethodNotAllowed:
+      description: HTTP 405
+      headers:
+        Allow:
+          required: true
+          schema: { type: string }
+          description: Bu route için desteklenen HTTP metotları.
       content:
         application/json:
           schema:

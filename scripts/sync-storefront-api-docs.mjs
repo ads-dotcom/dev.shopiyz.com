@@ -47,6 +47,7 @@ const queryParameters = (operation) => {
   if (operation.path === "/smart-search") names.push("q", "limit", "sessionId", "deviceType");
   if (operation.path === "/quick-view-product") names.push("product", "products", "preview", "revision");
   if (operation.path === "/product-viewers") names.push("productId", "productHandle", "windowSeconds");
+  if (operation.path === "/reviews" && operation.method === "GET") names.push("productId", "productHandle", "featured", "limit", "cursor", "sort");
   if (operation.path === "/cart-recovery-cart") names.push("cartToken");
   if (operation.path === "/customer/oauth/authorize") names.push("storeId", "response_type", "client_id", "redirect_uri", "scope", "state", "nonce", "code_challenge", "code_challenge_method");
   if (["/customer/oauth/token", "/customer/oauth/revoke", "/newsletter-subscriptions", "/checkout-sessions"].includes(operation.path)) names.push("storeId");
@@ -98,6 +99,8 @@ const parameterDetails = {
   revision: { type: "string", description: "Storefront cache revision." },
   productId: { type: "string", description: "Ürün kimliği." },
   productHandle: { type: "string", description: "Ürün handle." },
+  featured: { type: "boolean", description: "Öne çıkarılmış yorum filtresi. Ürün belirtilmediyse true zorunludur." },
+  cursor: { type: "string", description: "Önceki yanıttan alınan opaque sayfalama imleci." },
   windowSeconds: { type: "integer", minimum: 30, description: "Aktif izleyici zaman penceresi." },
   cartToken: { type: "string", description: "Tek kullanımlık sepet kurtarma belirteci." },
   response_type: { type: "string", enum: ["code"], description: "OAuth Authorization Code akışı." },
@@ -144,6 +147,7 @@ const responseSchemaFor = (operation) => {
   if (operation.path === "/customer/oauth/revoke") return "OAuthRevokeResponse";
   if (operation.path === "/customer/me") return "CustomerProfileResponse";
   if (operation.path === "/newsletter-subscriptions") return "NewsletterAcceptedResponse";
+  if (operation.path === "/reviews" && operation.method === "GET") return "ReviewConnectionResponse";
   return "StorefrontResponse";
 };
 
@@ -193,6 +197,9 @@ const renderOpenApi = (catalog) => {
       lines.push(`      tags: [${yamlString(operation.resourceName)}]`);
       lines.push(`      x-shopiyz-auth: ${operation.auth}`);
       lines.push(`      x-shopiyz-cache: ${operation.cache}`);
+      if (operation.path === "/reviews" && operation.method === "GET") {
+        lines.push("      x-shopiyz-cache-control: public, max-age=60, s-maxage=300, stale-while-revalidate=600");
+      }
       if (operation.scope) lines.push(`      x-required-scopes: [${yamlString(operation.scope)}]`);
       const pathParams = Array.from(operation.path.matchAll(/\{([^}]+)\}/g)).map((match) => match[1]);
       const queryParams = queryParameters(operation);
@@ -204,7 +211,9 @@ const renderOpenApi = (catalog) => {
         for (const name of queryParams) {
           const detail = name === "page" && operation.path === "/page"
             ? { type: "string", description: "İçerik sayfası handle." }
-            : parameterDetails[name] || { type: "string", description: `${name} query parametresi.` };
+            : name === "sort" && operation.path === "/reviews"
+              ? { type: "string", enum: ["newest", "highest_rating", "lowest_rating", "featured"], description: "Yorum sıralaması." }
+              : parameterDetails[name] || { type: "string", description: `${name} query parametresi.` };
           const schemaParts = [`type: ${detail.type}`];
           if (detail.minimum !== undefined) schemaParts.push(`minimum: ${detail.minimum}`);
           if (detail.maximum !== undefined) schemaParts.push(`maximum: ${detail.maximum}`);
@@ -230,7 +239,27 @@ const renderOpenApi = (catalog) => {
           lines.push("          application/x-www-form-urlencoded:", "            schema:", `              $ref: '#/components/schemas/${schema}'`);
         }
       }
-      lines.push("      responses:", `        '${successStatusFor(operation)}':`, "          description: Successful Storefront response", "          content:", "            application/json:", "              schema:", `                $ref: '#/components/schemas/${responseSchemaFor(operation)}'`, "        '400':", "          $ref: '#/components/responses/BadRequest'", "        '401':", "          $ref: '#/components/responses/Unauthorized'", "        '403':", "          $ref: '#/components/responses/Forbidden'", "        '404':", "          $ref: '#/components/responses/NotFound'", "        '409':", "          $ref: '#/components/responses/Conflict'", "        '422':", "          $ref: '#/components/responses/UnprocessableEntity'", "        '429':", "          $ref: '#/components/responses/RateLimited'", "        '500':", "          $ref: '#/components/responses/InternalError'");
+      lines.push("      responses:", `        '${successStatusFor(operation)}':`, "          description: Successful Storefront response", "          content:", "            application/json:", "              schema:", `                $ref: '#/components/schemas/${responseSchemaFor(operation)}'`);
+      if (operation.path === "/reviews" && operation.method === "GET") {
+        lines.push(
+          "              example:",
+          `                apiVersion: ${yamlString(catalog.version)}`,
+          "                storefrontRevision: '2026-07-22T00:00:00.000Z'",
+          "                localization: null",
+          "                aggregate: { averageRating: 0, reviewCount: 0, distribution: { '1': 0, '2': 0, '3': 0, '4': 0, '5': 0 } }",
+          "                reviews: []",
+          "                pageInfo: { hasNextPage: false, endCursor: null }",
+        );
+      }
+      if (operation.path === "/shop") {
+        lines.push(
+          "              example:",
+          "                settings:",
+          "                  socialLinks: []",
+          "                  commerceDisplay: { freeShippingThreshold: null, paymentBrands: [] }",
+        );
+      }
+      lines.push("        '400':", "          $ref: '#/components/responses/BadRequest'", "        '401':", "          $ref: '#/components/responses/Unauthorized'", "        '403':", "          $ref: '#/components/responses/Forbidden'", "        '404':", "          $ref: '#/components/responses/NotFound'", "        '405':", "          $ref: '#/components/responses/MethodNotAllowed'", "        '409':", "          $ref: '#/components/responses/Conflict'", "        '422':", "          $ref: '#/components/responses/UnprocessableEntity'", "        '429':", "          $ref: '#/components/responses/RateLimited'", "        '500':", "          $ref: '#/components/responses/InternalError'");
       lines.push(...operationSecurity(operation));
     }
   }
@@ -465,6 +494,49 @@ const renderOpenApi = (catalog) => {
     "        siteName: { type: string }",
     "        homeTitle: { type: string }",
     "        metaDescription: { type: string }",
+    "    StorefrontSocialLink:",
+    "      type: object",
+    "      additionalProperties: false",
+    "      required: [id, platform, label, url, sortOrder]",
+    "      properties:",
+    "        id: { type: string }",
+    "        platform: { type: string }",
+    "        label: { type: string }",
+    "        url: { type: string, format: uri, pattern: '^https?://' }",
+    "        sortOrder: { type: integer, minimum: 0 }",
+    "    StorefrontMoney:",
+    "      type: object",
+    "      additionalProperties: false",
+    "      required: [amount, currency]",
+    "      properties:",
+    "        amount: { type: number, minimum: 0 }",
+    "        currency: { type: string, pattern: '^[A-Z]{3}$' }",
+    "    StorefrontPaymentBrand:",
+    "      type: object",
+    "      additionalProperties: false",
+    "      required: [id, label]",
+    "      properties:",
+    "        id: { type: string }",
+    "        label: { type: string }",
+    "        iconUrl: { type: string, format: uri, pattern: '^https?://' }",
+    "    StorefrontCommerceDisplay:",
+    "      type: object",
+    "      additionalProperties: false",
+    "      required: [freeShippingThreshold, paymentBrands]",
+    "      properties:",
+    "        freeShippingThreshold:",
+    "          oneOf:",
+    "            - $ref: '#/components/schemas/StorefrontMoney'",
+    "            - type: 'null'",
+    "        paymentBrands: { type: array, items: { $ref: '#/components/schemas/StorefrontPaymentBrand' } }",
+    "    StorefrontPublicSettings:",
+    "      type: object",
+    "      required: [socialLinks, commerceDisplay]",
+    "      properties:",
+    "        socialLinks: { type: array, items: { $ref: '#/components/schemas/StorefrontSocialLink' } }",
+    "        commerceDisplay: { $ref: '#/components/schemas/StorefrontCommerceDisplay' }",
+    "      additionalProperties: true",
+    "      description: Sunum alanları yalnız bu tenantın aktif ayarlarından üretilir; yapılandırılmamış değerler [] veya null döner.",
     "    ProductVariant:",
     "      type: object",
     "      required: [id, productId, price, inventoryQuantity, availableForSale]",
@@ -659,6 +731,69 @@ const renderOpenApi = (catalog) => {
     "          required: [localization]",
     "          properties:",
     "            localization: { $ref: '#/components/schemas/Localization' }",
+    "    ReviewMedia:",
+    "      type: object",
+    "      additionalProperties: false",
+    "      required: [url, altText]",
+    "      properties:",
+    "        url: { type: string, format: uri, pattern: '^https?://' }",
+    "        altText: { type: string }",
+    "        width: { type: integer, minimum: 1, maximum: 16384 }",
+    "        height: { type: integer, minimum: 1, maximum: 16384 }",
+    "    StorefrontReview:",
+    "      type: object",
+    "      additionalProperties: false",
+    "      required: [id, productId, productHandle, rating, title, body, authorDisplayName, verifiedPurchase, featured, publishedAt, media]",
+    "      properties:",
+    "        id: { type: string }",
+    "        productId: { type: string }",
+    "        productHandle: { type: string }",
+    "        rating: { type: integer, minimum: 1, maximum: 5 }",
+    "        title: { type: [string, 'null'] }",
+    "        body: { type: string }",
+    "        authorDisplayName: { type: string, description: PII içermeyen maskelenmiş yazar adı. }",
+    "        verifiedPurchase: { type: boolean }",
+    "        featured: { type: boolean }",
+    "        publishedAt: { type: string, format: date-time }",
+    "        media: { type: array, maxItems: 8, items: { $ref: '#/components/schemas/ReviewMedia' } }",
+    "    ReviewAggregate:",
+    "      type: object",
+    "      additionalProperties: false",
+    "      required: [averageRating, reviewCount, distribution]",
+    "      properties:",
+    "        averageRating: { type: number, minimum: 0, maximum: 5 }",
+    "        reviewCount: { type: integer, minimum: 0 }",
+    "        distribution:",
+    "          type: object",
+    "          additionalProperties: false",
+    "          required: ['1', '2', '3', '4', '5']",
+    "          properties:",
+    "            '1': { type: integer, minimum: 0 }",
+    "            '2': { type: integer, minimum: 0 }",
+    "            '3': { type: integer, minimum: 0 }",
+    "            '4': { type: integer, minimum: 0 }",
+    "            '5': { type: integer, minimum: 0 }",
+    "    ReviewPageInfo:",
+    "      type: object",
+    "      additionalProperties: false",
+    "      required: [hasNextPage, endCursor]",
+    "      properties:",
+    "        hasNextPage: { type: boolean }",
+    "        endCursor: { type: [string, 'null'], description: Opaque cursor; istemci içeriğini yorumlamamalıdır. }",
+    "    ReviewConnectionResponse:",
+    "      allOf:",
+    "        - $ref: '#/components/schemas/StorefrontMeta'",
+    "        - type: object",
+    "          additionalProperties: false",
+    "          required: [apiVersion, storefrontRevision, localization, aggregate, reviews, pageInfo]",
+    "          properties:",
+    "            localization:",
+    "              oneOf:",
+    "                - $ref: '#/components/schemas/Localization'",
+    "                - type: 'null'",
+    "            aggregate: { $ref: '#/components/schemas/ReviewAggregate' }",
+    "            reviews: { type: array, items: { $ref: '#/components/schemas/StorefrontReview' } }",
+    "            pageInfo: { $ref: '#/components/schemas/ReviewPageInfo' }",
     "    ShopResponse:",
     "      allOf:",
     "        - $ref: '#/components/schemas/StorefrontMeta'",
@@ -669,7 +804,7 @@ const renderOpenApi = (catalog) => {
     "            storefront: { $ref: '#/components/schemas/StorefrontIdentity' }",
     "            branding: { $ref: '#/components/schemas/StorefrontBranding' }",
     "            seo: { $ref: '#/components/schemas/StorefrontSeo' }",
-    "            settings: { type: object, additionalProperties: true }",
+    "            settings: { $ref: '#/components/schemas/StorefrontPublicSettings' }",
     "            activeTheme: { type: [object, 'null'], additionalProperties: true }",
     "            headerLayout: { type: [object, 'null'], additionalProperties: true }",
     "            footerLayout: { type: [object, 'null'], additionalProperties: true }",
@@ -741,8 +876,12 @@ const renderOpenApi = (catalog) => {
     "        error: { type: string }",
     "  responses:",
   );
-  for (const [name, status] of [["BadRequest", 400], ["Unauthorized", 401], ["Forbidden", 403], ["NotFound", 404], ["Conflict", 409], ["UnprocessableEntity", 422], ["RateLimited", 429], ["InternalError", 500]]) {
-    lines.push(`    ${name}:`, `      description: HTTP ${status}`, "      content:", "        application/json:", "          schema:", "            oneOf:", "              - $ref: '#/components/schemas/StorefrontError'", "              - $ref: '#/components/schemas/ErrorResponse'");
+  for (const [name, status] of [["BadRequest", 400], ["Unauthorized", 401], ["Forbidden", 403], ["NotFound", 404], ["MethodNotAllowed", 405], ["Conflict", 409], ["UnprocessableEntity", 422], ["RateLimited", 429], ["InternalError", 500]]) {
+    lines.push(`    ${name}:`, `      description: HTTP ${status}`);
+    if (name === "MethodNotAllowed") {
+      lines.push("      headers:", "        Allow:", "          required: true", "          schema: { type: string }", "          description: Bu route için desteklenen HTTP metotları.");
+    }
+    lines.push("      content:", "        application/json:", "          schema:", "            oneOf:", "              - $ref: '#/components/schemas/StorefrontError'", "              - $ref: '#/components/schemas/ErrorResponse'");
   }
   return `${lines.join("\n")}\n`;
 };
