@@ -12,7 +12,7 @@ servers:
         default: development
         description: Store subdomain or custom store hostname.
 x-shopiyz-base-path: "/api/storefront/v1"
-x-shopiyz-generated-at: "2026-07-21T12:02:49.150Z"
+x-shopiyz-generated-at: "2026-07-21T12:06:22.340Z"
 paths:
   /health:
     get:
