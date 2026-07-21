@@ -12,7 +12,7 @@ servers:
         default: development
         description: Store subdomain or custom store hostname.
 x-shopiyz-base-path: "/api/storefront/v1"
-x-shopiyz-generated-at: "2026-07-21T11:40:38.671Z"
+x-shopiyz-generated-at: "2026-07-21T12:02:49.150Z"
 paths:
   /health:
     get:
@@ -2717,15 +2717,21 @@ components:
         cancelUrl: { type: string, format: uri }
     CheckoutSessionResponse:
       type: object
-      required: [id, status, checkoutUrl, expiresAt, currency, lines, pricing]
+      required: [id, checkoutId, status, checkoutUrl, expiresAt, currency, lines, subtotal, discountTotal, shippingTotal, taxTotal, total, pricing]
       properties:
         id: { type: string }
+        checkoutId: { type: string }
         status: { type: string, enum: [pending] }
         checkoutUrl: { type: string, format: uri }
         expiresAt: { type: string, format: date-time }
         locale: { type: string }
         currency: { type: string }
         lines: { type: array, items: { type: object, additionalProperties: true } }
+        subtotal: { type: integer, minimum: 0, description: Minor currency units }
+        discountTotal: { type: integer, minimum: 0, description: Minor currency units }
+        shippingTotal: { type: [integer, 'null'], minimum: 0, description: Address is not known at session creation }
+        taxTotal: { type: integer, minimum: 0, description: Minor currency units }
+        total: { type: integer, minimum: 0, description: Minor currency units }
         pricing: { type: object, additionalProperties: true }
     CheckoutSessionConsumeResponse:
       allOf:
