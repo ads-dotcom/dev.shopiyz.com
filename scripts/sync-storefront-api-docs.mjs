@@ -739,6 +739,10 @@ access token: 15 minutes
 authorization code: 60 seconds
 checkout URL: signed + single-use
 CORS: explicit origin, never *</pre></article>
+        <article class="card"><h3>Rollout ve geri alma</h3><p>Yeni yetkiler opt-in'dir. Önce istemciye exact origin/redirect kaydı ve yalnız gerekli scope verilir; pilot doğrulandıktan sonra trafik açılır. Sorunda istemci tokenini revoke etmek erişimi anında keser. Yeni tablolar eklemelidir; eski same-origin checkout, müşteri ve newsletter uçları değişmeden çalışır.</p><pre>rollout: allowlist → scope → pilot → monitor
+rollback: revoke storefront client token
+legacy routes: unchanged
+database: additive migration</pre></article>
       </div>
     </section>`;
   sections = headlessGuides + sections;
