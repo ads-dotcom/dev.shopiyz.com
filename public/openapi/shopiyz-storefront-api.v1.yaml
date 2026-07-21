@@ -12,7 +12,7 @@ servers:
         default: development
         description: Store subdomain or custom store hostname.
 x-shopiyz-base-path: "/api/storefront/v1"
-x-shopiyz-generated-at: "2026-07-21T12:06:22.340Z"
+x-shopiyz-generated-at: "2026-07-21T16:53:51.957Z"
 paths:
   /health:
     get:
@@ -1584,17 +1584,17 @@ paths:
           schema: { type: string }
         - name: response_type
           in: query
-          required: false
+          required: true
           description: "OAuth Authorization Code akışı."
           schema: { type: string, enum: ["code"] }
         - name: client_id
           in: query
-          required: false
+          required: true
           description: "Admin panelindeki Storefront token kaydının client ID değeri."
           schema: { type: string }
         - name: redirect_uri
           in: query
-          required: false
+          required: true
           description: "İstemciye kayıtlı adresle tam eşleşen HTTPS callback URI."
           schema: { type: string }
         - name: scope
@@ -1604,22 +1604,22 @@ paths:
           schema: { type: string }
         - name: state
           in: query
-          required: false
+          required: true
           description: "CSRF koruması için en az 16 karakterlik tek kullanımlık istemci state değeri."
           schema: { type: string }
         - name: nonce
           in: query
-          required: false
+          required: true
           description: "Replay koruması için en az 16 karakterlik tek kullanımlık nonce."
           schema: { type: string }
         - name: code_challenge
           in: query
-          required: false
+          required: true
           description: "PKCE S256 code challenge."
           schema: { type: string }
         - name: code_challenge_method
           in: query
-          required: false
+          required: true
           description: "Yalnız S256 desteklenir."
           schema: { type: string, enum: ["S256"] }
       responses:
@@ -2785,7 +2785,19 @@ components:
       type: object
       required: [customer]
       properties:
-        customer: { type: object, additionalProperties: false }
+        customer:
+          type: object
+          additionalProperties: false
+          required: [id, email, acceptsMarketingEmail, emailVerified]
+          properties:
+            id: { type: string }
+            firstName: { type: [string, 'null'] }
+            lastName: { type: [string, 'null'] }
+            email: { type: string, format: email }
+            phone: { type: [string, 'null'] }
+            locale: { type: [string, 'null'] }
+            acceptsMarketingEmail: { type: boolean }
+            emailVerified: { type: boolean }
     NewsletterSubscriptionRequest:
       type: object
       additionalProperties: false

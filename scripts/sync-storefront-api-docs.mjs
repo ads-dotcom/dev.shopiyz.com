@@ -110,6 +110,19 @@ const parameterDetails = {
   code_challenge_method: { type: "string", enum: ["S256"], description: "Yalnız S256 desteklenir." },
 };
 
+const requiredAuthorizeParameters = new Set([
+  "response_type",
+  "client_id",
+  "redirect_uri",
+  "state",
+  "nonce",
+  "code_challenge",
+  "code_challenge_method",
+]);
+
+const queryParameterRequired = (operation, name) =>
+  operation.path === "/customer/oauth/authorize" && requiredAuthorizeParameters.has(name);
+
 const responseSchemaFor = (operation) => {
   if (operation.path === "/page") return "StorefrontPageResponse";
   if (operation.path === "/shop") return "ShopResponse";
@@ -199,7 +212,7 @@ const renderOpenApi = (catalog) => {
           lines.push(
             `        - name: ${name}`,
             "          in: query",
-            "          required: false",
+            `          required: ${queryParameterRequired(operation, name)}`,
             `          description: ${yamlString(detail.description)}`,
             `          schema: { ${schemaParts.join(", ")} }`,
           );
@@ -342,7 +355,19 @@ const renderOpenApi = (catalog) => {
     "      type: object",
     "      required: [customer]",
     "      properties:",
-    "        customer: { type: object, additionalProperties: false }",
+    "        customer:",
+    "          type: object",
+    "          additionalProperties: false",
+    "          required: [id, email, acceptsMarketingEmail, emailVerified]",
+    "          properties:",
+    "            id: { type: string }",
+    "            firstName: { type: [string, 'null'] }",
+    "            lastName: { type: [string, 'null'] }",
+    "            email: { type: string, format: email }",
+    "            phone: { type: [string, 'null'] }",
+    "            locale: { type: [string, 'null'] }",
+    "            acceptsMarketingEmail: { type: boolean }",
+    "            emailVerified: { type: boolean }",
     "    NewsletterSubscriptionRequest:",
     "      type: object",
     "      additionalProperties: false",

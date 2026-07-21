@@ -9,6 +9,9 @@ const admin = read("public/admin.html");
 const yaml = read("public/openapi/shopiyz-storefront-api.yaml");
 const operationIds = Array.from(yaml.matchAll(/^      operationId: (\S+)$/gm), (match) => match[1]);
 const pathKeys = Array.from(yaml.matchAll(/^  (\/[^:]+):$/gm), (match) => match[1]);
+const authorizeBlock = yaml.slice(yaml.indexOf("  /customer/oauth/authorize:"), yaml.indexOf("  /customer/oauth/token:"));
+const requiredAuthorizeParameters = ["response_type", "client_id", "redirect_uri", "state", "nonce", "code_challenge", "code_challenge_method"];
+const authorizeRequired = requiredAuthorizeParameters.every((name) => new RegExp(`- name: ${name}\\n\\s+in: query\\n\\s+required: true`).test(authorizeBlock));
 
 const checks = [
   [admin.includes('href="/storefront">Storefront API</a>') && admin.includes('class="active" href="/admin">Admin API</a>'), "Admin API sayfasının kanonik navigasyonu yok"],
@@ -34,6 +37,8 @@ const checks = [
   [(yaml.match(/^  \/customer:$/gm) || []).length === 1 && yaml.includes("      operationId: getStorefrontCustomer") && yaml.includes("      operationId: mutateStorefrontCustomer"), "GET ve POST customer işlemleri aynı OpenAPI path nesnesinde birleşmeli"],
   [yaml.includes("/checkout-sessions:") && yaml.includes("Idempotency-Key") && yaml.includes("storefront:checkout"), "Headless checkout sözleşmesi eksik"],
   [yaml.includes("/customer/oauth/authorize:") && yaml.includes("code_challenge_method") && yaml.includes("CustomerOAuthBearer"), "Müşteri PKCE OAuth sözleşmesi eksik"],
+  [authorizeRequired, "OAuth authorize zorunlu parametreleri OpenAPI'de required değil"],
+  [yaml.includes("required: [id, email, acceptsMarketingEmail, emailVerified]") && yaml.includes("emailVerified: { type: boolean }"), "Customer profile yanıt alanları typed değil"],
   [yaml.includes("/newsletter-subscriptions:") && yaml.includes("NewsletterSubscriptionRequest") && yaml.includes("'202':"), "Newsletter double opt-in sözleşmesi eksik"],
   [yaml.includes("'409':") && yaml.includes("'422':") && yaml.includes("ErrorResponse:"), "Yeni Storefront hata şemaları eksik"],
   [html.includes('id="headless-security"') && html.includes("React PKCE özeti") && html.includes("Tehdit modeli"), "Headless örnekleri ve tehdit modeli eksik"],
