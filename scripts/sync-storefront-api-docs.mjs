@@ -50,7 +50,7 @@ const queryParameters = (operation) => {
   if (operation.path === "/reviews" && operation.method === "GET") names.push("productId", "productHandle", "featured", "limit", "cursor", "sort");
   if (operation.path === "/cart-recovery-cart") names.push("cartToken");
   if (operation.path === "/customer/oauth/authorize") names.push("storeId", "response_type", "client_id", "redirect_uri", "scope", "state", "nonce", "code_challenge", "code_challenge_method");
-  if (["/customer/oauth/token", "/customer/oauth/revoke", "/newsletter-subscriptions", "/checkout-sessions"].includes(operation.path)) names.push("storeId");
+  if (["/customer/oauth/token", "/customer/oauth/revoke", "/newsletter-subscriptions", "/checkout-sessions", "/contact-us"].includes(operation.path)) names.push("storeId");
   return Array.from(new Set(names));
 };
 
@@ -78,7 +78,7 @@ const parameterDetails = {
   availability: { type: "string", enum: ["in-stock", "out-of-stock", "preorder"], description: "Satılabilirlik filtresi." },
   priceMin: { type: "number", minimum: 0, description: "Mağaza para biriminde minimum fiyat." },
   priceMax: { type: "number", minimum: 0, description: "Mağaza para biriminde maksimum fiyat." },
-  q: { type: "string", description: "Arama metni." },
+  q: { type: "string", description: "Unicode, büyük/küçük harf ve aksan farklarından bağımsız; ürün başlığı, handle, tür, marka, açıklama, etiket, varyant SKU ve seçeneklerinde aranan metin." },
   searchPage: { type: "integer", minimum: 1, description: "Arama sonuç sayfası." },
   searchSort: { type: "string", enum: ["relevance", "title", "newest", "price-asc", "price-desc"], description: "Arama sıralaması." },
   searchType: { type: "string", enum: ["all", "products", "collections", "pages", "blog_posts"], description: "Arama sonuç türü." },
@@ -147,6 +147,7 @@ const responseSchemaFor = (operation) => {
   if (operation.path === "/customer/oauth/revoke") return "OAuthRevokeResponse";
   if (operation.path === "/customer/me") return "CustomerProfileResponse";
   if (operation.path === "/newsletter-subscriptions") return "NewsletterAcceptedResponse";
+  if (operation.path === "/contact-us") return "ContactAcceptedResponse";
   if (operation.path === "/reviews" && operation.method === "GET") return "ReviewConnectionResponse";
   return "StorefrontResponse";
 };
@@ -157,10 +158,11 @@ const requestSchemaFor = (operation) => {
   if (operation.path === "/customer/oauth/revoke") return "OAuthRevokeRequest";
   if (operation.path === "/customer/me" && operation.method === "PATCH") return "CustomerProfilePatch";
   if (operation.path === "/newsletter-subscriptions") return "NewsletterSubscriptionRequest";
+  if (operation.path === "/contact-us") return "ContactRequest";
   return null;
 };
 
-const successStatusFor = (operation) => operation.path === "/checkout-sessions" ? "201" : operation.path === "/newsletter-subscriptions" ? "202" : "200";
+const successStatusFor = (operation) => operation.path === "/checkout-sessions" ? "201" : ["/newsletter-subscriptions", "/contact-us"].includes(operation.path) ? "202" : "200";
 
 const renderOpenApi = (catalog) => {
   const lines = [
@@ -260,6 +262,9 @@ const renderOpenApi = (catalog) => {
         );
       }
       lines.push("        '400':", "          $ref: '#/components/responses/BadRequest'", "        '401':", "          $ref: '#/components/responses/Unauthorized'", "        '403':", "          $ref: '#/components/responses/Forbidden'", "        '404':", "          $ref: '#/components/responses/NotFound'", "        '405':", "          $ref: '#/components/responses/MethodNotAllowed'", "        '409':", "          $ref: '#/components/responses/Conflict'", "        '422':", "          $ref: '#/components/responses/UnprocessableEntity'", "        '429':", "          $ref: '#/components/responses/RateLimited'", "        '500':", "          $ref: '#/components/responses/InternalError'");
+      if (operation.path === "/contact-us") {
+        lines.push("        '413':", "          $ref: '#/components/responses/PayloadTooLarge'", "        '415':", "          $ref: '#/components/responses/UnsupportedMediaType'", "        '502':", "          $ref: '#/components/responses/DeliveryFailed'");
+      }
       lines.push(...operationSecurity(operation));
     }
   }
@@ -410,6 +415,27 @@ const renderOpenApi = (catalog) => {
     "        turnstileToken: { type: string }",
     "    NewsletterAcceptedResponse:",
     "      type: object",
+    "      required: [accepted, message]",
+    "      properties:",
+    "        accepted: { type: boolean, const: true }",
+    "        message: { type: string }",
+    "    ContactRequest:",
+    "      type: object",
+    "      additionalProperties: false",
+    "      required: [name, email, subject, message, locale]",
+    "      properties:",
+    "        name: { type: string, minLength: 2, maxLength: 120 }",
+    "        email: { type: string, format: email, maxLength: 254 }",
+    "        subject: { type: string, minLength: 2, maxLength: 160 }",
+    "        message: { type: string, minLength: 5, maxLength: 5000 }",
+    "        locale: { type: string, maxLength: 24 }",
+    "        orderNumber: { type: string, maxLength: 80 }",
+    "        phone: { type: string, maxLength: 80, description: Geriye uyumlu opsiyonel telefon alanı. }",
+    "        website: { type: string, maxLength: 120, description: Honeypot; gerçek kullanıcılar boş bırakır. }",
+    "        turnstileToken: { type: string, maxLength: 2048 }",
+    "    ContactAcceptedResponse:",
+    "      type: object",
+    "      additionalProperties: false",
     "      required: [accepted, message]",
     "      properties:",
     "        accepted: { type: boolean, const: true }",
@@ -876,7 +902,7 @@ const renderOpenApi = (catalog) => {
     "        error: { type: string }",
     "  responses:",
   );
-  for (const [name, status] of [["BadRequest", 400], ["Unauthorized", 401], ["Forbidden", 403], ["NotFound", 404], ["MethodNotAllowed", 405], ["Conflict", 409], ["UnprocessableEntity", 422], ["RateLimited", 429], ["InternalError", 500]]) {
+  for (const [name, status] of [["BadRequest", 400], ["Unauthorized", 401], ["Forbidden", 403], ["NotFound", 404], ["MethodNotAllowed", 405], ["Conflict", 409], ["PayloadTooLarge", 413], ["UnsupportedMediaType", 415], ["UnprocessableEntity", 422], ["RateLimited", 429], ["InternalError", 500], ["DeliveryFailed", 502]]) {
     lines.push(`    ${name}:`, `      description: HTTP ${status}`);
     if (name === "MethodNotAllowed") {
       lines.push("      headers:", "        Allow:", "          required: true", "          schema: { type: string }", "          description: Bu route için desteklenen HTTP metotları.");
@@ -927,7 +953,7 @@ const renderHtml = (catalog) => {
     </section>`;
   const headlessGuides = `
     <section id="headless-security" class="docs-section">
-      <div class="section-copy"><p class="eyebrow">HEADLESS SECURITY</p><h2>Checkout, müşteri OAuth ve newsletter</h2><p>Her istemci ayrı origin, redirect URI ve en az yetki kapsamıyla kaydedilir. Eski <code>storefront:read</code> tokenleri checkout veya müşteri yetkisi kazanmaz.</p></div>
+      <div class="section-copy"><p class="eyebrow">HEADLESS SECURITY</p><h2>Checkout, müşteri OAuth, newsletter ve iletişim</h2><p>Her istemci ayrı origin, redirect URI ve en az yetki kapsamıyla kaydedilir. Eski <code>storefront:read</code> tokenleri checkout veya müşteri yetkisi kazanmaz.</p></div>
       <div class="quick-grid">
         <article class="card"><h3>Headless checkout</h3><p>Fiyat ve stok istemciden alınmaz; sunucu kanonik varyantları doğrular. Her istek benzersiz bir idempotency anahtarı taşır.</p><pre>curl -X POST \
   -H "Authorization: Bearer shpft_…" \
@@ -954,6 +980,15 @@ location.assign(authorizeUrl({
     source: "footer", consent: true
   })
 });</pre></article>
+        <article class="card"><h3>İletişim formu</h3><p>Aynı-origin tema veya <code>storefront:read</code> istemcisi mesajı mağazanın e-posta kuyruğuna aktarır. Body limiti, honeypot, tenant/IP rate limit ve isteğe bağlı Turnstile uygulanır; yanıt cache'lenmez.</p><pre>await fetch("/api/storefront/v1/contact-us", {
+  method: "POST",
+  headers: {"Content-Type":"application/json"},
+  body: JSON.stringify({
+    name, email, subject, message,
+    locale: "de-DE", orderNumber,
+    website: ""
+  })
+}); // 202 accepted</pre></article>
         <article class="card"><h3>Tehdit modeli</h3><p>Origin sahteciliği exact allowlist, kod ele geçirme PKCE S256, replay tek kullanımlık kod/token, refresh hırsızlığı rotasyon ve reuse detection, bot trafiği Turnstile/honeypot/rate limit ile sınırlandırılır. Tokenler yalnız hash olarak saklanır.</p><pre>scope: least privilege
 redirect: exact HTTPS URI
 access token: 15 minutes

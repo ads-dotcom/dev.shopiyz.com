@@ -12,7 +12,7 @@ servers:
         default: development
         description: Store subdomain or custom store hostname.
 x-shopiyz-base-path: "/api/storefront/v1"
-x-shopiyz-generated-at: "2026-07-21T22:20:48.419Z"
+x-shopiyz-generated-at: "2026-07-22T17:16:48.655Z"
 paths:
   /health:
     get:
@@ -1101,7 +1101,7 @@ paths:
         - name: q
           in: query
           required: false
-          description: "Arama metni."
+          description: "Unicode, büyük/küçük harf ve aksan farklarından bağımsız; ürün başlığı, handle, tür, marka, açıklama, etiket, varyant SKU ve seçeneklerinde aranan metin."
           schema: { type: string }
         - name: searchPage
           in: query
@@ -1219,7 +1219,7 @@ paths:
         - name: q
           in: query
           required: false
-          description: "Arama metni."
+          description: "Unicode, büyük/küçük harf ve aksan farklarından bağımsız; ürün başlığı, handle, tür, marka, açıklama, etiket, varyant SKU ve seçeneklerinde aranan metin."
           schema: { type: string }
         - name: limit
           in: query
@@ -1990,24 +1990,30 @@ paths:
     post:
       operationId: submitStorefrontContact
       summary: "Submit contact form"
-      description: "Tema iletişim formunu doğrular ve mağaza iletişim akışına iletir."
+      description: "Same-origin veya storefront:read istemcisinden gelen iletişim formunu bot koruması, tenant/IP rate limit ve güvenli e-posta kuyruğuyla mağazaya iletir."
       tags: ["Customer and access"]
-      x-shopiyz-auth: same_origin
+      x-shopiyz-auth: public_or_storefront_token
       x-shopiyz-cache: none
+      x-required-scopes: ["storefront:read"]
+      parameters:
+        - name: storeId
+          in: query
+          required: false
+          description: "Yalnız development/preview ortamında açık mağaza kimliği."
+          schema: { type: string }
       requestBody:
         required: true
         content:
           application/json:
             schema:
-              type: object
-              additionalProperties: true
+              $ref: '#/components/schemas/ContactRequest'
       responses:
-        '200':
+        '202':
           description: Successful Storefront response
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/StorefrontResponse'
+                $ref: '#/components/schemas/ContactAcceptedResponse'
         '400':
           $ref: '#/components/responses/BadRequest'
         '401':
@@ -2026,8 +2032,16 @@ paths:
           $ref: '#/components/responses/RateLimited'
         '500':
           $ref: '#/components/responses/InternalError'
+        '413':
+          $ref: '#/components/responses/PayloadTooLarge'
+        '415':
+          $ref: '#/components/responses/UnsupportedMediaType'
+        '502':
+          $ref: '#/components/responses/DeliveryFailed'
       security:
-        - StorefrontSession: []
+        - {}
+        - StorefrontAccessToken: []
+        - StorefrontBearerAuth: []
   /blog-comments:
     post:
       operationId: submitBlogComment
@@ -2565,6 +2579,48 @@ paths:
           $ref: '#/components/responses/InternalError'
       security:
         - StorefrontSession: []
+  /payment-checkout:
+    post:
+      operationId: createHostedPaymentCheckout
+      summary: "Create hosted payment checkout"
+      description: "Doğrulanmış PayTR veya iyzico hesabında sunucu tarafı fiyat ve stok kontrolüyle barındırılan ödeme oturumu oluşturur."
+      tags: ["Commerce and engagement"]
+      x-shopiyz-auth: same_origin
+      x-shopiyz-cache: none
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              additionalProperties: true
+      responses:
+        '200':
+          description: Successful Storefront response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/StorefrontResponse'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '405':
+          $ref: '#/components/responses/MethodNotAllowed'
+        '409':
+          $ref: '#/components/responses/Conflict'
+        '422':
+          $ref: '#/components/responses/UnprocessableEntity'
+        '429':
+          $ref: '#/components/responses/RateLimited'
+        '500':
+          $ref: '#/components/responses/InternalError'
+      security:
+        - StorefrontSession: []
   /checkout-sessions:
     post:
       operationId: createHeadlessCheckoutSession
@@ -3003,6 +3059,27 @@ components:
         turnstileToken: { type: string }
     NewsletterAcceptedResponse:
       type: object
+      required: [accepted, message]
+      properties:
+        accepted: { type: boolean, const: true }
+        message: { type: string }
+    ContactRequest:
+      type: object
+      additionalProperties: false
+      required: [name, email, subject, message, locale]
+      properties:
+        name: { type: string, minLength: 2, maxLength: 120 }
+        email: { type: string, format: email, maxLength: 254 }
+        subject: { type: string, minLength: 2, maxLength: 160 }
+        message: { type: string, minLength: 5, maxLength: 5000 }
+        locale: { type: string, maxLength: 24 }
+        orderNumber: { type: string, maxLength: 80 }
+        phone: { type: string, maxLength: 80, description: Geriye uyumlu opsiyonel telefon alanı. }
+        website: { type: string, maxLength: 120, description: Honeypot; gerçek kullanıcılar boş bırakır. }
+        turnstileToken: { type: string, maxLength: 2048 }
+    ContactAcceptedResponse:
+      type: object
+      additionalProperties: false
       required: [accepted, message]
       properties:
         accepted: { type: boolean, const: true }
@@ -3521,6 +3598,22 @@ components:
             oneOf:
               - $ref: '#/components/schemas/StorefrontError'
               - $ref: '#/components/schemas/ErrorResponse'
+    PayloadTooLarge:
+      description: HTTP 413
+      content:
+        application/json:
+          schema:
+            oneOf:
+              - $ref: '#/components/schemas/StorefrontError'
+              - $ref: '#/components/schemas/ErrorResponse'
+    UnsupportedMediaType:
+      description: HTTP 415
+      content:
+        application/json:
+          schema:
+            oneOf:
+              - $ref: '#/components/schemas/StorefrontError'
+              - $ref: '#/components/schemas/ErrorResponse'
     UnprocessableEntity:
       description: HTTP 422
       content:
@@ -3539,6 +3632,14 @@ components:
               - $ref: '#/components/schemas/ErrorResponse'
     InternalError:
       description: HTTP 500
+      content:
+        application/json:
+          schema:
+            oneOf:
+              - $ref: '#/components/schemas/StorefrontError'
+              - $ref: '#/components/schemas/ErrorResponse'
+    DeliveryFailed:
+      description: HTTP 502
       content:
         application/json:
           schema:
