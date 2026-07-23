@@ -12,7 +12,7 @@ servers:
         default: development
         description: Store subdomain or custom store hostname.
 x-shopiyz-base-path: "/api/storefront/v1"
-x-shopiyz-generated-at: "2026-07-23T07:22:59.307Z"
+x-shopiyz-generated-at: "2026-07-23T18:20:14.286Z"
 paths:
   /health:
     get:
@@ -3501,11 +3501,28 @@ components:
             aggregate: { $ref: '#/components/schemas/ReviewAggregate' }
             reviews: { type: array, items: { $ref: '#/components/schemas/StorefrontReview' } }
             pageInfo: { $ref: '#/components/schemas/ReviewPageInfo' }
+    StorefrontCheckoutConfig:
+      type: object
+      additionalProperties: false
+      required: [provider, providerKey, enabled, label, checkoutPath, acceleratedPaymentProviders]
+      properties:
+        provider: { type: string, enum: [external] }
+        providerKey: { type: string, enum: [shopify-checkout, payment-paytr, payment-iyzico] }
+        enabled: { type: boolean }
+        label: { type: string }
+        checkoutPath:
+          type: string
+          enum: [/api/storefront/v1/shopify-checkout, /api/storefront/v1/payment-checkout]
+        requiresIdentityNumber: { type: boolean }
+        requiresBillingAddress: { type: boolean }
+        acceleratedPaymentProviders:
+          type: array
+          items: { type: string, enum: [shop_pay] }
     ShopResponse:
       allOf:
         - $ref: '#/components/schemas/StorefrontMeta'
         - type: object
-          required: [shop, storefront, branding, seo, settings, localization, promotions]
+          required: [shop, storefront, branding, seo, settings, localization, promotions, checkout]
           properties:
             shop: { $ref: '#/components/schemas/ShopIdentity' }
             storefront: { $ref: '#/components/schemas/StorefrontIdentity' }
@@ -3517,6 +3534,10 @@ components:
             footerLayout: { type: [object, 'null'], additionalProperties: true }
             localization: { $ref: '#/components/schemas/Localization' }
             promotions: { type: array, items: { $ref: '#/components/schemas/Promotion' } }
+            checkout:
+              oneOf:
+                - $ref: '#/components/schemas/StorefrontCheckoutConfig'
+                - type: 'null'
     StorefrontPageResponse:
       type: object
       required: [store, settings, products, collections, menus, localization, promotions, storefrontRevision]
