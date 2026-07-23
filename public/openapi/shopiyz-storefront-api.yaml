@@ -12,7 +12,7 @@ servers:
         default: development
         description: Store subdomain or custom store hostname.
 x-shopiyz-base-path: "/api/storefront/v1"
-x-shopiyz-generated-at: "2026-07-22T17:16:48.655Z"
+x-shopiyz-generated-at: "2026-07-23T07:22:59.307Z"
 paths:
   /health:
     get:
@@ -278,7 +278,7 @@ paths:
     get:
       operationId: listStorefrontProducts
       summary: "List and filter published products"
-      description: "Aktif ürünleri fiyat, marka, kategori, ürün tipi, etiket, renk, beden ve stok facetleri; sıralama ve kararlı sayfalama bilgileriyle listeler."
+      description: "Aktif ürünleri fiyat, marka, kategori, ürün tipi, etiket, renk, beden ve stok facetleri; sıralama ve kararlı sayfalama bilgileriyle listeler. Liste yanıtı filtre için kullanılan metafield tanımlarını, include=metafields ise tüm yayınlanabilir tanımları ekler."
       tags: ["Catalog"]
       x-shopiyz-auth: public_or_storefront_token
       x-shopiyz-cache: edge
@@ -364,6 +364,11 @@ paths:
           required: false
           description: "Mağaza para biriminde maksimum fiyat."
           schema: { type: number, minimum: 0 }
+        - name: include
+          in: query
+          required: false
+          description: "Liste ve arama sonuçlarına tüm aktif, Storefront görünür metafield tanımlarını ekler. Varsayılanda yalnız filtre için kullanılan metafield alanları döner."
+          schema: { type: string, enum: ["metafields"] }
       responses:
         '200':
           description: Successful Storefront response
@@ -397,7 +402,7 @@ paths:
     get:
       operationId: getStorefrontProduct
       summary: "Get published product"
-      description: "Ürün handle veya kimliğiyle ürün detayını döndürür; taslak ürünleri yalnızca yetkili preview oturumu görebilir."
+      description: "Ürün handle veya kimliğiyle ürün detayını ve aktif, Storefront görünür product/variant metafield tanımlarının kanonik değerlerini döndürür; taslak ürünleri yalnızca yetkili preview oturumu görebilir."
       tags: ["Catalog"]
       x-shopiyz-auth: public_or_storefront_token
       x-shopiyz-cache: edge
@@ -519,7 +524,7 @@ paths:
     get:
       operationId: getStorefrontCollection
       summary: "Get collection, products and facets"
-      description: "Koleksiyon bilgisiyle birlikte filtrelenmiş ürünleri, facet sayılarını, aktif filtreleri, sıralamayı ve sayfalama meta verisini döndürür."
+      description: "Koleksiyon bilgisiyle birlikte filtrelenmiş ürünleri, facet sayılarını, aktif filtreleri, sıralamayı ve sayfalama meta verisini döndürür. Ürün metafield alanları liste görünürlüğü kurallarına tabidir."
       tags: ["Catalog"]
       x-shopiyz-auth: public_or_storefront_token
       x-shopiyz-cache: edge
@@ -609,6 +614,11 @@ paths:
           required: false
           description: "Mağaza para biriminde maksimum fiyat."
           schema: { type: number, minimum: 0 }
+        - name: include
+          in: query
+          required: false
+          description: "Liste ve arama sonuçlarına tüm aktif, Storefront görünür metafield tanımlarını ekler. Varsayılanda yalnız filtre için kullanılan metafield alanları döner."
+          schema: { type: string, enum: ["metafields"] }
       responses:
         '200':
           description: Successful Storefront response
@@ -1072,7 +1082,7 @@ paths:
     get:
       operationId: searchStorefront
       summary: "Search storefront"
-      description: "Ürün, koleksiyon, sayfa ve blog sonuçlarını filtre ve sıralama seçenekleriyle döndürür."
+      description: "Ürün, koleksiyon, sayfa ve blog sonuçlarını filtre ve sıralama seçenekleriyle döndürür. Ürün metafield alanları yalnız filtre için kullanılan tanımlarla veya include=metafields isteğiyle yayınlanır."
       tags: ["Search and discovery"]
       x-shopiyz-auth: public_or_storefront_token
       x-shopiyz-cache: edge
@@ -1158,6 +1168,11 @@ paths:
           required: false
           description: "Arama maksimum fiyatı."
           schema: { type: number, minimum: 0 }
+        - name: include
+          in: query
+          required: false
+          description: "Liste ve arama sonuçlarına tüm aktif, Storefront görünür metafield tanımlarını ekler. Varsayılanda yalnız filtre için kullanılan metafield alanları döner."
+          schema: { type: string, enum: ["metafields"] }
       responses:
         '200':
           description: Successful Storefront response
@@ -3221,10 +3236,27 @@ components:
         availableForSale: { type: boolean }
         optionValues: { type: array, items: { type: string } }
         imageUrl: { type: [string, 'null'], format: uri-reference }
+        metafields:
+          type: object
+          additionalProperties: true
+          description: Aynı değerleri hem namespace.key hem namespace -> key biçiminde sunan public metafield görünümü.
+        metafieldEntries: { type: array, items: { $ref: '#/components/schemas/MetafieldEntry' } }
       description: Maliyet değeri Storefront yanıtında null olarak maskelenir; tedarikçi maliyet verisi yayınlanmaz.
+    MetafieldEntry:
+      type: object
+      additionalProperties: false
+      required: [namespace, key, name, type, value, validations]
+      properties:
+        namespace: { type: string }
+        key: { type: string }
+        name: { type: string }
+        type: { type: string }
+        description: { type: [string, 'null'] }
+        value: { description: Kanonik metafield değeri; tip definition.type tarafından belirlenir. }
+        validations: { type: object, additionalProperties: true }
     ProductImage:
       type: object
-      required: [id, url, mediaType, position]
+      required: [id, url, mediaType, position, variantIds]
       properties:
         id: { type: string }
         url: { type: string, format: uri-reference }
@@ -3233,6 +3265,7 @@ components:
         position: { type: integer }
         width: { type: [integer, 'null'] }
         height: { type: [integer, 'null'] }
+        variantIds: { type: array, items: { type: string }, description: Mevcut product_images.variant_ids atamalarından üretilir. }
     Product:
       type: object
       required: [id, title, handle, status, tags, minPrice, maxPrice, inventoryQuantity]
@@ -3256,7 +3289,11 @@ components:
         optionNames: { type: array, items: { type: string } }
         variants: { type: array, items: { $ref: '#/components/schemas/ProductVariant' } }
         images: { type: array, items: { $ref: '#/components/schemas/ProductImage' } }
-        metafields: { type: object, additionalProperties: true }
+        metafields:
+          type: object
+          additionalProperties: true
+          description: Aktif ve Storefront görünür definition alanları; hem namespace.key hem namespace -> key erişimi sağlar. Kanonik metafield_values, eski inline JSON değerini ezer.
+        metafieldEntries: { type: array, items: { $ref: '#/components/schemas/MetafieldEntry' } }
       additionalProperties: true
     Collection:
       type: object

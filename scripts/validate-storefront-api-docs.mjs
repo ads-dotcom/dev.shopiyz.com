@@ -46,6 +46,8 @@ const checks = [
   [yaml.includes("varyant SKU ve seçeneklerinde") && yaml.includes("Unicode, büyük/küçük harf ve aksan"), "Normalize Storefront arama kapsamı belgelenmedi"],
   [yaml.includes("operationId: listPublishedProductReviews") && yaml.includes("ReviewConnectionResponse:") && yaml.includes("highest_rating") && yaml.includes("name: cursor"), "Onaylı yorum listeleme sözleşmesi eksik"],
   [yaml.includes("StorefrontPublicSettings:") && yaml.includes("StorefrontSocialLink:") && yaml.includes("StorefrontCommerceDisplay:") && yaml.includes("StorefrontPaymentBrand:"), "Shop sunum ayarları açık tiplerle belgelenmedi"],
+  [yaml.includes("MetafieldEntry:") && yaml.includes("metafieldEntries:") && yaml.includes("name: include") && yaml.includes("enum: [\"metafields\"]"), "Storefront metafield projection sözleşmesi belgelenmedi"],
+  [yaml.includes("variantIds:") && yaml.includes("product_images.variant_ids"), "Varyant-görsel atama sözleşmesi belgelenmedi"],
   [yaml.includes("x-shopiyz-cache-control: public, max-age=60, s-maxage=300, stale-while-revalidate=600"), "Yorum cache sözleşmesi belgelenmedi"],
   [yaml.includes("MethodNotAllowed:") && yaml.includes("Allow:") && yaml.includes("'405':"), "JSON 405 ve Allow sözleşmesi belgelenmedi"],
   [yaml.includes("aggregate: { averageRating: 0, reviewCount: 0") && yaml.includes("commerceDisplay: { freeShippingThreshold: null, paymentBrands: [] }"), "Storefront empty-state örnekleri eksik"],

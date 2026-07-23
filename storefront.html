@@ -110,16 +110,16 @@ database: additive migration</pre></article>
         <span class="resource-meta"><b>6 endpoint</b><i aria-hidden="true">+</i></span>
       </button>
       <div class="operations" hidden>
-        <article class="operation" data-operation-card data-search-text="get /api/storefront/v1/products list and filter published products aktif ürünleri fiyat, marka, kategori, ürün tipi, etiket, renk, beden ve stok facetleri; sıralama ve kararlı sayfalama bilgileriyle listeler.">
+        <article class="operation" data-operation-card data-search-text="get /api/storefront/v1/products list and filter published products aktif ürünleri fiyat, marka, kategori, ürün tipi, etiket, renk, beden ve stok facetleri; sıralama ve kararlı sayfalama bilgileriyle listeler. liste yanıtı filtre için kullanılan metafield tanımlarını, include=metafields ise tüm yayınlanabilir tanımları ekler.">
           <div class="operation-line"><span class="method get">GET</span><code>/api/storefront/v1/products</code><span class="auth">public_or_storefront_token</span></div>
-          <h3>List and filter published products</h3><p>Aktif ürünleri fiyat, marka, kategori, ürün tipi, etiket, renk, beden ve stok facetleri; sıralama ve kararlı sayfalama bilgileriyle listeler.</p>
-          <div class="contract-row"><strong>Parametreler</strong><div class="parameter-list"><code>storeId</code><code>preview</code><code>previewThemeId</code><code>designId</code><code>page</code><code>limit</code><code>sort</code><code>vendor</code><code>productType</code><code>category</code><code>tag</code><code>color</code><code>size</code><code>availability</code><code>priceMin</code><code>priceMax</code></div></div>
+          <h3>List and filter published products</h3><p>Aktif ürünleri fiyat, marka, kategori, ürün tipi, etiket, renk, beden ve stok facetleri; sıralama ve kararlı sayfalama bilgileriyle listeler. Liste yanıtı filtre için kullanılan metafield tanımlarını, include=metafields ise tüm yayınlanabilir tanımları ekler.</p>
+          <div class="contract-row"><strong>Parametreler</strong><div class="parameter-list"><code>storeId</code><code>preview</code><code>previewThemeId</code><code>designId</code><code>page</code><code>limit</code><code>sort</code><code>vendor</code><code>productType</code><code>category</code><code>tag</code><code>color</code><code>size</code><code>availability</code><code>priceMin</code><code>priceMax</code><code>include</code></div></div>
           <div class="contract-row"><strong>Yanıt</strong><code>ProductConnectionResponse</code></div>
           <div class="meta"><span>Cache: edge</span><span>Scope: storefront:read</span></div>
         </article>
-        <article class="operation" data-operation-card data-search-text="get /api/storefront/v1/products/{handle} get published product ürün handle veya kimliğiyle ürün detayını döndürür; taslak ürünleri yalnızca yetkili preview oturumu görebilir.">
+        <article class="operation" data-operation-card data-search-text="get /api/storefront/v1/products/{handle} get published product ürün handle veya kimliğiyle ürün detayını ve aktif, storefront görünür product/variant metafield tanımlarının kanonik değerlerini döndürür; taslak ürünleri yalnızca yetkili preview oturumu görebilir.">
           <div class="operation-line"><span class="method get">GET</span><code>/api/storefront/v1/products/{handle}</code><span class="auth">public_or_storefront_token</span></div>
-          <h3>Get published product</h3><p>Ürün handle veya kimliğiyle ürün detayını döndürür; taslak ürünleri yalnızca yetkili preview oturumu görebilir.</p>
+          <h3>Get published product</h3><p>Ürün handle veya kimliğiyle ürün detayını ve aktif, Storefront görünür product/variant metafield tanımlarının kanonik değerlerini döndürür; taslak ürünleri yalnızca yetkili preview oturumu görebilir.</p>
           <div class="contract-row"><strong>Parametreler</strong><div class="parameter-list"><code>handle</code><code>storeId</code><code>preview</code><code>previewThemeId</code><code>designId</code></div></div>
           <div class="contract-row"><strong>Yanıt</strong><code>ProductResponse</code></div>
           <div class="meta"><span>Cache: edge</span><span>Scope: storefront:read</span></div>
@@ -131,10 +131,10 @@ database: additive migration</pre></article>
           <div class="contract-row"><strong>Yanıt</strong><code>CollectionListResponse</code></div>
           <div class="meta"><span>Cache: edge</span><span>Scope: storefront:read</span></div>
         </article>
-        <article class="operation" data-operation-card data-search-text="get /api/storefront/v1/collections/{handle} get collection, products and facets koleksiyon bilgisiyle birlikte filtrelenmiş ürünleri, facet sayılarını, aktif filtreleri, sıralamayı ve sayfalama meta verisini döndürür.">
+        <article class="operation" data-operation-card data-search-text="get /api/storefront/v1/collections/{handle} get collection, products and facets koleksiyon bilgisiyle birlikte filtrelenmiş ürünleri, facet sayılarını, aktif filtreleri, sıralamayı ve sayfalama meta verisini döndürür. ürün metafield alanları liste görünürlüğü kurallarına tabidir.">
           <div class="operation-line"><span class="method get">GET</span><code>/api/storefront/v1/collections/{handle}</code><span class="auth">public_or_storefront_token</span></div>
-          <h3>Get collection, products and facets</h3><p>Koleksiyon bilgisiyle birlikte filtrelenmiş ürünleri, facet sayılarını, aktif filtreleri, sıralamayı ve sayfalama meta verisini döndürür.</p>
-          <div class="contract-row"><strong>Parametreler</strong><div class="parameter-list"><code>handle</code><code>storeId</code><code>preview</code><code>previewThemeId</code><code>designId</code><code>page</code><code>limit</code><code>sort</code><code>vendor</code><code>productType</code><code>category</code><code>tag</code><code>color</code><code>size</code><code>availability</code><code>priceMin</code><code>priceMax</code></div></div>
+          <h3>Get collection, products and facets</h3><p>Koleksiyon bilgisiyle birlikte filtrelenmiş ürünleri, facet sayılarını, aktif filtreleri, sıralamayı ve sayfalama meta verisini döndürür. Ürün metafield alanları liste görünürlüğü kurallarına tabidir.</p>
+          <div class="contract-row"><strong>Parametreler</strong><div class="parameter-list"><code>handle</code><code>storeId</code><code>preview</code><code>previewThemeId</code><code>designId</code><code>page</code><code>limit</code><code>sort</code><code>vendor</code><code>productType</code><code>category</code><code>tag</code><code>color</code><code>size</code><code>availability</code><code>priceMin</code><code>priceMax</code><code>include</code></div></div>
           <div class="contract-row"><strong>Yanıt</strong><code>CollectionResponse</code></div>
           <div class="meta"><span>Cache: edge</span><span>Scope: storefront:read</span></div>
         </article>
@@ -208,10 +208,10 @@ database: additive migration</pre></article>
         <span class="resource-meta"><b>6 endpoint</b><i aria-hidden="true">+</i></span>
       </button>
       <div class="operations" hidden>
-        <article class="operation" data-operation-card data-search-text="get /api/storefront/v1/search search storefront ürün, koleksiyon, sayfa ve blog sonuçlarını filtre ve sıralama seçenekleriyle döndürür.">
+        <article class="operation" data-operation-card data-search-text="get /api/storefront/v1/search search storefront ürün, koleksiyon, sayfa ve blog sonuçlarını filtre ve sıralama seçenekleriyle döndürür. ürün metafield alanları yalnız filtre için kullanılan tanımlarla veya include=metafields isteğiyle yayınlanır.">
           <div class="operation-line"><span class="method get">GET</span><code>/api/storefront/v1/search</code><span class="auth">public_or_storefront_token</span></div>
-          <h3>Search storefront</h3><p>Ürün, koleksiyon, sayfa ve blog sonuçlarını filtre ve sıralama seçenekleriyle döndürür.</p>
-          <div class="contract-row"><strong>Parametreler</strong><div class="parameter-list"><code>storeId</code><code>preview</code><code>previewThemeId</code><code>designId</code><code>q</code><code>searchPage</code><code>limit</code><code>searchSort</code><code>searchType</code><code>searchVendor</code><code>searchCategory</code><code>searchProductType</code><code>searchColor</code><code>searchSize</code><code>searchAvailability</code><code>searchPriceMax</code></div></div>
+          <h3>Search storefront</h3><p>Ürün, koleksiyon, sayfa ve blog sonuçlarını filtre ve sıralama seçenekleriyle döndürür. Ürün metafield alanları yalnız filtre için kullanılan tanımlarla veya include=metafields isteğiyle yayınlanır.</p>
+          <div class="contract-row"><strong>Parametreler</strong><div class="parameter-list"><code>storeId</code><code>preview</code><code>previewThemeId</code><code>designId</code><code>q</code><code>searchPage</code><code>limit</code><code>searchSort</code><code>searchType</code><code>searchVendor</code><code>searchCategory</code><code>searchProductType</code><code>searchColor</code><code>searchSize</code><code>searchAvailability</code><code>searchPriceMax</code><code>include</code></div></div>
           <div class="contract-row"><strong>Yanıt</strong><code>SearchResponse</code></div>
           <div class="meta"><span>Cache: edge</span><span>Scope: storefront:read</span></div>
         </article>

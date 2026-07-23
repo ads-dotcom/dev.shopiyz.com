@@ -40,8 +40,8 @@ const queryParameters = (operation) => {
   const names = [];
   if (operation.method === "GET" && !["/health", "/image"].includes(operation.path)) names.push("storeId", "preview", "previewThemeId", "designId");
   if (operation.path === "/page") names.push("pageType", "path", "product", "collection", "blog", "blogPost", "page", "policy", "limit");
-  if (operation.path === "/products" || operation.path.startsWith("/collections/{")) names.push("page", "limit", "sort", "vendor", "productType", "category", "tag", "color", "size", "availability", "priceMin", "priceMax");
-  if (operation.path === "/search") names.push("q", "searchPage", "limit", "searchSort", "searchType", "searchVendor", "searchCategory", "searchProductType", "searchColor", "searchSize", "searchAvailability", "searchPriceMax");
+  if (operation.path === "/products" || operation.path.startsWith("/collections/{")) names.push("page", "limit", "sort", "vendor", "productType", "category", "tag", "color", "size", "availability", "priceMin", "priceMax", "include");
+  if (operation.path === "/search") names.push("q", "searchPage", "limit", "searchSort", "searchType", "searchVendor", "searchCategory", "searchProductType", "searchColor", "searchSize", "searchAvailability", "searchPriceMax", "include");
   if (["/smart-search", "/quick-view-product", "/product-viewers", "/cart-recovery-cart", "/image"].includes(operation.path)) names.push("storeId");
   if (operation.path === "/image") names.push("source", "width", "quality", "format");
   if (operation.path === "/smart-search") names.push("q", "limit", "sessionId", "deviceType");
@@ -78,6 +78,7 @@ const parameterDetails = {
   availability: { type: "string", enum: ["in-stock", "out-of-stock", "preorder"], description: "Satılabilirlik filtresi." },
   priceMin: { type: "number", minimum: 0, description: "Mağaza para biriminde minimum fiyat." },
   priceMax: { type: "number", minimum: 0, description: "Mağaza para biriminde maksimum fiyat." },
+  include: { type: "string", enum: ["metafields"], description: "Liste ve arama sonuçlarına tüm aktif, Storefront görünür metafield tanımlarını ekler. Varsayılanda yalnız filtre için kullanılan metafield alanları döner." },
   q: { type: "string", description: "Unicode, büyük/küçük harf ve aksan farklarından bağımsız; ürün başlığı, handle, tür, marka, açıklama, etiket, varyant SKU ve seçeneklerinde aranan metin." },
   searchPage: { type: "integer", minimum: 1, description: "Arama sonuç sayfası." },
   searchSort: { type: "string", enum: ["relevance", "title", "newest", "price-asc", "price-desc"], description: "Arama sıralaması." },
@@ -577,10 +578,27 @@ const renderOpenApi = (catalog) => {
     "        availableForSale: { type: boolean }",
     "        optionValues: { type: array, items: { type: string } }",
     "        imageUrl: { type: [string, 'null'], format: uri-reference }",
+    "        metafields:",
+    "          type: object",
+    "          additionalProperties: true",
+    "          description: Aynı değerleri hem namespace.key hem namespace -> key biçiminde sunan public metafield görünümü.",
+    "        metafieldEntries: { type: array, items: { $ref: '#/components/schemas/MetafieldEntry' } }",
     "      description: Maliyet değeri Storefront yanıtında null olarak maskelenir; tedarikçi maliyet verisi yayınlanmaz.",
+    "    MetafieldEntry:",
+    "      type: object",
+    "      additionalProperties: false",
+    "      required: [namespace, key, name, type, value, validations]",
+    "      properties:",
+    "        namespace: { type: string }",
+    "        key: { type: string }",
+    "        name: { type: string }",
+    "        type: { type: string }",
+    "        description: { type: [string, 'null'] }",
+    "        value: { description: Kanonik metafield değeri; tip definition.type tarafından belirlenir. }",
+    "        validations: { type: object, additionalProperties: true }",
     "    ProductImage:",
     "      type: object",
-    "      required: [id, url, mediaType, position]",
+    "      required: [id, url, mediaType, position, variantIds]",
     "      properties:",
     "        id: { type: string }",
     "        url: { type: string, format: uri-reference }",
@@ -589,6 +607,7 @@ const renderOpenApi = (catalog) => {
     "        position: { type: integer }",
     "        width: { type: [integer, 'null'] }",
     "        height: { type: [integer, 'null'] }",
+    "        variantIds: { type: array, items: { type: string }, description: Mevcut product_images.variant_ids atamalarından üretilir. }",
     "    Product:",
     "      type: object",
     "      required: [id, title, handle, status, tags, minPrice, maxPrice, inventoryQuantity]",
@@ -612,7 +631,11 @@ const renderOpenApi = (catalog) => {
     "        optionNames: { type: array, items: { type: string } }",
     "        variants: { type: array, items: { $ref: '#/components/schemas/ProductVariant' } }",
     "        images: { type: array, items: { $ref: '#/components/schemas/ProductImage' } }",
-    "        metafields: { type: object, additionalProperties: true }",
+    "        metafields:",
+    "          type: object",
+    "          additionalProperties: true",
+    "          description: Aktif ve Storefront görünür definition alanları; hem namespace.key hem namespace -> key erişimi sağlar. Kanonik metafield_values, eski inline JSON değerini ezer.",
+    "        metafieldEntries: { type: array, items: { $ref: '#/components/schemas/MetafieldEntry' } }",
     "      additionalProperties: true",
     "    Collection:",
     "      type: object",
