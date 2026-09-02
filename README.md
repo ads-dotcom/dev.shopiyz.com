@@ -4,6 +4,13 @@ Static developer documentation preview for Shopiyz.
 
 Live site: https://dev.shopiyz.com/
 
+## Deployment ownership
+
+This repository is the canonical source for both `dev.shopiyz.com` and the
+`dev-shopiyz-docs` Cloudflare Worker. Platform repositories may generate API
+contracts consumed here, but they must not replace this site or claim its
+production route with a separate documentation Worker.
+
 ## Publish without GitHub Actions
 
 This project is intentionally build-free. GitHub Pages can serve it directly from the `main` branch root:

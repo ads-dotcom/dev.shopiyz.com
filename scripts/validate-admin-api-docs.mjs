@@ -3,7 +3,7 @@ import path from "node:path";
 
 const root = path.resolve(path.dirname(new URL(import.meta.url).pathname), "..");
 const yamlPath = path.join(root, "openapi", "shopiyz-api.yaml");
-const indexPath = path.join(root, "public", "index.html");
+const indexPath = path.join(root, "public", "admin.html");
 const baselineArg = process.argv.find((arg) => arg.startsWith("--baseline="));
 const baselinePath = baselineArg ? path.resolve(process.cwd(), baselineArg.slice("--baseline=".length)) : "";
 
