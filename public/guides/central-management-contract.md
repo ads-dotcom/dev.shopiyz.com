@@ -21,6 +21,17 @@ Generic `/content/publish_schedules`, `/content/revisions`, `/theme_previews`, `
 
 ## Order synchronization
 
+Each order line exposes nullable decimal-text `total_price`, `discount_total` and
+`tax_total` from its saved `order_line_items` columns. The projection does not
+multiply quantity by price, query current catalog prices or distribute order-level
+tax/discount totals. `line_accounting.source`, `status` and `field_status` identify
+column provenance and availability. Stored zero remains zero; legacy default-zero
+columns do not prove an explicit original allocation, so
+`historical_allocation_status=not_proven`. These fields alone are not an immutable
+invoice snapshot. Existing measured minor-unit values, `total_discount`, tax lines,
+discount allocations and opaque line properties retain their existing meanings.
+
+
 Use `/orders/changes.json` for reliable reconciliation, including deleted orders. It has store-local sequence numbers and minimal change metadata, without customer payloads. Database triggers append events in the same transaction as native order row creation, update and deletion. Notification-only child triggers also cover line properties/file references, fulfillment allocations/tracking, transactions, refunds, invoice files, returns and timeline events; they join the child to its parent using both store and order identity. Upsert duplicates are expected, including internal order lease updates. This is a change notification feed, not immutable historical order snapshots.
 
 The feed sequence is the aggregate-change checkpoint. The order's `revision` remains the native commercial-action compare-and-set value. A direct native child projection edit can keep that revision and the parent's `updated_at` unchanged; child notification triggers never alter a lifecycle fence. Use the sequence feed to discover these changes and refetch the relevant current order/child resources.
@@ -78,6 +89,11 @@ Menu writes, native banner settings and supported theme settings accept their do
 An explicit menu-item `id` identifies that node within its menu and takes precedence over matching URL/resource targets. Two distinct explicit IDs can both use `url="#"` as dropdown parents. Without an explicit ID, the compatible URL/resource upsert behavior remains. Parent IDs must belong to the same menu and form an acyclic tree; `parent_id=null` moves a node to the root.
 
 ## Authoritative XML control
+
+An explicitly configured `updatePolicy.preserveExplicitDraftStatus=true` preserves
+mapped `draft` and `taslak` product statuses as unpublished drafts in both Native
+import lanes. Omitted or false retains the existing status mapping for established
+profiles. Unrecognized status strings retain their existing active fallback.
 
 Use `GET /xml/feeds/{feed_id}/state.json` for the real engine configuration, jobs, errors, connection generation, `configurationRevision`, `catalogRevision` and `inventoryCheckpoint`. GET `/xml/feeds/{feed_id}/receipts/{operation_id}.json` returns a durable receipt. All require admin scope; authoritative reads bypass the generic response cache. Configuration reads are redacted: credentials and executable templates are omitted, URL userinfo is removed and query values are replaced with `__SHOPIYZ_REDACTED__`. Read results are not a complete write payload; redaction markers are rejected on writes.
 

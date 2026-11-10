@@ -10,7 +10,7 @@ servers:
       store:
         default: development
         description: Store subdomain or custom store host.
-x-shopiyz-generated-at: "2026-11-10T12:55:09.562Z"
+x-shopiyz-generated-at: "2026-11-10T17:10:56.318Z"
 x-shopiyz-source: myshopiyz/src/lib/adminApiCatalog.ts
 x-shopiyz-base-path: /admin/api/v1
 x-shopiyz-summary:
@@ -357309,41 +357309,62 @@ components:
       additionalProperties: true
     OrderLineItem:
       type: object
+      description: "Saved native order-line values. total_price, discount_total and tax_total are\nnullable decimal text from the corresponding order_line_items columns without\nrecomputing quantity times unit price, reading today's catalog or allocating\nan order aggregate. Stored zero is returned as zero; a legacy database default\ndoes not prove an explicit historical tax or discount allocation. These fields\nalone are not an immutable invoice snapshot. Existing price, total_discount,\nmeasured quantity/minor-unit fields and opaque properties remain unchanged.\n"
       properties:
         id:
           type: string
-          example: line_1
-        productId:
+        total_price:
           type:
             - string
             - "null"
-        variantId:
+          description: "Actual stored line total as decimal text; null when unavailable or invalid"
+        discount_total:
           type:
             - string
             - "null"
-        title:
-          type: string
-          example: "Ergonomic Desk"
-        sku:
+          description: "Actual stored line discount as decimal text; null when unavailable or invalid"
+        tax_total:
           type:
             - string
             - "null"
-        quantity:
-          type: integer
-          example: 1
-        fulfilledQuantity:
-          type: integer
-          example: 0
-        unitPrice:
-          type: number
-          example: 1299
-        totalPrice:
-          type: number
-          example: 1299
-        requiresShipping:
-          type: boolean
-          example: true
-      additionalProperties: true
+          description: "Actual stored line tax as decimal text; null when unavailable or invalid"
+        line_accounting:
+          type: object
+          properties:
+            source:
+              type: string
+              const: order_line_items
+            status:
+              type: string
+              enum:
+                - stored
+                - partial
+                - unavailable
+              description: "Column availability only; not historical invoice/allocation proof"
+            historical_allocation_status:
+              type: string
+              const: not_proven
+            field_status:
+              type: object
+              properties:
+                total_price:
+                  type: string
+                  enum:
+                    - stored
+                    - unavailable
+                    - invalid
+                discount_total:
+                  type: string
+                  enum:
+                    - stored
+                    - unavailable
+                    - invalid
+                tax_total:
+                  type: string
+                  enum:
+                    - stored
+                    - unavailable
+                    - invalid
     Order:
       type: object
       description: "Saved order snapshots, never current customer/product/tax settings. Monetary strings use the\nexisting two-decimal order-money convention; nested stored tax/discount amounts remain numeric.\ntotal_price already includes shipping/payment fees. Unknown historical facts are null or explicitly\nmarked not_recorded/partial; empty tax/discount arrays alone do not prove no tax/discount.\ncurrent_total_price is total_price minus recorded cash refunds. After refunds, unrecorded component\nallocations are null; do not build a credit invoice by guessing tax from today's catalog.\nfinancial_status is payment state, fulfillment_status is shipped-quantity state, neither implies delivery.\n"
@@ -357497,7 +357518,7 @@ components:
         line_items:
           type: array
           items:
-            type: object
+            $ref: "#/components/schemas/OrderLineItem"
         transactions:
           type: array
           items:
