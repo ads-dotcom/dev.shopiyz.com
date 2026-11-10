@@ -10,7 +10,7 @@ servers:
       store:
         default: development
         description: Store subdomain or custom store host.
-x-shopiyz-generated-at: "2026-11-10T11:10:38.156Z"
+x-shopiyz-generated-at: "2026-11-10T12:55:09.562Z"
 x-shopiyz-source: myshopiyz/src/lib/adminApiCatalog.ts
 x-shopiyz-base-path: /admin/api/v1
 x-shopiyz-summary:
@@ -359203,8 +359203,7 @@ components:
                     downloadUrl:
                       type: string
                       format: uri
-                      description: "Existing private signed download route; expires in five minutes"
-                      no public R2 access: null
+                      description: "Existing private signed download route; expires in five minutes, no public R2 access"
                     expiresAt:
                       type: integer
                       description: "Epoch milliseconds"
@@ -359244,8 +359243,7 @@ components:
           description: "Required verified published provider for create_shipment; native camel-case alias providerKey is accepted"
         shipment_id:
           type: string
-          description: "Native carrier shipment ID"
-          scoped to this order; required for private label and pre-handoff cancellation: null
+          description: "Native carrier shipment ID, scoped to this order; required for private label and pre-handoff cancellation"
         parcel_ordinal:
           type: integer
           minimum: 1
@@ -359261,8 +359259,7 @@ components:
           type: string
         status:
           type: string
-          description: "Native process_return state transition"
-          subject to inspection and settlement guards: null
+          description: "Native process_return state transition, subject to inspection and settlement guards"
         restock:
           type: boolean
         refundMethod:
@@ -359270,8 +359267,7 @@ components:
           enum:
             - later
             - original_payment
-          description: "Optional cancellation refund destination"
-          subject to native provider confirmation: null
+          description: "Optional cancellation refund destination, subject to native provider confirmation"
         cancelProviderShipments:
           type: boolean
           description: "Required native confirmation for order cancellation after carrier handoff"
