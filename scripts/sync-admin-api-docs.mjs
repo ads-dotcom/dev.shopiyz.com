@@ -62,7 +62,7 @@ function json(value) {
 
 function yamlString(value) {
   const text = String(value ?? "");
-  if (/^[A-Za-z0-9._/-]+$/.test(text)) return text;
+  if (/^[A-Za-z0-9._/-]+$/.test(text) && !/^(?:null|true|false|[-+]?\d+(?:\.\d+)?)$/i.test(text)) return text;
   return JSON.stringify(text);
 }
 
@@ -2078,6 +2078,8 @@ const OPENAPI_COMPONENT_SCHEMAS = {
           status: { type: "string", example: "open" },
           financial_status: { type: "string", example: "paid" },
           fulfillment_status: { type: "string", example: "unfulfilled" },
+          expected_revision: { type: "integer", minimum: 0, description: "Expected native order revision. A stale precondition returns 409." },
+          expectedRevision: { type: "integer", minimum: 0, description: "Camel-case alias for expected_revision." },
           note: nullableString,
           tags: { type: "array", items: { type: "string" }, example: ["vip", "manual-review"] },
         },
@@ -2828,6 +2830,7 @@ function normalizeOperation(operation, usedOperationIds) {
     stepUp: operation.stepUp,
     requiredScopes: requiredScopesFor(operation),
     implemented: operation.implemented !== false,
+    executionMode: operation.executionMode || "catalogued",
     idempotencyRequired: Boolean(operation.idempotencyRequired),
     previewRequired: Boolean(operation.previewRequired),
     rollbackSupported: Boolean(operation.rollbackSupported),
@@ -2889,6 +2892,19 @@ function buildDocSections(operations) {
         }))
         .sort((left, right) => right.operationCount - left.operationCount || left.name.localeCompare(right.name)),
     }));
+}
+
+function applicationComponentSchemas() {
+  const source = path.join(appRoot, "docs", "api", "openapi.yaml");
+  assertFile(source, "Reviewed application OpenAPI");
+  const content = execFileSync(process.env.PYTHON || "python3", [
+    "-c",
+    "import json,sys,yaml; print(json.dumps(yaml.safe_load(open(sys.argv[1], encoding='utf-8'))['components']['schemas']))",
+    source,
+  ], {encoding: "utf8", stdio: ["ignore", "pipe", "pipe"]});
+  // Reviewed application schemas take precedence over historical portal copies.
+  // Portal-only typed resources remain available to the wider API registry.
+  return {...OPENAPI_COMPONENT_SCHEMAS, ...JSON.parse(content)};
 }
 
 async function loadCatalog() {
@@ -3207,6 +3223,12 @@ function updateAdminHtml(docData) {
 
   html = html.replace(/\/admin\/api(?!\/v1)/g, docData.basePath);
 
+  if (!html.includes('href="/guides/central-management-contract.md"')) {
+    html = html.replace(
+      "<strong>API dokumanlari canli registry ile senkron tutulur.</strong>",
+      '<strong>API dokumanlari canli registry ile senkron tutulur.</strong> <a href="/guides/central-management-contract.md">Entegrasyon rehberi</a>'
+    );
+  }
   fs.writeFileSync(adminPath, html);
   fs.copyFileSync(adminPath, path.join(docsRoot, "public", "admin.html"));
 }
@@ -3345,6 +3367,7 @@ function renderOpenApiOperation(operation, tagName) {
   lines.push("      x-shopiyz-rate-limit-headers:");
   lines.push(yamlList(operation.rateLimitHeaders || [], "        "));
   lines.push(`      x-shopiyz-implemented: ${operation.implemented ? "true" : "false"}`);
+  lines.push(`      x-shopiyz-execution-mode: ${yamlString(operation.executionMode)}`);
   lines.push(`      x-shopiyz-preview-required: ${operation.previewRequired ? "true" : "false"}`);
   lines.push(`      x-shopiyz-rollback-supported: ${operation.rollbackSupported ? "true" : "false"}`);
   lines.push(`      x-ai-safe: ${operation.aiSafety.safe ? "true" : "false"}`);
@@ -3487,7 +3510,7 @@ function renderOpenApi(docData) {
     lines.push(...yamlValue(response, 6));
   }
   lines.push("  schemas:");
-  for (const [name, schema] of Object.entries(OPENAPI_COMPONENT_SCHEMAS)) {
+  for (const [name, schema] of Object.entries(applicationComponentSchemas())) {
     lines.push(`    ${name}:`);
     lines.push(...yamlValue(schema, 6));
   }
@@ -3511,6 +3534,17 @@ function updateOpenApi(docData) {
   }
 }
 
+function updateIntegrationGuide() {
+  const source = path.join(appRoot, "docs", "api", "central-management-contract.md");
+  assertFile(source, "Central management API guide");
+  const guide = fs.readFileSync(source, "utf8");
+  for (const relative of ["guides/central-management-contract.md", "public/guides/central-management-contract.md"]) {
+    const target = path.join(docsRoot, relative);
+    fs.mkdirSync(path.dirname(target), {recursive: true});
+    fs.writeFileSync(target, guide);
+  }
+}
+
 function updateReadme() {
   const replacements = [
     [path.join(docsRoot, "README.md"), "`openapi/shopiyz-api.yaml` is generated from the live Admin API registry and is the AI/integration source of truth."],
@@ -3527,6 +3561,7 @@ const { catalog, capabilities } = await loadCatalog();
 const docData = buildDocData(catalog, capabilities);
 updateAdminHtml(docData);
 updateOpenApi(docData);
+updateIntegrationGuide();
 updateReadme();
 
 console.log(

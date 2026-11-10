@@ -1,9 +1,10 @@
 import fs from "node:fs";
+import {execFileSync} from "node:child_process";
 import path from "node:path";
 
 const root = path.resolve(path.dirname(new URL(import.meta.url).pathname), "..");
 const yamlPath = path.join(root, "openapi", "shopiyz-api.yaml");
-const indexPath = path.join(root, "public", "index.html");
+const indexPath = path.join(root, "public", "admin.html");
 const baselineArg = process.argv.find((arg) => arg.startsWith("--baseline="));
 const baselinePath = baselineArg ? path.resolve(process.cwd(), baselineArg.slice("--baseline=".length)) : "";
 
@@ -133,8 +134,8 @@ const requiredTypedRequestSchemas = new Map([
   ["POST /discounts/{discount_id}/preview.json", "#/components/schemas/DiscountActionRequest"],
   ["PATCH /checkout/branding.json", "#/components/schemas/CheckoutSettingsRequest"],
   ["POST /cart/rules.json", "#/components/schemas/CartRuleRequest"],
-  ["POST /xml/feeds.json", "#/components/schemas/XmlFeedRequest"],
-  ["POST /xml/feeds/{feed_id}/preview.json", "#/components/schemas/XmlFeedRequest"],
+  ["POST /xml/feeds.json", "#/components/schemas/XmlAuthorityFeedInput"],
+  ["POST /xml/feeds/{feed_id}/preview.json", "#/components/schemas/XmlAuthorityCommandInput"],
   ["PATCH /settings/payments.json", "#/components/schemas/PaymentSettingsInput"],
   ["POST /settings/payments/providers.json", "#/components/schemas/PaymentProviderInput"],
   ["PATCH /settings/payments/providers/{provider_id}.json", "#/components/schemas/PaymentProviderInput"],
@@ -558,4 +559,13 @@ try {
   console.error(error.message);
   if (error.details) console.error(JSON.stringify(error.details, null, 2));
   process.exit(1);
+}
+
+if (process.env.SHOPIYZ_APP_REPO) {
+  execFileSync(process.env.PYTHON || "python3", [
+    "-c",
+    "import sys,yaml; source=yaml.safe_load(open(sys.argv[1],encoding='utf-8'))['components']['schemas']; portal=yaml.safe_load(open(sys.argv[2],encoding='utf-8'))['components']['schemas']; drift=[name for name,schema in source.items() if portal.get(name)!=schema]; assert not drift, 'Reviewed application schema drift: '+', '.join(drift)",
+    path.join(process.env.SHOPIYZ_APP_REPO, "docs/api/openapi.yaml"),
+    yamlPath,
+  ], {stdio: ["ignore", "pipe", "pipe"]});
 }

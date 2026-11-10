@@ -35,7 +35,11 @@ Generate the HTML and typed OpenAPI files from the current Development `main` ch
 
 ```sh
 SHOPIYZ_APP_REPO=/absolute/path/to/shopiyz-development node scripts/sync-storefront-api-docs.mjs
-node scripts/validate-storefront-api-docs.mjs
+SHOPIYZ_APP_REPO=/absolute/path/to/shopiyz-development node scripts/validate-storefront-api-docs.mjs
 ```
 
 The generated Storefront page uses the canonical `/storefront` route. `/` is the API choice page, `/admin` is the Admin API reference and `/openapi` presents both contracts.
+
+Storefront OpenAPI is the exact output of the application’s `buildStorefrontOpenApi` builder, including reviewed schemas, authorization policies and all registered methods. JSON-formatted `.yaml` downloads are valid YAML 1.2. Generate the application specification before syncing, then validate portal parity against the same application checkout. Each deployed store also serves its own contract at `/api/storefront/v1/openapi.json`.
+
+Admin documentation also uses the reviewed application schemas. Run `SHOPIYZ_APP_REPO=/absolute/path/to/shopiyz-development node scripts/sync-admin-api-docs.mjs`, then the matching `validate-admin-api-docs.mjs` command with the same environment. Generation and schema parity validation require python3 with PyYAML, as used by the application API generators.
