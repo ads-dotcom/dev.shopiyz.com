@@ -159,6 +159,25 @@ function fail(message, details = {}) {
   throw error;
 }
 
+export function validateStaticAssetBudget(directory) {
+  const maximum = 25 * 1024 * 1024;
+  const files = [];
+  function inspect(current) {
+    for (const entry of fs.readdirSync(current, {withFileTypes: true})) {
+      const file = path.join(current, entry.name);
+      if (entry.isSymbolicLink()) fail("Static assets must not contain symlinks", {file});
+      if (entry.isDirectory()) inspect(file);
+      else if (entry.isFile()) {
+        const bytes = fs.statSync(file).size;
+        if (bytes > maximum) fail("Static asset exceeds Cloudflare25MiB maximum", {file: path.relative(directory, file), bytes, maximum});
+        files.push({file: path.relative(directory, file), bytes});
+      }
+    }
+  }
+  inspect(directory);
+  return {files: files.length, maximumFileBytes: Math.max(0, ...files.map(file => file.bytes)), limitBytes: maximum};
+}
+
 function unquote(value) {
   const trimmed = String(value || "").trim();
   if (trimmed.startsWith('"')) {
@@ -448,6 +467,7 @@ export function validateOperationAuthority(catalogOperation, openApiOperation) {
 }
 
 export function validate() {
+  const staticAssets = validateStaticAssetBudget(path.join(root, "public"));
   const yaml = read(yamlPath);
   const publicHtml = read(indexPath);
   if (!yaml.includes("openapi: 3.1.0")) fail("OpenAPI version header missing");
@@ -661,6 +681,7 @@ export function validate() {
 
   return {
     ...metrics,
+    staticAssets,
     duplicateOperationIds: duplicateOperationIds.length,
     undefinedSchemaRefs: refsWithoutSchemas.length,
     baseline: baselinePath || null,

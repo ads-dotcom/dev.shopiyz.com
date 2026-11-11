@@ -1,8 +1,34 @@
 import assert from "node:assert/strict";
 import test from "node:test";
 import {execFileSync} from "node:child_process";
-import {normalizeOperation, renderOpenApiOperation, successStatusesFor, scopeRequirementText, operationContractNotes} from "./sync-admin-api-docs.mjs";
-import {parseOpenApi, validateOperationResponses, validateOperationAuthority} from "./validate-admin-api-docs.mjs";
+import fs from "node:fs";
+import path from "node:path";
+import {normalizeOperation, renderOpenApiOperation, successStatusesFor, scopeRequirementText, operationContractNotes, serializeDocData} from "./sync-admin-api-docs.mjs";
+import {parseOpenApi, validateOperationResponses, validateOperationAuthority, validateStaticAssetBudget} from "./validate-admin-api-docs.mjs";
+
+test("compact catalog serialization preserves all data and inline-script escaping", () => {
+  const fixture = {sections: [{name: "Türkçe", description: "</script>\u2028\u2029", operations: [{method: "POST", scopes: [["settings:write", "orders:write"]], value: "line1\nline2"}]}]};
+  const encoded = serializeDocData(fixture);
+  assert.deepEqual(JSON.parse(encoded), fixture);
+  assert(!encoded.includes("<") && !encoded.includes("\u2028") && !encoded.includes("\u2029"));
+  assert(encoded.length < JSON.stringify(fixture, null, 2).length);
+});
+
+test("normal asset budget check allows25MiB and rejects one byte above it, including nested assets", () => {
+  const directory = fs.mkdtempSync(path.resolve(import.meta.dirname, "../.asset-budget-test-"));
+  try {
+    fs.mkdirSync(path.join(directory, "nested"));
+    const file = path.join(directory, "nested", "fixture.html");
+    fs.writeFileSync(file, "");
+    const maximum = 25 * 1024 * 1024;
+    fs.truncateSync(file, maximum);
+    assert.deepEqual(validateStaticAssetBudget(directory), {files: 1, maximumFileBytes: maximum, limitBytes: maximum});
+    fs.truncateSync(file, maximum + 1);
+    assert.throws(() => validateStaticAssetBudget(directory), error => error.details.file === "nested/fixture.html" && error.details.bytes === maximum + 1);
+  } finally {
+    fs.rmSync(directory, {recursive: true, force: true});
+  }
+});
 
 const operation = overrides => normalizeOperation({
   method: "POST", path: "/fixture.json", operationId: "fixtureStatus", capability: "fixture.status",

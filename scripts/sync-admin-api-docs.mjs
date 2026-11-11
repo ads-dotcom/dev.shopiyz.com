@@ -53,8 +53,8 @@ function apiPath(pathname, basePath = DEFAULT_ADMIN_API_BASE_PATH) {
   return `${basePath}${relativePath.startsWith("/") ? relativePath : `/${relativePath}`}`;
 }
 
-function json(value) {
-  return JSON.stringify(value, null, 2)
+export function serializeDocData(value) {
+  return JSON.stringify(value)
     .replace(/</g, "\\u003c")
     .replace(/\u2028/g, "\\u2028")
     .replace(/\u2029/g, "\\u2029");
@@ -3018,7 +3018,7 @@ function replaceBetweenMarkers(source, start, end, replacement, fallbackRegex, f
 
 function renderGeneratedDataBlock(docData) {
   return `${generatedDataStart}
-      const adminApiDoc = ${json(docData)};
+      const adminApiDoc = ${serializeDocData(docData)};
       const operationRows = adminApiDoc.operations.map((operation) => ({
         resource: operation.capability || "admin_api",
         method: operation.method,
