@@ -12,6 +12,11 @@
     }
   ],
   "x-shopiyz-customer-account-base-path": "/api/storefront/v2/account",
+  "x-shopiyz-customer-account-openapi": "/api/storefront/v2/account/openapi.json",
+  "externalDocs": {
+    "description": "Admin, Storefront, Account v2 and Studio API boundaries and contracts",
+    "url": "https://dev.shopiyz.com/guides/api-families"
+  },
   "x-shopiyz-money": "Product prices use native decimal numbers; checkout-sessions integer totals use scale 100. Null shipping is unresolved, not free shipping. Preserve currency and use native pricing-quote/checkout as authority.",
   "paths": {
     "/badges": {

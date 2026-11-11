@@ -1,0 +1,2148 @@
+{
+  "components": {
+    "schemas": {
+      "NativeCustomerSegmentSelector": {
+        "oneOf": [
+          {
+            "type": "object",
+            "properties": {
+              "kind": {
+                "const": "products"
+              },
+              "ids": {
+                "type": "array",
+                "minItems": 1,
+                "maxItems": 100,
+                "uniqueItems": true,
+                "items": {
+                  "type": "string",
+                  "minLength": 1,
+                  "maxLength": 160
+                }
+              }
+            },
+            "required": [
+              "kind",
+              "ids"
+            ],
+            "additionalProperties": false
+          },
+          {
+            "type": "object",
+            "properties": {
+              "kind": {
+                "const": "collections"
+              },
+              "ids": {
+                "type": "array",
+                "minItems": 1,
+                "maxItems": 100,
+                "uniqueItems": true,
+                "items": {
+                  "type": "string",
+                  "minLength": 1,
+                  "maxLength": 160
+                }
+              }
+            },
+            "required": [
+              "kind",
+              "ids"
+            ],
+            "additionalProperties": false
+          },
+          {
+            "type": "object",
+            "properties": {
+              "kind": {
+                "const": "attribute"
+              },
+              "field": {
+                "enum": [
+                  "vendor",
+                  "product_type",
+                  "product_category",
+                  "author",
+                  "publisher"
+                ]
+              },
+              "value": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 240
+              }
+            },
+            "required": [
+              "kind",
+              "field",
+              "value"
+            ],
+            "additionalProperties": false
+          }
+        ]
+      },
+      "NativeCustomerSegmentComparison": {
+        "type": "object",
+        "properties": {
+          "operator": {
+            "enum": [
+              "eq",
+              "ne",
+              "gte",
+              "gt",
+              "lte",
+              "lt"
+            ]
+          },
+          "value": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 9007199254740991
+          }
+        },
+        "required": [
+          "operator",
+          "value"
+        ],
+        "additionalProperties": false
+      },
+      "NativeCustomerSegmentRule": {
+        "oneOf": [
+          {
+            "type": "object",
+            "properties": {
+              "kind": {
+                "const": "all_customers"
+              }
+            },
+            "required": [
+              "kind"
+            ],
+            "additionalProperties": false
+          },
+          {
+            "type": "object",
+            "properties": {
+              "kind": {
+                "const": "group"
+              },
+              "operator": {
+                "enum": [
+                  "all",
+                  "any"
+                ]
+              },
+              "children": {
+                "type": "array",
+                "minItems": 1,
+                "maxItems": 20,
+                "items": {
+                  "$ref": "#/components/schemas/NativeCustomerSegmentRule"
+                }
+              }
+            },
+            "required": [
+              "kind",
+              "operator",
+              "children"
+            ],
+            "additionalProperties": false
+          },
+          {
+            "type": "object",
+            "properties": {
+              "kind": {
+                "const": "not"
+              },
+              "child": {
+                "$ref": "#/components/schemas/NativeCustomerSegmentRule"
+              }
+            },
+            "required": [
+              "kind",
+              "child"
+            ],
+            "additionalProperties": false
+          },
+          {
+            "type": "object",
+            "properties": {
+              "kind": {
+                "const": "customer_property"
+              },
+              "field": {
+                "const": "tags"
+              },
+              "operator": {
+                "enum": [
+                  "contains",
+                  "notContains",
+                  "equals",
+                  "notEquals",
+                  "isEmpty",
+                  "isNotEmpty"
+                ]
+              },
+              "value": {
+                "type": "string",
+                "maxLength": 240
+              }
+            },
+            "required": [
+              "kind",
+              "field",
+              "operator",
+              "value"
+            ],
+            "additionalProperties": false
+          },
+          {
+            "type": "object",
+            "properties": {
+              "kind": {
+                "const": "customer_property"
+              },
+              "field": {
+                "const": "email"
+              },
+              "operator": {
+                "enum": [
+                  "contains",
+                  "notContains",
+                  "equals",
+                  "notEquals",
+                  "startsWith",
+                  "endsWith",
+                  "isEmpty",
+                  "isNotEmpty"
+                ]
+              },
+              "value": {
+                "type": "string",
+                "maxLength": 240
+              }
+            },
+            "required": [
+              "kind",
+              "field",
+              "operator",
+              "value"
+            ],
+            "additionalProperties": false
+          },
+          {
+            "type": "object",
+            "properties": {
+              "kind": {
+                "const": "customer_property"
+              },
+              "field": {
+                "const": "phone"
+              },
+              "operator": {
+                "enum": [
+                  "contains",
+                  "notContains",
+                  "equals",
+                  "notEquals",
+                  "startsWith",
+                  "endsWith",
+                  "isEmpty",
+                  "isNotEmpty"
+                ]
+              },
+              "value": {
+                "type": "string",
+                "maxLength": 240
+              }
+            },
+            "required": [
+              "kind",
+              "field",
+              "operator",
+              "value"
+            ],
+            "additionalProperties": false
+          },
+          {
+            "type": "object",
+            "properties": {
+              "kind": {
+                "const": "customer_property"
+              },
+              "field": {
+                "const": "totalSpent"
+              },
+              "operator": {
+                "enum": [
+                  "equals",
+                  "notEquals",
+                  "greaterThan",
+                  "greaterThanOrEqual",
+                  "lessThan",
+                  "lessThanOrEqual"
+                ]
+              },
+              "value": {
+                "type": "string",
+                "maxLength": 240
+              }
+            },
+            "required": [
+              "kind",
+              "field",
+              "operator",
+              "value"
+            ],
+            "additionalProperties": false
+          },
+          {
+            "type": "object",
+            "properties": {
+              "kind": {
+                "const": "customer_property"
+              },
+              "field": {
+                "const": "ordersCount"
+              },
+              "operator": {
+                "enum": [
+                  "equals",
+                  "notEquals",
+                  "greaterThan",
+                  "greaterThanOrEqual",
+                  "lessThan",
+                  "lessThanOrEqual"
+                ]
+              },
+              "value": {
+                "type": "string",
+                "maxLength": 240
+              }
+            },
+            "required": [
+              "kind",
+              "field",
+              "operator",
+              "value"
+            ],
+            "additionalProperties": false
+          },
+          {
+            "type": "object",
+            "properties": {
+              "kind": {
+                "const": "customer_property"
+              },
+              "field": {
+                "const": "createdAt"
+              },
+              "operator": {
+                "enum": [
+                  "before",
+                  "after",
+                  "isEmpty",
+                  "isNotEmpty",
+                  "withinDays",
+                  "daysAgoAtLeast"
+                ]
+              },
+              "value": {
+                "type": "string",
+                "maxLength": 240
+              }
+            },
+            "required": [
+              "kind",
+              "field",
+              "operator",
+              "value"
+            ],
+            "additionalProperties": false
+          },
+          {
+            "type": "object",
+            "properties": {
+              "kind": {
+                "const": "customer_property"
+              },
+              "field": {
+                "const": "lastOrderAt"
+              },
+              "operator": {
+                "enum": [
+                  "before",
+                  "after",
+                  "isEmpty",
+                  "isNotEmpty",
+                  "withinDays",
+                  "daysAgoAtLeast"
+                ]
+              },
+              "value": {
+                "type": "string",
+                "maxLength": 240
+              }
+            },
+            "required": [
+              "kind",
+              "field",
+              "operator",
+              "value"
+            ],
+            "additionalProperties": false
+          },
+          {
+            "type": "object",
+            "properties": {
+              "kind": {
+                "const": "customer_property"
+              },
+              "field": {
+                "const": "emailMarketingConsentState"
+              },
+              "operator": {
+                "enum": [
+                  "equals",
+                  "notEquals",
+                  "isEmpty",
+                  "isNotEmpty"
+                ]
+              },
+              "value": {
+                "type": "string",
+                "maxLength": 240
+              }
+            },
+            "required": [
+              "kind",
+              "field",
+              "operator",
+              "value"
+            ],
+            "additionalProperties": false
+          },
+          {
+            "type": "object",
+            "properties": {
+              "kind": {
+                "const": "customer_property"
+              },
+              "field": {
+                "const": "smsMarketingConsentState"
+              },
+              "operator": {
+                "enum": [
+                  "equals",
+                  "notEquals",
+                  "isEmpty",
+                  "isNotEmpty"
+                ]
+              },
+              "value": {
+                "type": "string",
+                "maxLength": 240
+              }
+            },
+            "required": [
+              "kind",
+              "field",
+              "operator",
+              "value"
+            ],
+            "additionalProperties": false
+          },
+          {
+            "type": "object",
+            "properties": {
+              "kind": {
+                "const": "customer_property"
+              },
+              "field": {
+                "const": "city"
+              },
+              "operator": {
+                "enum": [
+                  "contains",
+                  "notContains",
+                  "equals",
+                  "notEquals",
+                  "startsWith",
+                  "endsWith",
+                  "isEmpty",
+                  "isNotEmpty"
+                ]
+              },
+              "value": {
+                "type": "string",
+                "maxLength": 240
+              }
+            },
+            "required": [
+              "kind",
+              "field",
+              "operator",
+              "value"
+            ],
+            "additionalProperties": false
+          },
+          {
+            "type": "object",
+            "properties": {
+              "kind": {
+                "const": "customer_property"
+              },
+              "field": {
+                "const": "country"
+              },
+              "operator": {
+                "enum": [
+                  "contains",
+                  "notContains",
+                  "equals",
+                  "notEquals",
+                  "startsWith",
+                  "endsWith",
+                  "isEmpty",
+                  "isNotEmpty"
+                ]
+              },
+              "value": {
+                "type": "string",
+                "maxLength": 240
+              }
+            },
+            "required": [
+              "kind",
+              "field",
+              "operator",
+              "value"
+            ],
+            "additionalProperties": false
+          },
+          {
+            "type": "object",
+            "properties": {
+              "kind": {
+                "const": "customer_property"
+              },
+              "field": {
+                "const": "state"
+              },
+              "operator": {
+                "enum": [
+                  "contains",
+                  "notContains",
+                  "equals",
+                  "notEquals",
+                  "startsWith",
+                  "endsWith",
+                  "isEmpty",
+                  "isNotEmpty"
+                ]
+              },
+              "value": {
+                "type": "string",
+                "maxLength": 240
+              }
+            },
+            "required": [
+              "kind",
+              "field",
+              "operator",
+              "value"
+            ],
+            "additionalProperties": false
+          },
+          {
+            "type": "object",
+            "properties": {
+              "kind": {
+                "const": "customer_property"
+              },
+              "field": {
+                "const": "storeCreditBalance"
+              },
+              "operator": {
+                "enum": [
+                  "equals",
+                  "notEquals",
+                  "greaterThan",
+                  "greaterThanOrEqual",
+                  "lessThan",
+                  "lessThanOrEqual"
+                ]
+              },
+              "value": {
+                "type": "string",
+                "maxLength": 240
+              }
+            },
+            "required": [
+              "kind",
+              "field",
+              "operator",
+              "value"
+            ],
+            "additionalProperties": false
+          },
+          {
+            "type": "object",
+            "properties": {
+              "kind": {
+                "const": "customer_property"
+              },
+              "field": {
+                "const": "storeCreditExpiresAt"
+              },
+              "operator": {
+                "enum": [
+                  "before",
+                  "after",
+                  "isEmpty",
+                  "isNotEmpty",
+                  "withinDays",
+                  "daysAgoAtLeast"
+                ]
+              },
+              "value": {
+                "type": "string",
+                "maxLength": 240
+              }
+            },
+            "required": [
+              "kind",
+              "field",
+              "operator",
+              "value"
+            ],
+            "additionalProperties": false
+          },
+          {
+            "type": "object",
+            "properties": {
+              "kind": {
+                "const": "customer_property"
+              },
+              "field": {
+                "const": "accountState"
+              },
+              "operator": {
+                "enum": [
+                  "equals",
+                  "notEquals",
+                  "isEmpty",
+                  "isNotEmpty"
+                ]
+              },
+              "value": {
+                "type": "string",
+                "maxLength": 240
+              }
+            },
+            "required": [
+              "kind",
+              "field",
+              "operator",
+              "value"
+            ],
+            "additionalProperties": false
+          },
+          {
+            "type": "object",
+            "properties": {
+              "kind": {
+                "const": "customer_property"
+              },
+              "field": {
+                "const": "predictedSpendTier"
+              },
+              "operator": {
+                "enum": [
+                  "equals",
+                  "notEquals",
+                  "isEmpty",
+                  "isNotEmpty"
+                ]
+              },
+              "value": {
+                "type": "string",
+                "maxLength": 240
+              }
+            },
+            "required": [
+              "kind",
+              "field",
+              "operator",
+              "value"
+            ],
+            "additionalProperties": false
+          },
+          {
+            "type": "object",
+            "properties": {
+              "kind": {
+                "const": "customer_property"
+              },
+              "field": {
+                "const": "taxExempt"
+              },
+              "operator": {
+                "enum": [
+                  "isTrue",
+                  "isFalse"
+                ]
+              },
+              "value": {
+                "type": "string",
+                "maxLength": 240
+              }
+            },
+            "required": [
+              "kind",
+              "field",
+              "operator",
+              "value"
+            ],
+            "additionalProperties": false
+          },
+          {
+            "type": "object",
+            "properties": {
+              "kind": {
+                "const": "customer_property"
+              },
+              "field": {
+                "const": "emailVerified"
+              },
+              "operator": {
+                "enum": [
+                  "isTrue",
+                  "isFalse"
+                ]
+              },
+              "value": {
+                "type": "string",
+                "maxLength": 240
+              }
+            },
+            "required": [
+              "kind",
+              "field",
+              "operator",
+              "value"
+            ],
+            "additionalProperties": false
+          },
+          {
+            "type": "object",
+            "properties": {
+              "kind": {
+                "const": "customer_property"
+              },
+              "field": {
+                "const": "locale"
+              },
+              "operator": {
+                "enum": [
+                  "equals",
+                  "notEquals",
+                  "isEmpty",
+                  "isNotEmpty"
+                ]
+              },
+              "value": {
+                "type": "string",
+                "maxLength": 240
+              }
+            },
+            "required": [
+              "kind",
+              "field",
+              "operator",
+              "value"
+            ],
+            "additionalProperties": false
+          },
+          {
+            "type": "object",
+            "properties": {
+              "kind": {
+                "const": "customer_property"
+              },
+              "field": {
+                "const": "emailMarketingConsentUpdatedAt"
+              },
+              "operator": {
+                "enum": [
+                  "before",
+                  "after",
+                  "isEmpty",
+                  "isNotEmpty",
+                  "withinDays",
+                  "daysAgoAtLeast"
+                ]
+              },
+              "value": {
+                "type": "string",
+                "maxLength": 240
+              }
+            },
+            "required": [
+              "kind",
+              "field",
+              "operator",
+              "value"
+            ],
+            "additionalProperties": false
+          },
+          {
+            "type": "object",
+            "properties": {
+              "kind": {
+                "const": "customer_property"
+              },
+              "field": {
+                "const": "validPurchaseCount"
+              },
+              "operator": {
+                "enum": [
+                  "equals",
+                  "notEquals",
+                  "greaterThan",
+                  "greaterThanOrEqual",
+                  "lessThan",
+                  "lessThanOrEqual"
+                ]
+              },
+              "value": {
+                "type": "string",
+                "maxLength": 240
+              }
+            },
+            "required": [
+              "kind",
+              "field",
+              "operator",
+              "value"
+            ],
+            "additionalProperties": false
+          },
+          {
+            "type": "object",
+            "properties": {
+              "kind": {
+                "const": "customer_property"
+              },
+              "field": {
+                "const": "lastValidPurchaseAt"
+              },
+              "operator": {
+                "enum": [
+                  "before",
+                  "after",
+                  "isEmpty",
+                  "isNotEmpty",
+                  "withinDays",
+                  "daysAgoAtLeast"
+                ]
+              },
+              "value": {
+                "type": "string",
+                "maxLength": 240
+              }
+            },
+            "required": [
+              "kind",
+              "field",
+              "operator",
+              "value"
+            ],
+            "additionalProperties": false
+          },
+          {
+            "type": "object",
+            "properties": {
+              "kind": {
+                "const": "customer_custom_field"
+              },
+              "definitionId": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 160
+              },
+              "fieldType": {
+                "const": "single_line_text_field"
+              },
+              "operator": {
+                "enum": [
+                  "isEmpty",
+                  "isNotEmpty",
+                  "eq",
+                  "ne",
+                  "contains",
+                  "notContains",
+                  "startsWith",
+                  "endsWith"
+                ]
+              },
+              "value": {
+                "type": "string",
+                "maxLength": 240
+              }
+            },
+            "required": [
+              "kind",
+              "definitionId",
+              "fieldType",
+              "operator",
+              "value"
+            ],
+            "additionalProperties": false
+          },
+          {
+            "type": "object",
+            "properties": {
+              "kind": {
+                "const": "customer_custom_field"
+              },
+              "definitionId": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 160
+              },
+              "fieldType": {
+                "const": "multi_line_text_field"
+              },
+              "operator": {
+                "enum": [
+                  "isEmpty",
+                  "isNotEmpty",
+                  "eq",
+                  "ne",
+                  "contains",
+                  "notContains",
+                  "startsWith",
+                  "endsWith"
+                ]
+              },
+              "value": {
+                "type": "string",
+                "maxLength": 240
+              }
+            },
+            "required": [
+              "kind",
+              "definitionId",
+              "fieldType",
+              "operator",
+              "value"
+            ],
+            "additionalProperties": false
+          },
+          {
+            "type": "object",
+            "properties": {
+              "kind": {
+                "const": "customer_custom_field"
+              },
+              "definitionId": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 160
+              },
+              "fieldType": {
+                "const": "number_integer"
+              },
+              "operator": {
+                "enum": [
+                  "isEmpty",
+                  "isNotEmpty",
+                  "eq",
+                  "ne",
+                  "gt",
+                  "gte",
+                  "lt",
+                  "lte",
+                  "between"
+                ]
+              },
+              "value": {
+                "type": "string",
+                "maxLength": 240
+              }
+            },
+            "required": [
+              "kind",
+              "definitionId",
+              "fieldType",
+              "operator",
+              "value"
+            ],
+            "additionalProperties": false
+          },
+          {
+            "type": "object",
+            "properties": {
+              "kind": {
+                "const": "customer_custom_field"
+              },
+              "definitionId": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 160
+              },
+              "fieldType": {
+                "const": "number_decimal"
+              },
+              "operator": {
+                "enum": [
+                  "isEmpty",
+                  "isNotEmpty",
+                  "eq",
+                  "ne",
+                  "gt",
+                  "gte",
+                  "lt",
+                  "lte",
+                  "between"
+                ]
+              },
+              "value": {
+                "type": "string",
+                "maxLength": 240
+              }
+            },
+            "required": [
+              "kind",
+              "definitionId",
+              "fieldType",
+              "operator",
+              "value"
+            ],
+            "additionalProperties": false
+          },
+          {
+            "type": "object",
+            "properties": {
+              "kind": {
+                "const": "customer_custom_field"
+              },
+              "definitionId": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 160
+              },
+              "fieldType": {
+                "const": "date"
+              },
+              "operator": {
+                "enum": [
+                  "isEmpty",
+                  "isNotEmpty",
+                  "before",
+                  "after",
+                  "eq",
+                  "between",
+                  "withinDays",
+                  "daysAgoAtLeast"
+                ]
+              },
+              "value": {
+                "type": "string",
+                "maxLength": 240
+              }
+            },
+            "required": [
+              "kind",
+              "definitionId",
+              "fieldType",
+              "operator",
+              "value"
+            ],
+            "additionalProperties": false
+          },
+          {
+            "type": "object",
+            "properties": {
+              "kind": {
+                "const": "customer_custom_field"
+              },
+              "definitionId": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 160
+              },
+              "fieldType": {
+                "const": "date_time"
+              },
+              "operator": {
+                "enum": [
+                  "isEmpty",
+                  "isNotEmpty",
+                  "before",
+                  "after",
+                  "eq",
+                  "between",
+                  "withinDays",
+                  "daysAgoAtLeast"
+                ]
+              },
+              "value": {
+                "type": "string",
+                "maxLength": 240
+              }
+            },
+            "required": [
+              "kind",
+              "definitionId",
+              "fieldType",
+              "operator",
+              "value"
+            ],
+            "additionalProperties": false
+          },
+          {
+            "type": "object",
+            "properties": {
+              "kind": {
+                "const": "customer_custom_field"
+              },
+              "definitionId": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 160
+              },
+              "fieldType": {
+                "const": "boolean"
+              },
+              "operator": {
+                "enum": [
+                  "isEmpty",
+                  "isNotEmpty",
+                  "isTrue",
+                  "isFalse"
+                ]
+              },
+              "value": {
+                "type": "string",
+                "maxLength": 240
+              }
+            },
+            "required": [
+              "kind",
+              "definitionId",
+              "fieldType",
+              "operator",
+              "value"
+            ],
+            "additionalProperties": false
+          },
+          {
+            "type": "object",
+            "properties": {
+              "kind": {
+                "const": "customer_custom_field"
+              },
+              "definitionId": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 160
+              },
+              "fieldType": {
+                "const": "list.single_line_text_field"
+              },
+              "operator": {
+                "enum": [
+                  "isEmpty",
+                  "isNotEmpty",
+                  "contains",
+                  "notContains",
+                  "containsAny",
+                  "containsAll"
+                ]
+              },
+              "value": {
+                "type": "string",
+                "maxLength": 240
+              }
+            },
+            "required": [
+              "kind",
+              "definitionId",
+              "fieldType",
+              "operator",
+              "value"
+            ],
+            "additionalProperties": false
+          },
+          {
+            "type": "object",
+            "properties": {
+              "kind": {
+                "const": "event_aggregate"
+              },
+              "event": {
+                "enum": [
+                  "product_viewed",
+                  "cart_item_added"
+                ]
+              },
+              "selectorRef": {
+                "type": "string"
+              },
+              "measure": {
+                "enum": [
+                  "qualified_view_count",
+                  "distinct_products",
+                  "distinct_sessions"
+                ]
+              },
+              "days": {
+                "type": "integer",
+                "minimum": 1,
+                "maximum": 3650
+              },
+              "compare": {
+                "$ref": "#/components/schemas/NativeCustomerSegmentComparison"
+              }
+            },
+            "required": [
+              "kind",
+              "event",
+              "measure",
+              "days",
+              "compare"
+            ],
+            "additionalProperties": false
+          },
+          {
+            "type": "object",
+            "properties": {
+              "kind": {
+                "const": "purchase_aggregate"
+              },
+              "selectorRef": {
+                "type": "string"
+              },
+              "measure": {
+                "enum": [
+                  "valid_purchase_count",
+                  "historical_purchase_count",
+                  "retained_quantity",
+                  "net_spend_minor"
+                ]
+              },
+              "days": {
+                "type": "integer",
+                "minimum": 1,
+                "maximum": 3650
+              },
+              "currency": {
+                "type": "string",
+                "pattern": "^[A-Z]{3}$"
+              },
+              "compare": {
+                "$ref": "#/components/schemas/NativeCustomerSegmentComparison"
+              }
+            },
+            "required": [
+              "kind",
+              "measure",
+              "days",
+              "compare"
+            ],
+            "additionalProperties": false
+          },
+          {
+            "type": "object",
+            "properties": {
+              "kind": {
+                "const": "cart_abandoned"
+              },
+              "selectorRef": {
+                "type": "string"
+              },
+              "days": {
+                "type": "integer",
+                "minimum": 1,
+                "maximum": 365
+              },
+              "waitHours": {
+                "type": "integer",
+                "minimum": 1,
+                "maximum": 168
+              }
+            },
+            "required": [
+              "kind",
+              "selectorRef",
+              "days",
+              "waitHours"
+            ],
+            "additionalProperties": false
+          },
+          {
+            "type": "object",
+            "properties": {
+              "kind": {
+                "const": "current_favorite"
+              },
+              "selectorRef": {
+                "type": "string"
+              }
+            },
+            "required": [
+              "kind",
+              "selectorRef"
+            ],
+            "additionalProperties": false
+          }
+        ],
+        "description": "Native validateSegment is authoritative: depth<=3, <=20 total leaves, selector references must exist, schemaVersion3 for custom fields, typed values and field-specific operators, day/date/numeric constraints; net_spend_minor requires currency and forbids selectorRef."
+      },
+      "NativeCustomerSegmentDefinition": {
+        "type": "object",
+        "properties": {
+          "schemaVersion": {
+            "type": "integer",
+            "enum": [
+              2,
+              3
+            ]
+          },
+          "selectors": {
+            "type": "object",
+            "maxProperties": 8,
+            "additionalProperties": {
+              "$ref": "#/components/schemas/NativeCustomerSegmentSelector"
+            }
+          },
+          "root": {
+            "$ref": "#/components/schemas/NativeCustomerSegmentRule"
+          }
+        },
+        "required": [
+          "schemaVersion",
+          "selectors",
+          "root"
+        ],
+        "additionalProperties": false
+      },
+      "NativeCustomerSegment": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "title": {
+            "type": "string"
+          },
+          "description": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "revision": {
+            "type": "integer",
+            "minimum": 1
+          },
+          "status": {
+            "enum": [
+              "draft",
+              "calculating",
+              "ready",
+              "paused",
+              "failed",
+              "archived"
+            ]
+          },
+          "definition": {
+            "$ref": "#/components/schemas/NativeCustomerSegmentDefinition"
+          },
+          "count": {
+            "type": [
+              "integer",
+              "null"
+            ],
+            "minimum": 0
+          },
+          "unknownCount": {
+            "type": [
+              "integer",
+              "null"
+            ],
+            "minimum": 0
+          },
+          "reachableEmail": {
+            "type": [
+              "integer",
+              "null"
+            ],
+            "minimum": 0
+          },
+          "generation": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "evaluatedAt": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "lastCompleted": {
+            "anyOf": [
+              {
+                "type": "object",
+                "properties": {
+                  "revision": {
+                    "type": "integer",
+                    "minimum": 1
+                  },
+                  "count": {
+                    "type": "integer",
+                    "minimum": 0
+                  },
+                  "at": {
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "revision",
+                  "count",
+                  "at"
+                ],
+                "additionalProperties": false
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "error": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "progress": {
+            "anyOf": [
+              {
+                "type": "object",
+                "properties": {
+                  "processed": {
+                    "type": "integer",
+                    "minimum": 0
+                  },
+                  "total": {
+                    "type": "integer",
+                    "minimum": 0
+                  }
+                },
+                "required": [
+                  "processed",
+                  "total"
+                ],
+                "additionalProperties": false
+              },
+              {
+                "type": "null"
+              }
+            ]
+          }
+        },
+        "required": [
+          "id",
+          "title",
+          "description",
+          "revision",
+          "status",
+          "definition",
+          "count",
+          "unknownCount",
+          "reachableEmail",
+          "generation",
+          "evaluatedAt",
+          "lastCompleted",
+          "error",
+          "progress"
+        ],
+        "additionalProperties": true
+      },
+      "NativeCustomerSegmentCreate": {
+        "type": "object",
+        "properties": {
+          "title": {
+            "type": "string",
+            "minLength": 2,
+            "maxLength": 160
+          },
+          "description": {
+            "type": "string",
+            "maxLength": 1000
+          },
+          "definition": {
+            "$ref": "#/components/schemas/NativeCustomerSegmentDefinition"
+          },
+          "creationKey": {
+            "type": "string",
+            "pattern": "^[a-zA-Z0-9_-]{16,80}$",
+            "description": "Optional original Native creation key; otherwise derived from writer token and required Idempotency-Key, so a lost create acknowledgement does not duplicate the segment."
+          }
+        },
+        "required": [
+          "title",
+          "definition"
+        ],
+        "additionalProperties": true
+      },
+      "NativeCustomerSegmentUpdate": {
+        "type": "object",
+        "properties": {
+          "title": {
+            "type": "string",
+            "minLength": 2,
+            "maxLength": 160
+          },
+          "description": {
+            "type": "string",
+            "maxLength": 1000
+          },
+          "definition": {
+            "$ref": "#/components/schemas/NativeCustomerSegmentDefinition"
+          },
+          "creationKey": {
+            "type": "string",
+            "pattern": "^[a-zA-Z0-9_-]{16,80}$",
+            "description": "Optional original Native creation key; otherwise derived from writer token and required Idempotency-Key, so a lost create acknowledgement does not duplicate the segment."
+          },
+          "expectedRevision": {
+            "type": "integer",
+            "minimum": 1
+          }
+        },
+        "required": [
+          "title",
+          "definition",
+          "expectedRevision"
+        ],
+        "additionalProperties": true
+      },
+      "NativeCustomerSegmentRevisionRequest": {
+        "type": "object",
+        "properties": {
+          "expectedRevision": {
+            "type": "integer",
+            "minimum": 1
+          }
+        },
+        "required": [
+          "expectedRevision"
+        ],
+        "additionalProperties": true
+      },
+      "NativeCustomerSegmentValidateRequest": {
+        "type": "object",
+        "properties": {
+          "definition": {
+            "$ref": "#/components/schemas/NativeCustomerSegmentDefinition"
+          }
+        },
+        "required": [
+          "definition"
+        ],
+        "additionalProperties": true
+      },
+      "NativeCustomerSegmentListResponse": {
+        "type": "object",
+        "properties": {
+          "segments": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/NativeCustomerSegment"
+            }
+          },
+          "nextCursor": {
+            "type": [
+              "string",
+              "null"
+            ]
+          }
+        },
+        "required": [
+          "segments",
+          "nextCursor"
+        ],
+        "additionalProperties": true
+      },
+      "NativeCustomerSegmentResponse": {
+        "type": "object",
+        "properties": {
+          "segment": {
+            "$ref": "#/components/schemas/NativeCustomerSegment"
+          },
+          "canContinue": {
+            "type": "boolean"
+          }
+        },
+        "required": [
+          "segment"
+        ],
+        "additionalProperties": true
+      },
+      "NativeCustomerSegmentCalculationResponse": {
+        "type": "object",
+        "properties": {
+          "job": {
+            "type": "object",
+            "properties": {
+              "id": {
+                "type": "string"
+              }
+            },
+            "required": [
+              "id"
+            ],
+            "additionalProperties": true
+          },
+          "segment": {
+            "$ref": "#/components/schemas/NativeCustomerSegment"
+          },
+          "canContinue": {
+            "const": true
+          }
+        },
+        "required": [
+          "job",
+          "segment",
+          "canContinue"
+        ],
+        "additionalProperties": true
+      },
+      "NativeCustomerSegmentMembersResponse": {
+        "type": "object",
+        "properties": {
+          "generation": {
+            "type": "string",
+            "description": "Completed Native generation plus watermark; retain unchanged while paging."
+          },
+          "customers": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "id": {
+                  "type": "string"
+                },
+                "name": {
+                  "type": "string"
+                },
+                "email": {
+                  "type": "string"
+                },
+                "lastOrderAt": {
+                  "type": [
+                    "string",
+                    "null"
+                  ]
+                }
+              },
+              "required": [
+                "id",
+                "name",
+                "email",
+                "lastOrderAt"
+              ],
+              "additionalProperties": true
+            }
+          },
+          "nextCursor": {
+            "type": [
+              "string",
+              "null"
+            ]
+          }
+        },
+        "required": [
+          "generation",
+          "customers",
+          "nextCursor"
+        ],
+        "additionalProperties": true
+      },
+      "NativeCustomerSegmentEmptyRequest": {
+        "type": "object",
+        "properties": {},
+        "required": [],
+        "additionalProperties": true
+      },
+      "NativeCustomerSegmentAudienceCreate": {
+        "type": "object",
+        "properties": {
+          "ids": {
+            "type": "array",
+            "minItems": 1,
+            "maxItems": 20,
+            "uniqueItems": true,
+            "items": {
+              "type": "string"
+            }
+          }
+        },
+        "required": [
+          "ids"
+        ],
+        "additionalProperties": true
+      },
+      "NativeCustomerSegmentAudienceCreated": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "status": {
+            "const": "preparing"
+          }
+        },
+        "required": [
+          "id",
+          "status"
+        ],
+        "additionalProperties": true
+      },
+      "NativeCustomerSegmentAudienceStatus": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "status": {
+            "enum": [
+              "preparing",
+              "ready",
+              "failed"
+            ]
+          },
+          "count": {
+            "type": [
+              "integer",
+              "null"
+            ],
+            "minimum": 0
+          }
+        },
+        "required": [
+          "id",
+          "status",
+          "count"
+        ],
+        "additionalProperties": true
+      },
+      "NativeCustomerSegmentAudienceMembers": {
+        "type": "object",
+        "properties": {
+          "customers": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "id": {
+                  "type": "string"
+                },
+                "email": {
+                  "type": "string"
+                }
+              },
+              "required": [
+                "id",
+                "email"
+              ],
+              "additionalProperties": true
+            }
+          },
+          "count": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "nextCursor": {
+            "type": [
+              "string",
+              "null"
+            ]
+          }
+        },
+        "required": [
+          "customers",
+          "count",
+          "nextCursor"
+        ],
+        "additionalProperties": true
+      },
+      "NativeCustomerSegmentExportResponse": {
+        "type": "object",
+        "properties": {
+          "export": {
+            "type": "object",
+            "properties": {
+              "content_type": {
+                "const": "text/csv; charset=utf-8"
+              },
+              "file_name": {
+                "const": "segment-customers.csv"
+              },
+              "content": {
+                "type": "string",
+                "description": "Complete Native CSV, escaped for spreadsheet formulas. At most512KiB; larger exports fail413 without truncation. Use actor-owned audience members/cursor for larger sets."
+              }
+            },
+            "required": [
+              "content_type",
+              "file_name",
+              "content"
+            ],
+            "additionalProperties": false
+          }
+        },
+        "required": [
+          "export"
+        ],
+        "additionalProperties": true
+      },
+      "NativeCustomerSegmentLegacyUpgradeRequest": {
+        "type": "object",
+        "properties": {
+          "expectedUpdatedAt": {
+            "type": "string",
+            "description": "Copy the exact Native legacy-review updatedAt value without reformatting."
+          }
+        },
+        "required": [
+          "expectedUpdatedAt"
+        ],
+        "additionalProperties": true
+      },
+      "NativeCustomerSegmentLegacyPreviewRequest": {
+        "type": "object",
+        "properties": {
+          "rules": {
+            "type": "object",
+            "description": "Existing Native legacy customer-category rule schema; compileLegacyCategory validates it."
+          }
+        },
+        "required": [
+          "rules"
+        ],
+        "additionalProperties": true
+      },
+      "NativeCustomerSegmentLegacyUpgradeResponse": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "status": {
+            "enum": [
+              "manual_preserved",
+              "compatible",
+              "already_current",
+              "review_required",
+              "calculating"
+            ]
+          },
+          "revision": {
+            "type": "integer",
+            "minimum": 1
+          },
+          "previousCount": {
+            "type": [
+              "integer",
+              "null"
+            ],
+            "minimum": 0
+          },
+          "message": {
+            "type": "string"
+          },
+          "updatedAt": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "id",
+          "status"
+        ],
+        "additionalProperties": true
+      },
+      "NativeCustomerSegmentNativeResult": {
+        "type": "object",
+        "additionalProperties": true,
+        "description": "The existing Native helper result. Current company/customer field permissions, source coverage and generation fences remain authoritative."
+      }
+    }
+  },
+  "x-shopiyz-native-source-hashes": {
+    "workers/admin-api/src/resources/customer-segments-api.ts": "467b5c96abc26faedabbc5aa9fed374474d6adeb61913adb6ecf45f7417fa946",
+    "functions/_lib/staff-access-lifecycle.ts": "ad8fed35932bd449d9a23e2e1a9ce5a4a21c004b5ce02ec173b75364a4939cc6",
+    "functions/_lib/customer-segments.ts": "de9af0323ff51c105c64b446d9b8f928230944eede993c99ac2a91021476ce0d",
+    "functions/_lib/customer-segment-continuation.ts": "5e577103d1cacae06d89681f5e7e4f0bf848de98ca598e22aed67da48f1c098e",
+    "functions/_lib/customer-segment-audience.ts": "e166d434b4907a330d699677e40af42d51b25fca2efdd90a3aeab7e3562f2c2d",
+    "functions/_lib/customer-segment-migration.ts": "4d04e7d6ec4998d7243949b50e154543f28baeaecf4d51bc012742a141b347f0",
+    "src/lib/customerSegments.ts": "0991c9f2d54c092f76777ddc8f170729ede82bf939367b13fee76cabad800c2d",
+    "src/lib/customerSegmentCustomFields.ts": "f86245dbd183afed799de84ca83094ac9e8e66cfd901e90172cbf4fb89dcedf2"
+  },
+  "x-shopiyz-native-limits": {
+    "depth": 3,
+    "leaves": 20,
+    "selectorIds": 100,
+    "selectors": 8,
+    "page": 50,
+    "maxPage": 100
+  },
+  "x-shopiyz-operations": [
+    {
+      "method": "GET",
+      "path": "/customer_segments/native.json",
+      "responseSchema": "NativeCustomerSegmentListResponse",
+      "successStatuses": [
+        200
+      ]
+    },
+    {
+      "method": "POST",
+      "path": "/customer_segments/native.json",
+      "requestSchema": "NativeCustomerSegmentCreate",
+      "responseSchema": "NativeCustomerSegmentResponse",
+      "successStatuses": [
+        201
+      ]
+    },
+    {
+      "method": "GET",
+      "path": "/customer_segments/native/{segment_id}.json",
+      "responseSchema": "NativeCustomerSegmentResponse",
+      "successStatuses": [
+        200
+      ]
+    },
+    {
+      "method": "PATCH",
+      "path": "/customer_segments/native/{segment_id}.json",
+      "requestSchema": "NativeCustomerSegmentUpdate",
+      "responseSchema": "NativeCustomerSegmentResponse",
+      "successStatuses": [
+        200
+      ]
+    },
+    {
+      "method": "DELETE",
+      "path": "/customer_segments/native/{segment_id}.json",
+      "requestSchema": "NativeCustomerSegmentRevisionRequest",
+      "responseSchema": "NativeCustomerSegmentResponse",
+      "successStatuses": [
+        200
+      ]
+    },
+    {
+      "method": "POST",
+      "path": "/customer_segments/native/{segment_id}/preview.json",
+      "requestSchema": "NativeCustomerSegmentRevisionRequest",
+      "responseSchema": "NativeCustomerSegmentCalculationResponse",
+      "successStatuses": [
+        202
+      ]
+    },
+    {
+      "method": "POST",
+      "path": "/customer_segments/native/{segment_id}/activate.json",
+      "requestSchema": "NativeCustomerSegmentRevisionRequest",
+      "responseSchema": "NativeCustomerSegmentCalculationResponse",
+      "successStatuses": [
+        202
+      ]
+    },
+    {
+      "method": "POST",
+      "path": "/customer_segments/native/{segment_id}/recalculate.json",
+      "requestSchema": "NativeCustomerSegmentRevisionRequest",
+      "responseSchema": "NativeCustomerSegmentCalculationResponse",
+      "successStatuses": [
+        202
+      ]
+    },
+    {
+      "method": "POST",
+      "path": "/customer_segments/native/{segment_id}/continue.json",
+      "requestSchema": "NativeCustomerSegmentRevisionRequest",
+      "responseSchema": "NativeCustomerSegmentResponse",
+      "successStatuses": [
+        200
+      ]
+    },
+    {
+      "method": "POST",
+      "path": "/customer_segments/native/{segment_id}/pause.json",
+      "requestSchema": "NativeCustomerSegmentRevisionRequest",
+      "responseSchema": "NativeCustomerSegmentResponse",
+      "successStatuses": [
+        200
+      ]
+    },
+    {
+      "method": "POST",
+      "path": "/customer_segments/native/{segment_id}/resume.json",
+      "requestSchema": "NativeCustomerSegmentRevisionRequest",
+      "responseSchema": "NativeCustomerSegmentResponse",
+      "successStatuses": [
+        200
+      ]
+    },
+    {
+      "method": "POST",
+      "path": "/customer_segments/native/{segment_id}/archive.json",
+      "requestSchema": "NativeCustomerSegmentRevisionRequest",
+      "responseSchema": "NativeCustomerSegmentResponse",
+      "successStatuses": [
+        200
+      ]
+    },
+    {
+      "method": "GET",
+      "path": "/customer_segments/native/{segment_id}/members.json",
+      "responseSchema": "NativeCustomerSegmentMembersResponse",
+      "successStatuses": [
+        200
+      ]
+    },
+    {
+      "method": "GET",
+      "path": "/customer_segments/native/{segment_id}/activity.json",
+      "responseSchema": "NativeCustomerSegmentNativeResult",
+      "successStatuses": [
+        200
+      ]
+    },
+    {
+      "method": "GET",
+      "path": "/customer_segments/native/{segment_id}/explanation.json",
+      "responseSchema": "NativeCustomerSegmentNativeResult",
+      "successStatuses": [
+        200
+      ]
+    },
+    {
+      "method": "GET",
+      "path": "/customer_segments/native/templates.json",
+      "responseSchema": "NativeCustomerSegmentNativeResult",
+      "successStatuses": [
+        200
+      ]
+    },
+    {
+      "method": "GET",
+      "path": "/customer_segments/native/custom_fields.json",
+      "responseSchema": "NativeCustomerSegmentNativeResult",
+      "successStatuses": [
+        200
+      ]
+    },
+    {
+      "method": "GET",
+      "path": "/customer_segments/native/legacy.json",
+      "responseSchema": "NativeCustomerSegmentNativeResult",
+      "successStatuses": [
+        200
+      ]
+    },
+    {
+      "method": "POST",
+      "path": "/customer_segments/native/validate.json",
+      "requestSchema": "NativeCustomerSegmentValidateRequest",
+      "responseSchema": "NativeCustomerSegmentNativeResult",
+      "successStatuses": [
+        200
+      ]
+    },
+    {
+      "method": "POST",
+      "path": "/customer_segments/native/legacy/preview.json",
+      "requestSchema": "NativeCustomerSegmentLegacyPreviewRequest",
+      "responseSchema": "NativeCustomerSegmentNativeResult",
+      "successStatuses": [
+        200
+      ]
+    },
+    {
+      "method": "GET",
+      "path": "/customer_segments/native/legacy/{legacy_id}/review.json",
+      "responseSchema": "NativeCustomerSegmentLegacyUpgradeResponse",
+      "successStatuses": [
+        200
+      ]
+    },
+    {
+      "method": "POST",
+      "path": "/customer_segments/native/legacy/{legacy_id}/upgrade.json",
+      "requestSchema": "NativeCustomerSegmentLegacyUpgradeRequest",
+      "responseSchema": "NativeCustomerSegmentLegacyUpgradeResponse",
+      "successStatuses": [
+        200,
+        202
+      ]
+    },
+    {
+      "method": "GET",
+      "path": "/customer_segments/native/customers/{customer_id}.json",
+      "responseSchema": "NativeCustomerSegmentNativeResult",
+      "successStatuses": [
+        200
+      ]
+    },
+    {
+      "method": "POST",
+      "path": "/customer_segments/native/audiences.json",
+      "requestSchema": "NativeCustomerSegmentAudienceCreate",
+      "responseSchema": "NativeCustomerSegmentAudienceCreated",
+      "successStatuses": [
+        202
+      ]
+    },
+    {
+      "method": "GET",
+      "path": "/customer_segments/native/audiences/{audience_id}.json",
+      "responseSchema": "NativeCustomerSegmentAudienceStatus",
+      "successStatuses": [
+        200
+      ]
+    },
+    {
+      "method": "GET",
+      "path": "/customer_segments/native/audiences/{audience_id}/members.json",
+      "responseSchema": "NativeCustomerSegmentAudienceMembers",
+      "successStatuses": [
+        200
+      ]
+    },
+    {
+      "method": "GET",
+      "path": "/customer_segments/native/audiences/{audience_id}/export.json",
+      "responseSchema": "NativeCustomerSegmentExportResponse",
+      "successStatuses": [
+        200
+      ]
+    },
+    {
+      "method": "POST",
+      "path": "/customer_segments/native/audiences/{audience_id}/continue.json",
+      "requestSchema": "NativeCustomerSegmentEmptyRequest",
+      "responseSchema": "NativeCustomerSegmentAudienceStatus",
+      "successStatuses": [
+        200,
+        202
+      ]
+    }
+  ]
+}

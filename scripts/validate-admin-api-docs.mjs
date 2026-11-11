@@ -1,6 +1,7 @@
 import fs from "node:fs";
 import {execFileSync} from "node:child_process";
 import path from "node:path";
+import {fileURLToPath} from "node:url";
 
 const root = path.resolve(path.dirname(new URL(import.meta.url).pathname), "..");
 const yamlPath = path.join(root, "openapi", "shopiyz-api.yaml");
@@ -179,7 +180,7 @@ function parsePublicCatalog(html) {
   return JSON.parse(html.slice(jsonStart, end));
 }
 
-function parseOpenApi(yaml) {
+export function parseOpenApi(yaml) {
   const lines = yaml.split(/\r?\n/);
   const operations = [];
   const schemas = new Set();
@@ -195,6 +196,17 @@ function parseOpenApi(yaml) {
   const finish = () => {
     if (!current) return;
     current.raw = current.rawLines.join("\n");
+    current.responseBlocks = new Map();
+    let responseStatus = null;
+    for (const line of current.rawLines) {
+      const response = line.match(/^        "([1-5](?:[0-9]{2}|XX))":\s*$/);
+      if (response) {
+        responseStatus = response[1];
+        current.responseBlocks.set(responseStatus, []);
+      } else if (/^      \S/.test(line)) responseStatus = null;
+      else if (responseStatus) current.responseBlocks.get(responseStatus).push(line);
+    }
+    current.responseBlocks = new Map([...current.responseBlocks].map(([status, lines]) => [status, lines.join("\n")]));
     current.hasExamples = current.raw.includes("examples:") || current.raw.includes("x-examples:");
     operations.push(current);
     current = null;
@@ -294,6 +306,21 @@ function parseOpenApi(yaml) {
     const idempotency = line.match(/^      x-idempotency:\s*(.+)\s*$/);
     if (idempotency) current.idempotency = unquote(idempotency[1]);
 
+    const authorityJson = line.match(/^      (x-shopiyz-scope-alternatives|x-shopiyz-native-permissions|x-shopiyz-native-query-parameters):\s*(.+)$/);
+    if (authorityJson) {
+      const property = {"x-shopiyz-scope-alternatives": "scopeAlternatives", "x-shopiyz-native-permissions": "nativePermissions", "x-shopiyz-native-query-parameters": "nativeQueryParameters"}[authorityJson[1]];
+      try { current[property] = JSON.parse(authorityJson[2]); }
+      catch { fail("Invalid Native authority metadata JSON", {field: authorityJson[1]}); }
+    }
+    const scopeMatching = line.match(/^      x-shopiyz-scope-matching:\s*(.+)$/);
+    if (scopeMatching) current.scopeMatching = unquote(scopeMatching[1]);
+    const readOnly = line.match(/^      x-shopiyz-read-only:\s*(true|false)$/);
+    if (readOnly) current.readOnly = readOnly[1] === "true";
+    const aiReadOnly = line.match(/^      x-ai-readonly:\s*(true|false)$/);
+    if (aiReadOnly) current.aiReadOnly = aiReadOnly[1] === "true";
+    const aiIdempotency = line.match(/^      x-ai-idempotency-required:\s*(true|false)$/);
+    if (aiIdempotency) current.aiIdempotencyRequired = aiIdempotency[1] === "true";
+
     const ai = line.match(/^      (x-ai-[a-z-]+):/);
     if (ai) current.aiFields.add(ai[1]);
 
@@ -308,6 +335,7 @@ function parseOpenApi(yaml) {
       if (rateLimit[1] === "x-shopiyz-rate-limit-scope") current.rateLimitScope = value;
     }
 
+    if (currentParameter && /^      \S/.test(line)) currentParameter = null;
     const param = line.match(/^        - name:\s*(.+)\s*$/);
     if (param) {
       currentParameter = { name: unquote(param[1]), in: "", required: false, description: "" };
@@ -321,9 +349,13 @@ function parseOpenApi(yaml) {
       if (required) currentParameter.required = required[1] === "true";
       const description = line.match(/^          description:\s*(.+)\s*$/);
       if (description) currentParameter.description = unquote(description[1]);
+      const type = line.match(/^            type:\s*(.+)\s*$/);
+      if (type) currentParameter.type = unquote(type[1]);
+      const format = line.match(/^            format:\s*(.+)\s*$/);
+      if (format) currentParameter.format = unquote(format[1]);
     }
 
-    const response = line.match(/^        "([0-9]{3})":\s*$/);
+    const response = line.match(/^        "([1-5](?:[0-9]{2}|XX))":\s*$/);
     if (response) current.responses.add(response[1]);
 
     if (line.match(/^      security:\s*$/)) current.security = true;
@@ -350,7 +382,72 @@ function isGeneric(schemaRef) {
   return genericSchemaRefs.has(schemaRef || "");
 }
 
-function validate() {
+export function validateOperationResponses(catalogOperation, openApiOperation) {
+  const implemented = catalogOperation.implemented !== false;
+  if (implemented !== openApiOperation.implemented) fail("OpenAPI availability differs from the public catalog", {catalogOperation, openApiOperation});
+  const actual = [...openApiOperation.responses].filter(status => /^2(?:[0-9]{2}|XX)$/.test(status));
+  if (!implemented) {
+    if (!openApiOperation.responses.has("501")) fail("Unavailable operation must declare501", {catalogOperation});
+    if (actual.length) fail("Unavailable operation must not advertise a successful response", {catalogOperation, actual});
+    return {kind: "planned501"};
+  }
+  const declared = Array.isArray(catalogOperation.successStatuses)
+    ? catalogOperation.successStatuses.filter(status => Number.isInteger(status) && status >= 200 && status <= 299).map(String)
+    : [];
+  if (!declared.length && Number.isInteger(catalogOperation.successStatus) && catalogOperation.successStatus >= 200 && catalogOperation.successStatus <= 299) declared.push(String(catalogOperation.successStatus));
+  const expected = new Set(declared.length ? declared : [catalogOperation.method === "POST" ? "2XX" : "200"]);
+  if (actual.length !== expected.size || actual.some(status => !expected.has(status))) {
+    fail("OpenAPI success statuses differ from verified metadata or conservative fallback", {catalogOperation, expected: [...expected], actual});
+  }
+  for (const status of actual) {
+    const block = openApiOperation.responseBlocks.get(status) || "";
+    if (!block.includes("          headers:")) fail("OpenAPI successful response is missing rate limit header block", {catalogOperation, status});
+    const missing = requiredRateLimitSuccessHeaders.filter(header => !block.includes(`            ${header}:`));
+    if (missing.length) fail("OpenAPI successful response is missing rate limit headers", {catalogOperation, status, missingSuccessHeaders: missing});
+  }
+  return {kind: declared.length ? "explicit" : expected.has("2XX") ? "range2XX" : "default200"};
+}
+
+export function validateOperationAuthority(catalogOperation, openApiOperation) {
+  const groups = catalogOperation.requiredScopeAlternatives;
+  if (groups !== undefined) {
+    if (JSON.stringify(groups) !== JSON.stringify(openApiOperation.scopeAlternatives)
+      || openApiOperation.scopeMatching !== "any group, all scopes within that group") {
+      fail("Native scope OR-of-AND groups differ from catalog", {catalogOperation, actual: openApiOperation.scopeAlternatives});
+    }
+  }
+  if (catalogOperation.nativePermissions !== undefined
+    && JSON.stringify(catalogOperation.nativePermissions) !== JSON.stringify(openApiOperation.nativePermissions)) {
+    fail("Native permissions differ from catalog", {catalogOperation, actual: openApiOperation.nativePermissions});
+  }
+  if (typeof catalogOperation.readOnly === "boolean") {
+    if (openApiOperation.readOnly !== catalogOperation.readOnly || openApiOperation.aiReadOnly !== catalogOperation.readOnly
+      || catalogOperation.aiSafety?.readOnly !== catalogOperation.readOnly) fail("Read-only semantics differ from catalog", {catalogOperation, openApiOperation});
+    const expectedIdempotency = catalogOperation.idempotencyRequired ? "required"
+      : catalogOperation.readOnly ? "none" : ["POST", "PUT", "PATCH", "DELETE"].includes(catalogOperation.method) ? "recommended" : "none";
+    if (openApiOperation.idempotency !== expectedIdempotency
+      || openApiOperation.aiIdempotencyRequired !== Boolean(catalogOperation.idempotencyRequired)) {
+      fail("Idempotency semantics differ from catalog", {catalogOperation, openApiOperation});
+    }
+    const header = openApiOperation.parameters.find(parameter => parameter.in === "header" && parameter.name.toLowerCase() === "idempotency-key");
+    if (catalogOperation.readOnly && !catalogOperation.idempotencyRequired && header) fail("Read-only operation must not invent an Idempotency-Key header", {catalogOperation});
+    if (catalogOperation.idempotencyRequired && !header?.required) fail("Required Idempotency-Key header missing", {catalogOperation});
+  }
+  if (catalogOperation.queryParameters !== undefined) {
+    if (JSON.stringify(catalogOperation.queryParameters) !== JSON.stringify(openApiOperation.nativeQueryParameters)) {
+      fail("Exact Native query metadata differs from catalog", {catalogOperation});
+    }
+    const actual = openApiOperation.parameters.filter(parameter => parameter.in === "query");
+    if (actual.length !== catalogOperation.queryParameters.length) fail("Native query parameter set differs from catalog", {catalogOperation, actual});
+    for (const expected of catalogOperation.queryParameters) {
+      const parameter = actual.find(parameter => parameter.name === expected.name);
+      if (!parameter || parameter.required !== Boolean(expected.required) || parameter.type !== (expected.schema?.type || expected.type)
+        || parameter.format !== (expected.schema?.format || expected.format)) fail("Native query parameter syntax differs from catalog", {catalogOperation, expected, parameter});
+    }
+  }
+}
+
+export function validate() {
   const yaml = read(yamlPath);
   const publicHtml = read(indexPath);
   if (!yaml.includes("openapi: 3.1.0")) fail("OpenAPI version header missing");
@@ -450,6 +547,15 @@ function validate() {
     genericResponseWithNote: 0,
     missingEndpointCount: missingFromOpenApi.length,
     basePath: expectedBasePath,
+    implementedOperations: 0,
+    unavailable501Operations: 0,
+    explicitSuccessStatusOperations: 0,
+    unknownPostRangeOperations: 0,
+    default200Operations: 0,
+    nativeScopeAlternativesOperations: 0,
+    nativePermissionsOperations: 0,
+    exactNativeQueryOperations: 0,
+    readOnlyPostWithoutIdempotencyOperations: 0,
   };
 
   for (const catalogOperation of catalogOperations) {
@@ -465,6 +571,11 @@ function validate() {
     if (catalogOperation.responseSchemaRef && openApiOperation.responseSchemaRef !== catalogOperation.responseSchemaRef) {
       fail("OpenAPI response schema does not match catalog responseSchemaRef", { catalogOperation, openApiOperation });
     }
+    validateOperationAuthority(catalogOperation, openApiOperation);
+    if (catalogOperation.requiredScopeAlternatives !== undefined) metrics.nativeScopeAlternativesOperations++;
+    if (catalogOperation.nativePermissions !== undefined) metrics.nativePermissionsOperations++;
+    if (catalogOperation.queryParameters !== undefined) metrics.exactNativeQueryOperations++;
+    if (catalogOperation.method === "POST" && catalogOperation.readOnly && !catalogOperation.idempotencyRequired) metrics.readOnlyPostWithoutIdempotencyOperations++;
 
     const openApiParameters = new Set(openApiOperation.parameters.map((parameter) => `${parameter.in}:${parameter.name}`));
     for (const parameter of catalogOperation.parameters || []) {
@@ -507,11 +618,15 @@ function validate() {
     if (openApiOperation.rateLimitBucket <= 0 || openApiOperation.rateLimitRestoreRate <= 0) {
       fail("OpenAPI rate limit policy has invalid bucket or restore rate", { openApiOperation });
     }
-    if (!openApiOperation.raw.includes("description: Successful response\n          headers:")) {
-      fail("OpenAPI successful response is missing rate limit header block", { openApiOperation });
+    const responseContract = validateOperationResponses(catalogOperation, openApiOperation);
+    if (responseContract.kind === "planned501") metrics.unavailable501Operations += 1;
+    else {
+      metrics.implementedOperations += 1;
+      metrics.rateLimitSuccessHeaderOperations += 1;
+      if (responseContract.kind === "explicit") metrics.explicitSuccessStatusOperations += 1;
+      else if (responseContract.kind === "range2XX") metrics.unknownPostRangeOperations += 1;
+      else metrics.default200Operations += 1;
     }
-    const missingSuccessHeaders = requiredRateLimitSuccessHeaders.filter((header) => !openApiOperation.raw.includes(`            ${header}:`));
-    if (missingSuccessHeaders.length) fail("OpenAPI successful response is missing rate limit headers", { operation: catalogOperation, missingSuccessHeaders });
 
     if (catalogOperation.examples && !openApiOperation.hasExamples) {
       fail("Catalog examples missing from OpenAPI operation", { operation: catalogOperation });
@@ -534,7 +649,6 @@ function validate() {
     if (openApiOperation.hasExamples) metrics.exampleOperations += 1;
     if (requiredAiFields.every((field) => openApiOperation.aiFields.has(field))) metrics.aiMetadataOperations += 1;
     if (requiredRateLimitFields.every((field) => openApiOperation.rateLimitFields.has(field))) metrics.rateLimitMetadataOperations += 1;
-    if (requiredRateLimitSuccessHeaders.every((header) => openApiOperation.raw.includes(`            ${header}:`))) metrics.rateLimitSuccessHeaderOperations += 1;
   }
 
   if (operations.length !== catalogOperations.length || publicCatalog.summary?.operations !== operations.length) {
@@ -553,19 +667,20 @@ function validate() {
   };
 }
 
-try {
-  console.log(JSON.stringify(validate(), null, 2));
-} catch (error) {
-  console.error(error.message);
-  if (error.details) console.error(JSON.stringify(error.details, null, 2));
-  process.exit(1);
-}
-
-if (process.env.SHOPIYZ_APP_REPO) {
-  execFileSync(process.env.PYTHON || "python3", [
+export function main() {
+  try {
+    console.log(JSON.stringify(validate(), null, 2));
+    if (process.env.SHOPIYZ_APP_REPO) execFileSync(process.env.PYTHON || "python3", [
     "-c",
     "import sys,yaml; source=yaml.safe_load(open(sys.argv[1],encoding='utf-8'))['components']['schemas']; portal=yaml.safe_load(open(sys.argv[2],encoding='utf-8'))['components']['schemas']; drift=[name for name,schema in source.items() if portal.get(name)!=schema]; assert not drift, 'Reviewed application schema drift: '+', '.join(drift)",
     path.join(process.env.SHOPIYZ_APP_REPO, "docs/api/openapi.yaml"),
     yamlPath,
-  ], {stdio: ["ignore", "pipe", "pipe"]});
+    ], {stdio: ["ignore", "pipe", "pipe"]});
+  } catch (error) {
+    console.error(error.message);
+    if (error.details) console.error(JSON.stringify(error.details, null, 2));
+    process.exitCode = 1;
+  }
 }
+
+if (process.argv[1] && path.resolve(process.argv[1]) === fileURLToPath(import.meta.url)) main();

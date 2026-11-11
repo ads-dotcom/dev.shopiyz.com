@@ -17,6 +17,8 @@ const checks = [
   [admin.includes('<li>\n              <a class="nav-link active" href="#overview"') && admin.includes('id !== "overview"'), "Admin Overview alt menüsü varsayılan kapalı değil"],
   [storefront.includes('href="/openapi">OpenAPI</a>'), "Storefront OpenAPI bağlantısı merkez sayfaya gitmiyor"],
   [openapi.includes("shopiyz-api.yaml") && openapi.includes("shopiyz-storefront-api.yaml"), "OpenAPI merkezinde iki sözleşme birlikte sunulmuyor"],
+  [openapi.includes('shopiyz-account-v2.json') && openapi.includes('shopiyz-studio-api.json') && openapi.includes('href="/postman/shopiyz-api.postman_collection.json"') && fs.existsSync(path.join(root, 'public/postman/shopiyz-api.postman_collection.json')), 'Account v2, Studio veya indirilebilir Postman sözleşmesi merkezde eksik'],
+  [landing.includes('Müşteri Hesabı v2') && landing.includes('Studio API') && landing.includes('/guides/api-families'), 'API aileleri ana sayfada keşfedilemiyor'],
   [!redirects.includes("/admin /admin.html") && !redirects.includes("/storefront /storefront.html") && redirects.includes("/openapi /openapi/index.html 200"), "HTML handling ile çakışan yönlendirme kuralı bulundu"],
 ];
 

@@ -19,6 +19,15 @@ Top-level carrier purchase/label/void compatibility routes, generic shipment wri
 
 Generic `/content/publish_schedules`, `/content/revisions`, `/theme_previews`, `/publishables/...` and the documented compatibility content actions retain their record behavior. Use `/content/workflows/...` for actual approval, immutable revisions and scheduling. These distinctions preserve existing integrations without describing a queued request as a completed action.
 
+Draft creation/completion, order-edit and exchange compatibility requests still
+store request records; they do not execute their Native Admin workflows.
+`/stock_transfers.json` and `/purchase_orders.json` likewise use compatibility
+records, rather than the Native inventory document ledger. Their presence in
+the catalog does not establish Native workflow parity. The specific
+`DELETE /draft_orders/{draft_order_id}.json` route uses Native deletion: it
+releases the draft's reservations and refuses completed or in-flight payment
+drafts. Keep the original idempotency key when retrying deletion.
+
 ## Order synchronization
 
 Each order line exposes nullable decimal-text `total_price`, `discount_total` and
@@ -75,6 +84,88 @@ Return commands expose the actual native cases and inspection quantities. `inspe
 Public financial bookkeeping routes reject Shopiyz-managed provider capture, mark-paid and void operations with `provider_financial_operation_required`; this includes order PATCH, order action aliases, bulk mark-paid and `/payments/{captures,voids,manual_payments}.json`. Managed ownership is established by `payment-*` provider identifiers or native provider session/transaction evidence. `POST /orders.json` also rejects an attempted settled result for a managed provider identifier. Existing order creation does not import lifecycle states; create the order, then use the appropriate bookkeeping/action contract.
 
 Existing manual/bank/COD bookkeeping remains available. A generic external `card`, wallet or marketplace label without managed provider evidence retains its existing bookkeeping behavior; `settlement_source=external` (or `settlementSource`) is an optional explicit declaration. The additive `financial_bookkeeping` result records the derived/declared settlement source and `provider_execution=false`. Native provider invoice/payment-attempt evidence also establishes managed ownership, and an external declaration cannot override it. Provider financial truth continues through actual provider execution and authenticated callback lanes; public token caller identity cannot substitute for provider evidence.
+
+`POST /payments/{captures,manual_payments,voids}.json` records offline/external
+transactions without calling a provider or committing inventory. Use the
+existing `capture`, `manual_payment` or `void` wrapper, or direct fields.
+`order_id`/`orderId`, `payment_method`/`paymentMethod`,
+`transaction_id`/`transactionId` and `processed_at`/`processedAt` remain accepted.
+Omitted status means `success`; `succeeded` normalizes to `success`, while
+`failed`/`failure` normalize to Native `failure`. A `pending` or failed record
+does not change financial status or outstanding balance. Successful captures
+use the shared Native ledger projection, accept partial remaining amounts and
+reject excess amounts, currency mismatch and invalid currency precision.
+An imported partial-paid snapshot with no retained successful cash transaction
+must reconcile its historical payment ledger first; a new capture cannot replace
+an unknown historical amount (`payment_history_reconciliation_required`, 409).
+Blended store-credit, gift-card or loyalty tenders use their own Native settlement
+flow; this standalone bookkeeping route returns
+`payment_tender_reconciliation_required` (409), without consuming those tenders.
+Omitted capture amount uses the current outstanding balance. A successful void
+requires the Native payment state transition; it does not refund captured cash.
+`expected_revision`, `expectedRevision` or numeric `If-Match` is an optional
+precondition. The transaction, balance, action revision and token-owned Native
+receipt commit together. Recover with the original-key order operation endpoint
+above; a lost reply does not authorize a new transaction key.
+A completed `offline_capture`, `offline_manual_payment` or `offline_void`
+receipt proves the bookkeeping record was saved. Inspect the transaction's
+status and returned financial state to determine its financial effect.
+
+## Native count inventory commands
+
+`POST /inventory_levels/set.json` and `/inventory_levels/adjust.json` retain
+`variant_id`/`inventory_item_id`, `location_id`, `available`, and
+`adjustment`/`delta`. An explicit `adjustment:0` is zero. Count values must be
+safe integers; invalid fractions and negative results return structured 422/409
+instead of silently rounding or clamping them. Measured quantity profiles still
+require their explicit Native exact-unit contract; a decimal count is not a
+translation into measured units.
+
+Single writes and the existing inventory bulk-job consumer use the Native stock
+ledger. The selected location changes while the variant remains the sum of all
+locations. Reserved units, current location state and actual stock authority are
+checked in the transaction; external or unknown stock ownership cannot be
+overridden with a local write. The existing Native manual fallback to the first
+active location is preserved when none is marked default. `reason` and `note`
+remain movement metadata. A tenant receipt joins each stock command so a lost
+delta acknowledgement can recover with the same token, path, body and key.
+Bulk jobs retain independent per-variant results and are not all-or-nothing
+across every requested variant.
+
+Count `inventory_quantity` on product/variant creation and variant updates uses
+that Native ledger too. This covers standalone and product-scoped variant PUTs,
+nested `product.variants`, and the existing inventory-item PATCH/PUT alias
+(which retains its `variant` request object). Quantities and conditional
+`expected_inventory_quantity` accept non-negative safe integers, including
+nonblank numeric strings. Null, booleans, blanks and fractional counts are
+rejected before parent or child records change.
+
+A changed aggregate quantity can resolve a location only when exactly one
+active Native location exists. Multiple active locations return 409
+`inventory_location_required`; use an explicit `inventory_levels` command.
+An unchanged quantity is a stock no-op, so a full PUT can still edit scalar
+fields under the current quantity/timestamp snapshot. A genuine Native count
+with no active location or stock-level rows retains its no-location path. Local stock writes require
+current Native ownership, reconciled location totals, and sufficient units for
+both checkout and draft holds. A concurrent ownership, hold, level or location
+change cannot commit a stale stock update.
+
+All nested variants are prepared before writing. Parent/variant scalar fields,
+source-price state, stock movements/levels and the token/path/body/key receipt
+commit in one Native batch; new positive tracked stock starts through the same
+ledger in that batch. Product CREATE also prepares its existing image INSERTs
+before writing and commits them in that initial batch. Retry the original key
+after an uncertain acknowledgement. Receipt recovery repeats idempotent collection
+synchronization before reading the product.
+
+Existing product gallery-changing PUTs retain their separate workflow and legacy
+retry/concurrency semantics; they do not use the new scalar/stock receipt to
+bypass a failed gallery step. Keep the existing product/source/gallery
+preconditions, and refresh current state after a conflict. This does not make
+the entire existing product/media workflow atomic. Measured
+profiles continue to require the exact-unit contract. Explicit untracked creation
+retains its legacy quantity metadata; it does not allocate location stock or
+create a stock movement.
 
 ## Native content workflows
 
@@ -134,3 +225,61 @@ Webhook dispatch still starts after the commerce transaction; its first delivery
 An external XML source's HTTP429 is a durable wait, regardless of its body error code. Engine/Core preserve `Retry-After` seconds or an HTTP date and expose the safe transport code `xml_source_throttled`; Sync retains the same operation/job, frozen manifests, revision and cursor. Waiting is neither successful application nor a failed product and does not consume the generic failure budget. Invalid/missing Retry-After uses30 seconds; a valid unrepresentable deadline requires manual review. A paused job retains that deadline; no callback runs early. No supplier body or credential is exposed.
 
 HTTP410 with source `code`/`error=snapshot_expired` becomes `xml_source_snapshot_expired`; other410 responses become `xml_source_gone`. That old job is terminal and cannot be resumed with its old operation key. Read its existing operation for reconciliation, then explicitly request a new import operation to admit a new manifest. This does not grant retirement authority or alter the Native store/product ownership and atomic publication contract. Engine, Core and Sync must all contain this transport behavior before its deployment is accepted. New public imports require Engine `protocol.xmlSourceWaiting=1` and Sync `/health` capability `xmlSourceWaiting=1`; deploy the Engine and Sync peers before Core. Older callers without the internal wait protocol retain terminal initial-plan failure behavior rather than leaving an active orphan.
+# Genel Admin, Storefront, müşteri hesabı ve Studio kapsamı
+
+Admin API mağazanın `/admin/api/v1` yolundadır. Ziyaretçi Storefront v1, özel müşteri hesabı v2 ve Superadmin Studio ayrı yetki sınırlarıdır. Admin tokeni müşteri veya Studio tokeni yerine geçmez. Admin kataloğundaki `relatedApis`, [API aileleri rehberi](https://dev.shopiyz.com/guides/api-families) ve mağazanın `/api/storefront/v2/account/openapi.json` çıktısı bu sözleşmelere yönlendirir.
+
+`implemented` bir kaynak işleyicisinin varlığını belirtir. `executionMode=native` kanonik Native akışı, `record_only` yalnız uyumluluk kaydını, `unavailable` hazır olmayan işlemi belirtir. Mağazanın dağıtılmış sürümü, Native şeması, planı ve etkinliği ayrıca doğrulanır. Kayıt oluşturulması ödeme, stok hareketi, yayın, aktarım veya geri yükleme kanıtı değildir.
+
+## Kanonik raporlar
+
+- `GET /reports.json`, `GET /reports/{report_id}.json`: mevcut panel rapor kataloğu ve gerçek kullanılabilirlik.
+- `POST /reports/{report_id}/run.json`: aynı imzalı Reporting servisi, aralık/kapsam ve Native mağaza saat dilimi. `from` dahil, `to` hariçtir. `calendarBasis=store_day_v1` desteklenen günlük raporda mağaza gününü kullanır; aksi varsayılan UTC'dir. Eksik veri başarıya çevrilmez.
+- `POST /reports/{report_id}/export.json`: aynı çalıştırma gövdesi ve `format=csv|json`. Yanıt `{export:{filename,content_type,encoding,content,row_count,calendar_basis,truncated}}` şeklinde senkron içeriktir. 512 KiB sınırı aşılırsa 413; sahte job/download_url veya sessiz kesme yoktur. Kapsam ve freshness korunur; CSV formül hücreleri güvenli metindir.
+- `POST /reports.json`, `GET /reports/saved.json`, `GET|PUT|DELETE /reports/saved/{saved_report_id}.json`: panelle aynı mağaza kapsamlı kayıtlı raporlar. Yazma gövdesi `{reportId,name,configuration}`; mevcut kayıt formatı `calendarBasis` saklamaz. Yeni yazma protokolü Reporting migration `0004_saved_report_commands.sql` ve aynı sürüm servis ister. Eski servise sessizce yazma yapılmaz.
+- `GET /reports/categories.json`, `GET /reports/measured_sales.json`: Native kategori ve ölçülü satış okumaları.
+
+Okuma/çalıştırma/çıktı için `admin:read|admin:write`, kayıtlı rapor yazmaları için `admin:write` gerekir. Tokenin gerçek aktif Native oluşturucusu, güncel üyeliği/mağaza erişimi ve `analytics:view` izni tekrar kontrol edilir. Cookie veya aktör başlığı kimlik seçemez. Bu uçlar ortak yanıt cache'ine girmez. Kayıtlı rapor yazmaları sabit `Idempotency-Key` ile gerçek servis makbuzunu tekrar döndürür; sonraki panel düzenlemesini tekrar uygulayarak ezmez.
+
+## Sipariş ayrıntısı ve taslak komutları
+
+Sipariş listesi/ayrıntısında `include=returns,exchanges,delivery` kanonik Native iade/değişim nesneleri ile kaydedilmiş, doğrulanmış `delivery_plan` döndürür. Değişim satır ekleri yalnız istenirse eklenir. Teslimat planı isteyen listede dönen sayfa en fazla 50 sipariştir. Varsayılan okumaya ek grafik sorgusu eklenmez. İç içe refund/transaction/risk kimliği URL'deki siparişe de ait olmalıdır.
+
+Gerçek Native taslak oluşturma ve revizyonlu güncelleme ayrı komut uçlarıdır:
+
+```text
+POST /draft_order_commands.json
+  {"command":{"action":"create","draft_order":{...Native camelCase payload...}}}
+POST /draft_orders/{draft_order_id}/commands.json
+  {"command":{"action":"update","expected_revision":7,"draft_order":{...partial Native payload...}}}
+GET /draft_order_commands/{original_operation_key}.json
+GET /draft_orders/{draft_order_id}/operations/{original_operation_key}.json
+```
+
+POST için aynı `Idempotency-Key` (8–180 karakter), gerçek güncel Native oluşturucu/`orders:manage` ve mağaza/şirket erişimi gerekir. Taslak, rezervasyon ve makbuz aynı Core transaction içindedir. Makbuz özgün komut revizyonunu, dönen taslak ise güncel görünümü ifade edebilir. Yanıt kaybında yeni anahtar üretmeyin; özgün anahtarı okuyun/tekrarlayın. Eski taslak create/update/complete/send_invoice uyumluluk uçları gerçek komut olarak değiştirilmez. Yeni komutlar şu aşamada yalnız create/update kabul eder; çok adımlı complete/send_invoice sonucu uydurulmaz.
+
+## Kampanya, segment ve B2B
+
+Kanonik indirim yazmaları panelin aynı doğrulayıcısını kullanır; ürün/koleksiyon/müşteri hedefleri, kategori uygunluğu, alt sınırlar, kombinasyonlar ve Native config korunur. PATCH'te atlanan alan korunur; sıfır/false/null/boş hedef dizisi açık değişikliktir. Kind/method değişmezdir. Tek fiyat aktivasyonu gerçek yayın/gösterim hazırlığını geçmelidir. DELETE arşivler. Kanonik kurallar ortak response cache'inden okunmaz.
+
+`/customer_segments/native...` uçları gerçek tanım/revizyon, hesaplama işi, generation üyeliği ve aktöre bağlı kitle motorunu kullanır. [Segment rehberi](https://dev.shopiyz.com/guides/customer-segments-native.md) ve tipli OpenAPI; güncel `customers:segments_view/manage/use/export` ayrımı, imzalı cursor ve maskeli üyelik kurallarını açıklar. Eski `/customer_segments...` uyumluluk kayıtları ayrı kalır.
+
+`/b2b/native/catalogs...` okuma ve `operations/preview|apply` mevcut Pro/ayar/Native aktör ve revizyon kapılarını kullanır. Bu adaptör 128 KiB ve en fazla 25 satır `bulk_edit` ile sınırlıdır. Apply sonuçları satır bazında applied/skipped/error olarak okunur; bütün dosya atomik uygulanmış sayılmaz. Ayrı `b2b_` Bearer entegrasyonunun `/companies`, `/orders`, `/events`, `/jobs` sözleşmesi ve `2026-09` sürüm başlığı korunur. Kuyruğa alınan `catalog_import/price_import` işi kaynakta yürütücüsü yokken tamamlanmış fiyat/katalog aktarımı diye sunulmaz.
+
+Genel snapshot/rollback uyumluluk kaydı katalog geri yükleme kanıtı değildir. Sonraki sipariş ve stok hareketlerini koruyan katalog sürüm geri alması, tüm veritabanı geri yüklemesiyle eşdeğer değildir. Native order edit/exchange yazıcılarının ek konum/rezervasyon ve para birimi çalışması tamamlanmadan yeni sınırsız API yeteneği ilan edilmez.
+
+### Native cart discount evaluation
+
+`POST /admin/api/v1/discounts/native/evaluate.json` is a read-only Native checkout evaluation. Use `admin:read` or `admin:write`; an existing linked creator must retain Native discount management and store access. Supply `lines` (1–50 `{variantId,quantity,attributes?}` count lines), optional `discountCodes` (at most5), same-store `customerId`, `shippingCountryCode` and `shippingMethodId`. Prices, product/collection targets, totals and eligibility categories cannot be supplied by the caller. The adapter reads published catalog prices, Native stock/quantity rules, actual persisted active shipping rates and the same discount engine as checkout. It never adopts legacy shipping configuration, creates a checkout/reservation/redemption, persists a preview, or calls a provider. Count lines and two-decimal currencies are supported; rental holds and measured quantities use their canonical checkout workflows.
+
+The response explicitly returns `execution_mode: native`, `evaluated: true`, `applied: false`, `reservation_created: false`, canonical minor-unit lines/shipping and the actual Native `evaluation`. Evaluation aggregate totals are in major currency units; exact line allocations are in minor units. `code_results` distinguishes `applied`, `eligible` and `rejected` candidates within this evaluation. Subsequent checkout must revalidate current prices, stock and eligibility; this response reserves nothing. `Idempotency-Key` is not required for this read-only POST and an old key cannot replay around current creator authorization.
+
+Legacy `/discount_codes/validate.json` and `/checkout/discounts/validate.json` keep their existing `eligible` code-status field for compatibility. The additive `validation_kind: code_status` and `cart_eligibility_evaluated: false` make its scope explicit and link the Native evaluator. Generic persisted discount previews remain `record_only` / `applied: false`; caller `before`/`after` is not a checkout calculation.
+
+### Shipping compatibility estimate
+
+`POST /admin/api/v1/shipping_rates/preview.json` keeps its existing compatibility calculation and returns `execution_mode: record_only`, `applied: false` and `shipping_preview.preview_kind: compatibility_estimate`. It selects API_DB shipping-rate mirror records or synthetic defaults, rather than the persisted Native checkout shipping tables. `native_checkout_quote`, `carrier_quote`, `currency_conversion` and `weight_rules_evaluated` are all `false`: weight is echoed, the requested currency is a label, and no carrier or exchange-rate service is called. Existing country/rate matching, thresholds, tax calculation and delivery-day fallbacks are unchanged. A returned price or delivery range is not a verified checkout or carrier offer.
+
+`shipping_preview.rate_source` identifies the actual selected object as `api_db_mirror`, `synthetic_default` or `fallback_default`; a mirror's caller-supplied `source` field does not determine this label. `defaults_used.country` and `.currency` indicate missing/blank request values replaced by `DE` and `EUR`. `.rate` indicates selection of a synthetic/fallback rate. These three flags do not describe every tax or delivery-day fallback. An explicit country with no matching rate can still retain the existing synthetic default behavior; an explicit currency does not convert the selected price.
+
+For a read-only evaluation using actual Native catalog lines and persisted active shipping rates, use [`POST /admin/api/v1/discounts/native/evaluate.json`](#native-cart-discount-evaluation). Its documented scope remains 1–50 count lines, two-decimal currencies and current linked-creator discount/store permissions; measured and rental checkout use their canonical workflows. The evaluator does not adopt legacy shipping configuration, create a quote/reservation/redemption, or call a carrier. Subsequent checkout revalidates the current state.

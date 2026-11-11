@@ -1,0 +1,5154 @@
+{
+  "openapi": "3.1.0",
+  "info": {
+    "title": "Shopiyz Studio REST API",
+    "version": "1.0.0",
+    "description": "London taslakları ve isimli kopyalar için sürümlü native REST API. Ziyaretçi Front API’den ve mağaza Admin API’den ayrıdır. Anahtarlar tek mağaza/kurulum/değişmez release ve seçilen şablon/kopyaya bağlıdır. Taslak kayıtları canlı siteyi değiştirmez."
+  },
+  "servers": [
+    {
+      "url": "https://superadmin.shopiyz.com/api/studio/v1"
+    }
+  ],
+  "paths": {
+    "/workspace": {
+      "get": {
+        "operationId": "workspace",
+        "summary": "Seçili sürümün JSON çalışma alanı",
+        "parameters": [
+          {
+            "name": "storeId",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string"
+            },
+            "description": "Cookie istemcisinde zorunlu; Studio anahtarında kimlikten otomatik alınabilir. Farklı değer reddedilir."
+          },
+          {
+            "name": "theme",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string"
+            },
+            "description": "Cookie istemcisinde zorunlu; Studio anahtarında kimlikten otomatik alınabilir. Farklı değer reddedilir."
+          },
+          {
+            "name": "installationId",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string"
+            },
+            "description": "Cookie istemcisinde zorunlu; Studio anahtarında kimlikten otomatik alınabilir. Farklı değer reddedilir."
+          },
+          {
+            "name": "releaseId",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string"
+            },
+            "description": "Cookie istemcisinde zorunlu; Studio anahtarında kimlikten otomatik alınabilir. Farklı değer reddedilir."
+          },
+          {
+            "name": "releaseVersion",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string"
+            },
+            "description": "Cookie istemcisinde zorunlu; Studio anahtarında kimlikten otomatik alınabilir. Farklı değer reddedilir."
+          }
+        ],
+        "security": [
+          {
+            "StudioToken": []
+          },
+          {
+            "AccountSession": []
+          }
+        ],
+        "x-studio-permission": "studio:read",
+        "responses": {
+          "200": {
+            "description": "Seçili kimliğe bağlı native sonuç; tasarım yazmalarında exact immutable JSON onayı.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/WorkspaceResult"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Geçersiz veya eksik kimlik/gövde"
+          },
+          "401": {
+            "description": "Geçersiz, süresi dolmuş veya iptal edilmiş anahtar"
+          },
+          "403": {
+            "description": "İzin, şablon veya kopya kapsamı reddedildi"
+          },
+          "404": {
+            "description": "Kurulum, sürüm veya kaynak bulunamadı"
+          },
+          "409": {
+            "description": "Eski revizyon veya uyumsuz geçiş; güncel belgeyi okuyup yeniden değerlendir"
+          },
+          "413": {
+            "description": "İstek boyut sınırını aştı"
+          },
+          "415": {
+            "description": "JSON veya multipart içerik türü gerekli"
+          },
+          "422": {
+            "description": "Tasarım belgesi seçili sürümün şema veya kaynak doğrulamasını geçemedi"
+          },
+          "429": {
+            "description": "Dakikada 60 istek sınırı"
+          },
+          "503": {
+            "description": "Geçici hizmet sorunu; körlemesine yayınlama tekrarı yapmayın"
+          }
+        }
+      }
+    },
+    "/contract": {
+      "get": {
+        "operationId": "contract",
+        "summary": "Değişmez şema ve varsayılanlar",
+        "parameters": [
+          {
+            "name": "storeId",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string"
+            },
+            "description": "Cookie istemcisinde zorunlu; Studio anahtarında kimlikten otomatik alınabilir. Farklı değer reddedilir."
+          },
+          {
+            "name": "theme",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string"
+            },
+            "description": "Cookie istemcisinde zorunlu; Studio anahtarında kimlikten otomatik alınabilir. Farklı değer reddedilir."
+          },
+          {
+            "name": "installationId",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string"
+            },
+            "description": "Cookie istemcisinde zorunlu; Studio anahtarında kimlikten otomatik alınabilir. Farklı değer reddedilir."
+          },
+          {
+            "name": "releaseId",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string"
+            },
+            "description": "Cookie istemcisinde zorunlu; Studio anahtarında kimlikten otomatik alınabilir. Farklı değer reddedilir."
+          },
+          {
+            "name": "releaseVersion",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string"
+            },
+            "description": "Cookie istemcisinde zorunlu; Studio anahtarında kimlikten otomatik alınabilir. Farklı değer reddedilir."
+          }
+        ],
+        "security": [
+          {
+            "StudioToken": []
+          },
+          {
+            "AccountSession": []
+          }
+        ],
+        "x-studio-permission": "studio:read",
+        "responses": {
+          "200": {
+            "description": "Seçili kimliğe bağlı native sonuç; tasarım yazmalarında exact immutable JSON onayı.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ContractResult"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Geçersiz veya eksik kimlik/gövde"
+          },
+          "401": {
+            "description": "Geçersiz, süresi dolmuş veya iptal edilmiş anahtar"
+          },
+          "403": {
+            "description": "İzin, şablon veya kopya kapsamı reddedildi"
+          },
+          "404": {
+            "description": "Kurulum, sürüm veya kaynak bulunamadı"
+          },
+          "409": {
+            "description": "Eski revizyon veya uyumsuz geçiş; güncel belgeyi okuyup yeniden değerlendir"
+          },
+          "413": {
+            "description": "İstek boyut sınırını aştı"
+          },
+          "415": {
+            "description": "JSON veya multipart içerik türü gerekli"
+          },
+          "422": {
+            "description": "Tasarım belgesi seçili sürümün şema veya kaynak doğrulamasını geçemedi"
+          },
+          "429": {
+            "description": "Dakikada 60 istek sınırı"
+          },
+          "503": {
+            "description": "Geçici hizmet sorunu; körlemesine yayınlama tekrarı yapmayın"
+          }
+        }
+      }
+    },
+    "/templates/{template}/design": {
+      "get": {
+        "operationId": "design",
+        "summary": "Taslak, yayın ve kaynakları oku",
+        "parameters": [
+          {
+            "name": "storeId",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string"
+            },
+            "description": "Cookie istemcisinde zorunlu; Studio anahtarında kimlikten otomatik alınabilir. Farklı değer reddedilir."
+          },
+          {
+            "name": "theme",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string"
+            },
+            "description": "Cookie istemcisinde zorunlu; Studio anahtarında kimlikten otomatik alınabilir. Farklı değer reddedilir."
+          },
+          {
+            "name": "installationId",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string"
+            },
+            "description": "Cookie istemcisinde zorunlu; Studio anahtarında kimlikten otomatik alınabilir. Farklı değer reddedilir."
+          },
+          {
+            "name": "releaseId",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string"
+            },
+            "description": "Cookie istemcisinde zorunlu; Studio anahtarında kimlikten otomatik alınabilir. Farklı değer reddedilir."
+          },
+          {
+            "name": "releaseVersion",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string"
+            },
+            "description": "Cookie istemcisinde zorunlu; Studio anahtarında kimlikten otomatik alınabilir. Farklı değer reddedilir."
+          },
+          {
+            "name": "template",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "security": [
+          {
+            "StudioToken": []
+          },
+          {
+            "AccountSession": []
+          }
+        ],
+        "x-studio-permission": "studio:read",
+        "responses": {
+          "200": {
+            "description": "Seçili kimliğe bağlı native sonuç; tasarım yazmalarında exact immutable JSON onayı.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DesignReadResult"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Geçersiz veya eksik kimlik/gövde"
+          },
+          "401": {
+            "description": "Geçersiz, süresi dolmuş veya iptal edilmiş anahtar"
+          },
+          "403": {
+            "description": "İzin, şablon veya kopya kapsamı reddedildi"
+          },
+          "404": {
+            "description": "Kurulum, sürüm veya kaynak bulunamadı"
+          },
+          "409": {
+            "description": "Eski revizyon veya uyumsuz geçiş; güncel belgeyi okuyup yeniden değerlendir"
+          },
+          "413": {
+            "description": "İstek boyut sınırını aştı"
+          },
+          "415": {
+            "description": "JSON veya multipart içerik türü gerekli"
+          },
+          "422": {
+            "description": "Tasarım belgesi seçili sürümün şema veya kaynak doğrulamasını geçemedi"
+          },
+          "429": {
+            "description": "Dakikada 60 istek sınırı"
+          },
+          "503": {
+            "description": "Geçici hizmet sorunu; körlemesine yayınlama tekrarı yapmayın"
+          }
+        }
+      }
+    },
+    "/templates/{template}/delivery": {
+      "get": {
+        "operationId": "delivery",
+        "summary": "Yayımlanan ana sayfanın gerçek teslim revizyonunu doğrula",
+        "parameters": [
+          {
+            "name": "storeId",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string"
+            },
+            "description": "Cookie istemcisinde zorunlu; Studio anahtarında kimlikten otomatik alınabilir. Farklı değer reddedilir."
+          },
+          {
+            "name": "theme",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string"
+            },
+            "description": "Cookie istemcisinde zorunlu; Studio anahtarında kimlikten otomatik alınabilir. Farklı değer reddedilir."
+          },
+          {
+            "name": "installationId",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string"
+            },
+            "description": "Cookie istemcisinde zorunlu; Studio anahtarında kimlikten otomatik alınabilir. Farklı değer reddedilir."
+          },
+          {
+            "name": "releaseId",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string"
+            },
+            "description": "Cookie istemcisinde zorunlu; Studio anahtarında kimlikten otomatik alınabilir. Farklı değer reddedilir."
+          },
+          {
+            "name": "releaseVersion",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string"
+            },
+            "description": "Cookie istemcisinde zorunlu; Studio anahtarında kimlikten otomatik alınabilir. Farklı değer reddedilir."
+          },
+          {
+            "name": "template",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "const": "home"
+            }
+          },
+          {
+            "name": "revision",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 999999999
+            },
+            "description": "Gerçek teslimi kontrol edilecek kaydedilmiş home yayın revizyonu. URL veya origin istemciden alınmaz."
+          }
+        ],
+        "security": [
+          {
+            "StudioToken": []
+          },
+          {
+            "AccountSession": []
+          }
+        ],
+        "x-studio-permission": "studio:read",
+        "responses": {
+          "200": {
+            "description": "Seçili kimliğe bağlı native sonuç; tasarım yazmalarında exact immutable JSON onayı.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DeliveryResult"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Geçersiz veya eksik kimlik/gövde"
+          },
+          "401": {
+            "description": "Geçersiz, süresi dolmuş veya iptal edilmiş anahtar"
+          },
+          "403": {
+            "description": "İzin, şablon veya kopya kapsamı reddedildi"
+          },
+          "404": {
+            "description": "Kurulum, sürüm veya kaynak bulunamadı"
+          },
+          "409": {
+            "description": "Eski revizyon veya uyumsuz geçiş; güncel belgeyi okuyup yeniden değerlendir"
+          },
+          "413": {
+            "description": "İstek boyut sınırını aştı"
+          },
+          "415": {
+            "description": "JSON veya multipart içerik türü gerekli"
+          },
+          "422": {
+            "description": "Tasarım belgesi seçili sürümün şema veya kaynak doğrulamasını geçemedi"
+          },
+          "429": {
+            "description": "Dakikada 60 istek sınırı"
+          },
+          "503": {
+            "description": "Geçici hizmet sorunu; körlemesine yayınlama tekrarı yapmayın"
+          }
+        }
+      }
+    },
+    "/templates/{template}/draft": {
+      "put": {
+        "operationId": "save",
+        "summary": "Tam tasarım JSON’unu taslağa kaydet",
+        "parameters": [
+          {
+            "name": "storeId",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string"
+            },
+            "description": "Cookie istemcisinde zorunlu; Studio anahtarında kimlikten otomatik alınabilir. Farklı değer reddedilir."
+          },
+          {
+            "name": "theme",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string"
+            },
+            "description": "Cookie istemcisinde zorunlu; Studio anahtarında kimlikten otomatik alınabilir. Farklı değer reddedilir."
+          },
+          {
+            "name": "installationId",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string"
+            },
+            "description": "Cookie istemcisinde zorunlu; Studio anahtarında kimlikten otomatik alınabilir. Farklı değer reddedilir."
+          },
+          {
+            "name": "releaseId",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string"
+            },
+            "description": "Cookie istemcisinde zorunlu; Studio anahtarında kimlikten otomatik alınabilir. Farklı değer reddedilir."
+          },
+          {
+            "name": "releaseVersion",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string"
+            },
+            "description": "Cookie istemcisinde zorunlu; Studio anahtarında kimlikten otomatik alınabilir. Farklı değer reddedilir."
+          },
+          {
+            "name": "template",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/DesignWrite"
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "StudioToken": []
+          },
+          {
+            "AccountSession": []
+          }
+        ],
+        "x-studio-permission": "studio:write",
+        "responses": {
+          "200": {
+            "description": "Seçili kimliğe bağlı native sonuç; tasarım yazmalarında exact immutable JSON onayı.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DesignWriteResult"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Geçersiz veya eksik kimlik/gövde"
+          },
+          "401": {
+            "description": "Geçersiz, süresi dolmuş veya iptal edilmiş anahtar"
+          },
+          "403": {
+            "description": "İzin, şablon veya kopya kapsamı reddedildi"
+          },
+          "404": {
+            "description": "Kurulum, sürüm veya kaynak bulunamadı"
+          },
+          "409": {
+            "description": "Eski revizyon veya uyumsuz geçiş; güncel belgeyi okuyup yeniden değerlendir"
+          },
+          "413": {
+            "description": "İstek boyut sınırını aştı"
+          },
+          "415": {
+            "description": "JSON veya multipart içerik türü gerekli"
+          },
+          "422": {
+            "description": "Tasarım belgesi seçili sürümün şema veya kaynak doğrulamasını geçemedi"
+          },
+          "429": {
+            "description": "Dakikada 60 istek sınırı"
+          },
+          "503": {
+            "description": "Geçici hizmet sorunu; körlemesine yayınlama tekrarı yapmayın"
+          }
+        }
+      }
+    },
+    "/templates/{template}/publish": {
+      "post": {
+        "operationId": "publish",
+        "summary": "Revizyonları doğrulayıp yayınla",
+        "parameters": [
+          {
+            "name": "storeId",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string"
+            },
+            "description": "Cookie istemcisinde zorunlu; Studio anahtarında kimlikten otomatik alınabilir. Farklı değer reddedilir."
+          },
+          {
+            "name": "theme",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string"
+            },
+            "description": "Cookie istemcisinde zorunlu; Studio anahtarında kimlikten otomatik alınabilir. Farklı değer reddedilir."
+          },
+          {
+            "name": "installationId",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string"
+            },
+            "description": "Cookie istemcisinde zorunlu; Studio anahtarında kimlikten otomatik alınabilir. Farklı değer reddedilir."
+          },
+          {
+            "name": "releaseId",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string"
+            },
+            "description": "Cookie istemcisinde zorunlu; Studio anahtarında kimlikten otomatik alınabilir. Farklı değer reddedilir."
+          },
+          {
+            "name": "releaseVersion",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string"
+            },
+            "description": "Cookie istemcisinde zorunlu; Studio anahtarında kimlikten otomatik alınabilir. Farklı değer reddedilir."
+          },
+          {
+            "name": "template",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Publish"
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "StudioToken": []
+          },
+          {
+            "AccountSession": []
+          }
+        ],
+        "x-studio-permission": "studio:publish",
+        "responses": {
+          "200": {
+            "description": "Seçili kimliğe bağlı native sonuç; tasarım yazmalarında exact immutable JSON onayı.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DesignWriteResult"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Geçersiz veya eksik kimlik/gövde"
+          },
+          "401": {
+            "description": "Geçersiz, süresi dolmuş veya iptal edilmiş anahtar"
+          },
+          "403": {
+            "description": "İzin, şablon veya kopya kapsamı reddedildi"
+          },
+          "404": {
+            "description": "Kurulum, sürüm veya kaynak bulunamadı"
+          },
+          "409": {
+            "description": "Eski revizyon veya uyumsuz geçiş; güncel belgeyi okuyup yeniden değerlendir"
+          },
+          "413": {
+            "description": "İstek boyut sınırını aştı"
+          },
+          "415": {
+            "description": "JSON veya multipart içerik türü gerekli"
+          },
+          "422": {
+            "description": "Tasarım belgesi seçili sürümün şema veya kaynak doğrulamasını geçemedi"
+          },
+          "429": {
+            "description": "Dakikada 60 istek sınırı"
+          },
+          "503": {
+            "description": "Geçici hizmet sorunu; körlemesine yayınlama tekrarı yapmayın"
+          }
+        }
+      }
+    },
+    "/publish-all": {
+      "post": {
+        "operationId": "publish_all",
+        "summary": "Tüm şablonları atomik yayınla",
+        "parameters": [
+          {
+            "name": "storeId",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string"
+            },
+            "description": "Cookie istemcisinde zorunlu; Studio anahtarında kimlikten otomatik alınabilir. Farklı değer reddedilir."
+          },
+          {
+            "name": "theme",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string"
+            },
+            "description": "Cookie istemcisinde zorunlu; Studio anahtarında kimlikten otomatik alınabilir. Farklı değer reddedilir."
+          },
+          {
+            "name": "installationId",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string"
+            },
+            "description": "Cookie istemcisinde zorunlu; Studio anahtarında kimlikten otomatik alınabilir. Farklı değer reddedilir."
+          },
+          {
+            "name": "releaseId",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string"
+            },
+            "description": "Cookie istemcisinde zorunlu; Studio anahtarında kimlikten otomatik alınabilir. Farklı değer reddedilir."
+          },
+          {
+            "name": "releaseVersion",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string"
+            },
+            "description": "Cookie istemcisinde zorunlu; Studio anahtarında kimlikten otomatik alınabilir. Farklı değer reddedilir."
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/PublishAll"
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "StudioToken": []
+          },
+          {
+            "AccountSession": []
+          }
+        ],
+        "x-studio-permission": "studio:publish",
+        "responses": {
+          "200": {
+            "description": "Seçili kimliğe bağlı native sonuç; tasarım yazmalarında exact immutable JSON onayı.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PublishAllResult"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Geçersiz veya eksik kimlik/gövde"
+          },
+          "401": {
+            "description": "Geçersiz, süresi dolmuş veya iptal edilmiş anahtar"
+          },
+          "403": {
+            "description": "İzin, şablon veya kopya kapsamı reddedildi"
+          },
+          "404": {
+            "description": "Kurulum, sürüm veya kaynak bulunamadı"
+          },
+          "409": {
+            "description": "Eski revizyon veya uyumsuz geçiş; güncel belgeyi okuyup yeniden değerlendir"
+          },
+          "413": {
+            "description": "İstek boyut sınırını aştı"
+          },
+          "415": {
+            "description": "JSON veya multipart içerik türü gerekli"
+          },
+          "422": {
+            "description": "Tasarım belgesi seçili sürümün şema veya kaynak doğrulamasını geçemedi"
+          },
+          "429": {
+            "description": "Dakikada 60 istek sınırı"
+          },
+          "503": {
+            "description": "Geçici hizmet sorunu; körlemesine yayınlama tekrarı yapmayın"
+          }
+        }
+      }
+    },
+    "/templates/{template}/history": {
+      "get": {
+        "operationId": "history",
+        "summary": "Tasarım geçmişini listele",
+        "parameters": [
+          {
+            "name": "storeId",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string"
+            },
+            "description": "Cookie istemcisinde zorunlu; Studio anahtarında kimlikten otomatik alınabilir. Farklı değer reddedilir."
+          },
+          {
+            "name": "theme",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string"
+            },
+            "description": "Cookie istemcisinde zorunlu; Studio anahtarında kimlikten otomatik alınabilir. Farklı değer reddedilir."
+          },
+          {
+            "name": "installationId",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string"
+            },
+            "description": "Cookie istemcisinde zorunlu; Studio anahtarında kimlikten otomatik alınabilir. Farklı değer reddedilir."
+          },
+          {
+            "name": "releaseId",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string"
+            },
+            "description": "Cookie istemcisinde zorunlu; Studio anahtarında kimlikten otomatik alınabilir. Farklı değer reddedilir."
+          },
+          {
+            "name": "releaseVersion",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string"
+            },
+            "description": "Cookie istemcisinde zorunlu; Studio anahtarında kimlikten otomatik alınabilir. Farklı değer reddedilir."
+          },
+          {
+            "name": "template",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "security": [
+          {
+            "StudioToken": []
+          },
+          {
+            "AccountSession": []
+          }
+        ],
+        "x-studio-permission": "studio:read",
+        "responses": {
+          "200": {
+            "description": "Seçili kimliğe bağlı native sonuç; tasarım yazmalarında exact immutable JSON onayı.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HistoryResult"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Geçersiz veya eksik kimlik/gövde"
+          },
+          "401": {
+            "description": "Geçersiz, süresi dolmuş veya iptal edilmiş anahtar"
+          },
+          "403": {
+            "description": "İzin, şablon veya kopya kapsamı reddedildi"
+          },
+          "404": {
+            "description": "Kurulum, sürüm veya kaynak bulunamadı"
+          },
+          "409": {
+            "description": "Eski revizyon veya uyumsuz geçiş; güncel belgeyi okuyup yeniden değerlendir"
+          },
+          "413": {
+            "description": "İstek boyut sınırını aştı"
+          },
+          "415": {
+            "description": "JSON veya multipart içerik türü gerekli"
+          },
+          "422": {
+            "description": "Tasarım belgesi seçili sürümün şema veya kaynak doğrulamasını geçemedi"
+          },
+          "429": {
+            "description": "Dakikada 60 istek sınırı"
+          },
+          "503": {
+            "description": "Geçici hizmet sorunu; körlemesine yayınlama tekrarı yapmayın"
+          }
+        }
+      }
+    },
+    "/templates/{template}/history/{snapshotId}": {
+      "get": {
+        "operationId": "snapshot",
+        "summary": "Bir geçmiş belgesini oku",
+        "parameters": [
+          {
+            "name": "storeId",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string"
+            },
+            "description": "Cookie istemcisinde zorunlu; Studio anahtarında kimlikten otomatik alınabilir. Farklı değer reddedilir."
+          },
+          {
+            "name": "theme",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string"
+            },
+            "description": "Cookie istemcisinde zorunlu; Studio anahtarında kimlikten otomatik alınabilir. Farklı değer reddedilir."
+          },
+          {
+            "name": "installationId",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string"
+            },
+            "description": "Cookie istemcisinde zorunlu; Studio anahtarında kimlikten otomatik alınabilir. Farklı değer reddedilir."
+          },
+          {
+            "name": "releaseId",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string"
+            },
+            "description": "Cookie istemcisinde zorunlu; Studio anahtarında kimlikten otomatik alınabilir. Farklı değer reddedilir."
+          },
+          {
+            "name": "releaseVersion",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string"
+            },
+            "description": "Cookie istemcisinde zorunlu; Studio anahtarında kimlikten otomatik alınabilir. Farklı değer reddedilir."
+          },
+          {
+            "name": "template",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "snapshotId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "security": [
+          {
+            "StudioToken": []
+          },
+          {
+            "AccountSession": []
+          }
+        ],
+        "x-studio-permission": "studio:read",
+        "responses": {
+          "200": {
+            "description": "Seçili kimliğe bağlı native sonuç; tasarım yazmalarında exact immutable JSON onayı.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SnapshotResult"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Geçersiz veya eksik kimlik/gövde"
+          },
+          "401": {
+            "description": "Geçersiz, süresi dolmuş veya iptal edilmiş anahtar"
+          },
+          "403": {
+            "description": "İzin, şablon veya kopya kapsamı reddedildi"
+          },
+          "404": {
+            "description": "Kurulum, sürüm veya kaynak bulunamadı"
+          },
+          "409": {
+            "description": "Eski revizyon veya uyumsuz geçiş; güncel belgeyi okuyup yeniden değerlendir"
+          },
+          "413": {
+            "description": "İstek boyut sınırını aştı"
+          },
+          "415": {
+            "description": "JSON veya multipart içerik türü gerekli"
+          },
+          "422": {
+            "description": "Tasarım belgesi seçili sürümün şema veya kaynak doğrulamasını geçemedi"
+          },
+          "429": {
+            "description": "Dakikada 60 istek sınırı"
+          },
+          "503": {
+            "description": "Geçici hizmet sorunu; körlemesine yayınlama tekrarı yapmayın"
+          }
+        }
+      }
+    },
+    "/templates/{template}/history/{snapshotId}/restore": {
+      "post": {
+        "operationId": "restore_draft",
+        "summary": "Geçmişi özel taslağa geri getir",
+        "parameters": [
+          {
+            "name": "storeId",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string"
+            },
+            "description": "Cookie istemcisinde zorunlu; Studio anahtarında kimlikten otomatik alınabilir. Farklı değer reddedilir."
+          },
+          {
+            "name": "theme",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string"
+            },
+            "description": "Cookie istemcisinde zorunlu; Studio anahtarında kimlikten otomatik alınabilir. Farklı değer reddedilir."
+          },
+          {
+            "name": "installationId",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string"
+            },
+            "description": "Cookie istemcisinde zorunlu; Studio anahtarında kimlikten otomatik alınabilir. Farklı değer reddedilir."
+          },
+          {
+            "name": "releaseId",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string"
+            },
+            "description": "Cookie istemcisinde zorunlu; Studio anahtarında kimlikten otomatik alınabilir. Farklı değer reddedilir."
+          },
+          {
+            "name": "releaseVersion",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string"
+            },
+            "description": "Cookie istemcisinde zorunlu; Studio anahtarında kimlikten otomatik alınabilir. Farklı değer reddedilir."
+          },
+          {
+            "name": "template",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "snapshotId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/HistoryRestore"
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "StudioToken": []
+          },
+          {
+            "AccountSession": []
+          }
+        ],
+        "x-studio-permission": "studio:write",
+        "responses": {
+          "200": {
+            "description": "Seçili kimliğe bağlı native sonuç; tasarım yazmalarında exact immutable JSON onayı.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DesignWriteResult"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Geçersiz veya eksik kimlik/gövde"
+          },
+          "401": {
+            "description": "Geçersiz, süresi dolmuş veya iptal edilmiş anahtar"
+          },
+          "403": {
+            "description": "İzin, şablon veya kopya kapsamı reddedildi"
+          },
+          "404": {
+            "description": "Kurulum, sürüm veya kaynak bulunamadı"
+          },
+          "409": {
+            "description": "Eski revizyon veya uyumsuz geçiş; güncel belgeyi okuyup yeniden değerlendir"
+          },
+          "413": {
+            "description": "İstek boyut sınırını aştı"
+          },
+          "415": {
+            "description": "JSON veya multipart içerik türü gerekli"
+          },
+          "422": {
+            "description": "Tasarım belgesi seçili sürümün şema veya kaynak doğrulamasını geçemedi"
+          },
+          "429": {
+            "description": "Dakikada 60 istek sınırı"
+          },
+          "503": {
+            "description": "Geçici hizmet sorunu; körlemesine yayınlama tekrarı yapmayın"
+          }
+        }
+      }
+    },
+    "/templates/{template}/copies": {
+      "get": {
+        "operationId": "variants",
+        "summary": "İsimli tasarımları listele",
+        "parameters": [
+          {
+            "name": "storeId",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string"
+            },
+            "description": "Cookie istemcisinde zorunlu; Studio anahtarında kimlikten otomatik alınabilir. Farklı değer reddedilir."
+          },
+          {
+            "name": "theme",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string"
+            },
+            "description": "Cookie istemcisinde zorunlu; Studio anahtarında kimlikten otomatik alınabilir. Farklı değer reddedilir."
+          },
+          {
+            "name": "installationId",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string"
+            },
+            "description": "Cookie istemcisinde zorunlu; Studio anahtarında kimlikten otomatik alınabilir. Farklı değer reddedilir."
+          },
+          {
+            "name": "releaseId",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string"
+            },
+            "description": "Cookie istemcisinde zorunlu; Studio anahtarında kimlikten otomatik alınabilir. Farklı değer reddedilir."
+          },
+          {
+            "name": "releaseVersion",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string"
+            },
+            "description": "Cookie istemcisinde zorunlu; Studio anahtarında kimlikten otomatik alınabilir. Farklı değer reddedilir."
+          },
+          {
+            "name": "template",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "security": [
+          {
+            "StudioToken": []
+          },
+          {
+            "AccountSession": []
+          }
+        ],
+        "x-studio-permission": "studio:read",
+        "responses": {
+          "200": {
+            "description": "Seçili kimliğe bağlı native sonuç; tasarım yazmalarında exact immutable JSON onayı.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CopyListResult"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Geçersiz veya eksik kimlik/gövde"
+          },
+          "401": {
+            "description": "Geçersiz, süresi dolmuş veya iptal edilmiş anahtar"
+          },
+          "403": {
+            "description": "İzin, şablon veya kopya kapsamı reddedildi"
+          },
+          "404": {
+            "description": "Kurulum, sürüm veya kaynak bulunamadı"
+          },
+          "409": {
+            "description": "Eski revizyon veya uyumsuz geçiş; güncel belgeyi okuyup yeniden değerlendir"
+          },
+          "413": {
+            "description": "İstek boyut sınırını aştı"
+          },
+          "415": {
+            "description": "JSON veya multipart içerik türü gerekli"
+          },
+          "422": {
+            "description": "Tasarım belgesi seçili sürümün şema veya kaynak doğrulamasını geçemedi"
+          },
+          "429": {
+            "description": "Dakikada 60 istek sınırı"
+          },
+          "503": {
+            "description": "Geçici hizmet sorunu; körlemesine yayınlama tekrarı yapmayın"
+          }
+        }
+      },
+      "post": {
+        "operationId": "create_variant",
+        "summary": "İsimli tasarım oluştur",
+        "parameters": [
+          {
+            "name": "storeId",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string"
+            },
+            "description": "Cookie istemcisinde zorunlu; Studio anahtarında kimlikten otomatik alınabilir. Farklı değer reddedilir."
+          },
+          {
+            "name": "theme",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string"
+            },
+            "description": "Cookie istemcisinde zorunlu; Studio anahtarında kimlikten otomatik alınabilir. Farklı değer reddedilir."
+          },
+          {
+            "name": "installationId",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string"
+            },
+            "description": "Cookie istemcisinde zorunlu; Studio anahtarında kimlikten otomatik alınabilir. Farklı değer reddedilir."
+          },
+          {
+            "name": "releaseId",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string"
+            },
+            "description": "Cookie istemcisinde zorunlu; Studio anahtarında kimlikten otomatik alınabilir. Farklı değer reddedilir."
+          },
+          {
+            "name": "releaseVersion",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string"
+            },
+            "description": "Cookie istemcisinde zorunlu; Studio anahtarında kimlikten otomatik alınabilir. Farklı değer reddedilir."
+          },
+          {
+            "name": "template",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CopyWrite"
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "StudioToken": []
+          },
+          {
+            "AccountSession": []
+          }
+        ],
+        "x-studio-permission": "studio:write",
+        "responses": {
+          "200": {
+            "description": "Seçili kimliğe bağlı native sonuç; tasarım yazmalarında exact immutable JSON onayı.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DesignWriteResult"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Geçersiz veya eksik kimlik/gövde"
+          },
+          "401": {
+            "description": "Geçersiz, süresi dolmuş veya iptal edilmiş anahtar"
+          },
+          "403": {
+            "description": "İzin, şablon veya kopya kapsamı reddedildi"
+          },
+          "404": {
+            "description": "Kurulum, sürüm veya kaynak bulunamadı"
+          },
+          "409": {
+            "description": "Eski revizyon veya uyumsuz geçiş; güncel belgeyi okuyup yeniden değerlendir"
+          },
+          "413": {
+            "description": "İstek boyut sınırını aştı"
+          },
+          "415": {
+            "description": "JSON veya multipart içerik türü gerekli"
+          },
+          "422": {
+            "description": "Tasarım belgesi seçili sürümün şema veya kaynak doğrulamasını geçemedi"
+          },
+          "429": {
+            "description": "Dakikada 60 istek sınırı"
+          },
+          "503": {
+            "description": "Geçici hizmet sorunu; körlemesine yayınlama tekrarı yapmayın"
+          }
+        }
+      }
+    },
+    "/templates/{template}/copies/{variantId}": {
+      "get": {
+        "operationId": "open_variant",
+        "summary": "İsimli tasarımın JSON’unu oku",
+        "parameters": [
+          {
+            "name": "storeId",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string"
+            },
+            "description": "Cookie istemcisinde zorunlu; Studio anahtarında kimlikten otomatik alınabilir. Farklı değer reddedilir."
+          },
+          {
+            "name": "theme",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string"
+            },
+            "description": "Cookie istemcisinde zorunlu; Studio anahtarında kimlikten otomatik alınabilir. Farklı değer reddedilir."
+          },
+          {
+            "name": "installationId",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string"
+            },
+            "description": "Cookie istemcisinde zorunlu; Studio anahtarında kimlikten otomatik alınabilir. Farklı değer reddedilir."
+          },
+          {
+            "name": "releaseId",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string"
+            },
+            "description": "Cookie istemcisinde zorunlu; Studio anahtarında kimlikten otomatik alınabilir. Farklı değer reddedilir."
+          },
+          {
+            "name": "releaseVersion",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string"
+            },
+            "description": "Cookie istemcisinde zorunlu; Studio anahtarında kimlikten otomatik alınabilir. Farklı değer reddedilir."
+          },
+          {
+            "name": "template",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "variantId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "variantRevision",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "minimum": 1
+            },
+            "description": ""
+          },
+          {
+            "name": "variantFingerprint",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "pattern": "^dsg_[0-9a-f]{24}$"
+            },
+            "description": ""
+          }
+        ],
+        "security": [
+          {
+            "StudioToken": []
+          },
+          {
+            "AccountSession": []
+          }
+        ],
+        "x-studio-permission": "studio:read",
+        "responses": {
+          "200": {
+            "description": "Seçili kimliğe bağlı native sonuç; tasarım yazmalarında exact immutable JSON onayı.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DesignOpenResult"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Geçersiz veya eksik kimlik/gövde"
+          },
+          "401": {
+            "description": "Geçersiz, süresi dolmuş veya iptal edilmiş anahtar"
+          },
+          "403": {
+            "description": "İzin, şablon veya kopya kapsamı reddedildi"
+          },
+          "404": {
+            "description": "Kurulum, sürüm veya kaynak bulunamadı"
+          },
+          "409": {
+            "description": "Eski revizyon veya uyumsuz geçiş; güncel belgeyi okuyup yeniden değerlendir"
+          },
+          "413": {
+            "description": "İstek boyut sınırını aştı"
+          },
+          "415": {
+            "description": "JSON veya multipart içerik türü gerekli"
+          },
+          "422": {
+            "description": "Tasarım belgesi seçili sürümün şema veya kaynak doğrulamasını geçemedi"
+          },
+          "429": {
+            "description": "Dakikada 60 istek sınırı"
+          },
+          "503": {
+            "description": "Geçici hizmet sorunu; körlemesine yayınlama tekrarı yapmayın"
+          }
+        }
+      },
+      "put": {
+        "operationId": "save_variant",
+        "summary": "İsimli tasarımı kaydet",
+        "parameters": [
+          {
+            "name": "storeId",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string"
+            },
+            "description": "Cookie istemcisinde zorunlu; Studio anahtarında kimlikten otomatik alınabilir. Farklı değer reddedilir."
+          },
+          {
+            "name": "theme",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string"
+            },
+            "description": "Cookie istemcisinde zorunlu; Studio anahtarında kimlikten otomatik alınabilir. Farklı değer reddedilir."
+          },
+          {
+            "name": "installationId",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string"
+            },
+            "description": "Cookie istemcisinde zorunlu; Studio anahtarında kimlikten otomatik alınabilir. Farklı değer reddedilir."
+          },
+          {
+            "name": "releaseId",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string"
+            },
+            "description": "Cookie istemcisinde zorunlu; Studio anahtarında kimlikten otomatik alınabilir. Farklı değer reddedilir."
+          },
+          {
+            "name": "releaseVersion",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string"
+            },
+            "description": "Cookie istemcisinde zorunlu; Studio anahtarında kimlikten otomatik alınabilir. Farklı değer reddedilir."
+          },
+          {
+            "name": "template",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "variantId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CopyWrite"
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "StudioToken": []
+          },
+          {
+            "AccountSession": []
+          }
+        ],
+        "x-studio-permission": "studio:write",
+        "responses": {
+          "200": {
+            "description": "Seçili kimliğe bağlı native sonuç; tasarım yazmalarında exact immutable JSON onayı.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DesignWriteResult"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Geçersiz veya eksik kimlik/gövde"
+          },
+          "401": {
+            "description": "Geçersiz, süresi dolmuş veya iptal edilmiş anahtar"
+          },
+          "403": {
+            "description": "İzin, şablon veya kopya kapsamı reddedildi"
+          },
+          "404": {
+            "description": "Kurulum, sürüm veya kaynak bulunamadı"
+          },
+          "409": {
+            "description": "Eski revizyon veya uyumsuz geçiş; güncel belgeyi okuyup yeniden değerlendir"
+          },
+          "413": {
+            "description": "İstek boyut sınırını aştı"
+          },
+          "415": {
+            "description": "JSON veya multipart içerik türü gerekli"
+          },
+          "422": {
+            "description": "Tasarım belgesi seçili sürümün şema veya kaynak doğrulamasını geçemedi"
+          },
+          "429": {
+            "description": "Dakikada 60 istek sınırı"
+          },
+          "503": {
+            "description": "Geçici hizmet sorunu; körlemesine yayınlama tekrarı yapmayın"
+          }
+        }
+      },
+      "delete": {
+        "operationId": "delete_variant",
+        "summary": "İsimli tasarımı kaldır",
+        "parameters": [
+          {
+            "name": "storeId",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string"
+            },
+            "description": "Cookie istemcisinde zorunlu; Studio anahtarında kimlikten otomatik alınabilir. Farklı değer reddedilir."
+          },
+          {
+            "name": "theme",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string"
+            },
+            "description": "Cookie istemcisinde zorunlu; Studio anahtarında kimlikten otomatik alınabilir. Farklı değer reddedilir."
+          },
+          {
+            "name": "installationId",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string"
+            },
+            "description": "Cookie istemcisinde zorunlu; Studio anahtarında kimlikten otomatik alınabilir. Farklı değer reddedilir."
+          },
+          {
+            "name": "releaseId",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string"
+            },
+            "description": "Cookie istemcisinde zorunlu; Studio anahtarında kimlikten otomatik alınabilir. Farklı değer reddedilir."
+          },
+          {
+            "name": "releaseVersion",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string"
+            },
+            "description": "Cookie istemcisinde zorunlu; Studio anahtarında kimlikten otomatik alınabilir. Farklı değer reddedilir."
+          },
+          {
+            "name": "template",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "variantId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CopyRevision"
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "StudioToken": []
+          },
+          {
+            "AccountSession": []
+          }
+        ],
+        "x-studio-permission": "studio:write",
+        "responses": {
+          "200": {
+            "description": "Seçili kimliğe bağlı native sonuç; tasarım yazmalarında exact immutable JSON onayı.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/StudioResult"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Geçersiz veya eksik kimlik/gövde"
+          },
+          "401": {
+            "description": "Geçersiz, süresi dolmuş veya iptal edilmiş anahtar"
+          },
+          "403": {
+            "description": "İzin, şablon veya kopya kapsamı reddedildi"
+          },
+          "404": {
+            "description": "Kurulum, sürüm veya kaynak bulunamadı"
+          },
+          "409": {
+            "description": "Eski revizyon veya uyumsuz geçiş; güncel belgeyi okuyup yeniden değerlendir"
+          },
+          "413": {
+            "description": "İstek boyut sınırını aştı"
+          },
+          "415": {
+            "description": "JSON veya multipart içerik türü gerekli"
+          },
+          "422": {
+            "description": "Tasarım belgesi seçili sürümün şema veya kaynak doğrulamasını geçemedi"
+          },
+          "429": {
+            "description": "Dakikada 60 istek sınırı"
+          },
+          "503": {
+            "description": "Geçici hizmet sorunu; körlemesine yayınlama tekrarı yapmayın"
+          }
+        }
+      }
+    },
+    "/templates/{template}/copies/{variantId}/apply": {
+      "post": {
+        "operationId": "apply_variant",
+        "summary": "Kopyayı ana taslağa uygula",
+        "parameters": [
+          {
+            "name": "storeId",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string"
+            },
+            "description": "Cookie istemcisinde zorunlu; Studio anahtarında kimlikten otomatik alınabilir. Farklı değer reddedilir."
+          },
+          {
+            "name": "theme",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string"
+            },
+            "description": "Cookie istemcisinde zorunlu; Studio anahtarında kimlikten otomatik alınabilir. Farklı değer reddedilir."
+          },
+          {
+            "name": "installationId",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string"
+            },
+            "description": "Cookie istemcisinde zorunlu; Studio anahtarında kimlikten otomatik alınabilir. Farklı değer reddedilir."
+          },
+          {
+            "name": "releaseId",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string"
+            },
+            "description": "Cookie istemcisinde zorunlu; Studio anahtarında kimlikten otomatik alınabilir. Farklı değer reddedilir."
+          },
+          {
+            "name": "releaseVersion",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string"
+            },
+            "description": "Cookie istemcisinde zorunlu; Studio anahtarında kimlikten otomatik alınabilir. Farklı değer reddedilir."
+          },
+          {
+            "name": "template",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "variantId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CopyApply"
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "StudioToken": []
+          },
+          {
+            "AccountSession": []
+          }
+        ],
+        "x-studio-permission": "studio:write",
+        "responses": {
+          "200": {
+            "description": "Seçili kimliğe bağlı native sonuç; tasarım yazmalarında exact immutable JSON onayı.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DesignWriteResult"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Geçersiz veya eksik kimlik/gövde"
+          },
+          "401": {
+            "description": "Geçersiz, süresi dolmuş veya iptal edilmiş anahtar"
+          },
+          "403": {
+            "description": "İzin, şablon veya kopya kapsamı reddedildi"
+          },
+          "404": {
+            "description": "Kurulum, sürüm veya kaynak bulunamadı"
+          },
+          "409": {
+            "description": "Eski revizyon veya uyumsuz geçiş; güncel belgeyi okuyup yeniden değerlendir"
+          },
+          "413": {
+            "description": "İstek boyut sınırını aştı"
+          },
+          "415": {
+            "description": "JSON veya multipart içerik türü gerekli"
+          },
+          "422": {
+            "description": "Tasarım belgesi seçili sürümün şema veya kaynak doğrulamasını geçemedi"
+          },
+          "429": {
+            "description": "Dakikada 60 istek sınırı"
+          },
+          "503": {
+            "description": "Geçici hizmet sorunu; körlemesine yayınlama tekrarı yapmayın"
+          }
+        }
+      }
+    },
+    "/templates/{template}/carry-forward/preflight": {
+      "post": {
+        "operationId": "carry_forward_preflight",
+        "summary": "Seçili sürüme taşıma uyumunu incele",
+        "parameters": [
+          {
+            "name": "storeId",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string"
+            },
+            "description": "Cookie istemcisinde zorunlu; Studio anahtarında kimlikten otomatik alınabilir. Farklı değer reddedilir."
+          },
+          {
+            "name": "theme",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string"
+            },
+            "description": "Cookie istemcisinde zorunlu; Studio anahtarında kimlikten otomatik alınabilir. Farklı değer reddedilir."
+          },
+          {
+            "name": "installationId",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string"
+            },
+            "description": "Cookie istemcisinde zorunlu; Studio anahtarında kimlikten otomatik alınabilir. Farklı değer reddedilir."
+          },
+          {
+            "name": "releaseId",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string"
+            },
+            "description": "Cookie istemcisinde zorunlu; Studio anahtarında kimlikten otomatik alınabilir. Farklı değer reddedilir."
+          },
+          {
+            "name": "releaseVersion",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string"
+            },
+            "description": "Cookie istemcisinde zorunlu; Studio anahtarında kimlikten otomatik alınabilir. Farklı değer reddedilir."
+          },
+          {
+            "name": "template",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/HistoryPreflight"
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "StudioToken": []
+          },
+          {
+            "AccountSession": []
+          }
+        ],
+        "x-studio-permission": "studio:migrate",
+        "responses": {
+          "200": {
+            "description": "Seçili kimliğe bağlı native sonuç; tasarım yazmalarında exact immutable JSON onayı.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/StudioResult"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Geçersiz veya eksik kimlik/gövde"
+          },
+          "401": {
+            "description": "Geçersiz, süresi dolmuş veya iptal edilmiş anahtar"
+          },
+          "403": {
+            "description": "İzin, şablon veya kopya kapsamı reddedildi"
+          },
+          "404": {
+            "description": "Kurulum, sürüm veya kaynak bulunamadı"
+          },
+          "409": {
+            "description": "Eski revizyon veya uyumsuz geçiş; güncel belgeyi okuyup yeniden değerlendir"
+          },
+          "413": {
+            "description": "İstek boyut sınırını aştı"
+          },
+          "415": {
+            "description": "JSON veya multipart içerik türü gerekli"
+          },
+          "422": {
+            "description": "Tasarım belgesi seçili sürümün şema veya kaynak doğrulamasını geçemedi"
+          },
+          "429": {
+            "description": "Dakikada 60 istek sınırı"
+          },
+          "503": {
+            "description": "Geçici hizmet sorunu; körlemesine yayınlama tekrarı yapmayın"
+          }
+        }
+      }
+    },
+    "/templates/{template}/carry-forward/draft": {
+      "post": {
+        "operationId": "carry_forward_draft",
+        "summary": "Doğrulanmış geçmişi seçili sürüme taşı",
+        "parameters": [
+          {
+            "name": "storeId",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string"
+            },
+            "description": "Cookie istemcisinde zorunlu; Studio anahtarında kimlikten otomatik alınabilir. Farklı değer reddedilir."
+          },
+          {
+            "name": "theme",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string"
+            },
+            "description": "Cookie istemcisinde zorunlu; Studio anahtarında kimlikten otomatik alınabilir. Farklı değer reddedilir."
+          },
+          {
+            "name": "installationId",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string"
+            },
+            "description": "Cookie istemcisinde zorunlu; Studio anahtarında kimlikten otomatik alınabilir. Farklı değer reddedilir."
+          },
+          {
+            "name": "releaseId",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string"
+            },
+            "description": "Cookie istemcisinde zorunlu; Studio anahtarında kimlikten otomatik alınabilir. Farklı değer reddedilir."
+          },
+          {
+            "name": "releaseVersion",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string"
+            },
+            "description": "Cookie istemcisinde zorunlu; Studio anahtarında kimlikten otomatik alınabilir. Farklı değer reddedilir."
+          },
+          {
+            "name": "template",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/HistoryCarryDraft"
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "StudioToken": []
+          },
+          {
+            "AccountSession": []
+          }
+        ],
+        "x-studio-permission": "studio:migrate",
+        "responses": {
+          "200": {
+            "description": "Seçili kimliğe bağlı native sonuç; tasarım yazmalarında exact immutable JSON onayı.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DesignWriteResult"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Geçersiz veya eksik kimlik/gövde"
+          },
+          "401": {
+            "description": "Geçersiz, süresi dolmuş veya iptal edilmiş anahtar"
+          },
+          "403": {
+            "description": "İzin, şablon veya kopya kapsamı reddedildi"
+          },
+          "404": {
+            "description": "Kurulum, sürüm veya kaynak bulunamadı"
+          },
+          "409": {
+            "description": "Eski revizyon veya uyumsuz geçiş; güncel belgeyi okuyup yeniden değerlendir"
+          },
+          "413": {
+            "description": "İstek boyut sınırını aştı"
+          },
+          "415": {
+            "description": "JSON veya multipart içerik türü gerekli"
+          },
+          "422": {
+            "description": "Tasarım belgesi seçili sürümün şema veya kaynak doğrulamasını geçemedi"
+          },
+          "429": {
+            "description": "Dakikada 60 istek sınırı"
+          },
+          "503": {
+            "description": "Geçici hizmet sorunu; körlemesine yayınlama tekrarı yapmayın"
+          }
+        }
+      }
+    },
+    "/templates/{template}/carry-forward/copy": {
+      "post": {
+        "operationId": "carry_forward_variant",
+        "summary": "Eski kopyayı açıkça seçili sürüme taşı",
+        "parameters": [
+          {
+            "name": "storeId",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string"
+            },
+            "description": "Cookie istemcisinde zorunlu; Studio anahtarında kimlikten otomatik alınabilir. Farklı değer reddedilir."
+          },
+          {
+            "name": "theme",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string"
+            },
+            "description": "Cookie istemcisinde zorunlu; Studio anahtarında kimlikten otomatik alınabilir. Farklı değer reddedilir."
+          },
+          {
+            "name": "installationId",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string"
+            },
+            "description": "Cookie istemcisinde zorunlu; Studio anahtarında kimlikten otomatik alınabilir. Farklı değer reddedilir."
+          },
+          {
+            "name": "releaseId",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string"
+            },
+            "description": "Cookie istemcisinde zorunlu; Studio anahtarında kimlikten otomatik alınabilir. Farklı değer reddedilir."
+          },
+          {
+            "name": "releaseVersion",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string"
+            },
+            "description": "Cookie istemcisinde zorunlu; Studio anahtarında kimlikten otomatik alınabilir. Farklı değer reddedilir."
+          },
+          {
+            "name": "template",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/HistoryCarryCopy"
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "StudioToken": []
+          },
+          {
+            "AccountSession": []
+          }
+        ],
+        "x-studio-permission": "studio:migrate",
+        "responses": {
+          "200": {
+            "description": "Seçili kimliğe bağlı native sonuç; tasarım yazmalarında exact immutable JSON onayı.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DesignWriteResult"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Geçersiz veya eksik kimlik/gövde"
+          },
+          "401": {
+            "description": "Geçersiz, süresi dolmuş veya iptal edilmiş anahtar"
+          },
+          "403": {
+            "description": "İzin, şablon veya kopya kapsamı reddedildi"
+          },
+          "404": {
+            "description": "Kurulum, sürüm veya kaynak bulunamadı"
+          },
+          "409": {
+            "description": "Eski revizyon veya uyumsuz geçiş; güncel belgeyi okuyup yeniden değerlendir"
+          },
+          "413": {
+            "description": "İstek boyut sınırını aştı"
+          },
+          "415": {
+            "description": "JSON veya multipart içerik türü gerekli"
+          },
+          "422": {
+            "description": "Tasarım belgesi seçili sürümün şema veya kaynak doğrulamasını geçemedi"
+          },
+          "429": {
+            "description": "Dakikada 60 istek sınırı"
+          },
+          "503": {
+            "description": "Geçici hizmet sorunu; körlemesine yayınlama tekrarı yapmayın"
+          }
+        }
+      }
+    },
+    "/templates/{template}/json/{documentId}": {
+      "get": {
+        "operationId": "json",
+        "summary": "Değişmez kaydedilmiş JSON’u oku",
+        "parameters": [
+          {
+            "name": "storeId",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string"
+            },
+            "description": "Cookie istemcisinde zorunlu; Studio anahtarında kimlikten otomatik alınabilir. Farklı değer reddedilir."
+          },
+          {
+            "name": "theme",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string"
+            },
+            "description": "Cookie istemcisinde zorunlu; Studio anahtarında kimlikten otomatik alınabilir. Farklı değer reddedilir."
+          },
+          {
+            "name": "installationId",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string"
+            },
+            "description": "Cookie istemcisinde zorunlu; Studio anahtarında kimlikten otomatik alınabilir. Farklı değer reddedilir."
+          },
+          {
+            "name": "releaseId",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string"
+            },
+            "description": "Cookie istemcisinde zorunlu; Studio anahtarında kimlikten otomatik alınabilir. Farklı değer reddedilir."
+          },
+          {
+            "name": "releaseVersion",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string"
+            },
+            "description": "Cookie istemcisinde zorunlu; Studio anahtarında kimlikten otomatik alınabilir. Farklı değer reddedilir."
+          },
+          {
+            "name": "template",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "documentId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "security": [
+          {
+            "StudioToken": []
+          },
+          {
+            "AccountSession": []
+          }
+        ],
+        "x-studio-permission": "studio:read",
+        "responses": {
+          "200": {
+            "description": "Seçili kimliğe bağlı native sonuç; tasarım yazmalarında exact immutable JSON onayı.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/JsonDocumentResult"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Geçersiz veya eksik kimlik/gövde"
+          },
+          "401": {
+            "description": "Geçersiz, süresi dolmuş veya iptal edilmiş anahtar"
+          },
+          "403": {
+            "description": "İzin, şablon veya kopya kapsamı reddedildi"
+          },
+          "404": {
+            "description": "Kurulum, sürüm veya kaynak bulunamadı"
+          },
+          "409": {
+            "description": "Eski revizyon veya uyumsuz geçiş; güncel belgeyi okuyup yeniden değerlendir"
+          },
+          "413": {
+            "description": "İstek boyut sınırını aştı"
+          },
+          "415": {
+            "description": "JSON veya multipart içerik türü gerekli"
+          },
+          "422": {
+            "description": "Tasarım belgesi seçili sürümün şema veya kaynak doğrulamasını geçemedi"
+          },
+          "429": {
+            "description": "Dakikada 60 istek sınırı"
+          },
+          "503": {
+            "description": "Geçici hizmet sorunu; körlemesine yayınlama tekrarı yapmayın"
+          }
+        }
+      }
+    },
+    "/templates/{template}/resources/{resource}": {
+      "get": {
+        "operationId": "resources",
+        "summary": "Ürün, koleksiyon veya sayfa referanslarını ara",
+        "parameters": [
+          {
+            "name": "storeId",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string"
+            },
+            "description": "Cookie istemcisinde zorunlu; Studio anahtarında kimlikten otomatik alınabilir. Farklı değer reddedilir."
+          },
+          {
+            "name": "theme",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string"
+            },
+            "description": "Cookie istemcisinde zorunlu; Studio anahtarında kimlikten otomatik alınabilir. Farklı değer reddedilir."
+          },
+          {
+            "name": "installationId",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string"
+            },
+            "description": "Cookie istemcisinde zorunlu; Studio anahtarında kimlikten otomatik alınabilir. Farklı değer reddedilir."
+          },
+          {
+            "name": "releaseId",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string"
+            },
+            "description": "Cookie istemcisinde zorunlu; Studio anahtarında kimlikten otomatik alınabilir. Farklı değer reddedilir."
+          },
+          {
+            "name": "releaseVersion",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string"
+            },
+            "description": "Cookie istemcisinde zorunlu; Studio anahtarında kimlikten otomatik alınabilir. Farklı değer reddedilir."
+          },
+          {
+            "name": "template",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "resource",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "q",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string"
+            },
+            "description": ""
+          },
+          {
+            "name": "cursor",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string"
+            },
+            "description": ""
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 50
+            },
+            "description": ""
+          }
+        ],
+        "security": [
+          {
+            "StudioToken": []
+          },
+          {
+            "AccountSession": []
+          }
+        ],
+        "x-studio-permission": "studio:read",
+        "responses": {
+          "200": {
+            "description": "Seçili kimliğe bağlı native sonuç; tasarım yazmalarında exact immutable JSON onayı.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/StudioResult"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Geçersiz veya eksik kimlik/gövde"
+          },
+          "401": {
+            "description": "Geçersiz, süresi dolmuş veya iptal edilmiş anahtar"
+          },
+          "403": {
+            "description": "İzin, şablon veya kopya kapsamı reddedildi"
+          },
+          "404": {
+            "description": "Kurulum, sürüm veya kaynak bulunamadı"
+          },
+          "409": {
+            "description": "Eski revizyon veya uyumsuz geçiş; güncel belgeyi okuyup yeniden değerlendir"
+          },
+          "413": {
+            "description": "İstek boyut sınırını aştı"
+          },
+          "415": {
+            "description": "JSON veya multipart içerik türü gerekli"
+          },
+          "422": {
+            "description": "Tasarım belgesi seçili sürümün şema veya kaynak doğrulamasını geçemedi"
+          },
+          "429": {
+            "description": "Dakikada 60 istek sınırı"
+          },
+          "503": {
+            "description": "Geçici hizmet sorunu; körlemesine yayınlama tekrarı yapmayın"
+          }
+        }
+      }
+    },
+    "/templates/{template}/menus": {
+      "get": {
+        "operationId": "menus",
+        "summary": "Mağazanın menülerini oku",
+        "parameters": [
+          {
+            "name": "storeId",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string"
+            },
+            "description": "Cookie istemcisinde zorunlu; Studio anahtarında kimlikten otomatik alınabilir. Farklı değer reddedilir."
+          },
+          {
+            "name": "theme",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string"
+            },
+            "description": "Cookie istemcisinde zorunlu; Studio anahtarında kimlikten otomatik alınabilir. Farklı değer reddedilir."
+          },
+          {
+            "name": "installationId",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string"
+            },
+            "description": "Cookie istemcisinde zorunlu; Studio anahtarında kimlikten otomatik alınabilir. Farklı değer reddedilir."
+          },
+          {
+            "name": "releaseId",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string"
+            },
+            "description": "Cookie istemcisinde zorunlu; Studio anahtarında kimlikten otomatik alınabilir. Farklı değer reddedilir."
+          },
+          {
+            "name": "releaseVersion",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string"
+            },
+            "description": "Cookie istemcisinde zorunlu; Studio anahtarında kimlikten otomatik alınabilir. Farklı değer reddedilir."
+          },
+          {
+            "name": "template",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "menuId",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string"
+            },
+            "description": ""
+          }
+        ],
+        "security": [
+          {
+            "StudioToken": []
+          },
+          {
+            "AccountSession": []
+          }
+        ],
+        "x-studio-permission": "studio:read",
+        "responses": {
+          "200": {
+            "description": "Seçili kimliğe bağlı native sonuç; tasarım yazmalarında exact immutable JSON onayı.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/StudioResult"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Geçersiz veya eksik kimlik/gövde"
+          },
+          "401": {
+            "description": "Geçersiz, süresi dolmuş veya iptal edilmiş anahtar"
+          },
+          "403": {
+            "description": "İzin, şablon veya kopya kapsamı reddedildi"
+          },
+          "404": {
+            "description": "Kurulum, sürüm veya kaynak bulunamadı"
+          },
+          "409": {
+            "description": "Eski revizyon veya uyumsuz geçiş; güncel belgeyi okuyup yeniden değerlendir"
+          },
+          "413": {
+            "description": "İstek boyut sınırını aştı"
+          },
+          "415": {
+            "description": "JSON veya multipart içerik türü gerekli"
+          },
+          "422": {
+            "description": "Tasarım belgesi seçili sürümün şema veya kaynak doğrulamasını geçemedi"
+          },
+          "429": {
+            "description": "Dakikada 60 istek sınırı"
+          },
+          "503": {
+            "description": "Geçici hizmet sorunu; körlemesine yayınlama tekrarı yapmayın"
+          }
+        }
+      },
+      "post": {
+        "operationId": "create_menu",
+        "summary": "Native menü oluştur",
+        "parameters": [
+          {
+            "name": "storeId",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string"
+            },
+            "description": "Cookie istemcisinde zorunlu; Studio anahtarında kimlikten otomatik alınabilir. Farklı değer reddedilir."
+          },
+          {
+            "name": "theme",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string"
+            },
+            "description": "Cookie istemcisinde zorunlu; Studio anahtarında kimlikten otomatik alınabilir. Farklı değer reddedilir."
+          },
+          {
+            "name": "installationId",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string"
+            },
+            "description": "Cookie istemcisinde zorunlu; Studio anahtarında kimlikten otomatik alınabilir. Farklı değer reddedilir."
+          },
+          {
+            "name": "releaseId",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string"
+            },
+            "description": "Cookie istemcisinde zorunlu; Studio anahtarında kimlikten otomatik alınabilir. Farklı değer reddedilir."
+          },
+          {
+            "name": "releaseVersion",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string"
+            },
+            "description": "Cookie istemcisinde zorunlu; Studio anahtarında kimlikten otomatik alınabilir. Farklı değer reddedilir."
+          },
+          {
+            "name": "template",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/MenuWrite"
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "StudioToken": []
+          },
+          {
+            "AccountSession": []
+          }
+        ],
+        "x-studio-permission": "studio:menus",
+        "responses": {
+          "201": {
+            "description": "Seçili kimliğe bağlı native sonuç; tasarım yazmalarında exact immutable JSON onayı.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/StudioResult"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Geçersiz veya eksik kimlik/gövde"
+          },
+          "401": {
+            "description": "Geçersiz, süresi dolmuş veya iptal edilmiş anahtar"
+          },
+          "403": {
+            "description": "İzin, şablon veya kopya kapsamı reddedildi"
+          },
+          "404": {
+            "description": "Kurulum, sürüm veya kaynak bulunamadı"
+          },
+          "409": {
+            "description": "Eski revizyon veya uyumsuz geçiş; güncel belgeyi okuyup yeniden değerlendir"
+          },
+          "413": {
+            "description": "İstek boyut sınırını aştı"
+          },
+          "415": {
+            "description": "JSON veya multipart içerik türü gerekli"
+          },
+          "422": {
+            "description": "Tasarım belgesi seçili sürümün şema veya kaynak doğrulamasını geçemedi"
+          },
+          "429": {
+            "description": "Dakikada 60 istek sınırı"
+          },
+          "503": {
+            "description": "Geçici hizmet sorunu; körlemesine yayınlama tekrarı yapmayın"
+          }
+        }
+      }
+    },
+    "/templates/{template}/menus/{menuId}": {
+      "put": {
+        "operationId": "update_menu",
+        "summary": "Native menüyü revizyonla güncelle",
+        "parameters": [
+          {
+            "name": "storeId",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string"
+            },
+            "description": "Cookie istemcisinde zorunlu; Studio anahtarında kimlikten otomatik alınabilir. Farklı değer reddedilir."
+          },
+          {
+            "name": "theme",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string"
+            },
+            "description": "Cookie istemcisinde zorunlu; Studio anahtarında kimlikten otomatik alınabilir. Farklı değer reddedilir."
+          },
+          {
+            "name": "installationId",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string"
+            },
+            "description": "Cookie istemcisinde zorunlu; Studio anahtarında kimlikten otomatik alınabilir. Farklı değer reddedilir."
+          },
+          {
+            "name": "releaseId",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string"
+            },
+            "description": "Cookie istemcisinde zorunlu; Studio anahtarında kimlikten otomatik alınabilir. Farklı değer reddedilir."
+          },
+          {
+            "name": "releaseVersion",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string"
+            },
+            "description": "Cookie istemcisinde zorunlu; Studio anahtarında kimlikten otomatik alınabilir. Farklı değer reddedilir."
+          },
+          {
+            "name": "template",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "menuId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/MenuUpdate"
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "StudioToken": []
+          },
+          {
+            "AccountSession": []
+          }
+        ],
+        "x-studio-permission": "studio:menus",
+        "responses": {
+          "200": {
+            "description": "Seçili kimliğe bağlı native sonuç; tasarım yazmalarında exact immutable JSON onayı.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/StudioResult"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Geçersiz veya eksik kimlik/gövde"
+          },
+          "401": {
+            "description": "Geçersiz, süresi dolmuş veya iptal edilmiş anahtar"
+          },
+          "403": {
+            "description": "İzin, şablon veya kopya kapsamı reddedildi"
+          },
+          "404": {
+            "description": "Kurulum, sürüm veya kaynak bulunamadı"
+          },
+          "409": {
+            "description": "Eski revizyon veya uyumsuz geçiş; güncel belgeyi okuyup yeniden değerlendir"
+          },
+          "413": {
+            "description": "İstek boyut sınırını aştı"
+          },
+          "415": {
+            "description": "JSON veya multipart içerik türü gerekli"
+          },
+          "422": {
+            "description": "Tasarım belgesi seçili sürümün şema veya kaynak doğrulamasını geçemedi"
+          },
+          "429": {
+            "description": "Dakikada 60 istek sınırı"
+          },
+          "503": {
+            "description": "Geçici hizmet sorunu; körlemesine yayınlama tekrarı yapmayın"
+          }
+        }
+      }
+    },
+    "/templates/{template}/custom-data": {
+      "get": {
+        "operationId": "custom_data",
+        "summary": "Yetkili içerik bağlama kaynaklarını oku",
+        "parameters": [
+          {
+            "name": "storeId",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string"
+            },
+            "description": "Cookie istemcisinde zorunlu; Studio anahtarında kimlikten otomatik alınabilir. Farklı değer reddedilir."
+          },
+          {
+            "name": "theme",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string"
+            },
+            "description": "Cookie istemcisinde zorunlu; Studio anahtarında kimlikten otomatik alınabilir. Farklı değer reddedilir."
+          },
+          {
+            "name": "installationId",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string"
+            },
+            "description": "Cookie istemcisinde zorunlu; Studio anahtarında kimlikten otomatik alınabilir. Farklı değer reddedilir."
+          },
+          {
+            "name": "releaseId",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string"
+            },
+            "description": "Cookie istemcisinde zorunlu; Studio anahtarında kimlikten otomatik alınabilir. Farklı değer reddedilir."
+          },
+          {
+            "name": "releaseVersion",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string"
+            },
+            "description": "Cookie istemcisinde zorunlu; Studio anahtarında kimlikten otomatik alınabilir. Farklı değer reddedilir."
+          },
+          {
+            "name": "template",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "mode",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "enum": [
+                "fields",
+                "models",
+                "entries"
+              ]
+            },
+            "description": ""
+          },
+          {
+            "name": "ownerType",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string"
+            },
+            "description": ""
+          },
+          {
+            "name": "search",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string"
+            },
+            "description": ""
+          },
+          {
+            "name": "after",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string"
+            },
+            "description": ""
+          },
+          {
+            "name": "modelId",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string"
+            },
+            "description": ""
+          },
+          {
+            "name": "target",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string"
+            },
+            "description": ""
+          }
+        ],
+        "security": [
+          {
+            "StudioToken": []
+          },
+          {
+            "AccountSession": []
+          }
+        ],
+        "x-studio-permission": "studio:read",
+        "responses": {
+          "200": {
+            "description": "Seçili kimliğe bağlı native sonuç; tasarım yazmalarında exact immutable JSON onayı.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/StudioResult"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Geçersiz veya eksik kimlik/gövde"
+          },
+          "401": {
+            "description": "Geçersiz, süresi dolmuş veya iptal edilmiş anahtar"
+          },
+          "403": {
+            "description": "İzin, şablon veya kopya kapsamı reddedildi"
+          },
+          "404": {
+            "description": "Kurulum, sürüm veya kaynak bulunamadı"
+          },
+          "409": {
+            "description": "Eski revizyon veya uyumsuz geçiş; güncel belgeyi okuyup yeniden değerlendir"
+          },
+          "413": {
+            "description": "İstek boyut sınırını aştı"
+          },
+          "415": {
+            "description": "JSON veya multipart içerik türü gerekli"
+          },
+          "422": {
+            "description": "Tasarım belgesi seçili sürümün şema veya kaynak doğrulamasını geçemedi"
+          },
+          "429": {
+            "description": "Dakikada 60 istek sınırı"
+          },
+          "503": {
+            "description": "Geçici hizmet sorunu; körlemesine yayınlama tekrarı yapmayın"
+          }
+        }
+      }
+    },
+    "/templates/{template}/account-design": {
+      "get": {
+        "operationId": "account_design",
+        "summary": "Ortak hesap görünümünü oku",
+        "parameters": [
+          {
+            "name": "storeId",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string"
+            },
+            "description": "Cookie istemcisinde zorunlu; Studio anahtarında kimlikten otomatik alınabilir. Farklı değer reddedilir."
+          },
+          {
+            "name": "theme",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string"
+            },
+            "description": "Cookie istemcisinde zorunlu; Studio anahtarında kimlikten otomatik alınabilir. Farklı değer reddedilir."
+          },
+          {
+            "name": "installationId",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string"
+            },
+            "description": "Cookie istemcisinde zorunlu; Studio anahtarında kimlikten otomatik alınabilir. Farklı değer reddedilir."
+          },
+          {
+            "name": "releaseId",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string"
+            },
+            "description": "Cookie istemcisinde zorunlu; Studio anahtarında kimlikten otomatik alınabilir. Farklı değer reddedilir."
+          },
+          {
+            "name": "releaseVersion",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string"
+            },
+            "description": "Cookie istemcisinde zorunlu; Studio anahtarında kimlikten otomatik alınabilir. Farklı değer reddedilir."
+          },
+          {
+            "name": "template",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "security": [
+          {
+            "StudioToken": []
+          },
+          {
+            "AccountSession": []
+          }
+        ],
+        "x-studio-permission": "studio:read",
+        "responses": {
+          "200": {
+            "description": "Seçili kimliğe bağlı native sonuç; tasarım yazmalarında exact immutable JSON onayı.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/StudioResult"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Geçersiz veya eksik kimlik/gövde"
+          },
+          "401": {
+            "description": "Geçersiz, süresi dolmuş veya iptal edilmiş anahtar"
+          },
+          "403": {
+            "description": "İzin, şablon veya kopya kapsamı reddedildi"
+          },
+          "404": {
+            "description": "Kurulum, sürüm veya kaynak bulunamadı"
+          },
+          "409": {
+            "description": "Eski revizyon veya uyumsuz geçiş; güncel belgeyi okuyup yeniden değerlendir"
+          },
+          "413": {
+            "description": "İstek boyut sınırını aştı"
+          },
+          "415": {
+            "description": "JSON veya multipart içerik türü gerekli"
+          },
+          "422": {
+            "description": "Tasarım belgesi seçili sürümün şema veya kaynak doğrulamasını geçemedi"
+          },
+          "429": {
+            "description": "Dakikada 60 istek sınırı"
+          },
+          "503": {
+            "description": "Geçici hizmet sorunu; körlemesine yayınlama tekrarı yapmayın"
+          }
+        }
+      }
+    },
+    "/templates/{template}/account-design/draft": {
+      "put": {
+        "operationId": "save_account",
+        "summary": "Ortak hesap görünümünü taslağa kaydet",
+        "parameters": [
+          {
+            "name": "storeId",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string"
+            },
+            "description": "Cookie istemcisinde zorunlu; Studio anahtarında kimlikten otomatik alınabilir. Farklı değer reddedilir."
+          },
+          {
+            "name": "theme",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string"
+            },
+            "description": "Cookie istemcisinde zorunlu; Studio anahtarında kimlikten otomatik alınabilir. Farklı değer reddedilir."
+          },
+          {
+            "name": "installationId",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string"
+            },
+            "description": "Cookie istemcisinde zorunlu; Studio anahtarında kimlikten otomatik alınabilir. Farklı değer reddedilir."
+          },
+          {
+            "name": "releaseId",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string"
+            },
+            "description": "Cookie istemcisinde zorunlu; Studio anahtarında kimlikten otomatik alınabilir. Farklı değer reddedilir."
+          },
+          {
+            "name": "releaseVersion",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string"
+            },
+            "description": "Cookie istemcisinde zorunlu; Studio anahtarında kimlikten otomatik alınabilir. Farklı değer reddedilir."
+          },
+          {
+            "name": "template",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AccountWrite"
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "StudioToken": []
+          },
+          {
+            "AccountSession": []
+          }
+        ],
+        "x-studio-permission": "studio:account",
+        "responses": {
+          "200": {
+            "description": "Seçili kimliğe bağlı native sonuç; tasarım yazmalarında exact immutable JSON onayı.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/StudioResult"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Geçersiz veya eksik kimlik/gövde"
+          },
+          "401": {
+            "description": "Geçersiz, süresi dolmuş veya iptal edilmiş anahtar"
+          },
+          "403": {
+            "description": "İzin, şablon veya kopya kapsamı reddedildi"
+          },
+          "404": {
+            "description": "Kurulum, sürüm veya kaynak bulunamadı"
+          },
+          "409": {
+            "description": "Eski revizyon veya uyumsuz geçiş; güncel belgeyi okuyup yeniden değerlendir"
+          },
+          "413": {
+            "description": "İstek boyut sınırını aştı"
+          },
+          "415": {
+            "description": "JSON veya multipart içerik türü gerekli"
+          },
+          "422": {
+            "description": "Tasarım belgesi seçili sürümün şema veya kaynak doğrulamasını geçemedi"
+          },
+          "429": {
+            "description": "Dakikada 60 istek sınırı"
+          },
+          "503": {
+            "description": "Geçici hizmet sorunu; körlemesine yayınlama tekrarı yapmayın"
+          }
+        }
+      }
+    },
+    "/templates/{template}/account-design/publish": {
+      "post": {
+        "operationId": "publish_account",
+        "summary": "Ortak hesap görünümünü açıkça yayınla",
+        "parameters": [
+          {
+            "name": "storeId",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string"
+            },
+            "description": "Cookie istemcisinde zorunlu; Studio anahtarında kimlikten otomatik alınabilir. Farklı değer reddedilir."
+          },
+          {
+            "name": "theme",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string"
+            },
+            "description": "Cookie istemcisinde zorunlu; Studio anahtarında kimlikten otomatik alınabilir. Farklı değer reddedilir."
+          },
+          {
+            "name": "installationId",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string"
+            },
+            "description": "Cookie istemcisinde zorunlu; Studio anahtarında kimlikten otomatik alınabilir. Farklı değer reddedilir."
+          },
+          {
+            "name": "releaseId",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string"
+            },
+            "description": "Cookie istemcisinde zorunlu; Studio anahtarında kimlikten otomatik alınabilir. Farklı değer reddedilir."
+          },
+          {
+            "name": "releaseVersion",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string"
+            },
+            "description": "Cookie istemcisinde zorunlu; Studio anahtarında kimlikten otomatik alınabilir. Farklı değer reddedilir."
+          },
+          {
+            "name": "template",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AccountPublish"
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "StudioToken": []
+          },
+          {
+            "AccountSession": []
+          }
+        ],
+        "x-studio-permission": "studio:account",
+        "responses": {
+          "200": {
+            "description": "Seçili kimliğe bağlı native sonuç; tasarım yazmalarında exact immutable JSON onayı.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/StudioResult"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Geçersiz veya eksik kimlik/gövde"
+          },
+          "401": {
+            "description": "Geçersiz, süresi dolmuş veya iptal edilmiş anahtar"
+          },
+          "403": {
+            "description": "İzin, şablon veya kopya kapsamı reddedildi"
+          },
+          "404": {
+            "description": "Kurulum, sürüm veya kaynak bulunamadı"
+          },
+          "409": {
+            "description": "Eski revizyon veya uyumsuz geçiş; güncel belgeyi okuyup yeniden değerlendir"
+          },
+          "413": {
+            "description": "İstek boyut sınırını aştı"
+          },
+          "415": {
+            "description": "JSON veya multipart içerik türü gerekli"
+          },
+          "422": {
+            "description": "Tasarım belgesi seçili sürümün şema veya kaynak doğrulamasını geçemedi"
+          },
+          "429": {
+            "description": "Dakikada 60 istek sınırı"
+          },
+          "503": {
+            "description": "Geçici hizmet sorunu; körlemesine yayınlama tekrarı yapmayın"
+          }
+        }
+      }
+    },
+    "/templates/{template}/media": {
+      "post": {
+        "operationId": "media",
+        "summary": "Tek görseli native medya hizmetine yükle",
+        "parameters": [
+          {
+            "name": "storeId",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string"
+            },
+            "description": "Cookie istemcisinde zorunlu; Studio anahtarında kimlikten otomatik alınabilir. Farklı değer reddedilir."
+          },
+          {
+            "name": "theme",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string"
+            },
+            "description": "Cookie istemcisinde zorunlu; Studio anahtarında kimlikten otomatik alınabilir. Farklı değer reddedilir."
+          },
+          {
+            "name": "installationId",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string"
+            },
+            "description": "Cookie istemcisinde zorunlu; Studio anahtarında kimlikten otomatik alınabilir. Farklı değer reddedilir."
+          },
+          {
+            "name": "releaseId",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string"
+            },
+            "description": "Cookie istemcisinde zorunlu; Studio anahtarında kimlikten otomatik alınabilir. Farklı değer reddedilir."
+          },
+          {
+            "name": "releaseVersion",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string"
+            },
+            "description": "Cookie istemcisinde zorunlu; Studio anahtarında kimlikten otomatik alınabilir. Farklı değer reddedilir."
+          },
+          {
+            "name": "template",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "multipart/form-data": {
+              "schema": {
+                "$ref": "#/components/schemas/MediaUpload"
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "StudioToken": []
+          },
+          {
+            "AccountSession": []
+          }
+        ],
+        "x-studio-permission": "studio:media",
+        "responses": {
+          "201": {
+            "description": "Seçili kimliğe bağlı native sonuç; tasarım yazmalarında exact immutable JSON onayı.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/MediaResult"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Geçersiz veya eksik kimlik/gövde"
+          },
+          "401": {
+            "description": "Geçersiz, süresi dolmuş veya iptal edilmiş anahtar"
+          },
+          "403": {
+            "description": "İzin, şablon veya kopya kapsamı reddedildi"
+          },
+          "404": {
+            "description": "Kurulum, sürüm veya kaynak bulunamadı"
+          },
+          "409": {
+            "description": "Eski revizyon veya uyumsuz geçiş; güncel belgeyi okuyup yeniden değerlendir"
+          },
+          "413": {
+            "description": "İstek boyut sınırını aştı"
+          },
+          "415": {
+            "description": "JSON veya multipart içerik türü gerekli"
+          },
+          "422": {
+            "description": "Tasarım belgesi seçili sürümün şema veya kaynak doğrulamasını geçemedi"
+          },
+          "429": {
+            "description": "Dakikada 60 istek sınırı"
+          },
+          "503": {
+            "description": "Geçici hizmet sorunu; körlemesine yayınlama tekrarı yapmayın"
+          }
+        }
+      }
+    },
+    "/preview": {
+      "post": {
+        "operationId": "preview",
+        "summary": "Seçili kurulum için korunan önizleme oturumu",
+        "parameters": [
+          {
+            "name": "storeId",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string"
+            },
+            "description": "Cookie istemcisinde zorunlu; Studio anahtarında kimlikten otomatik alınabilir. Farklı değer reddedilir."
+          },
+          {
+            "name": "theme",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string"
+            },
+            "description": "Cookie istemcisinde zorunlu; Studio anahtarında kimlikten otomatik alınabilir. Farklı değer reddedilir."
+          },
+          {
+            "name": "installationId",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string"
+            },
+            "description": "Cookie istemcisinde zorunlu; Studio anahtarında kimlikten otomatik alınabilir. Farklı değer reddedilir."
+          },
+          {
+            "name": "releaseId",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string"
+            },
+            "description": "Cookie istemcisinde zorunlu; Studio anahtarında kimlikten otomatik alınabilir. Farklı değer reddedilir."
+          },
+          {
+            "name": "releaseVersion",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string"
+            },
+            "description": "Cookie istemcisinde zorunlu; Studio anahtarında kimlikten otomatik alınabilir. Farklı değer reddedilir."
+          }
+        ],
+        "requestBody": {
+          "required": false,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Preview"
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "StudioToken": []
+          },
+          {
+            "AccountSession": []
+          }
+        ],
+        "x-studio-permission": "studio:read",
+        "responses": {
+          "200": {
+            "description": "Aynı native önizleme oturumu yeniden kullanıldı.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PreviewResult"
+                }
+              }
+            }
+          },
+          "201": {
+            "description": "Korunan native önizleme oturumu oluşturuldu; bu yayın değildir.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PreviewResult"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Geçersiz veya eksik kimlik/gövde"
+          },
+          "401": {
+            "description": "Geçersiz, süresi dolmuş veya iptal edilmiş anahtar"
+          },
+          "403": {
+            "description": "İzin, şablon veya kopya kapsamı reddedildi"
+          },
+          "404": {
+            "description": "Kurulum, sürüm veya kaynak bulunamadı"
+          },
+          "409": {
+            "description": "Eski revizyon veya uyumsuz geçiş; güncel belgeyi okuyup yeniden değerlendir"
+          },
+          "413": {
+            "description": "İstek boyut sınırını aştı"
+          },
+          "415": {
+            "description": "JSON veya multipart içerik türü gerekli"
+          },
+          "422": {
+            "description": "Tasarım belgesi seçili sürümün şema veya kaynak doğrulamasını geçemedi"
+          },
+          "429": {
+            "description": "Dakikada 60 istek sınırı"
+          },
+          "503": {
+            "description": "Geçici hizmet sorunu; körlemesine yayınlama tekrarı yapmayın"
+          }
+        }
+      }
+    },
+    "/tokens": {
+      "get": {
+        "operationId": "listTokens",
+        "parameters": [
+          {
+            "name": "storeId",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string"
+            },
+            "description": "Cookie istemcisinde zorunlu; Studio anahtarında kimlikten otomatik alınabilir. Farklı değer reddedilir."
+          },
+          {
+            "name": "theme",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string"
+            },
+            "description": "Cookie istemcisinde zorunlu; Studio anahtarında kimlikten otomatik alınabilir. Farklı değer reddedilir."
+          },
+          {
+            "name": "installationId",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string"
+            },
+            "description": "Cookie istemcisinde zorunlu; Studio anahtarında kimlikten otomatik alınabilir. Farklı değer reddedilir."
+          },
+          {
+            "name": "releaseId",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string"
+            },
+            "description": "Cookie istemcisinde zorunlu; Studio anahtarında kimlikten otomatik alınabilir. Farklı değer reddedilir."
+          },
+          {
+            "name": "releaseVersion",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string"
+            },
+            "description": "Cookie istemcisinde zorunlu; Studio anahtarında kimlikten otomatik alınabilir. Farklı değer reddedilir."
+          }
+        ],
+        "summary": "Hesap oturumuyla kendi API anahtarlarını listele",
+        "security": [
+          {
+            "AccountSession": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Anahtar metadatası; sır değerleri dönmez"
+          }
+        }
+      },
+      "post": {
+        "operationId": "createToken",
+        "summary": "Hesap oturumuyla seçili sürüme API anahtarı oluştur",
+        "security": [
+          {
+            "AccountSession": []
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/TokenCreate"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Anahtar sırrı yalnız bu yanıtta görünür"
+          },
+          "403": {
+            "description": "Studio anahtarı başka anahtar üretemez"
+          }
+        }
+      }
+    },
+    "/tokens/{tokenId}": {
+      "delete": {
+        "operationId": "revokeToken",
+        "summary": "Hesap oturumuyla kendi anahtarını iptal et",
+        "security": [
+          {
+            "AccountSession": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "tokenId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Anahtar iptal edildi"
+          }
+        }
+      }
+    },
+    "/sites": {
+      "get": {
+        "operationId": "sites",
+        "summary": "Hesabın London çalışma alanlarını veya anahtarın tek kapsamını oku",
+        "security": [
+          {
+            "StudioToken": []
+          },
+          {
+            "AccountSession": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Yetkili London envanteri; Studio anahtarında yalnız bağlı kimlik"
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "securitySchemes": {
+      "StudioToken": {
+        "type": "http",
+        "scheme": "bearer",
+        "bearerFormat": "shpst_<64 hex>",
+        "description": "Studio API panelinden oluşturulan, kapsamı ve süresi belirlenmiş anahtar. Front/Admin anahtarları kabul edilmez."
+      },
+      "AccountSession": {
+        "type": "apiKey",
+        "in": "cookie",
+        "name": "myshopiyz_account_session_v2",
+        "description": "Yalnız Studio/Accounts tarayıcı oturumu; anahtar yönetimi için kullanılır."
+      }
+    },
+    "schemas": {
+      "StudioIdentity": {
+        "type": "object",
+        "required": [
+          "storeId",
+          "theme",
+          "installationId",
+          "releaseId",
+          "releaseVersion"
+        ],
+        "properties": {
+          "storeId": {
+            "type": "string"
+          },
+          "theme": {
+            "type": "string"
+          },
+          "installationId": {
+            "type": "string"
+          },
+          "releaseId": {
+            "type": "string"
+          },
+          "releaseVersion": {
+            "type": "string"
+          }
+        },
+        "additionalProperties": true
+      },
+      "DesignJsonScope": {
+        "type": "object",
+        "required": [
+          "storeId",
+          "installationId",
+          "themeId",
+          "releaseId",
+          "releaseVersion"
+        ],
+        "properties": {
+          "storeId": {
+            "type": "string"
+          },
+          "installationId": {
+            "type": "string"
+          },
+          "themeId": {
+            "type": "string"
+          },
+          "releaseId": {
+            "type": "string"
+          },
+          "releaseVersion": {
+            "type": "string"
+          }
+        },
+        "additionalProperties": false
+      },
+      "DesignDocument": {
+        "type": "object",
+        "additionalProperties": true,
+        "description": "Tam belge seçili değişmez release contract.schema ile doğrulanır; başka sürümün alanlarını varsaymayın.",
+        "properties": {
+          "schemaVersion": {
+            "type": "string"
+          },
+          "themeId": {
+            "type": "string"
+          },
+          "themeVersion": {
+            "type": "string"
+          },
+          "template": {
+            "type": "string"
+          },
+          "settings": {
+            "type": "object",
+            "additionalProperties": true
+          },
+          "sections": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "additionalProperties": true
+            }
+          }
+        }
+      },
+      "DesignRevision": {
+        "type": "object",
+        "required": [
+          "id",
+          "revision",
+          "fingerprint",
+          "template"
+        ],
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "revision": {
+            "type": "integer",
+            "minimum": 1
+          },
+          "fingerprint": {
+            "type": "string",
+            "pattern": "^dsg_[0-9a-f]{24}$"
+          },
+          "template": {
+            "type": "string"
+          },
+          "installationId": {
+            "type": "string"
+          },
+          "releaseId": {
+            "type": "string"
+          },
+          "releaseVersion": {
+            "type": "string"
+          },
+          "state": {
+            "enum": [
+              "draft",
+              "published"
+            ]
+          },
+          "name": {
+            "type": "string"
+          },
+          "kind": {
+            "enum": [
+              "blank",
+              "campaign",
+              "copy",
+              "custom"
+            ]
+          },
+          "document": {
+            "$ref": "#/components/schemas/DesignDocument"
+          },
+          "createdAt": {
+            "type": "string"
+          },
+          "updatedAt": {
+            "type": "string"
+          },
+          "publishedAt": {
+            "type": [
+              "string",
+              "null"
+            ]
+          }
+        },
+        "additionalProperties": true
+      },
+      "JsonPersistence": {
+        "type": "object",
+        "required": [
+          "schemaVersion",
+          "atomic",
+          "scope",
+          "documents"
+        ],
+        "properties": {
+          "schemaVersion": {
+            "const": "shopiyz.theme.design-json.v1"
+          },
+          "atomic": {
+            "const": true
+          },
+          "scope": {
+            "$ref": "#/components/schemas/DesignJsonScope"
+          },
+          "documents": {
+            "type": "array",
+            "minItems": 1,
+            "items": {
+              "type": "object",
+              "required": [
+                "documentId",
+                "template",
+                "state",
+                "variantId",
+                "revision",
+                "fingerprint"
+              ],
+              "properties": {
+                "documentId": {
+                  "type": "string"
+                },
+                "template": {
+                  "type": "string"
+                },
+                "state": {
+                  "enum": [
+                    "draft",
+                    "published",
+                    "variant"
+                  ]
+                },
+                "variantId": {
+                  "type": [
+                    "string",
+                    "null"
+                  ]
+                },
+                "revision": {
+                  "type": "integer",
+                  "minimum": 1
+                },
+                "fingerprint": {
+                  "type": "string",
+                  "pattern": "^dsg_[0-9a-f]{24}$"
+                }
+              },
+              "additionalProperties": false
+            }
+          }
+        },
+        "additionalProperties": false
+      },
+      "DesignReadResult": {
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/StudioIdentity"
+          },
+          {
+            "type": "object",
+            "required": [
+              "template",
+              "draft",
+              "published",
+              "variants"
+            ],
+            "properties": {
+              "template": {
+                "type": "string"
+              },
+              "draft": {
+                "oneOf": [
+                  {
+                    "$ref": "#/components/schemas/DesignRevision"
+                  },
+                  {
+                    "type": "null"
+                  }
+                ]
+              },
+              "published": {
+                "oneOf": [
+                  {
+                    "$ref": "#/components/schemas/DesignRevision"
+                  },
+                  {
+                    "type": "null"
+                  }
+                ]
+              },
+              "variants": {
+                "type": "array",
+                "items": {
+                  "$ref": "#/components/schemas/DesignRevision"
+                }
+              },
+              "globals": {
+                "type": "object",
+                "additionalProperties": true
+              },
+              "library": {
+                "type": "object",
+                "additionalProperties": true
+              },
+              "branding": {
+                "type": "object",
+                "additionalProperties": true
+              }
+            },
+            "additionalProperties": true
+          }
+        ]
+      },
+      "DesignOpenResult": {
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/StudioIdentity"
+          },
+          {
+            "type": "object",
+            "required": [
+              "template",
+              "ok",
+              "action",
+              "design"
+            ],
+            "properties": {
+              "template": {
+                "type": "string"
+              },
+              "ok": {
+                "const": true
+              },
+              "action": {
+                "type": "string"
+              },
+              "design": {
+                "$ref": "#/components/schemas/DesignRevision"
+              }
+            },
+            "additionalProperties": true
+          }
+        ]
+      },
+      "DesignWriteResult": {
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/StudioIdentity"
+          },
+          {
+            "type": "object",
+            "required": [
+              "template",
+              "ok",
+              "action",
+              "design",
+              "jsonPersistence"
+            ],
+            "properties": {
+              "template": {
+                "type": "string"
+              },
+              "ok": {
+                "const": true
+              },
+              "action": {
+                "type": "string"
+              },
+              "design": {
+                "$ref": "#/components/schemas/DesignRevision"
+              },
+              "jsonPersistence": {
+                "$ref": "#/components/schemas/JsonPersistence"
+              }
+            },
+            "additionalProperties": true
+          }
+        ]
+      },
+      "PublishAllResult": {
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/StudioIdentity"
+          },
+          {
+            "type": "object",
+            "required": [
+              "ok",
+              "action",
+              "atomic",
+              "published",
+              "initialized",
+              "jsonPersistence"
+            ],
+            "properties": {
+              "ok": {
+                "const": true
+              },
+              "action": {
+                "const": "publish_all"
+              },
+              "atomic": {
+                "const": true
+              },
+              "published": {
+                "type": "array",
+                "items": {
+                  "$ref": "#/components/schemas/DesignRevision"
+                }
+              },
+              "initialized": {
+                "type": "array",
+                "items": {
+                  "$ref": "#/components/schemas/DesignRevision"
+                }
+              },
+              "jsonPersistence": {
+                "$ref": "#/components/schemas/JsonPersistence"
+              }
+            },
+            "additionalProperties": true
+          }
+        ]
+      },
+      "HistoryResult": {
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/StudioIdentity"
+          },
+          {
+            "type": "object",
+            "required": [
+              "template",
+              "history",
+              "draft",
+              "published"
+            ],
+            "properties": {
+              "template": {
+                "type": "string"
+              },
+              "history": {
+                "type": "array",
+                "items": {
+                  "$ref": "#/components/schemas/DesignRevision"
+                }
+              },
+              "draft": {
+                "oneOf": [
+                  {
+                    "$ref": "#/components/schemas/DesignRevision"
+                  },
+                  {
+                    "type": "null"
+                  }
+                ]
+              },
+              "published": {
+                "oneOf": [
+                  {
+                    "$ref": "#/components/schemas/DesignRevision"
+                  },
+                  {
+                    "type": "null"
+                  }
+                ]
+              }
+            },
+            "additionalProperties": true
+          }
+        ]
+      },
+      "SnapshotResult": {
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/StudioIdentity"
+          },
+          {
+            "type": "object",
+            "required": [
+              "template",
+              "history"
+            ],
+            "properties": {
+              "template": {
+                "type": "string"
+              },
+              "history": {
+                "$ref": "#/components/schemas/DesignRevision"
+              }
+            },
+            "additionalProperties": true
+          }
+        ]
+      },
+      "CopyListResult": {
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/StudioIdentity"
+          },
+          {
+            "type": "object",
+            "required": [
+              "template",
+              "copies"
+            ],
+            "properties": {
+              "template": {
+                "type": "string"
+              },
+              "copies": {
+                "type": "array",
+                "items": {
+                  "$ref": "#/components/schemas/DesignRevision"
+                }
+              }
+            },
+            "additionalProperties": true
+          }
+        ]
+      },
+      "ContractResult": {
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/StudioIdentity"
+          },
+          {
+            "type": "object",
+            "required": [
+              "generation",
+              "contract",
+              "sources"
+            ],
+            "properties": {
+              "generation": {
+                "type": "integer",
+                "minimum": 0
+              },
+              "contract": {
+                "type": "object",
+                "required": [
+                  "identity",
+                  "schema",
+                  "defaults"
+                ],
+                "properties": {
+                  "identity": {
+                    "type": "string"
+                  },
+                  "schema": {
+                    "type": "object",
+                    "additionalProperties": true
+                  },
+                  "defaults": {
+                    "type": "object",
+                    "additionalProperties": true
+                  }
+                },
+                "additionalProperties": true
+              },
+              "sources": {
+                "type": "object",
+                "additionalProperties": true
+              }
+            },
+            "additionalProperties": true
+          }
+        ]
+      },
+      "WorkspaceResult": {
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/ContractResult"
+          },
+          {
+            "type": "object",
+            "required": [
+              "workspace"
+            ],
+            "properties": {
+              "workspace": {
+                "type": "object",
+                "required": [
+                  "schemaVersion",
+                  "scope",
+                  "templates",
+                  "variants"
+                ],
+                "properties": {
+                  "schemaVersion": {
+                    "const": "shopiyz.theme.design-json-workspace.v1"
+                  },
+                  "scope": {
+                    "$ref": "#/components/schemas/DesignJsonScope"
+                  },
+                  "templates": {
+                    "type": "object",
+                    "additionalProperties": true
+                  },
+                  "variants": {
+                    "type": "object",
+                    "additionalProperties": true
+                  }
+                },
+                "additionalProperties": true
+              }
+            }
+          }
+        ]
+      },
+      "JsonDocumentResult": {
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/StudioIdentity"
+          },
+          {
+            "type": "object",
+            "required": [
+              "template",
+              "jsonDocument"
+            ],
+            "properties": {
+              "template": {
+                "type": "string"
+              },
+              "jsonDocument": {
+                "type": "object",
+                "required": [
+                  "schemaVersion",
+                  "scope",
+                  "documentId",
+                  "template",
+                  "state",
+                  "variantId",
+                  "revision",
+                  "fingerprint",
+                  "design"
+                ],
+                "properties": {
+                  "schemaVersion": {
+                    "const": "shopiyz.theme.design-json.v1"
+                  },
+                  "scope": {
+                    "$ref": "#/components/schemas/DesignJsonScope"
+                  },
+                  "documentId": {
+                    "type": "string"
+                  },
+                  "template": {
+                    "type": "string"
+                  },
+                  "state": {
+                    "enum": [
+                      "draft",
+                      "published",
+                      "variant"
+                    ]
+                  },
+                  "variantId": {
+                    "type": [
+                      "string",
+                      "null"
+                    ]
+                  },
+                  "revision": {
+                    "type": "integer",
+                    "minimum": 1
+                  },
+                  "fingerprint": {
+                    "type": "string",
+                    "pattern": "^dsg_[0-9a-f]{24}$"
+                  },
+                  "design": {
+                    "$ref": "#/components/schemas/DesignDocument"
+                  }
+                },
+                "additionalProperties": true
+              }
+            },
+            "additionalProperties": true
+          }
+        ]
+      },
+      "DeliveryResult": {
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/StudioIdentity"
+          },
+          {
+            "type": "object",
+            "required": [
+              "template",
+              "delivery"
+            ],
+            "properties": {
+              "template": {
+                "const": "home"
+              },
+              "delivery": {
+                "type": "object",
+                "required": [
+                  "state"
+                ],
+                "properties": {
+                  "state": {
+                    "enum": [
+                      "live",
+                      "pending",
+                      "superseded",
+                      "unavailable",
+                      "unsupported"
+                    ],
+                    "description": "live yalnız exact istenen revizyonun doğrulanmış mağaza origininde teslim edildiğini belirtir. Kalıcılık onayı veya deployment sonucu değildir."
+                  }
+                },
+                "additionalProperties": false
+              }
+            },
+            "additionalProperties": true
+          }
+        ]
+      },
+      "PreviewResult": {
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/StudioIdentity"
+          },
+          {
+            "type": "object",
+            "required": [
+              "previewUrl",
+              "previewOrigin",
+              "expiresAt",
+              "runtime"
+            ],
+            "properties": {
+              "previewUrl": {
+                "type": "string",
+                "format": "uri",
+                "description": "Kısa ömürlü korunan oturum URL’si; gizli erişim bilgisi gibi saklayın, loglamayın."
+              },
+              "previewOrigin": {
+                "type": "string",
+                "format": "uri"
+              },
+              "expiresAt": {
+                "type": "string"
+              },
+              "runtime": {
+                "type": "object",
+                "additionalProperties": true
+              }
+            },
+            "additionalProperties": true
+          }
+        ]
+      },
+      "MediaResult": {
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/StudioIdentity"
+          },
+          {
+            "type": "object",
+            "required": [
+              "template",
+              "resource"
+            ],
+            "properties": {
+              "template": {
+                "type": "string"
+              },
+              "resource": {
+                "type": "object",
+                "required": [
+                  "id",
+                  "value",
+                  "label",
+                  "url",
+                  "mimeType"
+                ],
+                "properties": {
+                  "id": {
+                    "type": "string"
+                  },
+                  "value": {
+                    "type": "string"
+                  },
+                  "label": {
+                    "type": "string"
+                  },
+                  "url": {
+                    "type": "string",
+                    "format": "uri"
+                  },
+                  "mimeType": {
+                    "type": "string"
+                  }
+                },
+                "additionalProperties": false
+              }
+            },
+            "additionalProperties": true
+          }
+        ]
+      },
+      "DesignWrite": {
+        "type": "object",
+        "required": [
+          "expectedRevision",
+          "document"
+        ],
+        "properties": {
+          "expectedRevision": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 1000000000
+          },
+          "document": {
+            "type": "object",
+            "description": "GET design/contract ile alınan tam native belge. schemaVersion/themeId/themeVersion/template kimliğini koruyun. settings, sections[].props/blocks/bindings şemaya göre düzenlenebilir.",
+            "additionalProperties": true
+          },
+          "name": {
+            "type": "string",
+            "maxLength": 80
+          },
+          "kind": {
+            "enum": [
+              "blank",
+              "campaign",
+              "copy",
+              "custom"
+            ]
+          }
+        },
+        "additionalProperties": false
+      },
+      "CopyWrite": {
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/DesignWrite"
+          },
+          {
+            "required": [
+              "name",
+              "kind"
+            ]
+          }
+        ]
+      },
+      "Publish": {
+        "type": "object",
+        "required": [
+          "expectedRevision",
+          "expectedDraftRevision",
+          "expectedBrandUpdatedAt",
+          "confirmPublish"
+        ],
+        "properties": {
+          "expectedRevision": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 1000000000
+          },
+          "expectedDraftRevision": {
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 1000000000
+          },
+          "expectedBrandUpdatedAt": {
+            "type": "string"
+          },
+          "document": {
+            "type": "object",
+            "description": "GET design/contract ile alınan tam native belge. schemaVersion/themeId/themeVersion/template kimliğini koruyun. settings, sections[].props/blocks/bindings şemaya göre düzenlenebilir.",
+            "additionalProperties": true
+          },
+          "confirmPublish": {
+            "const": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "CopyRevision": {
+        "type": "object",
+        "required": [
+          "variantRevision",
+          "variantFingerprint"
+        ],
+        "properties": {
+          "variantRevision": {
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 1000000000
+          },
+          "variantFingerprint": {
+            "type": "string",
+            "pattern": "^dsg_[0-9a-f]{24}$"
+          },
+          "expectedRevision": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 1000000000
+          }
+        }
+      },
+      "CopyApply": {
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/CopyRevision"
+          },
+          {
+            "required": [
+              "expectedRevision"
+            ]
+          }
+        ]
+      },
+      "HistoryRestore": {
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/HistoryOperation"
+          },
+          {
+            "required": [
+              "historyRevision",
+              "historyFingerprint"
+            ]
+          }
+        ]
+      },
+      "HistoryPreflight": {
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/HistoryOperation"
+          },
+          {
+            "required": [
+              "historyId",
+              "historyRevision",
+              "historyFingerprint"
+            ]
+          }
+        ]
+      },
+      "HistoryCarryDraft": {
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/HistoryPreflight"
+          },
+          {
+            "required": [
+              "compatibilityFingerprint"
+            ]
+          }
+        ]
+      },
+      "HistoryCarryCopy": {
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/HistoryOperation"
+          },
+          {
+            "required": [
+              "variantId",
+              "variantRevision",
+              "variantFingerprint",
+              "targetVariantId"
+            ]
+          }
+        ]
+      },
+      "HistoryOperation": {
+        "type": "object",
+        "required": [
+          "expectedRevision"
+        ],
+        "properties": {
+          "expectedRevision": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 1000000000
+          },
+          "historyId": {
+            "type": "string"
+          },
+          "historyRevision": {
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 1000000000
+          },
+          "historyFingerprint": {
+            "type": "string"
+          },
+          "compatibilityFingerprint": {
+            "type": "string"
+          },
+          "variantId": {
+            "type": "string"
+          },
+          "variantRevision": {
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 1000000000
+          },
+          "variantFingerprint": {
+            "type": "string"
+          },
+          "targetVariantId": {
+            "type": "string"
+          }
+        }
+      },
+      "PublishAll": {
+        "type": "object",
+        "required": [
+          "templates",
+          "expectedBrandUpdatedAt",
+          "confirmPublish"
+        ],
+        "properties": {
+          "templates": {
+            "type": "object",
+            "description": "Tüm şablonların draft/published tam CAS haritası; Studio yayın sözleşmesi ile aynı yapı.",
+            "additionalProperties": {
+              "$ref": "#/components/schemas/PublishTemplateCAS"
+            }
+          },
+          "expectedBrandUpdatedAt": {
+            "type": "string"
+          },
+          "confirmPublish": {
+            "const": true
+          }
+        }
+      },
+      "PublishTemplateCAS": {
+        "oneOf": [
+          {
+            "type": "object",
+            "required": [
+              "draftRevision",
+              "draftFingerprint",
+              "publishedRevision",
+              "publishedFingerprint"
+            ],
+            "properties": {
+              "draftRevision": {
+                "type": "integer",
+                "minimum": 1,
+                "maximum": 1000000000
+              },
+              "draftFingerprint": {
+                "type": "string",
+                "pattern": "^dsg_[0-9a-f]{24}$"
+              },
+              "publishedRevision": {
+                "type": "integer",
+                "minimum": 0,
+                "maximum": 1000000000
+              },
+              "publishedFingerprint": {
+                "type": [
+                  "string",
+                  "null"
+                ]
+              }
+            },
+            "additionalProperties": false
+          },
+          {
+            "type": "object",
+            "required": [
+              "draftRevision",
+              "draftFingerprint",
+              "publishedRevision",
+              "publishedFingerprint",
+              "initializeDefault"
+            ],
+            "properties": {
+              "draftRevision": {
+                "const": 0
+              },
+              "draftFingerprint": {
+                "type": "null"
+              },
+              "publishedRevision": {
+                "const": 0
+              },
+              "publishedFingerprint": {
+                "type": "null"
+              },
+              "initializeDefault": {
+                "const": true
+              }
+            },
+            "additionalProperties": false
+          }
+        ]
+      },
+      "MenuWrite": {
+        "type": "object",
+        "required": [
+          "title",
+          "items"
+        ],
+        "properties": {
+          "menuId": {
+            "type": "string",
+            "description": "Oluştururken stm_ + 32 hex; güncellemede URL kimliği kullanılır."
+          },
+          "title": {
+            "type": "string",
+            "minLength": 2,
+            "maxLength": 120
+          },
+          "expectedUpdatedAt": {
+            "type": "string"
+          },
+          "items": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "additionalProperties": true
+            }
+          }
+        }
+      },
+      "MenuUpdate": {
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/MenuWrite"
+          },
+          {
+            "required": [
+              "expectedUpdatedAt"
+            ]
+          }
+        ]
+      },
+      "AccountPublish": {
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/AccountWrite"
+          },
+          {
+            "required": [
+              "confirmPublish"
+            ]
+          }
+        ]
+      },
+      "AccountWrite": {
+        "type": "object",
+        "required": [
+          "expectedRevision"
+        ],
+        "properties": {
+          "expectedRevision": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 1000000000
+          },
+          "design": {
+            "type": "object"
+          },
+          "css": {
+            "type": "string"
+          },
+          "confirmPublish": {
+            "const": true
+          }
+        }
+      },
+      "MediaUpload": {
+        "type": "object",
+        "required": [
+          "files",
+          "storeId",
+          "theme",
+          "installationId",
+          "releaseId",
+          "releaseVersion",
+          "template"
+        ],
+        "properties": {
+          "files": {
+            "type": "string",
+            "format": "binary",
+            "description": "Tek native desteklenen raster görsel; en fazla 20 MB."
+          },
+          "storeId": {
+            "type": "string"
+          },
+          "theme": {
+            "type": "string"
+          },
+          "installationId": {
+            "type": "string"
+          },
+          "releaseId": {
+            "type": "string"
+          },
+          "releaseVersion": {
+            "type": "string"
+          },
+          "template": {
+            "type": "string"
+          }
+        }
+      },
+      "Preview": {
+        "type": "object",
+        "properties": {
+          "idempotencyKey": {
+            "type": "string"
+          }
+        }
+      },
+      "TokenCreate": {
+        "type": "object",
+        "required": [
+          "name",
+          "storeId",
+          "theme",
+          "installationId",
+          "releaseId",
+          "releaseVersion"
+        ],
+        "properties": {
+          "name": {
+            "type": "string",
+            "maxLength": 80
+          },
+          "expiresInDays": {
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 90,
+            "default": 30
+          },
+          "templates": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "variantId": {
+            "type": "string"
+          },
+          "scopes": {
+            "type": "array",
+            "items": {
+              "enum": [
+                "studio:read",
+                "studio:write",
+                "studio:publish",
+                "studio:menus",
+                "studio:media",
+                "studio:account",
+                "studio:migrate"
+              ]
+            },
+            "default": [
+              "studio:read"
+            ]
+          },
+          "storeId": {
+            "type": "string"
+          },
+          "theme": {
+            "type": "string"
+          },
+          "installationId": {
+            "type": "string"
+          },
+          "releaseId": {
+            "type": "string"
+          },
+          "releaseVersion": {
+            "type": "string"
+          }
+        }
+      },
+      "StudioResult": {
+        "type": "object",
+        "properties": {
+          "ok": {
+            "type": "boolean"
+          },
+          "storeId": {
+            "type": "string"
+          },
+          "theme": {
+            "type": "string"
+          },
+          "installationId": {
+            "type": "string"
+          },
+          "releaseId": {
+            "type": "string"
+          },
+          "releaseVersion": {
+            "type": "string"
+          },
+          "template": {
+            "type": "string"
+          },
+          "design": {
+            "type": "object",
+            "description": "GET design/contract ile alınan tam native belge. schemaVersion/themeId/themeVersion/template kimliğini koruyun. settings, sections[].props/blocks/bindings şemaya göre düzenlenebilir.",
+            "additionalProperties": true
+          },
+          "jsonPersistence": {
+            "type": "object",
+            "description": "Atomik immutable JSON revizyon onayı; scope ve documents[].documentId/revision/fingerprint tam eşleşmelidir."
+          }
+        },
+        "additionalProperties": true
+      }
+    }
+  }
+}

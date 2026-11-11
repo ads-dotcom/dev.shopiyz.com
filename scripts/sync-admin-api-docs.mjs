@@ -149,6 +149,7 @@ function standardStepUp(stepUp) {
 
 function standardIdempotency(operation) {
   if (operation.idempotencyRequired) return "required";
+  if (operation.readOnly === true) return "none";
   if (["POST", "PUT", "PATCH", "DELETE"].includes(operation.method)) return "recommended";
   return "none";
 }
@@ -2426,6 +2427,7 @@ const OPENAPI_ERROR_RESPONSES = {
     content: { "application/json": { schema: ref("RateLimitError") } },
   },
   InternalServerError: { description: "Unexpected server error.", content: { "application/json": { schema: ref("AdminApiError") } } },
+  NotImplemented: { description: "This registered operation is not implemented and returns 501. No successful runtime contract is available.", content: { "application/json": { schema: ref("AdminApiError") } } },
 };
 
 const operationErrorResponseRefs = [
@@ -2440,6 +2442,9 @@ const operationErrorResponseRefs = [
 ];
 
 function requiredScopesFor(operation) {
+  if (Array.isArray(operation.requiredScopeAlternatives)) {
+    return Array.isArray(operation.requiredScopes) ? operation.requiredScopes : operation.requiredScopeAlternatives.filter(group => group.length === 1).flat();
+  }
   if (Array.isArray(operation.requiredScopes) && operation.requiredScopes.length) return operation.requiredScopes;
   return operation.method === "GET" ? ["admin:read", "admin:write"] : ["admin:write"];
 }
@@ -2787,10 +2792,49 @@ function classify(operation) {
   return majorSections.find((section) => section.match(details)) || majorSections.at(-1);
 }
 
-function normalizeOperation(operation, usedOperationIds) {
+function scopeAlternativesFor(operation) {
+  const groups = operation.requiredScopeAlternatives ?? operation.scopeAlternatives;
+  if (groups === undefined) return undefined;
+  if (!Array.isArray(groups) || !groups.length || groups.some(group => !Array.isArray(group) || !group.length
+    || group.some(scope => typeof scope !== "string" || !scope.trim()))) throw new Error("Invalid Native scope alternatives");
+  return groups.map(group => [...group]);
+}
+
+export function scopeRequirementText(operation) {
+  const groups = operation.requiredScopeAlternatives || requiredScopesFor(operation).map(scope => [scope]);
+  return groups.map(group => group.length === 1 ? group[0] : `(${group.join(" AND ")})`).join(" OR ");
+}
+
+export function operationContractNotes(operation) {
+  const notes = [`Token scopes: ${scopeRequirementText(operation)}`];
+  if (operation.nativePermissions !== undefined) notes.push(`Native permissions (all): ${operation.nativePermissions.join(" AND ") || "none declared"}`);
+  if (operation.readOnly) notes.push(`Read-only; Idempotency-Key ${operation.idempotencyRequired ? "required" : "not required"}`);
+  else if (operation.idempotencyRequired) notes.push("Idempotency-Key required");
+  if (operation.queryParameters !== undefined) notes.push("Native query parameters: " + (operation.queryParameters.map(parameter =>
+    `${parameter.name}${parameter.required ? " (required)" : " (optional)"}${parameter.schema?.format || parameter.format ? "; " + (parameter.schema?.format || parameter.format) : ""}`).join(", ") || "none"));
+  return notes;
+}
+
+export function normalizeOperation(operation, usedOperationIds) {
+  const alternatives = scopeAlternativesFor(operation);
+  const readOnly = typeof operation.readOnly === "boolean" ? operation.readOnly
+    : typeof operation.aiSafety?.readOnly === "boolean" ? operation.aiSafety.readOnly
+      : operation.method === "GET" || operation.operationKind === "read" || operation.operationKind === "audit";
+  if (operation.nativePermissions !== undefined && (!Array.isArray(operation.nativePermissions)
+    || operation.nativePermissions.some(permission => typeof permission !== "string" || !permission.trim()))) throw new Error("Invalid Native permissions");
+  const nativeQuery = operation.queryParameters;
+  if (nativeQuery !== undefined && (!Array.isArray(nativeQuery) || nativeQuery.some(parameter => !parameter || typeof parameter.name !== "string"
+    || parameter.in !== "query" || !(parameter.schema && typeof parameter.schema === "object" || typeof parameter.type === "string")))) throw new Error("Invalid Native query parameters");
+  const existingParameters = Array.isArray(operation.parameters) ? operation.parameters : [];
+  const parameters = nativeQuery === undefined ? existingParameters : [
+    ...existingParameters.filter(parameter => parameter.in !== "query"),
+    ...nativeQuery.map(parameter => ({...parameter, required: Boolean(parameter.required),
+      schema: parameter.schema || {type: parameter.type, ...(parameter.format ? {format: parameter.format} : {})},
+      type: parameter.schema?.type || parameter.type || "string", description: parameter.description || `Canonical Native ${parameter.name}.`})),
+  ];
   const aiSafety = operation.aiSafety || {
-    safe: operation.method === "GET" && operation.risk === "R0",
-    readOnly: operation.method === "GET" || operation.operationKind === "read" || operation.operationKind === "audit",
+    safe: readOnly && operation.risk === "R0",
+    readOnly,
     requiresConfirmation: operation.method !== "GET" && operation.confirmation !== "none",
     destructive: operation.method === "DELETE" || operation.risk === "R5",
     idempotencyRequired: Boolean(operation.idempotencyRequired),
@@ -2816,7 +2860,7 @@ function normalizeOperation(operation, usedOperationIds) {
     ],
     description: operation.rateLimitDescription || "Leaky bucket throttle scoped by store + API token/app.",
   };
-  return {
+  const normalized = {
     method: operation.method,
     path: operation.path,
     fullPath: apiPath(operation.path),
@@ -2828,15 +2872,21 @@ function normalizeOperation(operation, usedOperationIds) {
     risk: operation.risk,
     confirmation: operation.confirmation,
     stepUp: operation.stepUp,
-    requiredScopes: requiredScopesFor(operation),
+    requiredScopes: requiredScopesFor({...operation, ...(alternatives ? {requiredScopeAlternatives: alternatives} : {})}),
+    ...(alternatives ? {requiredScopeAlternatives: alternatives} : {}),
+    ...(operation.nativePermissions !== undefined ? {nativePermissions: [...operation.nativePermissions]} : {}),
+    ...(nativeQuery !== undefined ? {queryParameters: nativeQuery.map(parameter => ({...parameter}))} : {}),
+    readOnly,
     implemented: operation.implemented !== false,
     executionMode: operation.executionMode || "catalogued",
     idempotencyRequired: Boolean(operation.idempotencyRequired),
     previewRequired: Boolean(operation.previewRequired),
     rollbackSupported: Boolean(operation.rollbackSupported),
-    parameters: Array.isArray(operation.parameters) ? operation.parameters : [],
+    parameters,
     requestSchemaRef: operation.requestSchemaRef || null,
     responseSchemaRef: operation.responseSchemaRef || "#/components/schemas/AdminApiResponse",
+    successStatus: operation.successStatus,
+    successStatuses: operation.successStatuses,
     examples: operation.examples || undefined,
     errorCodes: Array.isArray(operation.errorCodes) ? operation.errorCodes : ["400", "401", "403", "404", "409", "422", "429", "500"],
     requiredHeaders: Array.isArray(operation.requiredHeaders) ? operation.requiredHeaders : [],
@@ -2849,6 +2899,7 @@ function normalizeOperation(operation, usedOperationIds) {
     rateLimitHeaders: Array.isArray(operation.rateLimitHeaders) && operation.rateLimitHeaders.length ? operation.rateLimitHeaders : throttlePolicy.headers || [],
     rateLimitDescription: operation.rateLimitDescription || throttlePolicy.description || "Leaky bucket throttle scoped by store + API token/app.",
   };
+  return {...normalized, contractNotes: operationContractNotes(normalized)};
 }
 
 function buildDocSections(operations) {
@@ -3108,6 +3159,9 @@ function renderGeneratedRenderingBlock() {
               const method = createTextElement("span", "method-badge", operation.method);
               const operationPath = createTextElement("code", "operation-path", operation.fullPath);
               const label = createTextElement("span", "operation-label", operation.summary || operation.operationId);
+              const contract = createTextElement("small", "operation-contract", operation.contractNotes.join(" · "));
+              contract.style.display = "block";
+              label.append(contract);
               row.append(method, operationPath, label);
               operationList.append(row);
             }
@@ -3256,10 +3310,16 @@ function schemaNoteFor(operation) {
   return notes.length ? notes.join(" ") : "";
 }
 
-function successStatusFor(operation) {
-  if (String(operation.path || "").includes("preview")) return "200";
-  if (operation.method === "POST") return "201";
-  return "200";
+export function successStatusesFor(operation) {
+  if (operation.implemented === false) return [];
+  const explicit = Array.isArray(operation.successStatuses)
+    ? operation.successStatuses.filter(status => Number.isInteger(status) && status >= 200 && status < 300).map(String)
+    : [];
+  if (explicit.length) return [...new Set(explicit)];
+  if (Number.isInteger(operation.successStatus) && operation.successStatus >= 200 && operation.successStatus < 300) return [String(operation.successStatus)];
+  // OpenAPI3.1 Responses Object permits2XX. A POST alone proves neither
+  // Created nor a particular action status; verified metadata takes precedence.
+  return [operation.method === "POST" ? "2XX" : "200"];
 }
 
 function renderContentExamples(lines, examples, indent = 14) {
@@ -3274,7 +3334,9 @@ function renderContentExamples(lines, examples, indent = 14) {
 
 function renderResponse(lines, status, schemaRef, example) {
   lines.push(`        "${status}":`);
-  lines.push("          description: Successful response");
+  lines.push(status === "2XX"
+    ? "          description: Successful response; exact status is not yet verified."
+    : "          description: Successful response");
   lines.push("          headers:");
   for (const [name, component] of successRateLimitHeaderRefs) {
     lines.push(`            ${name}:`);
@@ -3293,12 +3355,13 @@ function renderParameter(lines, parameter) {
   lines.push(`          required: ${parameter.required ? "true" : "false"}`);
   lines.push(`          description: ${yamlString(parameter.description || "")}`);
   lines.push("          schema:");
-  lines.push(`            type: ${yamlString(parameter.type || "string")}`);
-  if (Array.isArray(parameter.enum) && parameter.enum.length) {
+  if (parameter.schema) lines.push(...yamlValue(parameter.schema, 12));
+  else lines.push(`            type: ${yamlString(parameter.type || "string")}`);
+  if (!parameter.schema && Array.isArray(parameter.enum) && parameter.enum.length) {
     lines.push("            enum:");
     lines.push(yamlList(parameter.enum, "              "));
   }
-  if (parameter.default !== undefined) lines.push(`            default: ${yamlScalar(parameter.default)}`);
+  if (!parameter.schema && parameter.default !== undefined) lines.push(`            default: ${yamlScalar(parameter.default)}`);
   if (parameter.example !== undefined) lines.push(`          example: ${yamlScalar(parameter.example)}`);
 }
 
@@ -3344,7 +3407,7 @@ function operationParameters(operation) {
   });
 }
 
-function renderOpenApiOperation(operation, tagName) {
+export function renderOpenApiOperation(operation, tagName) {
   const lines = [];
   lines.push(`    ${operation.method.toLowerCase()}:`);
   lines.push(`      operationId: ${yamlString(operation.operationId)}`);
@@ -3358,6 +3421,13 @@ function renderOpenApiOperation(operation, tagName) {
   lines.push(`      x-shopiyz-confirmation: ${yamlString(operation.confirmation)}`);
   lines.push(`      x-shopiyz-step-up: ${yamlString(operation.stepUp)}`);
   lines.push(`      x-shopiyz-operation-kind: ${yamlString(operation.operationKind)}`);
+  lines.push(`      x-shopiyz-read-only: ${operation.readOnly ? "true" : "false"}`);
+  if (operation.requiredScopeAlternatives) {
+    lines.push(`      x-shopiyz-scope-alternatives: ${JSON.stringify(operation.requiredScopeAlternatives)}`);
+    lines.push('      x-shopiyz-scope-matching: "any group, all scopes within that group"');
+  }
+  if (operation.nativePermissions !== undefined) lines.push(`      x-shopiyz-native-permissions: ${JSON.stringify(operation.nativePermissions)}`);
+  if (operation.queryParameters !== undefined) lines.push(`      x-shopiyz-native-query-parameters: ${JSON.stringify(operation.queryParameters)}`);
   lines.push(`      x-shopiyz-rate-limit-group: ${yamlString(operation.rateLimitGroup || operation.throttlePolicy?.group || "admin_api_global")}`);
   lines.push(`      x-shopiyz-rate-limit-cost: ${Number(operation.rateLimitCost || operation.throttlePolicy?.cost || 1)}`);
   lines.push(`      x-shopiyz-rate-limit-bucket: ${Number(operation.throttlePolicy?.bucketSize || 40)}`);
@@ -3387,8 +3457,9 @@ function renderOpenApiOperation(operation, tagName) {
   lines.push(`      x-rollback-supported: ${operation.rollbackSupported ? "true" : "false"}`);
   lines.push("      x-required-roles:");
   lines.push(yamlList(["merchant_staff"]));
-  lines.push("      x-required-scopes:");
-  lines.push(yamlList(requiredScopesFor(operation)));
+  const flatScopes = requiredScopesFor(operation);
+  if (flatScopes.length) { lines.push("      x-required-scopes:"); lines.push(yamlList(flatScopes)); }
+  else lines.push("      x-required-scopes: []");
   lines.push(`      x-audit-event: ${yamlString(operation.capability)}`);
   if (operation.requestSchemaRef) lines.push(`      x-request-schema: ${yamlString(operation.requestSchemaRef)}`);
   lines.push(`      x-response-schema: ${yamlString(normalizeSchemaRef(operation.responseSchemaRef))}`);
@@ -3425,12 +3496,28 @@ function renderOpenApiOperation(operation, tagName) {
   }
 
   lines.push("      responses:");
-  renderResponse(lines, successStatusFor(operation), operation.responseSchemaRef, operation.examples?.response);
+  for (const status of successStatusesFor(operation)) renderResponse(lines, status, operation.responseSchemaRef, operation.examples?.response);
+  if (operation.implemented === false) {
+    lines.push('        "501":');
+    lines.push("          $ref: '#/components/responses/NotImplemented'");
+  }
   const errorCodes = new Set(operation.errorCodes?.length ? operation.errorCodes : operationErrorResponseRefs.map(([status]) => status));
   for (const [status, responseRef] of operationErrorResponseRefs) {
     if (!errorCodes.has(status)) continue;
     lines.push(`        "${status}":`);
     lines.push(`          $ref: ${yamlString(responseRef)}`);
+  }
+  const renderedErrors = new Set(operationErrorResponseRefs.map(([status]) => status));
+  if (operation.implemented === false) renderedErrors.add("501");
+  for (const status of errorCodes) {
+    if (renderedErrors.has(status)) continue;
+    if (!/^[45][0-9]{2}$/.test(status)) throw new Error(`Invalid declared error status: ${status}`);
+    lines.push(`        "${status}":`);
+    lines.push("          description: Runtime error declared by the source registry.");
+    lines.push("          content:");
+    lines.push("            application/json:");
+    lines.push("              schema:");
+    lines.push("                $ref: '#/components/schemas/AdminApiError'");
   }
   lines.push("      security:");
   lines.push("        - ShopiyzAccessToken: []");
@@ -3557,24 +3644,24 @@ function updateReadme() {
   }
 }
 
-const { catalog, capabilities } = await loadCatalog();
-const docData = buildDocData(catalog, capabilities);
-updateAdminHtml(docData);
-updateOpenApi(docData);
-updateIntegrationGuide();
-updateReadme();
+export async function main() {
+  const { catalog, capabilities } = await loadCatalog();
+  const docData = buildDocData(catalog, capabilities);
+  updateAdminHtml(docData);
+  updateOpenApi(docData);
+  updateIntegrationGuide();
+  updateReadme();
+  const available = docData.operations.filter(operation => operation.implemented);
+  const explicit = available.filter(operation => Array.isArray(operation.successStatuses) && operation.successStatuses.some(status => Number.isInteger(status) && status >= 200 && status < 300)
+    || Number.isInteger(operation.successStatus) && operation.successStatus >= 200 && operation.successStatus < 300);
+  console.log(JSON.stringify({ generatedAt, operations: docData.summary.operations,
+    registeredOperations: docData.summary.registeredOperations, resources: docData.summary.resources,
+    sections: docData.summary.sections, capabilities: docData.summary.capabilities,
+    implementedOperations: available.length, planned501Operations: docData.operations.length - available.length,
+    explicitSuccessStatusOperations: explicit.length,
+    unknownPostRangeOperations: available.filter(operation => successStatusesFor(operation).includes("2XX")).length,
+    default200Operations: available.length - explicit.length - available.filter(operation => successStatusesFor(operation).includes("2XX")).length,
+  }, null, 2));
+}
 
-console.log(
-  JSON.stringify(
-    {
-      generatedAt,
-      operations: docData.summary.operations,
-      registeredOperations: docData.summary.registeredOperations,
-      resources: docData.summary.resources,
-      sections: docData.summary.sections,
-      capabilities: docData.summary.capabilities,
-    },
-    null,
-    2
-  )
-);
+if (process.argv[1] && path.resolve(process.argv[1]) === fileURLToPath(import.meta.url)) await main();
