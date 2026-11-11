@@ -10,16 +10,16 @@ servers:
       store:
         default: development
         description: Store subdomain or custom store host.
-x-shopiyz-generated-at: "2026-11-11T01:55:55.933Z"
+x-shopiyz-generated-at: "2026-11-11T07:48:44.347Z"
 x-shopiyz-source: myshopiyz/src/lib/adminApiCatalog.ts
 x-shopiyz-base-path: /admin/api/v1
 x-shopiyz-summary:
   sections: 14
-  resources: 575
-  operations: 2238
-  registeredOperations: 2465
-  implementedOperations: 1753
-  capabilities: 1066
+  resources: 576
+  operations: 2239
+  registeredOperations: 2466
+  implementedOperations: 1754
+  capabilities: 1067
 paths:
   /abandoned_carts/customer_target_set.json:
     post:
@@ -292022,6 +292022,148 @@ paths:
       security:
         - ShopiyzAccessToken: []
         - ShopiyzBearerAuth: []
+  /shipping/native/settings.json:
+    get:
+      operationId: getNativeShippingSettings
+      tags:
+        - "Orders / Native"
+      summary: "Read persisted Native shipping settings without schema installation, defaults, legacy adoption or carrier calls."
+      description: |-
+        Read persisted Native shipping settings without schema installation, defaults, legacy adoption or carrier calls.. Risk R0; confirmation none; step-up none.
+        Capability: shipping.native. Risk: R0. Confirmation: none. Step-up: none.
+      x-shopiyz-capability: shipping.native
+      x-shopiyz-risk: R0
+      x-shopiyz-confirmation: none
+      x-shopiyz-step-up: none
+      x-shopiyz-operation-kind: read
+      x-shopiyz-read-only: true
+      x-shopiyz-scope-alternatives: [["admin:read"],["admin:write"]]
+      x-shopiyz-scope-matching: "any group, all scopes within that group"
+      x-shopiyz-native-permissions: ["settings:manage"]
+      x-shopiyz-native-query-parameters: []
+      x-shopiyz-rate-limit-group: admin_api_global
+      x-shopiyz-rate-limit-cost: 1
+      x-shopiyz-rate-limit-bucket: 40
+      x-shopiyz-rate-limit-restore-rate: 2
+      x-shopiyz-rate-limit-scope: store_token
+      x-shopiyz-rate-limit-algorithm: leaky_bucket
+      x-shopiyz-rate-limit-headers:
+        - X-Shopiyz-Api-Call-Limit
+        - X-Shopiyz-Api-Call-Remaining
+        - X-Shopiyz-Api-Call-Restore-Rate
+        - X-Shopiyz-Api-Call-Reset
+        - X-Shopiyz-Shop-Api-Call-Limit
+        - X-Shopiyz-Api-Bucket-Size
+        - X-Shopiyz-Api-Restore-Rate
+        - X-Shopiyz-Api-Cost
+        - X-Shopiyz-RateLimit-Remaining
+        - X-Shopiyz-API-Limit
+        - X-Shopiyz-API-Remaining
+        - X-Shopiyz-API-Retry-After
+        - X-Request-Id
+      x-shopiyz-implemented: true
+      x-shopiyz-execution-mode: native
+      x-shopiyz-preview-required: false
+      x-shopiyz-rollback-supported: false
+      x-ai-safe: true
+      x-ai-readonly: true
+      x-ai-requires-confirmation: false
+      x-ai-destructive: false
+      x-ai-idempotency-required: false
+      x-ai-human-summary: "Reads Read persisted Native shipping settings without schema installation, defaults, legacy adoption or carrier calls. without changing store data."
+      x-ai-before-call:
+        - "Verify the caller has a valid store context and read scope."
+        - "Use filters and pagination before broad reads."
+      x-operation-kind: configuration
+      x-risk: R0
+      x-confirmation: none
+      x-step-up: none
+      x-idempotency: none
+      x-preview-supported: false
+      x-rollback-supported: false
+      x-required-roles:
+        - merchant_staff
+      x-required-scopes:
+        - "admin:read"
+        - "admin:write"
+      x-audit-event: shipping.native
+      x-response-schema: "#/components/schemas/NativeShippingSettingsResponse"
+      x-required-headers:
+        -
+          name: X-Shopiyz-Access-Token
+          required: true
+          description: "Admin API access token. Authorization: Bearer is accepted by clients that prefer bearer syntax."
+          example: "shpat_••••••••••••"
+        -
+          name: Authorization
+          required: false
+          description: "Bearer token alternative: Authorization: Bearer <token>."
+          example: "Bearer shpat_••••••••••••"
+      responses:
+        "200":
+          description: Successful response
+          headers:
+            X-Shopiyz-Api-Call-Limit:
+              $ref: "#/components/headers/XShopiyzApiCallLimit"
+            X-Shopiyz-Api-Bucket-Size:
+              $ref: "#/components/headers/XShopiyzApiBucketSize"
+            X-Shopiyz-Api-Restore-Rate:
+              $ref: "#/components/headers/XShopiyzApiRestoreRate"
+            X-Shopiyz-Api-Cost:
+              $ref: "#/components/headers/XShopiyzApiCost"
+            X-Shopiyz-RateLimit-Remaining:
+              $ref: "#/components/headers/XShopiyzRateLimitRemaining"
+            X-Shopiyz-API-Limit:
+              $ref: "#/components/headers/XShopiyzAPILimit"
+            X-Shopiyz-API-Remaining:
+              $ref: "#/components/headers/XShopiyzAPIRemaining"
+            X-Shopiyz-API-Restore-Rate:
+              $ref: "#/components/headers/XShopiyzAPIRestoreRate"
+            X-Shopiyz-API-Retry-After:
+              $ref: "#/components/headers/XShopiyzAPIRetryAfter"
+            X-Request-Id:
+              $ref: "#/components/headers/XRequestId"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/NativeShippingSettingsResponse"
+        "400":
+          $ref: "#/components/responses/BadRequest"
+        "401":
+          $ref: "#/components/responses/Unauthorized"
+        "403":
+          $ref: "#/components/responses/Forbidden"
+        "404":
+          $ref: "#/components/responses/NotFound"
+        "409":
+          $ref: "#/components/responses/Conflict"
+        "422":
+          $ref: "#/components/responses/UnprocessableEntity"
+        "429":
+          $ref: "#/components/responses/TooManyRequests"
+        "500":
+          $ref: "#/components/responses/InternalServerError"
+        "413":
+          description: Runtime error declared by the source registry.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AdminApiError'
+        "428":
+          description: Runtime error declared by the source registry.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AdminApiError'
+        "503":
+          description: Runtime error declared by the source registry.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AdminApiError'
+      security:
+        - ShopiyzAccessToken: []
+        - ShopiyzBearerAuth: []
   /shop.json:
     get:
       operationId: getShopRestCompatibility
@@ -363160,6 +363302,289 @@ components:
         - resourceRevision
         - replayed
       additionalProperties: false
+    NativeShippingRate:
+      type: object
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        rateType:
+          type: string
+        price:
+          type: number
+        currency:
+          type: string
+        minimumValue:
+          type: number
+          nullable: true
+        maximumValue:
+          type: number
+          nullable: true
+        carrierConnectionId:
+          type: string
+          nullable: true
+        serviceCode:
+          type: string
+          nullable: true
+        backupRateEnabled:
+          type: boolean
+        backupPrice:
+          type: number
+          nullable: true
+        transitMinDays:
+          type: integer
+          nullable: true
+        transitMaxDays:
+          type: integer
+          nullable: true
+    NativeShippingZone:
+      type: object
+      properties:
+        id:
+          type: string
+        profileId:
+          type: string
+        name:
+          type: string
+        countries:
+          type: array
+          items:
+            type: string
+        regions:
+          type: array
+          items:
+            {}
+        postalCodes:
+          type: array
+          items:
+            {}
+        rates:
+          type: array
+          items:
+            $ref: "#/components/schemas/NativeShippingRate"
+    NativeShippingProfile:
+      type: object
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        description:
+          type: string
+          nullable: true
+        isGeneral:
+          type: boolean
+        productCount:
+          type: integer
+          minimum: 0
+        products:
+          type: array
+          items:
+            type: object
+            properties:
+              productId:
+                type: string
+              title:
+                type: string
+        zones:
+          type: array
+          items:
+            $ref: "#/components/schemas/NativeShippingZone"
+    NativeShippingPackage:
+      type: object
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        length:
+          type: number
+        width:
+          type: number
+        height:
+          type: number
+        emptyWeight:
+          type: number
+        dimensionUnit:
+          type: string
+        weightUnit:
+          type: string
+        isDefault:
+          type: boolean
+        volumetricWeight:
+          type: number
+    NativeShippingDeliverySettings:
+      type: object
+      nullable: true
+      properties:
+        manualFulfillmentEnabled:
+          type: boolean
+        localPickupEnabled:
+          type: boolean
+        localDeliveryEnabled:
+          type: boolean
+        pickupPointsEnabled:
+          type: boolean
+        processingMinDays:
+          type: integer
+        processingMaxDays:
+          type: integer
+        cutoffTime:
+          type: string
+        workingDays:
+          type: array
+          items:
+            {}
+        showEstimatedDelivery:
+          type: boolean
+        senderName:
+          type: string
+        defaultLabelFormat:
+          type: string
+        packingSlipEnabled:
+          type: boolean
+        manifestEnabled:
+          type: boolean
+        volumetricDivisor:
+          type: number
+    NativeShippingReadiness:
+      type: object
+      description: "Existing Native general-profile persisted-rate coverage, not a checkout or live carrier quote. Custom profile assignments are included in settings but do not become custom-profile checkout pricing."
+      properties:
+        ready:
+          type: boolean
+        rateCount:
+          type: integer
+        zoneCount:
+          type: integer
+        missingRateZones:
+          type: array
+          items:
+            type: string
+        conditionalZones:
+          type: array
+          items:
+            type: string
+        uncoveredRateZones:
+          type: array
+          items:
+            type: string
+        coveredCountries:
+          type: array
+          items:
+            type: string
+        coversAllCountries:
+          type: boolean
+        manualSetupAvailable:
+          type: boolean
+    NativeShippingSettingsResponse:
+      type: object
+      required:
+        - execution_mode
+        - read_only
+        - applied
+        - source
+        - schema_ready
+        - configuration_initialized
+        - initialization
+        - currency
+        - snapshot_hash
+        - snapshot_hash_kind
+        - native_checkout_quote
+        - carrier_quote
+        - settings
+      properties:
+        execution_mode:
+          type: string
+          enum:
+            - native
+        read_only:
+          type: boolean
+          enum:
+            - true
+        applied:
+          type: boolean
+          enum:
+            - false
+        source:
+          type: string
+          enum:
+            - core_persisted_shipping
+        schema_ready:
+          type: boolean
+          enum:
+            - true
+        configuration_initialized:
+          type: boolean
+        initialization:
+          type: object
+          required:
+            - general_profile_present
+            - delivery_settings_present
+            - active_package_present
+          properties:
+            general_profile_present:
+              type: boolean
+            delivery_settings_present:
+              type: boolean
+            active_package_present:
+              type: boolean
+        currency:
+          type: string
+        snapshot_hash:
+          type: string
+          pattern: "^[a-f0-9]{64}$"
+        snapshot_hash_kind:
+          type: string
+          enum:
+            - read_evidence_only
+          description: "Evidence for this returned snapshot; not a config revision, ETag or accepted mutation If-Match."
+        native_checkout_quote:
+          type: boolean
+          enum:
+            - false
+        carrier_quote:
+          type: boolean
+          enum:
+            - false
+        settings:
+          type: object
+          properties:
+            storeId:
+              type: string
+            profiles:
+              type: array
+              items:
+                $ref: "#/components/schemas/NativeShippingProfile"
+            packages:
+              type: array
+              items:
+                $ref: "#/components/schemas/NativeShippingPackage"
+            delivery:
+              $ref: "#/components/schemas/NativeShippingDeliverySettings"
+            readiness:
+              $ref: "#/components/schemas/NativeShippingReadiness"
+            integrationSummary:
+              type: object
+              properties:
+                publishedCount:
+                  type: integer
+                connections:
+                  type: array
+                  items:
+                    type: object
+                    properties:
+                      id:
+                        type: string
+                      providerKey:
+                        type: string
+                      accountLabel:
+                        type: string
+            warnings:
+              type: array
+              items:
+                type: string
 security:
   - ShopiyzAccessToken: []
   - ShopiyzBearerAuth: []

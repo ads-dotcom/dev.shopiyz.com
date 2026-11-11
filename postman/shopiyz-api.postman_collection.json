@@ -14534,6 +14534,45 @@
           "response": []
         }
       ]
+    },
+    {
+      "name": "Native / Shipping settings",
+      "item": [
+        {
+          "name": "readNativeShippingSettings",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json",
+                "type": "text"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{admin_token}}",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/admin/api/v1/shipping/native/settings.json",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "admin",
+                "api",
+                "v1",
+                "shipping",
+                "native",
+                "settings.json"
+              ]
+            },
+            "description": "Reads the persisted Native shipping profiles, product assignments, zones, rates, packages, delivery settings and coverage readiness at primary. Requires admin:read or admin:write and the token creator's current Native settings:manage permission and store access. Read-only: no Idempotency-Key, initialization, default seeding, carrier request or business write. snapshotHash identifies this read snapshot; it is not an If-Match token or checkout quote. Carrier credentials are redacted. See the canonical NativeShippingSettingsResponse schema and the central management contract."
+          },
+          "response": []
+        }
+      ]
     }
   ],
   "variable": [
