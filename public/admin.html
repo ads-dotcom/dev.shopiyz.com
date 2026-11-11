@@ -4280,7 +4280,10 @@ curl -X GET <span class="token-string">"https://{store}.shopiyz.com/admin/api/v1
 
       const globalSearch = document.getElementById("globalSearch");
       window.addEventListener("keydown", (event) => {
-        if (event.key === "/" && document.activeElement !== globalSearch && document.activeElement !== filterInput) {
+        const active = document.activeElement;
+        const editing = active instanceof HTMLElement &&
+          (active.matches("input, textarea, select") || active.isContentEditable);
+        if (event.key === "/" && !editing && !event.ctrlKey && !event.metaKey && !event.altKey) {
           event.preventDefault();
           globalSearch?.focus();
         }
