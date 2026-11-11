@@ -10,16 +10,16 @@ servers:
       store:
         default: development
         description: Store subdomain or custom store host.
-x-shopiyz-generated-at: "2026-11-11T07:48:44.347Z"
+x-shopiyz-generated-at: "2026-11-11T14:10:11.473Z"
 x-shopiyz-source: myshopiyz/src/lib/adminApiCatalog.ts
 x-shopiyz-base-path: /admin/api/v1
 x-shopiyz-summary:
   sections: 14
-  resources: 576
-  operations: 2239
-  registeredOperations: 2466
-  implementedOperations: 1754
-  capabilities: 1067
+  resources: 577
+  operations: 2252
+  registeredOperations: 2479
+  implementedOperations: 1767
+  capabilities: 1068
 paths:
   /abandoned_carts/customer_target_set.json:
     post:
@@ -300458,6 +300458,2025 @@ paths:
       security:
         - ShopiyzAccessToken: []
         - ShopiyzBearerAuth: []
+  /stock_authority/admission.json:
+    get:
+      operationId: getStockAuthorityAdmission
+      tags:
+        - "Inventory / Stock Authority"
+      summary: "Read current disabled admission and Native configuration revision."
+      description: |-
+        Read current disabled admission and Native configuration revision.. Risk R0; confirmation none; step-up none.
+        Capability: integrations.stock_authority. Risk: R0. Confirmation: none. Step-up: none.
+      x-shopiyz-capability: integrations.stock_authority
+      x-shopiyz-risk: R0
+      x-shopiyz-confirmation: none
+      x-shopiyz-step-up: none
+      x-shopiyz-operation-kind: read
+      x-shopiyz-read-only: true
+      x-shopiyz-scope-alternatives: [["admin:read"],["admin:write"]]
+      x-shopiyz-scope-matching: "any group, all scopes within that group"
+      x-shopiyz-native-permissions: ["settings:manage"]
+      x-shopiyz-native-query-parameters: []
+      x-shopiyz-rate-limit-group: admin_api_global
+      x-shopiyz-rate-limit-cost: 1
+      x-shopiyz-rate-limit-bucket: 40
+      x-shopiyz-rate-limit-restore-rate: 2
+      x-shopiyz-rate-limit-scope: store_token
+      x-shopiyz-rate-limit-algorithm: leaky_bucket
+      x-shopiyz-rate-limit-headers:
+        - X-Shopiyz-Api-Call-Limit
+        - X-Shopiyz-Api-Call-Remaining
+        - X-Shopiyz-Api-Call-Restore-Rate
+        - X-Shopiyz-Api-Call-Reset
+        - X-Shopiyz-Shop-Api-Call-Limit
+        - X-Shopiyz-Api-Bucket-Size
+        - X-Shopiyz-Api-Restore-Rate
+        - X-Shopiyz-Api-Cost
+        - X-Shopiyz-RateLimit-Remaining
+        - X-Shopiyz-API-Limit
+        - X-Shopiyz-API-Remaining
+        - X-Shopiyz-API-Retry-After
+        - X-Request-Id
+      x-shopiyz-implemented: true
+      x-shopiyz-execution-mode: native
+      x-shopiyz-preview-required: false
+      x-shopiyz-rollback-supported: false
+      x-ai-safe: true
+      x-ai-readonly: true
+      x-ai-requires-confirmation: false
+      x-ai-destructive: false
+      x-ai-idempotency-required: false
+      x-ai-human-summary: "Reads Read current disabled admission and Native configuration revision. without changing store data."
+      x-ai-before-call:
+        - "Verify the caller has a valid store context and read scope."
+        - "Use filters and pagination before broad reads."
+      x-operation-kind: query
+      x-risk: R0
+      x-confirmation: none
+      x-step-up: none
+      x-idempotency: none
+      x-preview-supported: false
+      x-rollback-supported: false
+      x-required-roles:
+        - merchant_staff
+      x-required-scopes:
+        - "admin:read"
+        - "admin:write"
+      x-audit-event: integrations.stock_authority
+      x-response-schema: "#/components/schemas/StockAuthorityAdmissionResponse"
+      x-required-headers:
+        -
+          name: X-Shopiyz-Access-Token
+          required: true
+          description: "Admin API access token. Authorization: Bearer is accepted by clients that prefer bearer syntax."
+          example: "shpat_••••••••••••"
+        -
+          name: Authorization
+          required: false
+          description: "Bearer token alternative: Authorization: Bearer <token>."
+          example: "Bearer shpat_••••••••••••"
+      responses:
+        "200":
+          description: Successful response
+          headers:
+            X-Shopiyz-Api-Call-Limit:
+              $ref: "#/components/headers/XShopiyzApiCallLimit"
+            X-Shopiyz-Api-Bucket-Size:
+              $ref: "#/components/headers/XShopiyzApiBucketSize"
+            X-Shopiyz-Api-Restore-Rate:
+              $ref: "#/components/headers/XShopiyzApiRestoreRate"
+            X-Shopiyz-Api-Cost:
+              $ref: "#/components/headers/XShopiyzApiCost"
+            X-Shopiyz-RateLimit-Remaining:
+              $ref: "#/components/headers/XShopiyzRateLimitRemaining"
+            X-Shopiyz-API-Limit:
+              $ref: "#/components/headers/XShopiyzAPILimit"
+            X-Shopiyz-API-Remaining:
+              $ref: "#/components/headers/XShopiyzAPIRemaining"
+            X-Shopiyz-API-Restore-Rate:
+              $ref: "#/components/headers/XShopiyzAPIRestoreRate"
+            X-Shopiyz-API-Retry-After:
+              $ref: "#/components/headers/XShopiyzAPIRetryAfter"
+            X-Request-Id:
+              $ref: "#/components/headers/XRequestId"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/StockAuthorityAdmissionResponse"
+        "400":
+          $ref: "#/components/responses/BadRequest"
+        "401":
+          $ref: "#/components/responses/Unauthorized"
+        "403":
+          $ref: "#/components/responses/Forbidden"
+        "404":
+          $ref: "#/components/responses/NotFound"
+        "409":
+          $ref: "#/components/responses/Conflict"
+        "422":
+          $ref: "#/components/responses/UnprocessableEntity"
+        "429":
+          $ref: "#/components/responses/TooManyRequests"
+        "500":
+          $ref: "#/components/responses/InternalServerError"
+        "413":
+          description: Runtime error declared by the source registry.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AdminApiError'
+        "428":
+          description: Runtime error declared by the source registry.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AdminApiError'
+        "503":
+          description: Runtime error declared by the source registry.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AdminApiError'
+      security:
+        - ShopiyzAccessToken: []
+        - ShopiyzBearerAuth: []
+    post:
+      operationId: setStockAuthorityAdmission
+      tags:
+        - "Inventory / Stock Authority"
+      summary: "CAS disable only. Enabling returns503 until actual Native checkout/payment consumers and protected runtime acceptance are complete."
+      description: |-
+        CAS disable only. Enabling returns503 until actual Native checkout/payment consumers and protected runtime acceptance are complete.. Risk R3; confirmation approval; step-up none.
+        Capability: integrations.stock_authority. Risk: R3. Confirmation: approval. Step-up: none.
+      x-shopiyz-capability: integrations.stock_authority
+      x-shopiyz-risk: R3
+      x-shopiyz-confirmation: approval
+      x-shopiyz-step-up: none
+      x-shopiyz-operation-kind: write
+      x-shopiyz-read-only: false
+      x-shopiyz-scope-alternatives: [["admin:write"]]
+      x-shopiyz-scope-matching: "any group, all scopes within that group"
+      x-shopiyz-native-permissions: ["settings:manage"]
+      x-shopiyz-native-query-parameters: []
+      x-shopiyz-rate-limit-group: admin_api_global
+      x-shopiyz-rate-limit-cost: 3
+      x-shopiyz-rate-limit-bucket: 40
+      x-shopiyz-rate-limit-restore-rate: 2
+      x-shopiyz-rate-limit-scope: store_token
+      x-shopiyz-rate-limit-algorithm: leaky_bucket
+      x-shopiyz-rate-limit-headers:
+        - X-Shopiyz-Api-Call-Limit
+        - X-Shopiyz-Api-Call-Remaining
+        - X-Shopiyz-Api-Call-Restore-Rate
+        - X-Shopiyz-Api-Call-Reset
+        - X-Shopiyz-Shop-Api-Call-Limit
+        - X-Shopiyz-Api-Bucket-Size
+        - X-Shopiyz-Api-Restore-Rate
+        - X-Shopiyz-Api-Cost
+        - X-Shopiyz-RateLimit-Remaining
+        - X-Shopiyz-API-Limit
+        - X-Shopiyz-API-Remaining
+        - X-Shopiyz-API-Retry-After
+        - X-Request-Id
+      x-shopiyz-implemented: true
+      x-shopiyz-execution-mode: native
+      x-shopiyz-preview-required: true
+      x-shopiyz-rollback-supported: false
+      x-ai-safe: false
+      x-ai-readonly: false
+      x-ai-requires-confirmation: true
+      x-ai-destructive: false
+      x-ai-idempotency-required: true
+      x-ai-human-summary: "Changes store data through CAS disable only. Enabling returns503 until actual Native checkout/payment consumers and protected runtime acceptance are complete.; confirmation policy is approval."
+      x-ai-before-call:
+        - "Show the merchant a concise summary of the intended change."
+        - "Call the matching preview endpoint first when available."
+        - "Send a stable Idempotency-Key for retries."
+      x-operation-kind: mutation
+      x-risk: R3
+      x-confirmation: preview
+      x-step-up: none
+      x-idempotency: required
+      x-preview-supported: true
+      x-rollback-supported: false
+      x-required-roles:
+        - merchant_staff
+      x-required-scopes:
+        - "admin:write"
+      x-audit-event: integrations.stock_authority
+      x-request-schema: "#/components/schemas/StockAuthorityAdmissionWrite"
+      x-response-schema: "#/components/schemas/StockAuthorityAdmissionResponse"
+      x-required-headers:
+        -
+          name: X-Shopiyz-Access-Token
+          required: true
+          description: "Admin API access token. Authorization: Bearer is accepted by clients that prefer bearer syntax."
+          example: "shpat_••••••••••••"
+        -
+          name: Authorization
+          required: false
+          description: "Bearer token alternative: Authorization: Bearer <token>."
+          example: "Bearer shpat_••••••••••••"
+        -
+          name: Idempotency-Key
+          required: true
+          description: "Required for retry-safe write/delete/job operations marked as idempotent."
+          example: order-cancel-ord_1001-20260710
+      parameters:
+        - name: Idempotency-Key
+          in: header
+          required: true
+          description: "Required for retry-safe write/delete/job operations marked as idempotent."
+          schema:
+            type: string
+          example: order-cancel-ord_1001-20260710
+      requestBody:
+        required: false
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/StockAuthorityAdmissionWrite"
+      responses:
+        "200":
+          description: Successful response
+          headers:
+            X-Shopiyz-Api-Call-Limit:
+              $ref: "#/components/headers/XShopiyzApiCallLimit"
+            X-Shopiyz-Api-Bucket-Size:
+              $ref: "#/components/headers/XShopiyzApiBucketSize"
+            X-Shopiyz-Api-Restore-Rate:
+              $ref: "#/components/headers/XShopiyzApiRestoreRate"
+            X-Shopiyz-Api-Cost:
+              $ref: "#/components/headers/XShopiyzApiCost"
+            X-Shopiyz-RateLimit-Remaining:
+              $ref: "#/components/headers/XShopiyzRateLimitRemaining"
+            X-Shopiyz-API-Limit:
+              $ref: "#/components/headers/XShopiyzAPILimit"
+            X-Shopiyz-API-Remaining:
+              $ref: "#/components/headers/XShopiyzAPIRemaining"
+            X-Shopiyz-API-Restore-Rate:
+              $ref: "#/components/headers/XShopiyzAPIRestoreRate"
+            X-Shopiyz-API-Retry-After:
+              $ref: "#/components/headers/XShopiyzAPIRetryAfter"
+            X-Request-Id:
+              $ref: "#/components/headers/XRequestId"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/StockAuthorityAdmissionResponse"
+        "400":
+          $ref: "#/components/responses/BadRequest"
+        "401":
+          $ref: "#/components/responses/Unauthorized"
+        "403":
+          $ref: "#/components/responses/Forbidden"
+        "404":
+          $ref: "#/components/responses/NotFound"
+        "409":
+          $ref: "#/components/responses/Conflict"
+        "422":
+          $ref: "#/components/responses/UnprocessableEntity"
+        "429":
+          $ref: "#/components/responses/TooManyRequests"
+        "500":
+          $ref: "#/components/responses/InternalServerError"
+        "413":
+          description: Runtime error declared by the source registry.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AdminApiError'
+        "428":
+          description: Runtime error declared by the source registry.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AdminApiError'
+        "503":
+          description: Runtime error declared by the source registry.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AdminApiError'
+      security:
+        - ShopiyzAccessToken: []
+        - ShopiyzBearerAuth: []
+  /stock_authority/bindings.json:
+    get:
+      operationId: listStockAuthorityBindings
+      tags:
+        - "Inventory / Stock Authority"
+      summary: "Read draft Native variant/location mappings with current Native settings and products management authority."
+      description: |-
+        Read draft Native variant/location mappings with current Native settings and products management authority.. Risk R0; confirmation none; step-up none.
+        Capability: integrations.stock_authority. Risk: R0. Confirmation: none. Step-up: none.
+      x-shopiyz-capability: integrations.stock_authority
+      x-shopiyz-risk: R0
+      x-shopiyz-confirmation: none
+      x-shopiyz-step-up: none
+      x-shopiyz-operation-kind: read
+      x-shopiyz-read-only: true
+      x-shopiyz-scope-alternatives: [["admin:read"],["admin:write"]]
+      x-shopiyz-scope-matching: "any group, all scopes within that group"
+      x-shopiyz-native-permissions: ["settings:manage","products:manage"]
+      x-shopiyz-native-query-parameters: []
+      x-shopiyz-rate-limit-group: admin_api_global
+      x-shopiyz-rate-limit-cost: 1
+      x-shopiyz-rate-limit-bucket: 40
+      x-shopiyz-rate-limit-restore-rate: 2
+      x-shopiyz-rate-limit-scope: store_token
+      x-shopiyz-rate-limit-algorithm: leaky_bucket
+      x-shopiyz-rate-limit-headers:
+        - X-Shopiyz-Api-Call-Limit
+        - X-Shopiyz-Api-Call-Remaining
+        - X-Shopiyz-Api-Call-Restore-Rate
+        - X-Shopiyz-Api-Call-Reset
+        - X-Shopiyz-Shop-Api-Call-Limit
+        - X-Shopiyz-Api-Bucket-Size
+        - X-Shopiyz-Api-Restore-Rate
+        - X-Shopiyz-Api-Cost
+        - X-Shopiyz-RateLimit-Remaining
+        - X-Shopiyz-API-Limit
+        - X-Shopiyz-API-Remaining
+        - X-Shopiyz-API-Retry-After
+        - X-Request-Id
+      x-shopiyz-implemented: true
+      x-shopiyz-execution-mode: native
+      x-shopiyz-preview-required: false
+      x-shopiyz-rollback-supported: false
+      x-ai-safe: true
+      x-ai-readonly: true
+      x-ai-requires-confirmation: false
+      x-ai-destructive: false
+      x-ai-idempotency-required: false
+      x-ai-human-summary: "Reads Read draft Native variant/location mappings with current Native settings and products management authority. without changing store data."
+      x-ai-before-call:
+        - "Verify the caller has a valid store context and read scope."
+        - "Use filters and pagination before broad reads."
+      x-operation-kind: query
+      x-risk: R0
+      x-confirmation: none
+      x-step-up: none
+      x-idempotency: none
+      x-preview-supported: false
+      x-rollback-supported: false
+      x-required-roles:
+        - merchant_staff
+      x-required-scopes:
+        - "admin:read"
+        - "admin:write"
+      x-audit-event: integrations.stock_authority
+      x-response-schema: "#/components/schemas/StockAuthorityBindingsResponse"
+      x-required-headers:
+        -
+          name: X-Shopiyz-Access-Token
+          required: true
+          description: "Admin API access token. Authorization: Bearer is accepted by clients that prefer bearer syntax."
+          example: "shpat_••••••••••••"
+        -
+          name: Authorization
+          required: false
+          description: "Bearer token alternative: Authorization: Bearer <token>."
+          example: "Bearer shpat_••••••••••••"
+      responses:
+        "200":
+          description: Successful response
+          headers:
+            X-Shopiyz-Api-Call-Limit:
+              $ref: "#/components/headers/XShopiyzApiCallLimit"
+            X-Shopiyz-Api-Bucket-Size:
+              $ref: "#/components/headers/XShopiyzApiBucketSize"
+            X-Shopiyz-Api-Restore-Rate:
+              $ref: "#/components/headers/XShopiyzApiRestoreRate"
+            X-Shopiyz-Api-Cost:
+              $ref: "#/components/headers/XShopiyzApiCost"
+            X-Shopiyz-RateLimit-Remaining:
+              $ref: "#/components/headers/XShopiyzRateLimitRemaining"
+            X-Shopiyz-API-Limit:
+              $ref: "#/components/headers/XShopiyzAPILimit"
+            X-Shopiyz-API-Remaining:
+              $ref: "#/components/headers/XShopiyzAPIRemaining"
+            X-Shopiyz-API-Restore-Rate:
+              $ref: "#/components/headers/XShopiyzAPIRestoreRate"
+            X-Shopiyz-API-Retry-After:
+              $ref: "#/components/headers/XShopiyzAPIRetryAfter"
+            X-Request-Id:
+              $ref: "#/components/headers/XRequestId"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/StockAuthorityBindingsResponse"
+        "400":
+          $ref: "#/components/responses/BadRequest"
+        "401":
+          $ref: "#/components/responses/Unauthorized"
+        "403":
+          $ref: "#/components/responses/Forbidden"
+        "404":
+          $ref: "#/components/responses/NotFound"
+        "409":
+          $ref: "#/components/responses/Conflict"
+        "422":
+          $ref: "#/components/responses/UnprocessableEntity"
+        "429":
+          $ref: "#/components/responses/TooManyRequests"
+        "500":
+          $ref: "#/components/responses/InternalServerError"
+        "413":
+          description: Runtime error declared by the source registry.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AdminApiError'
+        "428":
+          description: Runtime error declared by the source registry.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AdminApiError'
+        "503":
+          description: Runtime error declared by the source registry.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AdminApiError'
+      security:
+        - ShopiyzAccessToken: []
+        - ShopiyzBearerAuth: []
+    post:
+      operationId: saveStockAuthorityBinding
+      tags:
+        - "Inventory / Stock Authority"
+      summary: "CAS a draft mapping to original provider generation, opaque reference and accepted Native quantity unit/scale; no authority activation."
+      description: |-
+        CAS a draft mapping to original provider generation, opaque reference and accepted Native quantity unit/scale; no authority activation.. Risk R3; confirmation approval; step-up none.
+        Capability: integrations.stock_authority. Risk: R3. Confirmation: approval. Step-up: none.
+      x-shopiyz-capability: integrations.stock_authority
+      x-shopiyz-risk: R3
+      x-shopiyz-confirmation: approval
+      x-shopiyz-step-up: none
+      x-shopiyz-operation-kind: write
+      x-shopiyz-read-only: false
+      x-shopiyz-scope-alternatives: [["admin:write"]]
+      x-shopiyz-scope-matching: "any group, all scopes within that group"
+      x-shopiyz-native-permissions: ["settings:manage","products:manage"]
+      x-shopiyz-native-query-parameters: []
+      x-shopiyz-rate-limit-group: admin_api_global
+      x-shopiyz-rate-limit-cost: 3
+      x-shopiyz-rate-limit-bucket: 40
+      x-shopiyz-rate-limit-restore-rate: 2
+      x-shopiyz-rate-limit-scope: store_token
+      x-shopiyz-rate-limit-algorithm: leaky_bucket
+      x-shopiyz-rate-limit-headers:
+        - X-Shopiyz-Api-Call-Limit
+        - X-Shopiyz-Api-Call-Remaining
+        - X-Shopiyz-Api-Call-Restore-Rate
+        - X-Shopiyz-Api-Call-Reset
+        - X-Shopiyz-Shop-Api-Call-Limit
+        - X-Shopiyz-Api-Bucket-Size
+        - X-Shopiyz-Api-Restore-Rate
+        - X-Shopiyz-Api-Cost
+        - X-Shopiyz-RateLimit-Remaining
+        - X-Shopiyz-API-Limit
+        - X-Shopiyz-API-Remaining
+        - X-Shopiyz-API-Retry-After
+        - X-Request-Id
+      x-shopiyz-implemented: true
+      x-shopiyz-execution-mode: native
+      x-shopiyz-preview-required: true
+      x-shopiyz-rollback-supported: false
+      x-ai-safe: false
+      x-ai-readonly: false
+      x-ai-requires-confirmation: true
+      x-ai-destructive: false
+      x-ai-idempotency-required: true
+      x-ai-human-summary: "Changes store data through CAS a draft mapping to original provider generation, opaque reference and accepted Native quantity unit/scale; no authority activation.; confirmation policy is approval."
+      x-ai-before-call:
+        - "Show the merchant a concise summary of the intended change."
+        - "Call the matching preview endpoint first when available."
+        - "Send a stable Idempotency-Key for retries."
+      x-operation-kind: mutation
+      x-risk: R3
+      x-confirmation: preview
+      x-step-up: none
+      x-idempotency: required
+      x-preview-supported: true
+      x-rollback-supported: false
+      x-required-roles:
+        - merchant_staff
+      x-required-scopes:
+        - "admin:write"
+      x-audit-event: integrations.stock_authority
+      x-request-schema: "#/components/schemas/StockAuthorityBindingWrite"
+      x-response-schema: "#/components/schemas/StockAuthorityBindingResponse"
+      x-required-headers:
+        -
+          name: X-Shopiyz-Access-Token
+          required: true
+          description: "Admin API access token. Authorization: Bearer is accepted by clients that prefer bearer syntax."
+          example: "shpat_••••••••••••"
+        -
+          name: Authorization
+          required: false
+          description: "Bearer token alternative: Authorization: Bearer <token>."
+          example: "Bearer shpat_••••••••••••"
+        -
+          name: Idempotency-Key
+          required: true
+          description: "Required for retry-safe write/delete/job operations marked as idempotent."
+          example: order-cancel-ord_1001-20260710
+      parameters:
+        - name: Idempotency-Key
+          in: header
+          required: true
+          description: "Required for retry-safe write/delete/job operations marked as idempotent."
+          schema:
+            type: string
+          example: order-cancel-ord_1001-20260710
+      requestBody:
+        required: false
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/StockAuthorityBindingWrite"
+      responses:
+        "200":
+          description: Successful response
+          headers:
+            X-Shopiyz-Api-Call-Limit:
+              $ref: "#/components/headers/XShopiyzApiCallLimit"
+            X-Shopiyz-Api-Bucket-Size:
+              $ref: "#/components/headers/XShopiyzApiBucketSize"
+            X-Shopiyz-Api-Restore-Rate:
+              $ref: "#/components/headers/XShopiyzApiRestoreRate"
+            X-Shopiyz-Api-Cost:
+              $ref: "#/components/headers/XShopiyzApiCost"
+            X-Shopiyz-RateLimit-Remaining:
+              $ref: "#/components/headers/XShopiyzRateLimitRemaining"
+            X-Shopiyz-API-Limit:
+              $ref: "#/components/headers/XShopiyzAPILimit"
+            X-Shopiyz-API-Remaining:
+              $ref: "#/components/headers/XShopiyzAPIRemaining"
+            X-Shopiyz-API-Restore-Rate:
+              $ref: "#/components/headers/XShopiyzAPIRestoreRate"
+            X-Shopiyz-API-Retry-After:
+              $ref: "#/components/headers/XShopiyzAPIRetryAfter"
+            X-Request-Id:
+              $ref: "#/components/headers/XRequestId"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/StockAuthorityBindingResponse"
+        "400":
+          $ref: "#/components/responses/BadRequest"
+        "401":
+          $ref: "#/components/responses/Unauthorized"
+        "403":
+          $ref: "#/components/responses/Forbidden"
+        "404":
+          $ref: "#/components/responses/NotFound"
+        "409":
+          $ref: "#/components/responses/Conflict"
+        "422":
+          $ref: "#/components/responses/UnprocessableEntity"
+        "429":
+          $ref: "#/components/responses/TooManyRequests"
+        "500":
+          $ref: "#/components/responses/InternalServerError"
+        "413":
+          description: Runtime error declared by the source registry.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AdminApiError'
+        "428":
+          description: Runtime error declared by the source registry.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AdminApiError'
+        "503":
+          description: Runtime error declared by the source registry.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AdminApiError'
+      security:
+        - ShopiyzAccessToken: []
+        - ShopiyzBearerAuth: []
+  /stock_authority/capabilities.json:
+    get:
+      operationId: getStockAuthorityCapabilities
+      tags:
+        - "Inventory / Stock Authority"
+      summary: "Read configuration/kernel readiness separately from unavailable Native checkout participation; no DDL or provider HTTP."
+      description: |-
+        Read configuration/kernel readiness separately from unavailable Native checkout participation; no DDL or provider HTTP.. Risk R0; confirmation none; step-up none.
+        Capability: integrations.stock_authority. Risk: R0. Confirmation: none. Step-up: none.
+      x-shopiyz-capability: integrations.stock_authority
+      x-shopiyz-risk: R0
+      x-shopiyz-confirmation: none
+      x-shopiyz-step-up: none
+      x-shopiyz-operation-kind: read
+      x-shopiyz-read-only: true
+      x-shopiyz-scope-alternatives: [["admin:read"],["admin:write"]]
+      x-shopiyz-scope-matching: "any group, all scopes within that group"
+      x-shopiyz-native-permissions: ["settings:manage"]
+      x-shopiyz-native-query-parameters: []
+      x-shopiyz-rate-limit-group: admin_api_global
+      x-shopiyz-rate-limit-cost: 1
+      x-shopiyz-rate-limit-bucket: 40
+      x-shopiyz-rate-limit-restore-rate: 2
+      x-shopiyz-rate-limit-scope: store_token
+      x-shopiyz-rate-limit-algorithm: leaky_bucket
+      x-shopiyz-rate-limit-headers:
+        - X-Shopiyz-Api-Call-Limit
+        - X-Shopiyz-Api-Call-Remaining
+        - X-Shopiyz-Api-Call-Restore-Rate
+        - X-Shopiyz-Api-Call-Reset
+        - X-Shopiyz-Shop-Api-Call-Limit
+        - X-Shopiyz-Api-Bucket-Size
+        - X-Shopiyz-Api-Restore-Rate
+        - X-Shopiyz-Api-Cost
+        - X-Shopiyz-RateLimit-Remaining
+        - X-Shopiyz-API-Limit
+        - X-Shopiyz-API-Remaining
+        - X-Shopiyz-API-Retry-After
+        - X-Request-Id
+      x-shopiyz-implemented: true
+      x-shopiyz-execution-mode: native
+      x-shopiyz-preview-required: false
+      x-shopiyz-rollback-supported: false
+      x-ai-safe: true
+      x-ai-readonly: true
+      x-ai-requires-confirmation: false
+      x-ai-destructive: false
+      x-ai-idempotency-required: false
+      x-ai-human-summary: "Reads Read configuration/kernel readiness separately from unavailable Native checkout participation; no DDL or provider HTTP. without changing store data."
+      x-ai-before-call:
+        - "Verify the caller has a valid store context and read scope."
+        - "Use filters and pagination before broad reads."
+      x-operation-kind: query
+      x-risk: R0
+      x-confirmation: none
+      x-step-up: none
+      x-idempotency: none
+      x-preview-supported: false
+      x-rollback-supported: false
+      x-required-roles:
+        - merchant_staff
+      x-required-scopes:
+        - "admin:read"
+        - "admin:write"
+      x-audit-event: integrations.stock_authority
+      x-response-schema: "#/components/schemas/StockAuthorityCapabilitiesResponse"
+      x-required-headers:
+        -
+          name: X-Shopiyz-Access-Token
+          required: true
+          description: "Admin API access token. Authorization: Bearer is accepted by clients that prefer bearer syntax."
+          example: "shpat_••••••••••••"
+        -
+          name: Authorization
+          required: false
+          description: "Bearer token alternative: Authorization: Bearer <token>."
+          example: "Bearer shpat_••••••••••••"
+      responses:
+        "200":
+          description: Successful response
+          headers:
+            X-Shopiyz-Api-Call-Limit:
+              $ref: "#/components/headers/XShopiyzApiCallLimit"
+            X-Shopiyz-Api-Bucket-Size:
+              $ref: "#/components/headers/XShopiyzApiBucketSize"
+            X-Shopiyz-Api-Restore-Rate:
+              $ref: "#/components/headers/XShopiyzApiRestoreRate"
+            X-Shopiyz-Api-Cost:
+              $ref: "#/components/headers/XShopiyzApiCost"
+            X-Shopiyz-RateLimit-Remaining:
+              $ref: "#/components/headers/XShopiyzRateLimitRemaining"
+            X-Shopiyz-API-Limit:
+              $ref: "#/components/headers/XShopiyzAPILimit"
+            X-Shopiyz-API-Remaining:
+              $ref: "#/components/headers/XShopiyzAPIRemaining"
+            X-Shopiyz-API-Restore-Rate:
+              $ref: "#/components/headers/XShopiyzAPIRestoreRate"
+            X-Shopiyz-API-Retry-After:
+              $ref: "#/components/headers/XShopiyzAPIRetryAfter"
+            X-Request-Id:
+              $ref: "#/components/headers/XRequestId"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/StockAuthorityCapabilitiesResponse"
+        "400":
+          $ref: "#/components/responses/BadRequest"
+        "401":
+          $ref: "#/components/responses/Unauthorized"
+        "403":
+          $ref: "#/components/responses/Forbidden"
+        "404":
+          $ref: "#/components/responses/NotFound"
+        "409":
+          $ref: "#/components/responses/Conflict"
+        "422":
+          $ref: "#/components/responses/UnprocessableEntity"
+        "429":
+          $ref: "#/components/responses/TooManyRequests"
+        "500":
+          $ref: "#/components/responses/InternalServerError"
+        "413":
+          description: Runtime error declared by the source registry.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AdminApiError'
+        "428":
+          description: Runtime error declared by the source registry.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AdminApiError'
+        "503":
+          description: Runtime error declared by the source registry.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AdminApiError'
+      security:
+        - ShopiyzAccessToken: []
+        - ShopiyzBearerAuth: []
+  /stock_authority/operations/{operation_id}.json:
+    get:
+      operationId: getStockAuthorityOperation
+      tags:
+        - "Inventory / Stock Authority"
+      summary: "Read the original same-store durable configuration/probe/participant operation without requeue or private proof/credential payload."
+      description: |-
+        Read the original same-store durable configuration/probe/participant operation without requeue or private proof/credential payload.. Risk R0; confirmation none; step-up none.
+        Capability: integrations.stock_authority. Risk: R0. Confirmation: none. Step-up: none.
+      x-shopiyz-capability: integrations.stock_authority
+      x-shopiyz-risk: R0
+      x-shopiyz-confirmation: none
+      x-shopiyz-step-up: none
+      x-shopiyz-operation-kind: read
+      x-shopiyz-read-only: true
+      x-shopiyz-scope-alternatives: [["admin:read"],["admin:write"]]
+      x-shopiyz-scope-matching: "any group, all scopes within that group"
+      x-shopiyz-native-permissions: ["settings:manage"]
+      x-shopiyz-native-query-parameters: []
+      x-shopiyz-rate-limit-group: admin_api_global
+      x-shopiyz-rate-limit-cost: 1
+      x-shopiyz-rate-limit-bucket: 40
+      x-shopiyz-rate-limit-restore-rate: 2
+      x-shopiyz-rate-limit-scope: store_token
+      x-shopiyz-rate-limit-algorithm: leaky_bucket
+      x-shopiyz-rate-limit-headers:
+        - X-Shopiyz-Api-Call-Limit
+        - X-Shopiyz-Api-Call-Remaining
+        - X-Shopiyz-Api-Call-Restore-Rate
+        - X-Shopiyz-Api-Call-Reset
+        - X-Shopiyz-Shop-Api-Call-Limit
+        - X-Shopiyz-Api-Bucket-Size
+        - X-Shopiyz-Api-Restore-Rate
+        - X-Shopiyz-Api-Cost
+        - X-Shopiyz-RateLimit-Remaining
+        - X-Shopiyz-API-Limit
+        - X-Shopiyz-API-Remaining
+        - X-Shopiyz-API-Retry-After
+        - X-Request-Id
+      x-shopiyz-implemented: true
+      x-shopiyz-execution-mode: native
+      x-shopiyz-preview-required: false
+      x-shopiyz-rollback-supported: false
+      x-ai-safe: true
+      x-ai-readonly: true
+      x-ai-requires-confirmation: false
+      x-ai-destructive: false
+      x-ai-idempotency-required: false
+      x-ai-human-summary: "Reads Read the original same-store durable configuration/probe/participant operation without requeue or private proof/credential payload. without changing store data."
+      x-ai-before-call:
+        - "Verify the caller has a valid store context and read scope."
+        - "Use filters and pagination before broad reads."
+      x-operation-kind: query
+      x-risk: R0
+      x-confirmation: none
+      x-step-up: none
+      x-idempotency: none
+      x-preview-supported: false
+      x-rollback-supported: false
+      x-required-roles:
+        - merchant_staff
+      x-required-scopes:
+        - "admin:read"
+        - "admin:write"
+      x-audit-event: integrations.stock_authority
+      x-response-schema: "#/components/schemas/StockAuthorityOperationResponse"
+      x-required-headers:
+        -
+          name: X-Shopiyz-Access-Token
+          required: true
+          description: "Admin API access token. Authorization: Bearer is accepted by clients that prefer bearer syntax."
+          example: "shpat_••••••••••••"
+        -
+          name: Authorization
+          required: false
+          description: "Bearer token alternative: Authorization: Bearer <token>."
+          example: "Bearer shpat_••••••••••••"
+      parameters:
+        - name: operation_id
+          in: path
+          required: true
+          description: "Async bulk operation identifier."
+          schema:
+            type: string
+          example: operation_123
+      responses:
+        "200":
+          description: Successful response
+          headers:
+            X-Shopiyz-Api-Call-Limit:
+              $ref: "#/components/headers/XShopiyzApiCallLimit"
+            X-Shopiyz-Api-Bucket-Size:
+              $ref: "#/components/headers/XShopiyzApiBucketSize"
+            X-Shopiyz-Api-Restore-Rate:
+              $ref: "#/components/headers/XShopiyzApiRestoreRate"
+            X-Shopiyz-Api-Cost:
+              $ref: "#/components/headers/XShopiyzApiCost"
+            X-Shopiyz-RateLimit-Remaining:
+              $ref: "#/components/headers/XShopiyzRateLimitRemaining"
+            X-Shopiyz-API-Limit:
+              $ref: "#/components/headers/XShopiyzAPILimit"
+            X-Shopiyz-API-Remaining:
+              $ref: "#/components/headers/XShopiyzAPIRemaining"
+            X-Shopiyz-API-Restore-Rate:
+              $ref: "#/components/headers/XShopiyzAPIRestoreRate"
+            X-Shopiyz-API-Retry-After:
+              $ref: "#/components/headers/XShopiyzAPIRetryAfter"
+            X-Request-Id:
+              $ref: "#/components/headers/XRequestId"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/StockAuthorityOperationResponse"
+        "400":
+          $ref: "#/components/responses/BadRequest"
+        "401":
+          $ref: "#/components/responses/Unauthorized"
+        "403":
+          $ref: "#/components/responses/Forbidden"
+        "404":
+          $ref: "#/components/responses/NotFound"
+        "409":
+          $ref: "#/components/responses/Conflict"
+        "422":
+          $ref: "#/components/responses/UnprocessableEntity"
+        "429":
+          $ref: "#/components/responses/TooManyRequests"
+        "500":
+          $ref: "#/components/responses/InternalServerError"
+        "413":
+          description: Runtime error declared by the source registry.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AdminApiError'
+        "428":
+          description: Runtime error declared by the source registry.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AdminApiError'
+        "503":
+          description: Runtime error declared by the source registry.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AdminApiError'
+      security:
+        - ShopiyzAccessToken: []
+        - ShopiyzBearerAuth: []
+  /stock_authority/prepare.json:
+    post:
+      operationId: prepareNativeStockAuthority
+      tags:
+        - "Inventory / Stock Authority"
+      summary: "Explicit Native schema preparation; admission remains OFF and publisher registration is pending, not attested."
+      description: |-
+        Explicit Native schema preparation; admission remains OFF and publisher registration is pending, not attested.. Risk R3; confirmation approval; step-up none.
+        Capability: integrations.stock_authority. Risk: R3. Confirmation: approval. Step-up: none.
+      x-shopiyz-capability: integrations.stock_authority
+      x-shopiyz-risk: R3
+      x-shopiyz-confirmation: approval
+      x-shopiyz-step-up: none
+      x-shopiyz-operation-kind: write
+      x-shopiyz-read-only: false
+      x-shopiyz-scope-alternatives: [["admin:write"]]
+      x-shopiyz-scope-matching: "any group, all scopes within that group"
+      x-shopiyz-native-permissions: ["settings:manage"]
+      x-shopiyz-native-query-parameters: []
+      x-shopiyz-rate-limit-group: admin_api_global
+      x-shopiyz-rate-limit-cost: 3
+      x-shopiyz-rate-limit-bucket: 40
+      x-shopiyz-rate-limit-restore-rate: 2
+      x-shopiyz-rate-limit-scope: store_token
+      x-shopiyz-rate-limit-algorithm: leaky_bucket
+      x-shopiyz-rate-limit-headers:
+        - X-Shopiyz-Api-Call-Limit
+        - X-Shopiyz-Api-Call-Remaining
+        - X-Shopiyz-Api-Call-Restore-Rate
+        - X-Shopiyz-Api-Call-Reset
+        - X-Shopiyz-Shop-Api-Call-Limit
+        - X-Shopiyz-Api-Bucket-Size
+        - X-Shopiyz-Api-Restore-Rate
+        - X-Shopiyz-Api-Cost
+        - X-Shopiyz-RateLimit-Remaining
+        - X-Shopiyz-API-Limit
+        - X-Shopiyz-API-Remaining
+        - X-Shopiyz-API-Retry-After
+        - X-Request-Id
+      x-shopiyz-implemented: true
+      x-shopiyz-execution-mode: native
+      x-shopiyz-preview-required: true
+      x-shopiyz-rollback-supported: false
+      x-ai-safe: false
+      x-ai-readonly: false
+      x-ai-requires-confirmation: true
+      x-ai-destructive: false
+      x-ai-idempotency-required: true
+      x-ai-human-summary: "Changes store data through Explicit Native schema preparation; admission remains OFF and publisher registration is pending, not attested.; confirmation policy is approval."
+      x-ai-before-call:
+        - "Show the merchant a concise summary of the intended change."
+        - "Call the matching preview endpoint first when available."
+        - "Send a stable Idempotency-Key for retries."
+      x-operation-kind: mutation
+      x-risk: R3
+      x-confirmation: preview
+      x-step-up: none
+      x-idempotency: required
+      x-preview-supported: true
+      x-rollback-supported: false
+      x-required-roles:
+        - merchant_staff
+      x-required-scopes:
+        - "admin:write"
+      x-audit-event: integrations.stock_authority
+      x-request-schema: "#/components/schemas/StockAuthorityPrepareRequest"
+      x-response-schema: "#/components/schemas/StockAuthorityPrepareResponse"
+      x-required-headers:
+        -
+          name: X-Shopiyz-Access-Token
+          required: true
+          description: "Admin API access token. Authorization: Bearer is accepted by clients that prefer bearer syntax."
+          example: "shpat_••••••••••••"
+        -
+          name: Authorization
+          required: false
+          description: "Bearer token alternative: Authorization: Bearer <token>."
+          example: "Bearer shpat_••••••••••••"
+        -
+          name: Idempotency-Key
+          required: true
+          description: "Required for retry-safe write/delete/job operations marked as idempotent."
+          example: order-cancel-ord_1001-20260710
+      parameters:
+        - name: Idempotency-Key
+          in: header
+          required: true
+          description: "Required for retry-safe write/delete/job operations marked as idempotent."
+          schema:
+            type: string
+          example: order-cancel-ord_1001-20260710
+      requestBody:
+        required: false
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/StockAuthorityPrepareRequest"
+      responses:
+        "200":
+          description: Successful response
+          headers:
+            X-Shopiyz-Api-Call-Limit:
+              $ref: "#/components/headers/XShopiyzApiCallLimit"
+            X-Shopiyz-Api-Bucket-Size:
+              $ref: "#/components/headers/XShopiyzApiBucketSize"
+            X-Shopiyz-Api-Restore-Rate:
+              $ref: "#/components/headers/XShopiyzApiRestoreRate"
+            X-Shopiyz-Api-Cost:
+              $ref: "#/components/headers/XShopiyzApiCost"
+            X-Shopiyz-RateLimit-Remaining:
+              $ref: "#/components/headers/XShopiyzRateLimitRemaining"
+            X-Shopiyz-API-Limit:
+              $ref: "#/components/headers/XShopiyzAPILimit"
+            X-Shopiyz-API-Remaining:
+              $ref: "#/components/headers/XShopiyzAPIRemaining"
+            X-Shopiyz-API-Restore-Rate:
+              $ref: "#/components/headers/XShopiyzAPIRestoreRate"
+            X-Shopiyz-API-Retry-After:
+              $ref: "#/components/headers/XShopiyzAPIRetryAfter"
+            X-Request-Id:
+              $ref: "#/components/headers/XRequestId"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/StockAuthorityPrepareResponse"
+        "400":
+          $ref: "#/components/responses/BadRequest"
+        "401":
+          $ref: "#/components/responses/Unauthorized"
+        "403":
+          $ref: "#/components/responses/Forbidden"
+        "404":
+          $ref: "#/components/responses/NotFound"
+        "409":
+          $ref: "#/components/responses/Conflict"
+        "422":
+          $ref: "#/components/responses/UnprocessableEntity"
+        "429":
+          $ref: "#/components/responses/TooManyRequests"
+        "500":
+          $ref: "#/components/responses/InternalServerError"
+        "413":
+          description: Runtime error declared by the source registry.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AdminApiError'
+        "428":
+          description: Runtime error declared by the source registry.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AdminApiError'
+        "503":
+          description: Runtime error declared by the source registry.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AdminApiError'
+      security:
+        - ShopiyzAccessToken: []
+        - ShopiyzBearerAuth: []
+  /stock_authority/providers.json:
+    get:
+      operationId: listStockAuthorityProviders
+      tags:
+        - "Inventory / Stock Authority"
+      summary: "Read redacted provider generations without credentials or origins."
+      description: |-
+        Read redacted provider generations without credentials or origins.. Risk R0; confirmation none; step-up none.
+        Capability: integrations.stock_authority. Risk: R0. Confirmation: none. Step-up: none.
+      x-shopiyz-capability: integrations.stock_authority
+      x-shopiyz-risk: R0
+      x-shopiyz-confirmation: none
+      x-shopiyz-step-up: none
+      x-shopiyz-operation-kind: read
+      x-shopiyz-read-only: true
+      x-shopiyz-scope-alternatives: [["admin:read"],["admin:write"]]
+      x-shopiyz-scope-matching: "any group, all scopes within that group"
+      x-shopiyz-native-permissions: ["settings:manage"]
+      x-shopiyz-native-query-parameters: []
+      x-shopiyz-rate-limit-group: admin_api_global
+      x-shopiyz-rate-limit-cost: 1
+      x-shopiyz-rate-limit-bucket: 40
+      x-shopiyz-rate-limit-restore-rate: 2
+      x-shopiyz-rate-limit-scope: store_token
+      x-shopiyz-rate-limit-algorithm: leaky_bucket
+      x-shopiyz-rate-limit-headers:
+        - X-Shopiyz-Api-Call-Limit
+        - X-Shopiyz-Api-Call-Remaining
+        - X-Shopiyz-Api-Call-Restore-Rate
+        - X-Shopiyz-Api-Call-Reset
+        - X-Shopiyz-Shop-Api-Call-Limit
+        - X-Shopiyz-Api-Bucket-Size
+        - X-Shopiyz-Api-Restore-Rate
+        - X-Shopiyz-Api-Cost
+        - X-Shopiyz-RateLimit-Remaining
+        - X-Shopiyz-API-Limit
+        - X-Shopiyz-API-Remaining
+        - X-Shopiyz-API-Retry-After
+        - X-Request-Id
+      x-shopiyz-implemented: true
+      x-shopiyz-execution-mode: native
+      x-shopiyz-preview-required: false
+      x-shopiyz-rollback-supported: false
+      x-ai-safe: true
+      x-ai-readonly: true
+      x-ai-requires-confirmation: false
+      x-ai-destructive: false
+      x-ai-idempotency-required: false
+      x-ai-human-summary: "Reads Read redacted provider generations without credentials or origins. without changing store data."
+      x-ai-before-call:
+        - "Verify the caller has a valid store context and read scope."
+        - "Use filters and pagination before broad reads."
+      x-operation-kind: query
+      x-risk: R0
+      x-confirmation: none
+      x-step-up: none
+      x-idempotency: none
+      x-preview-supported: false
+      x-rollback-supported: false
+      x-required-roles:
+        - merchant_staff
+      x-required-scopes:
+        - "admin:read"
+        - "admin:write"
+      x-audit-event: integrations.stock_authority
+      x-response-schema: "#/components/schemas/StockAuthorityProvidersResponse"
+      x-required-headers:
+        -
+          name: X-Shopiyz-Access-Token
+          required: true
+          description: "Admin API access token. Authorization: Bearer is accepted by clients that prefer bearer syntax."
+          example: "shpat_••••••••••••"
+        -
+          name: Authorization
+          required: false
+          description: "Bearer token alternative: Authorization: Bearer <token>."
+          example: "Bearer shpat_••••••••••••"
+      responses:
+        "200":
+          description: Successful response
+          headers:
+            X-Shopiyz-Api-Call-Limit:
+              $ref: "#/components/headers/XShopiyzApiCallLimit"
+            X-Shopiyz-Api-Bucket-Size:
+              $ref: "#/components/headers/XShopiyzApiBucketSize"
+            X-Shopiyz-Api-Restore-Rate:
+              $ref: "#/components/headers/XShopiyzApiRestoreRate"
+            X-Shopiyz-Api-Cost:
+              $ref: "#/components/headers/XShopiyzApiCost"
+            X-Shopiyz-RateLimit-Remaining:
+              $ref: "#/components/headers/XShopiyzRateLimitRemaining"
+            X-Shopiyz-API-Limit:
+              $ref: "#/components/headers/XShopiyzAPILimit"
+            X-Shopiyz-API-Remaining:
+              $ref: "#/components/headers/XShopiyzAPIRemaining"
+            X-Shopiyz-API-Restore-Rate:
+              $ref: "#/components/headers/XShopiyzAPIRestoreRate"
+            X-Shopiyz-API-Retry-After:
+              $ref: "#/components/headers/XShopiyzAPIRetryAfter"
+            X-Request-Id:
+              $ref: "#/components/headers/XRequestId"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/StockAuthorityProvidersResponse"
+        "400":
+          $ref: "#/components/responses/BadRequest"
+        "401":
+          $ref: "#/components/responses/Unauthorized"
+        "403":
+          $ref: "#/components/responses/Forbidden"
+        "404":
+          $ref: "#/components/responses/NotFound"
+        "409":
+          $ref: "#/components/responses/Conflict"
+        "422":
+          $ref: "#/components/responses/UnprocessableEntity"
+        "429":
+          $ref: "#/components/responses/TooManyRequests"
+        "500":
+          $ref: "#/components/responses/InternalServerError"
+        "413":
+          description: Runtime error declared by the source registry.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AdminApiError'
+        "428":
+          description: Runtime error declared by the source registry.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AdminApiError'
+        "503":
+          description: Runtime error declared by the source registry.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AdminApiError'
+      security:
+        - ShopiyzAccessToken: []
+        - ShopiyzBearerAuth: []
+    post:
+      operationId: createStockAuthorityProvider
+      tags:
+        - "Inventory / Stock Authority"
+      summary: "Create an encrypted draft generation using deployment-approved origin and backend vault; no inline provider call."
+      description: |-
+        Create an encrypted draft generation using deployment-approved origin and backend vault; no inline provider call.. Risk R3; confirmation approval; step-up none.
+        Capability: integrations.stock_authority. Risk: R3. Confirmation: approval. Step-up: none.
+      x-shopiyz-capability: integrations.stock_authority
+      x-shopiyz-risk: R3
+      x-shopiyz-confirmation: approval
+      x-shopiyz-step-up: none
+      x-shopiyz-operation-kind: write
+      x-shopiyz-read-only: false
+      x-shopiyz-scope-alternatives: [["admin:write"]]
+      x-shopiyz-scope-matching: "any group, all scopes within that group"
+      x-shopiyz-native-permissions: ["settings:manage"]
+      x-shopiyz-native-query-parameters: []
+      x-shopiyz-rate-limit-group: admin_api_global
+      x-shopiyz-rate-limit-cost: 3
+      x-shopiyz-rate-limit-bucket: 40
+      x-shopiyz-rate-limit-restore-rate: 2
+      x-shopiyz-rate-limit-scope: store_token
+      x-shopiyz-rate-limit-algorithm: leaky_bucket
+      x-shopiyz-rate-limit-headers:
+        - X-Shopiyz-Api-Call-Limit
+        - X-Shopiyz-Api-Call-Remaining
+        - X-Shopiyz-Api-Call-Restore-Rate
+        - X-Shopiyz-Api-Call-Reset
+        - X-Shopiyz-Shop-Api-Call-Limit
+        - X-Shopiyz-Api-Bucket-Size
+        - X-Shopiyz-Api-Restore-Rate
+        - X-Shopiyz-Api-Cost
+        - X-Shopiyz-RateLimit-Remaining
+        - X-Shopiyz-API-Limit
+        - X-Shopiyz-API-Remaining
+        - X-Shopiyz-API-Retry-After
+        - X-Request-Id
+      x-shopiyz-implemented: true
+      x-shopiyz-execution-mode: native
+      x-shopiyz-preview-required: true
+      x-shopiyz-rollback-supported: false
+      x-ai-safe: false
+      x-ai-readonly: false
+      x-ai-requires-confirmation: true
+      x-ai-destructive: false
+      x-ai-idempotency-required: true
+      x-ai-human-summary: "Changes store data through Create an encrypted draft generation using deployment-approved origin and backend vault; no inline provider call.; confirmation policy is approval."
+      x-ai-before-call:
+        - "Show the merchant a concise summary of the intended change."
+        - "Call the matching preview endpoint first when available."
+        - "Send a stable Idempotency-Key for retries."
+      x-operation-kind: mutation
+      x-risk: R3
+      x-confirmation: preview
+      x-step-up: none
+      x-idempotency: required
+      x-preview-supported: true
+      x-rollback-supported: false
+      x-required-roles:
+        - merchant_staff
+      x-required-scopes:
+        - "admin:write"
+      x-audit-event: integrations.stock_authority
+      x-request-schema: "#/components/schemas/StockAuthorityProviderWrite"
+      x-response-schema: "#/components/schemas/StockAuthorityProviderResponse"
+      x-required-headers:
+        -
+          name: X-Shopiyz-Access-Token
+          required: true
+          description: "Admin API access token. Authorization: Bearer is accepted by clients that prefer bearer syntax."
+          example: "shpat_••••••••••••"
+        -
+          name: Authorization
+          required: false
+          description: "Bearer token alternative: Authorization: Bearer <token>."
+          example: "Bearer shpat_••••••••••••"
+        -
+          name: Idempotency-Key
+          required: true
+          description: "Required for retry-safe write/delete/job operations marked as idempotent."
+          example: order-cancel-ord_1001-20260710
+      parameters:
+        - name: Idempotency-Key
+          in: header
+          required: true
+          description: "Required for retry-safe write/delete/job operations marked as idempotent."
+          schema:
+            type: string
+          example: order-cancel-ord_1001-20260710
+      requestBody:
+        required: false
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/StockAuthorityProviderWrite"
+      responses:
+        "201":
+          description: Successful response
+          headers:
+            X-Shopiyz-Api-Call-Limit:
+              $ref: "#/components/headers/XShopiyzApiCallLimit"
+            X-Shopiyz-Api-Bucket-Size:
+              $ref: "#/components/headers/XShopiyzApiBucketSize"
+            X-Shopiyz-Api-Restore-Rate:
+              $ref: "#/components/headers/XShopiyzApiRestoreRate"
+            X-Shopiyz-Api-Cost:
+              $ref: "#/components/headers/XShopiyzApiCost"
+            X-Shopiyz-RateLimit-Remaining:
+              $ref: "#/components/headers/XShopiyzRateLimitRemaining"
+            X-Shopiyz-API-Limit:
+              $ref: "#/components/headers/XShopiyzAPILimit"
+            X-Shopiyz-API-Remaining:
+              $ref: "#/components/headers/XShopiyzAPIRemaining"
+            X-Shopiyz-API-Restore-Rate:
+              $ref: "#/components/headers/XShopiyzAPIRestoreRate"
+            X-Shopiyz-API-Retry-After:
+              $ref: "#/components/headers/XShopiyzAPIRetryAfter"
+            X-Request-Id:
+              $ref: "#/components/headers/XRequestId"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/StockAuthorityProviderResponse"
+        "400":
+          $ref: "#/components/responses/BadRequest"
+        "401":
+          $ref: "#/components/responses/Unauthorized"
+        "403":
+          $ref: "#/components/responses/Forbidden"
+        "404":
+          $ref: "#/components/responses/NotFound"
+        "409":
+          $ref: "#/components/responses/Conflict"
+        "422":
+          $ref: "#/components/responses/UnprocessableEntity"
+        "429":
+          $ref: "#/components/responses/TooManyRequests"
+        "500":
+          $ref: "#/components/responses/InternalServerError"
+        "413":
+          description: Runtime error declared by the source registry.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AdminApiError'
+        "428":
+          description: Runtime error declared by the source registry.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AdminApiError'
+        "503":
+          description: Runtime error declared by the source registry.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AdminApiError'
+      security:
+        - ShopiyzAccessToken: []
+        - ShopiyzBearerAuth: []
+  /stock_authority/providers/{provider_id}.json:
+    get:
+      operationId: getStockAuthorityProvider
+      tags:
+        - "Inventory / Stock Authority"
+      summary: "Read a redacted same-store provider generation."
+      description: |-
+        Read a redacted same-store provider generation.. Risk R0; confirmation none; step-up none.
+        Capability: integrations.stock_authority. Risk: R0. Confirmation: none. Step-up: none.
+      x-shopiyz-capability: integrations.stock_authority
+      x-shopiyz-risk: R0
+      x-shopiyz-confirmation: none
+      x-shopiyz-step-up: none
+      x-shopiyz-operation-kind: read
+      x-shopiyz-read-only: true
+      x-shopiyz-scope-alternatives: [["admin:read"],["admin:write"]]
+      x-shopiyz-scope-matching: "any group, all scopes within that group"
+      x-shopiyz-native-permissions: ["settings:manage"]
+      x-shopiyz-native-query-parameters: []
+      x-shopiyz-rate-limit-group: admin_api_global
+      x-shopiyz-rate-limit-cost: 1
+      x-shopiyz-rate-limit-bucket: 40
+      x-shopiyz-rate-limit-restore-rate: 2
+      x-shopiyz-rate-limit-scope: store_token
+      x-shopiyz-rate-limit-algorithm: leaky_bucket
+      x-shopiyz-rate-limit-headers:
+        - X-Shopiyz-Api-Call-Limit
+        - X-Shopiyz-Api-Call-Remaining
+        - X-Shopiyz-Api-Call-Restore-Rate
+        - X-Shopiyz-Api-Call-Reset
+        - X-Shopiyz-Shop-Api-Call-Limit
+        - X-Shopiyz-Api-Bucket-Size
+        - X-Shopiyz-Api-Restore-Rate
+        - X-Shopiyz-Api-Cost
+        - X-Shopiyz-RateLimit-Remaining
+        - X-Shopiyz-API-Limit
+        - X-Shopiyz-API-Remaining
+        - X-Shopiyz-API-Retry-After
+        - X-Request-Id
+      x-shopiyz-implemented: true
+      x-shopiyz-execution-mode: native
+      x-shopiyz-preview-required: false
+      x-shopiyz-rollback-supported: false
+      x-ai-safe: true
+      x-ai-readonly: true
+      x-ai-requires-confirmation: false
+      x-ai-destructive: false
+      x-ai-idempotency-required: false
+      x-ai-human-summary: "Reads Read a redacted same-store provider generation. without changing store data."
+      x-ai-before-call:
+        - "Verify the caller has a valid store context and read scope."
+        - "Use filters and pagination before broad reads."
+      x-operation-kind: query
+      x-risk: R0
+      x-confirmation: none
+      x-step-up: none
+      x-idempotency: none
+      x-preview-supported: false
+      x-rollback-supported: false
+      x-required-roles:
+        - merchant_staff
+      x-required-scopes:
+        - "admin:read"
+        - "admin:write"
+      x-audit-event: integrations.stock_authority
+      x-response-schema: "#/components/schemas/StockAuthorityProviderResponse"
+      x-required-headers:
+        -
+          name: X-Shopiyz-Access-Token
+          required: true
+          description: "Admin API access token. Authorization: Bearer is accepted by clients that prefer bearer syntax."
+          example: "shpat_••••••••••••"
+        -
+          name: Authorization
+          required: false
+          description: "Bearer token alternative: Authorization: Bearer <token>."
+          example: "Bearer shpat_••••••••••••"
+      parameters:
+        - name: provider_id
+          in: path
+          required: true
+          description: "Provider Id path parameter."
+          schema:
+            type: string
+          example: provider_123
+      responses:
+        "200":
+          description: Successful response
+          headers:
+            X-Shopiyz-Api-Call-Limit:
+              $ref: "#/components/headers/XShopiyzApiCallLimit"
+            X-Shopiyz-Api-Bucket-Size:
+              $ref: "#/components/headers/XShopiyzApiBucketSize"
+            X-Shopiyz-Api-Restore-Rate:
+              $ref: "#/components/headers/XShopiyzApiRestoreRate"
+            X-Shopiyz-Api-Cost:
+              $ref: "#/components/headers/XShopiyzApiCost"
+            X-Shopiyz-RateLimit-Remaining:
+              $ref: "#/components/headers/XShopiyzRateLimitRemaining"
+            X-Shopiyz-API-Limit:
+              $ref: "#/components/headers/XShopiyzAPILimit"
+            X-Shopiyz-API-Remaining:
+              $ref: "#/components/headers/XShopiyzAPIRemaining"
+            X-Shopiyz-API-Restore-Rate:
+              $ref: "#/components/headers/XShopiyzAPIRestoreRate"
+            X-Shopiyz-API-Retry-After:
+              $ref: "#/components/headers/XShopiyzAPIRetryAfter"
+            X-Request-Id:
+              $ref: "#/components/headers/XRequestId"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/StockAuthorityProviderResponse"
+        "400":
+          $ref: "#/components/responses/BadRequest"
+        "401":
+          $ref: "#/components/responses/Unauthorized"
+        "403":
+          $ref: "#/components/responses/Forbidden"
+        "404":
+          $ref: "#/components/responses/NotFound"
+        "409":
+          $ref: "#/components/responses/Conflict"
+        "422":
+          $ref: "#/components/responses/UnprocessableEntity"
+        "429":
+          $ref: "#/components/responses/TooManyRequests"
+        "500":
+          $ref: "#/components/responses/InternalServerError"
+        "413":
+          description: Runtime error declared by the source registry.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AdminApiError'
+        "428":
+          description: Runtime error declared by the source registry.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AdminApiError'
+        "503":
+          description: Runtime error declared by the source registry.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AdminApiError'
+      security:
+        - ShopiyzAccessToken: []
+        - ShopiyzBearerAuth: []
+    put:
+      operationId: updateStockAuthorityProvider
+      tags:
+        - "Inventory / Stock Authority"
+      summary: "CAS a new immutable encrypted provider generation; accepted original operations retain their source generation."
+      description: |-
+        CAS a new immutable encrypted provider generation; accepted original operations retain their source generation.. Risk R3; confirmation approval; step-up none.
+        Capability: integrations.stock_authority. Risk: R3. Confirmation: approval. Step-up: none.
+      x-shopiyz-capability: integrations.stock_authority
+      x-shopiyz-risk: R3
+      x-shopiyz-confirmation: approval
+      x-shopiyz-step-up: none
+      x-shopiyz-operation-kind: write
+      x-shopiyz-read-only: false
+      x-shopiyz-scope-alternatives: [["admin:write"]]
+      x-shopiyz-scope-matching: "any group, all scopes within that group"
+      x-shopiyz-native-permissions: ["settings:manage"]
+      x-shopiyz-native-query-parameters: []
+      x-shopiyz-rate-limit-group: admin_api_global
+      x-shopiyz-rate-limit-cost: 3
+      x-shopiyz-rate-limit-bucket: 40
+      x-shopiyz-rate-limit-restore-rate: 2
+      x-shopiyz-rate-limit-scope: store_token
+      x-shopiyz-rate-limit-algorithm: leaky_bucket
+      x-shopiyz-rate-limit-headers:
+        - X-Shopiyz-Api-Call-Limit
+        - X-Shopiyz-Api-Call-Remaining
+        - X-Shopiyz-Api-Call-Restore-Rate
+        - X-Shopiyz-Api-Call-Reset
+        - X-Shopiyz-Shop-Api-Call-Limit
+        - X-Shopiyz-Api-Bucket-Size
+        - X-Shopiyz-Api-Restore-Rate
+        - X-Shopiyz-Api-Cost
+        - X-Shopiyz-RateLimit-Remaining
+        - X-Shopiyz-API-Limit
+        - X-Shopiyz-API-Remaining
+        - X-Shopiyz-API-Retry-After
+        - X-Request-Id
+      x-shopiyz-implemented: true
+      x-shopiyz-execution-mode: native
+      x-shopiyz-preview-required: true
+      x-shopiyz-rollback-supported: false
+      x-ai-safe: false
+      x-ai-readonly: false
+      x-ai-requires-confirmation: true
+      x-ai-destructive: false
+      x-ai-idempotency-required: true
+      x-ai-human-summary: "Changes store data through CAS a new immutable encrypted provider generation; accepted original operations retain their source generation.; confirmation policy is approval."
+      x-ai-before-call:
+        - "Show the merchant a concise summary of the intended change."
+        - "Call the matching preview endpoint first when available."
+        - "Send a stable Idempotency-Key for retries."
+      x-operation-kind: mutation
+      x-risk: R3
+      x-confirmation: preview
+      x-step-up: none
+      x-idempotency: required
+      x-preview-supported: true
+      x-rollback-supported: false
+      x-required-roles:
+        - merchant_staff
+      x-required-scopes:
+        - "admin:write"
+      x-audit-event: integrations.stock_authority
+      x-request-schema: "#/components/schemas/StockAuthorityProviderWrite"
+      x-response-schema: "#/components/schemas/StockAuthorityProviderResponse"
+      x-required-headers:
+        -
+          name: X-Shopiyz-Access-Token
+          required: true
+          description: "Admin API access token. Authorization: Bearer is accepted by clients that prefer bearer syntax."
+          example: "shpat_••••••••••••"
+        -
+          name: Authorization
+          required: false
+          description: "Bearer token alternative: Authorization: Bearer <token>."
+          example: "Bearer shpat_••••••••••••"
+        -
+          name: Idempotency-Key
+          required: true
+          description: "Required for retry-safe write/delete/job operations marked as idempotent."
+          example: order-cancel-ord_1001-20260710
+      parameters:
+        - name: provider_id
+          in: path
+          required: true
+          description: "Provider Id path parameter."
+          schema:
+            type: string
+          example: provider_123
+        - name: Idempotency-Key
+          in: header
+          required: true
+          description: "Required for retry-safe write/delete/job operations marked as idempotent."
+          schema:
+            type: string
+          example: order-cancel-ord_1001-20260710
+      requestBody:
+        required: false
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/StockAuthorityProviderWrite"
+      responses:
+        "200":
+          description: Successful response
+          headers:
+            X-Shopiyz-Api-Call-Limit:
+              $ref: "#/components/headers/XShopiyzApiCallLimit"
+            X-Shopiyz-Api-Bucket-Size:
+              $ref: "#/components/headers/XShopiyzApiBucketSize"
+            X-Shopiyz-Api-Restore-Rate:
+              $ref: "#/components/headers/XShopiyzApiRestoreRate"
+            X-Shopiyz-Api-Cost:
+              $ref: "#/components/headers/XShopiyzApiCost"
+            X-Shopiyz-RateLimit-Remaining:
+              $ref: "#/components/headers/XShopiyzRateLimitRemaining"
+            X-Shopiyz-API-Limit:
+              $ref: "#/components/headers/XShopiyzAPILimit"
+            X-Shopiyz-API-Remaining:
+              $ref: "#/components/headers/XShopiyzAPIRemaining"
+            X-Shopiyz-API-Restore-Rate:
+              $ref: "#/components/headers/XShopiyzAPIRestoreRate"
+            X-Shopiyz-API-Retry-After:
+              $ref: "#/components/headers/XShopiyzAPIRetryAfter"
+            X-Request-Id:
+              $ref: "#/components/headers/XRequestId"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/StockAuthorityProviderResponse"
+        "400":
+          $ref: "#/components/responses/BadRequest"
+        "401":
+          $ref: "#/components/responses/Unauthorized"
+        "403":
+          $ref: "#/components/responses/Forbidden"
+        "404":
+          $ref: "#/components/responses/NotFound"
+        "409":
+          $ref: "#/components/responses/Conflict"
+        "422":
+          $ref: "#/components/responses/UnprocessableEntity"
+        "429":
+          $ref: "#/components/responses/TooManyRequests"
+        "500":
+          $ref: "#/components/responses/InternalServerError"
+        "413":
+          description: Runtime error declared by the source registry.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AdminApiError'
+        "428":
+          description: Runtime error declared by the source registry.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AdminApiError'
+        "503":
+          description: Runtime error declared by the source registry.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AdminApiError'
+      security:
+        - ShopiyzAccessToken: []
+        - ShopiyzBearerAuth: []
+  /stock_authority/providers/{provider_id}/state.json:
+    post:
+      operationId: setStockAuthorityProviderState
+      tags:
+        - "Inventory / Stock Authority"
+      summary: "CAS provider configuration state for the exact verified generation. This never enables store checkout participation."
+      description: |-
+        CAS provider configuration state for the exact verified generation. This never enables store checkout participation.. Risk R3; confirmation approval; step-up none.
+        Capability: integrations.stock_authority. Risk: R3. Confirmation: approval. Step-up: none.
+      x-shopiyz-capability: integrations.stock_authority
+      x-shopiyz-risk: R3
+      x-shopiyz-confirmation: approval
+      x-shopiyz-step-up: none
+      x-shopiyz-operation-kind: write
+      x-shopiyz-read-only: false
+      x-shopiyz-scope-alternatives: [["admin:write"]]
+      x-shopiyz-scope-matching: "any group, all scopes within that group"
+      x-shopiyz-native-permissions: ["settings:manage"]
+      x-shopiyz-native-query-parameters: []
+      x-shopiyz-rate-limit-group: admin_api_global
+      x-shopiyz-rate-limit-cost: 3
+      x-shopiyz-rate-limit-bucket: 40
+      x-shopiyz-rate-limit-restore-rate: 2
+      x-shopiyz-rate-limit-scope: store_token
+      x-shopiyz-rate-limit-algorithm: leaky_bucket
+      x-shopiyz-rate-limit-headers:
+        - X-Shopiyz-Api-Call-Limit
+        - X-Shopiyz-Api-Call-Remaining
+        - X-Shopiyz-Api-Call-Restore-Rate
+        - X-Shopiyz-Api-Call-Reset
+        - X-Shopiyz-Shop-Api-Call-Limit
+        - X-Shopiyz-Api-Bucket-Size
+        - X-Shopiyz-Api-Restore-Rate
+        - X-Shopiyz-Api-Cost
+        - X-Shopiyz-RateLimit-Remaining
+        - X-Shopiyz-API-Limit
+        - X-Shopiyz-API-Remaining
+        - X-Shopiyz-API-Retry-After
+        - X-Request-Id
+      x-shopiyz-implemented: true
+      x-shopiyz-execution-mode: native
+      x-shopiyz-preview-required: true
+      x-shopiyz-rollback-supported: false
+      x-ai-safe: false
+      x-ai-readonly: false
+      x-ai-requires-confirmation: true
+      x-ai-destructive: false
+      x-ai-idempotency-required: true
+      x-ai-human-summary: "Changes store data through CAS provider configuration state for the exact verified generation. This never enables store checkout participation.; confirmation policy is approval."
+      x-ai-before-call:
+        - "Show the merchant a concise summary of the intended change."
+        - "Call the matching preview endpoint first when available."
+        - "Send a stable Idempotency-Key for retries."
+      x-operation-kind: mutation
+      x-risk: R3
+      x-confirmation: preview
+      x-step-up: none
+      x-idempotency: required
+      x-preview-supported: true
+      x-rollback-supported: false
+      x-required-roles:
+        - merchant_staff
+      x-required-scopes:
+        - "admin:write"
+      x-audit-event: integrations.stock_authority
+      x-request-schema: "#/components/schemas/StockAuthorityProviderStateRequest"
+      x-response-schema: "#/components/schemas/StockAuthorityProviderResponse"
+      x-required-headers:
+        -
+          name: X-Shopiyz-Access-Token
+          required: true
+          description: "Admin API access token. Authorization: Bearer is accepted by clients that prefer bearer syntax."
+          example: "shpat_••••••••••••"
+        -
+          name: Authorization
+          required: false
+          description: "Bearer token alternative: Authorization: Bearer <token>."
+          example: "Bearer shpat_••••••••••••"
+        -
+          name: Idempotency-Key
+          required: true
+          description: "Required for retry-safe write/delete/job operations marked as idempotent."
+          example: order-cancel-ord_1001-20260710
+      parameters:
+        - name: provider_id
+          in: path
+          required: true
+          description: "Provider Id path parameter."
+          schema:
+            type: string
+          example: provider_123
+        - name: Idempotency-Key
+          in: header
+          required: true
+          description: "Required for retry-safe write/delete/job operations marked as idempotent."
+          schema:
+            type: string
+          example: order-cancel-ord_1001-20260710
+      requestBody:
+        required: false
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/StockAuthorityProviderStateRequest"
+      responses:
+        "200":
+          description: Successful response
+          headers:
+            X-Shopiyz-Api-Call-Limit:
+              $ref: "#/components/headers/XShopiyzApiCallLimit"
+            X-Shopiyz-Api-Bucket-Size:
+              $ref: "#/components/headers/XShopiyzApiBucketSize"
+            X-Shopiyz-Api-Restore-Rate:
+              $ref: "#/components/headers/XShopiyzApiRestoreRate"
+            X-Shopiyz-Api-Cost:
+              $ref: "#/components/headers/XShopiyzApiCost"
+            X-Shopiyz-RateLimit-Remaining:
+              $ref: "#/components/headers/XShopiyzRateLimitRemaining"
+            X-Shopiyz-API-Limit:
+              $ref: "#/components/headers/XShopiyzAPILimit"
+            X-Shopiyz-API-Remaining:
+              $ref: "#/components/headers/XShopiyzAPIRemaining"
+            X-Shopiyz-API-Restore-Rate:
+              $ref: "#/components/headers/XShopiyzAPIRestoreRate"
+            X-Shopiyz-API-Retry-After:
+              $ref: "#/components/headers/XShopiyzAPIRetryAfter"
+            X-Request-Id:
+              $ref: "#/components/headers/XRequestId"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/StockAuthorityProviderResponse"
+        "400":
+          $ref: "#/components/responses/BadRequest"
+        "401":
+          $ref: "#/components/responses/Unauthorized"
+        "403":
+          $ref: "#/components/responses/Forbidden"
+        "404":
+          $ref: "#/components/responses/NotFound"
+        "409":
+          $ref: "#/components/responses/Conflict"
+        "422":
+          $ref: "#/components/responses/UnprocessableEntity"
+        "429":
+          $ref: "#/components/responses/TooManyRequests"
+        "500":
+          $ref: "#/components/responses/InternalServerError"
+        "413":
+          description: Runtime error declared by the source registry.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AdminApiError'
+        "428":
+          description: Runtime error declared by the source registry.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AdminApiError'
+        "503":
+          description: Runtime error declared by the source registry.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AdminApiError'
+      security:
+        - ShopiyzAccessToken: []
+        - ShopiyzBearerAuth: []
+  /stock_authority/providers/{provider_id}/verify.json:
+    post:
+      operationId: verifyStockAuthorityProvider
+      tags:
+        - "Inventory / Stock Authority"
+      summary: "Queue a background read-only capability probe.202 is queued/paused until the protected provider-verification drain runs."
+      description: |-
+        Queue a background read-only capability probe.202 is queued/paused until the protected provider-verification drain runs.. Risk R3; confirmation approval; step-up none.
+        Capability: integrations.stock_authority. Risk: R3. Confirmation: approval. Step-up: none.
+      x-shopiyz-capability: integrations.stock_authority
+      x-shopiyz-risk: R3
+      x-shopiyz-confirmation: approval
+      x-shopiyz-step-up: none
+      x-shopiyz-operation-kind: job
+      x-shopiyz-read-only: false
+      x-shopiyz-scope-alternatives: [["admin:write"]]
+      x-shopiyz-scope-matching: "any group, all scopes within that group"
+      x-shopiyz-native-permissions: ["settings:manage"]
+      x-shopiyz-native-query-parameters: []
+      x-shopiyz-rate-limit-group: bulk_jobs
+      x-shopiyz-rate-limit-cost: 10
+      x-shopiyz-rate-limit-bucket: 40
+      x-shopiyz-rate-limit-restore-rate: 2
+      x-shopiyz-rate-limit-scope: store_token
+      x-shopiyz-rate-limit-algorithm: leaky_bucket
+      x-shopiyz-rate-limit-headers:
+        - X-Shopiyz-Api-Call-Limit
+        - X-Shopiyz-Api-Call-Remaining
+        - X-Shopiyz-Api-Call-Restore-Rate
+        - X-Shopiyz-Api-Call-Reset
+        - X-Shopiyz-Shop-Api-Call-Limit
+        - X-Shopiyz-Api-Bucket-Size
+        - X-Shopiyz-Api-Restore-Rate
+        - X-Shopiyz-Api-Cost
+        - X-Shopiyz-RateLimit-Remaining
+        - X-Shopiyz-API-Limit
+        - X-Shopiyz-API-Remaining
+        - X-Shopiyz-API-Retry-After
+        - X-Request-Id
+      x-shopiyz-implemented: true
+      x-shopiyz-execution-mode: native
+      x-shopiyz-preview-required: true
+      x-shopiyz-rollback-supported: false
+      x-ai-safe: false
+      x-ai-readonly: false
+      x-ai-requires-confirmation: true
+      x-ai-destructive: false
+      x-ai-idempotency-required: true
+      x-ai-human-summary: "Changes store data through Queue a background read-only capability probe.202 is queued/paused until the protected provider-verification drain runs.; confirmation policy is approval."
+      x-ai-before-call:
+        - "Show the merchant a concise summary of the intended change."
+        - "Call the matching preview endpoint first when available."
+        - "Send a stable Idempotency-Key for retries."
+      x-operation-kind: mutation
+      x-risk: R3
+      x-confirmation: preview
+      x-step-up: none
+      x-idempotency: required
+      x-preview-supported: true
+      x-rollback-supported: false
+      x-required-roles:
+        - merchant_staff
+      x-required-scopes:
+        - "admin:write"
+      x-audit-event: integrations.stock_authority
+      x-request-schema: "#/components/schemas/StockAuthorityVerificationRequest"
+      x-response-schema: "#/components/schemas/StockAuthorityVerificationResponse"
+      x-required-headers:
+        -
+          name: X-Shopiyz-Access-Token
+          required: true
+          description: "Admin API access token. Authorization: Bearer is accepted by clients that prefer bearer syntax."
+          example: "shpat_••••••••••••"
+        -
+          name: Authorization
+          required: false
+          description: "Bearer token alternative: Authorization: Bearer <token>."
+          example: "Bearer shpat_••••••••••••"
+        -
+          name: Idempotency-Key
+          required: true
+          description: "Required for retry-safe write/delete/job operations marked as idempotent."
+          example: order-cancel-ord_1001-20260710
+      parameters:
+        - name: provider_id
+          in: path
+          required: true
+          description: "Provider Id path parameter."
+          schema:
+            type: string
+          example: provider_123
+        - name: Idempotency-Key
+          in: header
+          required: true
+          description: "Required for retry-safe write/delete/job operations marked as idempotent."
+          schema:
+            type: string
+          example: order-cancel-ord_1001-20260710
+      requestBody:
+        required: false
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/StockAuthorityVerificationRequest"
+      responses:
+        "202":
+          description: Successful response
+          headers:
+            X-Shopiyz-Api-Call-Limit:
+              $ref: "#/components/headers/XShopiyzApiCallLimit"
+            X-Shopiyz-Api-Bucket-Size:
+              $ref: "#/components/headers/XShopiyzApiBucketSize"
+            X-Shopiyz-Api-Restore-Rate:
+              $ref: "#/components/headers/XShopiyzApiRestoreRate"
+            X-Shopiyz-Api-Cost:
+              $ref: "#/components/headers/XShopiyzApiCost"
+            X-Shopiyz-RateLimit-Remaining:
+              $ref: "#/components/headers/XShopiyzRateLimitRemaining"
+            X-Shopiyz-API-Limit:
+              $ref: "#/components/headers/XShopiyzAPILimit"
+            X-Shopiyz-API-Remaining:
+              $ref: "#/components/headers/XShopiyzAPIRemaining"
+            X-Shopiyz-API-Restore-Rate:
+              $ref: "#/components/headers/XShopiyzAPIRestoreRate"
+            X-Shopiyz-API-Retry-After:
+              $ref: "#/components/headers/XShopiyzAPIRetryAfter"
+            X-Request-Id:
+              $ref: "#/components/headers/XRequestId"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/StockAuthorityVerificationResponse"
+        "400":
+          $ref: "#/components/responses/BadRequest"
+        "401":
+          $ref: "#/components/responses/Unauthorized"
+        "403":
+          $ref: "#/components/responses/Forbidden"
+        "404":
+          $ref: "#/components/responses/NotFound"
+        "409":
+          $ref: "#/components/responses/Conflict"
+        "422":
+          $ref: "#/components/responses/UnprocessableEntity"
+        "429":
+          $ref: "#/components/responses/TooManyRequests"
+        "500":
+          $ref: "#/components/responses/InternalServerError"
+        "413":
+          description: Runtime error declared by the source registry.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AdminApiError'
+        "428":
+          description: Runtime error declared by the source registry.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AdminApiError'
+        "503":
+          description: Runtime error declared by the source registry.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AdminApiError'
+      security:
+        - ShopiyzAccessToken: []
+        - ShopiyzBearerAuth: []
   /stock_counts.json:
     get:
       operationId: listStockCounts
@@ -363585,6 +365604,703 @@ components:
               type: array
               items:
                 type: string
+    StockAuthorityError:
+      type: object
+      properties:
+        error:
+          type: object
+          properties:
+            code:
+              type: string
+          required:
+            - code
+          additionalProperties: true
+      required:
+        - error
+      additionalProperties: true
+    StockAuthorityKernelReadiness:
+      type: object
+      properties:
+        ready:
+          type: boolean
+        missing:
+          type: array
+          items:
+            type: string
+        schemaVersion:
+          type: integer
+          enum:
+            - 1
+      required:
+        - ready
+        - missing
+        - schemaVersion
+      additionalProperties: false
+    StockAuthorityPublisherPending:
+      type: object
+      properties:
+        registered:
+          type:
+            - boolean
+            - "null"
+        ready:
+          type: boolean
+          enum:
+            - false
+        state:
+          type: string
+          enum:
+            - pending_native_publisher
+        generation:
+          type: integer
+          minimum: 1
+          maximum: 9007199254740991
+      required:
+        - registered
+        - ready
+        - state
+      additionalProperties: false
+      description: "Acknowledgement of a pending Native publisher selector only. ready remains false. registered is null on a capability read without a remote lookup, false if prepare has no verified acknowledgement, true only for the acknowledged original prepare selector."
+    StockAuthorityProviderCapabilities:
+      type: object
+      properties:
+        protocol:
+          type: string
+          enum:
+            - shopiyz.stock-authority.v1
+        atomicCartReserve:
+          type: boolean
+          enum:
+            - true
+        immutableOperationIds:
+          type: boolean
+          enum:
+            - true
+        queryByOperationId:
+          type: boolean
+          enum:
+            - true
+        pendingLeaseProtection:
+          type: boolean
+          enum:
+            - true
+        maxLines:
+          type: integer
+          minimum: 1
+          maximum: 100
+        commands:
+          type: array
+          uniqueItems: true
+          items:
+            type: string
+            enum:
+              - reserve
+              - pending
+              - commit
+              - release
+              - dispatch
+              - return
+              - cancel
+          description: "All six original commands required. cancel additionally requires committedCancellation=true."
+        committedCancellation:
+          type: boolean
+          enum:
+            - true
+          description: "Optional postcommit-undispatched cancellation semantics; must be paired with cancel."
+        opaqueLineAttributes:
+          type: boolean
+          enum:
+            - true
+          description: "Optional immutable binding-selected opaque Native line properties. Required when a binding selects nonempty line_attribute_keys."
+      required:
+        - protocol
+        - atomicCartReserve
+        - immutableOperationIds
+        - queryByOperationId
+        - pendingLeaseProtection
+        - maxLines
+        - commands
+      additionalProperties: false
+    StockAuthorityCapabilitiesResponse:
+      type: object
+      properties:
+        stock_authority:
+          type: object
+          properties:
+            storeId:
+              type: string
+            protocol:
+              type: string
+            schemaVersion:
+              type: integer
+            channels:
+              type: object
+              properties:
+                {}
+              additionalProperties:
+                type: boolean
+            nativeAdapterInventory:
+              type: object
+              properties:
+                nativeConsumerWiring:
+                  type: boolean
+                  enum:
+                    - false
+              required:
+                - nativeConsumerWiring
+              additionalProperties: true
+            complete:
+              type: boolean
+              enum:
+                - false
+            unsupported:
+              type: array
+              items:
+                type: string
+            serverEnabled:
+              type: boolean
+              enum:
+                - false
+            backgroundEnabled:
+              type: boolean
+            sourceSha:
+              type: string
+              nullable: true
+              description: "Trusted deployed Core source binding when present, otherwise unknown."
+            readiness:
+              $ref: "#/components/schemas/StockAuthorityKernelReadiness"
+            configurationPolicy:
+              type: object
+              properties:
+                originAllowlistConfigured:
+                  type: boolean
+                credentialEncryptionConfigured:
+                  type: boolean
+              required:
+                - originAllowlistConfigured
+                - credentialEncryptionConfigured
+              additionalProperties: false
+            checkoutParticipation:
+              type: object
+              properties:
+                ready:
+                  type: boolean
+                  enum:
+                    - false
+                active:
+                  type: boolean
+                  enum:
+                    - false
+                reason:
+                  type: string
+                  enum:
+                    - native_checkout_consumers_not_integrated
+              required:
+                - ready
+                - active
+                - reason
+              additionalProperties: false
+            publisherRegistration:
+              $ref: "#/components/schemas/StockAuthorityPublisherPending"
+            executionMode:
+              type: string
+              enum:
+                - native_configuration
+            providerTransport:
+              type: string
+              enum:
+                - background_only
+            activation:
+              type: string
+          required:
+            - storeId
+            - protocol
+            - channels
+            - complete
+            - serverEnabled
+            - readiness
+            - checkoutParticipation
+            - publisherRegistration
+            - executionMode
+          additionalProperties: true
+      required:
+        - stock_authority
+      additionalProperties: false
+    StockAuthorityPrepareRequest:
+      type: object
+      properties:
+        protocol_version:
+          type: integer
+          enum:
+            - 1
+      required:
+        - protocol_version
+      additionalProperties: false
+    StockAuthorityPrepareResponse:
+      type: object
+      properties:
+        operation_id:
+          type: string
+        preparation:
+          type: object
+          properties:
+            ready:
+              type: boolean
+            missing:
+              type: array
+              items:
+                type: string
+            schemaVersion:
+              type: integer
+              enum:
+                - 1
+            schemaHash:
+              type: string
+              pattern: "^[a-f0-9]{64}$"
+            admissionEnabled:
+              type: boolean
+              enum:
+                - false
+            admissionChanged:
+              type: boolean
+              enum:
+                - false
+            prepared:
+              type: boolean
+              enum:
+                - true
+            publisherRegistration:
+              $ref: "#/components/schemas/StockAuthorityPublisherPending"
+            replayed:
+              type: boolean
+          required:
+            - ready
+            - admissionEnabled
+            - admissionChanged
+            - prepared
+            - publisherRegistration
+          additionalProperties: true
+      required:
+        - operation_id
+        - preparation
+      additionalProperties: false
+    StockAuthorityAdmissionWrite:
+      type: object
+      properties:
+        enabled:
+          type: boolean
+          description: "Only false can execute in this cohort. true returns503; no flag/header/body enables checkout."
+        expected_revision:
+          type: integer
+          minimum: 0
+          maximum: 9007199254740991
+      required:
+        - enabled
+        - expected_revision
+      additionalProperties: false
+    StockAuthorityAdmissionResponse:
+      type: object
+      properties:
+        operation_id:
+          type: string
+        admission:
+          type: object
+          properties:
+            enabled:
+              type: boolean
+              enum:
+                - false
+            revision:
+              type: integer
+              minimum: 0
+              maximum: 9007199254740991
+            prepared:
+              type: boolean
+            replayed:
+              type: boolean
+          required:
+            - enabled
+            - revision
+          additionalProperties: true
+      required:
+        - admission
+      additionalProperties: false
+    StockAuthorityProviderWrite:
+      type: object
+      properties:
+        provider_id:
+          type: string
+        expected_generation:
+          type: integer
+          minimum: 0
+          maximum: 9007199254740991
+        origin:
+          type: string
+          format: uri
+          writeOnly: true
+          description: "Exact deployment-approved HTTPS origin; default-empty allowlist rejects configuration."
+        bearer_token:
+          type: string
+          writeOnly: true
+          minLength: 32
+          maxLength: 500
+          description: "Write-only credential, encrypted with existing backend AES-GCM vault. Never returned or fingerprinted publicly."
+        capabilities:
+          $ref: "#/components/schemas/StockAuthorityProviderCapabilities"
+      required:
+        - expected_generation
+        - origin
+        - bearer_token
+        - capabilities
+      additionalProperties: false
+    StockAuthorityProvider:
+      type: object
+      properties:
+        providerId:
+          type: string
+        generation:
+          type: integer
+          minimum: 1
+          maximum: 9007199254740991
+        state:
+          type: string
+          enum:
+            - draft
+            - enabled
+            - disabled
+        verified:
+          type: boolean
+        configurationHash:
+          type: string
+          pattern: "^[a-f0-9]{64}$"
+          description: "Opaque encrypted-envelope revision digest, not a deterministic secret fingerprint."
+        capabilities:
+          $ref: "#/components/schemas/StockAuthorityProviderCapabilities"
+        replayed:
+          type: boolean
+      required:
+        - providerId
+        - generation
+        - state
+      additionalProperties: true
+    StockAuthorityProviderResponse:
+      type: object
+      properties:
+        operation_id:
+          type: string
+        provider:
+          $ref: "#/components/schemas/StockAuthorityProvider"
+      required:
+        - provider
+      additionalProperties: false
+    StockAuthorityProvidersResponse:
+      type: object
+      properties:
+        providers:
+          type: array
+          items:
+            $ref: "#/components/schemas/StockAuthorityProvider"
+        meta:
+          type: object
+          properties:
+            limit:
+              type: integer
+              minimum: 1
+              maximum: 9007199254740991
+            offset:
+              type: integer
+              minimum: 0
+              maximum: 9007199254740991
+          required:
+            - limit
+            - offset
+          additionalProperties: false
+      required:
+        - providers
+      additionalProperties: false
+    StockAuthorityVerificationRequest:
+      type: object
+      properties:
+        generation:
+          type: integer
+          minimum: 1
+          maximum: 9007199254740991
+      required:
+        - generation
+      additionalProperties: false
+    StockAuthorityVerificationResponse:
+      type: object
+      properties:
+        operation_id:
+          type: string
+        verification:
+          type: object
+          properties:
+            operationId:
+              type: string
+            state:
+              type: string
+              enum:
+                - queued
+                - running
+                - succeeded
+                - failed
+            replayed:
+              type: boolean
+            background_enabled:
+              type: boolean
+          required:
+            - operationId
+            - state
+            - background_enabled
+          additionalProperties: false
+      required:
+        - operation_id
+        - verification
+      additionalProperties: false
+    StockAuthorityProviderStateRequest:
+      type: object
+      properties:
+        generation:
+          type: integer
+          minimum: 1
+          maximum: 9007199254740991
+        expected_state:
+          type: string
+          enum:
+            - draft
+            - enabled
+            - disabled
+        enabled:
+          type: boolean
+      required:
+        - generation
+        - expected_state
+        - enabled
+      additionalProperties: false
+    StockAuthorityBindingWrite:
+      type: object
+      properties:
+        variant_id:
+          type: string
+        location_id:
+          type: string
+        provider_id:
+          type: string
+        generation:
+          type: integer
+          minimum: 1
+          maximum: 9007199254740991
+        external_item_ref:
+          type: string
+          minLength: 1
+          description: "Exact opaque UTF-8 text <=1024bytes, no controls/invalidUnicode; never parsed, normalized or mapped by SKU."
+        unit:
+          type: string
+          enum:
+            - each
+            - m
+            - m2
+            - m3
+            - kg
+            - g
+            - l
+            - ml
+        scale:
+          type: integer
+          enum:
+            - 1
+            - 10
+            - 100
+            - 1000
+            - 10000
+            - 100000
+            - 1000000
+        expected_revision:
+          type: integer
+          minimum: 0
+          maximum: 9007199254740991
+        quantity_profile_revision:
+          type: string
+          pattern: "^[a-f0-9]{64}$"
+        quantity_policy_revision:
+          type: string
+          pattern: "^[a-f0-9]{64}$"
+        line_attribute_keys:
+          type: array
+          default:
+            []
+          maxItems: 16
+          uniqueItems: true
+          items:
+            type: string
+            minLength: 1
+            maxLength: 128
+          description: "Exact property names on the original accepted Native checkout line. All selected keys are required. Internal, credential, contact and customer keys are rejected. Requires provider opaqueLineAttributes=true. Values remain opaque bounded JSON; no whole-cart or contact fallback."
+      required:
+        - variant_id
+        - location_id
+        - provider_id
+        - generation
+        - external_item_ref
+        - unit
+        - scale
+        - expected_revision
+      additionalProperties: false
+    StockAuthorityBindingResponse:
+      type: object
+      properties:
+        operation_id:
+          type: string
+        binding:
+          type: object
+          properties:
+            resourceType:
+              type: string
+              enum:
+                - binding
+            variantId:
+              type: string
+            locationId:
+              type: string
+            revision:
+              type: integer
+              minimum: 1
+              maximum: 9007199254740991
+            replayed:
+              type: boolean
+          required:
+            - resourceType
+            - variantId
+            - locationId
+            - revision
+          additionalProperties: false
+      required:
+        - operation_id
+        - binding
+      additionalProperties: false
+    StockAuthorityBindingsResponse:
+      type: object
+      properties:
+        bindings:
+          type: array
+          items:
+            type: object
+            properties:
+              variant_id:
+                type: string
+              location_id:
+                type: string
+              provider_id:
+                type: string
+              generation:
+                type: integer
+                minimum: 1
+                maximum: 9007199254740991
+              external_item_ref:
+                type: string
+              unit:
+                type: string
+              scale:
+                type: integer
+                minimum: 1
+                maximum: 9007199254740991
+              revision:
+                type: integer
+                minimum: 1
+                maximum: 9007199254740991
+              updated_at:
+                type: string
+                format: date-time
+              quantity_profile_revision:
+                type: string
+                nullable: true
+              quantity_policy_revision:
+                type: string
+                nullable: true
+              quantity_policy:
+                type: object
+                nullable: true
+              line_attribute_keys:
+                type: array
+                maxItems: 16
+                items:
+                  type: string
+            required:
+              - variant_id
+              - location_id
+              - provider_id
+              - generation
+              - external_item_ref
+              - unit
+              - scale
+              - revision
+            additionalProperties: true
+        meta:
+          type: object
+          properties:
+            limit:
+              type: integer
+              minimum: 1
+              maximum: 9007199254740991
+            offset:
+              type: integer
+              minimum: 0
+              maximum: 9007199254740991
+          required:
+            - limit
+            - offset
+          additionalProperties: false
+      required:
+        - bindings
+        - meta
+      additionalProperties: false
+    StockAuthorityOperationResponse:
+      type: object
+      properties:
+        operation:
+          type: object
+          properties:
+            kind:
+              type: string
+              enum:
+                - configuration
+                - verification
+                - participant
+            operation_id:
+              type: string
+            command_kind:
+              type: string
+            provider_id:
+              type: string
+            generation:
+              type: integer
+              minimum: 1
+              maximum: 9007199254740991
+            state:
+              type: string
+            attempts:
+              type: integer
+              minimum: 0
+              maximum: 9007199254740991
+            error_code:
+              type: string
+              nullable: true
+            created_at:
+              type: string
+            updated_at:
+              type: string
+            result:
+              type: object
+              description: "Only safe typed configuration result; binding result requires current Native products:manage."
+          required:
+            - kind
+            - operation_id
+            - state
+          additionalProperties: true
+      required:
+        - operation
+      additionalProperties: false
 security:
   - ShopiyzAccessToken: []
   - ShopiyzBearerAuth: []

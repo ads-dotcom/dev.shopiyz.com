@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ProductsFeed>
+  <Records>
+    <Product>
+      <Id>shopiyz-xml-api-fixture-20261111-4fc821-b</Id>
+      <Name>Shopiyz XML API fixture B v1</Name>
+      <SKU>shopiyz-xml-api-fixture-20261111-4fc821-b</SKU>
+      <Price>202</Price>
+      <StockQuantity>7</StockQuantity>
+      <Status>draft</Status>
+      <Description>Isolated API acceptance fixture. Archive after verification.</Description>
+    </Product>
+    <Product>
+      <Id>shopiyz-xml-api-fixture-20261111-4fc821-c</Id>
+      <Name>Shopiyz XML API fixture C v1</Name>
+      <SKU>shopiyz-xml-api-fixture-20261111-4fc821-c</SKU>
+      <Price>303</Price>
+      <StockQuantity>7</StockQuantity>
+      <Status>draft</Status>
+      <Description>Isolated API acceptance fixture. Archive after verification.</Description>
+    </Product>
+  </Records>
+</ProductsFeed>

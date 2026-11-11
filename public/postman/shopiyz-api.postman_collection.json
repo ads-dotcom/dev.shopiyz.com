@@ -14573,6 +14573,509 @@
           "response": []
         }
       ]
+    },
+    {
+      "name": "Stock Authority / Native configuration (checkout off)",
+      "item": [
+        {
+          "name": "Read Native stock configuration capabilities.json",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/admin/api/v1/stock_authority/capabilities.json",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "admin",
+                "api",
+                "v1",
+                "stock_authority",
+                "capabilities.json"
+              ]
+            },
+            "description": "Read Native stock configuration capabilities.json\nCurrent Native actor/store permissions apply. GET performs no preparation or provider call. Checkout participation stays off. Replace empty variables using actual Native reads and deployment-approved policy; keep the original operation_key and exact body for uncertain retries. Provider credentials are write-only."
+          },
+          "response": []
+        },
+        {
+          "name": "Apply Native stock configuration prepare.json",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              },
+              {
+                "key": "Idempotency-Key",
+                "value": "{{operation_key}}",
+                "type": "text",
+                "disabled": false
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/admin/api/v1/stock_authority/prepare.json",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "admin",
+                "api",
+                "v1",
+                "stock_authority",
+                "prepare.json"
+              ]
+            },
+            "description": "Apply Native stock configuration prepare.json\nCurrent Native actor/store permissions apply. GET performs no preparation or provider call. Checkout participation stays off. Replace empty variables using actual Native reads and deployment-approved policy; keep the original operation_key and exact body for uncertain retries. Provider credentials are write-only.",
+            "body": {
+              "mode": "raw",
+              "raw": "{\"protocol_version\":1}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Read Native stock configuration admission.json",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/admin/api/v1/stock_authority/admission.json",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "admin",
+                "api",
+                "v1",
+                "stock_authority",
+                "admission.json"
+              ]
+            },
+            "description": "Read Native stock configuration admission.json\nCurrent Native actor/store permissions apply. GET performs no preparation or provider call. Checkout participation stays off. Replace empty variables using actual Native reads and deployment-approved policy; keep the original operation_key and exact body for uncertain retries. Provider credentials are write-only."
+          },
+          "response": []
+        },
+        {
+          "name": "Apply Native stock configuration admission.json",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              },
+              {
+                "key": "Idempotency-Key",
+                "value": "{{operation_key}}",
+                "type": "text",
+                "disabled": false
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/admin/api/v1/stock_authority/admission.json",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "admin",
+                "api",
+                "v1",
+                "stock_authority",
+                "admission.json"
+              ]
+            },
+            "description": "Apply Native stock configuration admission.json\nCurrent Native actor/store permissions apply. GET performs no preparation or provider call. Checkout participation stays off. Replace empty variables using actual Native reads and deployment-approved policy; keep the original operation_key and exact body for uncertain retries. Provider credentials are write-only.",
+            "body": {
+              "mode": "raw",
+              "raw": "{\"enabled\":false,\"expected_revision\":{{stock_admission_revision}}}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Read Native stock configuration providers.json",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/admin/api/v1/stock_authority/providers.json",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "admin",
+                "api",
+                "v1",
+                "stock_authority",
+                "providers.json"
+              ]
+            },
+            "description": "Read Native stock configuration providers.json\nCurrent Native actor/store permissions apply. GET performs no preparation or provider call. Checkout participation stays off. Replace empty variables using actual Native reads and deployment-approved policy; keep the original operation_key and exact body for uncertain retries. Provider credentials are write-only."
+          },
+          "response": []
+        },
+        {
+          "name": "Apply Native stock configuration providers.json",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              },
+              {
+                "key": "Idempotency-Key",
+                "value": "{{operation_key}}",
+                "type": "text",
+                "disabled": false
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/admin/api/v1/stock_authority/providers.json",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "admin",
+                "api",
+                "v1",
+                "stock_authority",
+                "providers.json"
+              ]
+            },
+            "description": "Apply Native stock configuration providers.json\nCurrent Native actor/store permissions apply. GET performs no preparation or provider call. Checkout participation stays off. Replace empty variables using actual Native reads and deployment-approved policy; keep the original operation_key and exact body for uncertain retries. Provider credentials are write-only.",
+            "body": {
+              "mode": "raw",
+              "raw": "{\"provider_id\":\"{{provider_id}}\",\"expected_generation\":{{stock_expected_generation}},\"origin\":\"{{stock_provider_origin}}\",\"bearer_token\":\"{{stock_provider_bearer}}\",\"capabilities\":{{stock_provider_capabilities}}}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Read Native stock configuration {provider_id}.json",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/admin/api/v1/stock_authority/providers/{{provider_id}}.json",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "admin",
+                "api",
+                "v1",
+                "stock_authority",
+                "providers",
+                "{{provider_id}}.json"
+              ]
+            },
+            "description": "Read Native stock configuration {provider_id}.json\nCurrent Native actor/store permissions apply. GET performs no preparation or provider call. Checkout participation stays off. Replace empty variables using actual Native reads and deployment-approved policy; keep the original operation_key and exact body for uncertain retries. Provider credentials are write-only."
+          },
+          "response": []
+        },
+        {
+          "name": "Replace Native stock configuration {provider_id}.json",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              },
+              {
+                "key": "Idempotency-Key",
+                "value": "{{operation_key}}",
+                "type": "text",
+                "disabled": false
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/admin/api/v1/stock_authority/providers/{{provider_id}}.json",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "admin",
+                "api",
+                "v1",
+                "stock_authority",
+                "providers",
+                "{{provider_id}}.json"
+              ]
+            },
+            "description": "Replace Native stock configuration {provider_id}.json\nCurrent Native actor/store permissions apply. GET performs no preparation or provider call. Checkout participation stays off. Replace empty variables using actual Native reads and deployment-approved policy; keep the original operation_key and exact body for uncertain retries. Provider credentials are write-only.",
+            "body": {
+              "mode": "raw",
+              "raw": "{\"provider_id\":\"{{provider_id}}\",\"expected_generation\":{{stock_expected_generation}},\"origin\":\"{{stock_provider_origin}}\",\"bearer_token\":\"{{stock_provider_bearer}}\",\"capabilities\":{{stock_provider_capabilities}}}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Apply Native stock configuration verify.json",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              },
+              {
+                "key": "Idempotency-Key",
+                "value": "{{operation_key}}",
+                "type": "text",
+                "disabled": false
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/admin/api/v1/stock_authority/providers/{{provider_id}}/verify.json",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "admin",
+                "api",
+                "v1",
+                "stock_authority",
+                "providers",
+                "{{provider_id}}",
+                "verify.json"
+              ]
+            },
+            "description": "Apply Native stock configuration verify.json\nCurrent Native actor/store permissions apply. GET performs no preparation or provider call. Checkout participation stays off. Replace empty variables using actual Native reads and deployment-approved policy; keep the original operation_key and exact body for uncertain retries. Provider credentials are write-only.",
+            "body": {
+              "mode": "raw",
+              "raw": "{\"generation\":{{stock_generation}}}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Apply Native stock configuration state.json",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              },
+              {
+                "key": "Idempotency-Key",
+                "value": "{{operation_key}}",
+                "type": "text",
+                "disabled": false
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/admin/api/v1/stock_authority/providers/{{provider_id}}/state.json",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "admin",
+                "api",
+                "v1",
+                "stock_authority",
+                "providers",
+                "{{provider_id}}",
+                "state.json"
+              ]
+            },
+            "description": "Apply Native stock configuration state.json\nCurrent Native actor/store permissions apply. GET performs no preparation or provider call. Checkout participation stays off. Replace empty variables using actual Native reads and deployment-approved policy; keep the original operation_key and exact body for uncertain retries. Provider credentials are write-only.",
+            "body": {
+              "mode": "raw",
+              "raw": "{\"generation\":{{stock_generation}},\"expected_state\":\"{{stock_expected_state}}\",\"enabled\":false}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Read Native stock configuration bindings.json",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/admin/api/v1/stock_authority/bindings.json",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "admin",
+                "api",
+                "v1",
+                "stock_authority",
+                "bindings.json"
+              ]
+            },
+            "description": "Read Native stock configuration bindings.json\nCurrent Native actor/store permissions apply. GET performs no preparation or provider call. Checkout participation stays off. Replace empty variables using actual Native reads and deployment-approved policy; keep the original operation_key and exact body for uncertain retries. Provider credentials are write-only."
+          },
+          "response": []
+        },
+        {
+          "name": "Apply Native stock configuration bindings.json",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              },
+              {
+                "key": "Idempotency-Key",
+                "value": "{{operation_key}}",
+                "type": "text",
+                "disabled": false
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/admin/api/v1/stock_authority/bindings.json",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "admin",
+                "api",
+                "v1",
+                "stock_authority",
+                "bindings.json"
+              ]
+            },
+            "description": "Apply Native stock configuration bindings.json\nCurrent Native actor/store permissions apply. GET performs no preparation or provider call. Checkout participation stays off. Replace empty variables using actual Native reads and deployment-approved policy; keep the original operation_key and exact body for uncertain retries. Provider credentials are write-only.",
+            "body": {
+              "mode": "raw",
+              "raw": "{\"variant_id\":\"{{variant_id}}\",\"location_id\":\"{{location_id}}\",\"provider_id\":\"{{provider_id}}\",\"generation\":{{stock_generation}},\"external_item_ref\":\"{{stock_external_item_ref}}\",\"unit\":\"each\",\"scale\":1,\"expected_revision\":{{stock_binding_revision}},\"line_attribute_keys\":[]}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Read Native stock configuration {operation_id}.json",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/admin/api/v1/stock_authority/operations/{{operation_id}}.json",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "admin",
+                "api",
+                "v1",
+                "stock_authority",
+                "operations",
+                "{{operation_id}}.json"
+              ]
+            },
+            "description": "Read Native stock configuration {operation_id}.json\nCurrent Native actor/store permissions apply. GET performs no preparation or provider call. Checkout participation stays off. Replace empty variables using actual Native reads and deployment-approved policy; keep the original operation_key and exact body for uncertain retries. Provider credentials are write-only."
+          },
+          "response": []
+        }
+      ]
     }
   ],
   "variable": [
@@ -15327,6 +15830,50 @@
       "key": "native_delivery_policy",
       "value": "{\"version\":1,\"methods\":[\"shipping\"],\"locationId\":null,\"calendar\":{\"version\":1,\"timezone\":\"UTC\",\"slotMinutes\":30,\"leadMinutes\":0,\"cutoffMinute\":1439,\"horizonDays\":30,\"windows\":[{\"weekday\":1,\"startMinute\":600,\"endMinute\":720}],\"closedDates\":[],\"dateWindows\":[]}}",
       "type": "string"
+    },
+    {
+      "key": "stock_admission_revision",
+      "value": ""
+    },
+    {
+      "key": "provider_id",
+      "value": ""
+    },
+    {
+      "key": "stock_expected_generation",
+      "value": ""
+    },
+    {
+      "key": "stock_provider_origin",
+      "value": ""
+    },
+    {
+      "key": "stock_provider_bearer",
+      "value": ""
+    },
+    {
+      "key": "stock_provider_capabilities",
+      "value": ""
+    },
+    {
+      "key": "stock_generation",
+      "value": ""
+    },
+    {
+      "key": "stock_expected_state",
+      "value": ""
+    },
+    {
+      "key": "variant_id",
+      "value": ""
+    },
+    {
+      "key": "stock_external_item_ref",
+      "value": ""
+    },
+    {
+      "key": "stock_binding_revision",
+      "value": ""
     }
   ]
 }

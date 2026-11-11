@@ -1,0 +1,2476 @@
+{
+  "description": "Generic StockAuthority Admin wire contract. Admission remains closed until actual Native publisher and store acceptance. OpenAPI operations preserve their reviewed exact responses and headers.",
+  "schemas": {
+    "StockAuthorityError": {
+      "type": "object",
+      "properties": {
+        "error": {
+          "type": "object",
+          "properties": {
+            "code": {
+              "type": "string"
+            }
+          },
+          "required": [
+            "code"
+          ],
+          "additionalProperties": true
+        }
+      },
+      "required": [
+        "error"
+      ],
+      "additionalProperties": true
+    },
+    "StockAuthorityKernelReadiness": {
+      "type": "object",
+      "properties": {
+        "ready": {
+          "type": "boolean"
+        },
+        "missing": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "schemaVersion": {
+          "type": "integer",
+          "enum": [
+            1
+          ]
+        }
+      },
+      "required": [
+        "ready",
+        "missing",
+        "schemaVersion"
+      ],
+      "additionalProperties": false
+    },
+    "StockAuthorityPublisherPending": {
+      "type": "object",
+      "properties": {
+        "registered": {
+          "type": [
+            "boolean",
+            "null"
+          ]
+        },
+        "ready": {
+          "type": "boolean",
+          "enum": [
+            false
+          ]
+        },
+        "state": {
+          "type": "string",
+          "enum": [
+            "pending_native_publisher"
+          ]
+        },
+        "generation": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 9007199254740991
+        }
+      },
+      "required": [
+        "registered",
+        "ready",
+        "state"
+      ],
+      "additionalProperties": false,
+      "description": "Acknowledgement of a pending Native publisher selector only. ready remains false. registered is null on a capability read without a remote lookup, false if prepare has no verified acknowledgement, true only for the acknowledged original prepare selector."
+    },
+    "StockAuthorityProviderCapabilities": {
+      "type": "object",
+      "properties": {
+        "protocol": {
+          "type": "string",
+          "enum": [
+            "shopiyz.stock-authority.v1"
+          ]
+        },
+        "atomicCartReserve": {
+          "type": "boolean",
+          "enum": [
+            true
+          ]
+        },
+        "immutableOperationIds": {
+          "type": "boolean",
+          "enum": [
+            true
+          ]
+        },
+        "queryByOperationId": {
+          "type": "boolean",
+          "enum": [
+            true
+          ]
+        },
+        "pendingLeaseProtection": {
+          "type": "boolean",
+          "enum": [
+            true
+          ]
+        },
+        "maxLines": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 100
+        },
+        "commands": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": {
+            "type": "string",
+            "enum": [
+              "reserve",
+              "pending",
+              "commit",
+              "release",
+              "dispatch",
+              "return",
+              "cancel"
+            ]
+          },
+          "description": "All six original commands required. cancel additionally requires committedCancellation=true."
+        },
+        "committedCancellation": {
+          "type": "boolean",
+          "enum": [
+            true
+          ],
+          "description": "Optional postcommit-undispatched cancellation semantics; must be paired with cancel."
+        },
+        "opaqueLineAttributes": {
+          "type": "boolean",
+          "enum": [
+            true
+          ],
+          "description": "Optional immutable binding-selected opaque Native line properties. Required when a binding selects nonempty line_attribute_keys."
+        }
+      },
+      "required": [
+        "protocol",
+        "atomicCartReserve",
+        "immutableOperationIds",
+        "queryByOperationId",
+        "pendingLeaseProtection",
+        "maxLines",
+        "commands"
+      ],
+      "additionalProperties": false
+    },
+    "StockAuthorityCapabilitiesResponse": {
+      "type": "object",
+      "properties": {
+        "stock_authority": {
+          "type": "object",
+          "properties": {
+            "storeId": {
+              "type": "string"
+            },
+            "protocol": {
+              "type": "string"
+            },
+            "schemaVersion": {
+              "type": "integer"
+            },
+            "channels": {
+              "type": "object",
+              "properties": {},
+              "additionalProperties": {
+                "type": "boolean"
+              }
+            },
+            "nativeAdapterInventory": {
+              "type": "object",
+              "properties": {
+                "nativeConsumerWiring": {
+                  "type": "boolean",
+                  "enum": [
+                    false
+                  ]
+                }
+              },
+              "required": [
+                "nativeConsumerWiring"
+              ],
+              "additionalProperties": true
+            },
+            "complete": {
+              "type": "boolean",
+              "enum": [
+                false
+              ]
+            },
+            "unsupported": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            },
+            "serverEnabled": {
+              "type": "boolean",
+              "enum": [
+                false
+              ]
+            },
+            "backgroundEnabled": {
+              "type": "boolean"
+            },
+            "sourceSha": {
+              "type": "string",
+              "nullable": true,
+              "description": "Trusted deployed Core source binding when present, otherwise unknown."
+            },
+            "readiness": {
+              "$ref": "#/components/schemas/StockAuthorityKernelReadiness"
+            },
+            "configurationPolicy": {
+              "type": "object",
+              "properties": {
+                "originAllowlistConfigured": {
+                  "type": "boolean"
+                },
+                "credentialEncryptionConfigured": {
+                  "type": "boolean"
+                }
+              },
+              "required": [
+                "originAllowlistConfigured",
+                "credentialEncryptionConfigured"
+              ],
+              "additionalProperties": false
+            },
+            "checkoutParticipation": {
+              "type": "object",
+              "properties": {
+                "ready": {
+                  "type": "boolean",
+                  "enum": [
+                    false
+                  ]
+                },
+                "active": {
+                  "type": "boolean",
+                  "enum": [
+                    false
+                  ]
+                },
+                "reason": {
+                  "type": "string",
+                  "enum": [
+                    "native_checkout_consumers_not_integrated"
+                  ]
+                }
+              },
+              "required": [
+                "ready",
+                "active",
+                "reason"
+              ],
+              "additionalProperties": false
+            },
+            "publisherRegistration": {
+              "$ref": "#/components/schemas/StockAuthorityPublisherPending"
+            },
+            "executionMode": {
+              "type": "string",
+              "enum": [
+                "native_configuration"
+              ]
+            },
+            "providerTransport": {
+              "type": "string",
+              "enum": [
+                "background_only"
+              ]
+            },
+            "activation": {
+              "type": "string"
+            }
+          },
+          "required": [
+            "storeId",
+            "protocol",
+            "channels",
+            "complete",
+            "serverEnabled",
+            "readiness",
+            "checkoutParticipation",
+            "publisherRegistration",
+            "executionMode"
+          ],
+          "additionalProperties": true
+        }
+      },
+      "required": [
+        "stock_authority"
+      ],
+      "additionalProperties": false
+    },
+    "StockAuthorityPrepareRequest": {
+      "type": "object",
+      "properties": {
+        "protocol_version": {
+          "type": "integer",
+          "enum": [
+            1
+          ]
+        }
+      },
+      "required": [
+        "protocol_version"
+      ],
+      "additionalProperties": false
+    },
+    "StockAuthorityPrepareResponse": {
+      "type": "object",
+      "properties": {
+        "operation_id": {
+          "type": "string"
+        },
+        "preparation": {
+          "type": "object",
+          "properties": {
+            "ready": {
+              "type": "boolean"
+            },
+            "missing": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            },
+            "schemaVersion": {
+              "type": "integer",
+              "enum": [
+                1
+              ]
+            },
+            "schemaHash": {
+              "type": "string",
+              "pattern": "^[a-f0-9]{64}$"
+            },
+            "admissionEnabled": {
+              "type": "boolean",
+              "enum": [
+                false
+              ]
+            },
+            "admissionChanged": {
+              "type": "boolean",
+              "enum": [
+                false
+              ]
+            },
+            "prepared": {
+              "type": "boolean",
+              "enum": [
+                true
+              ]
+            },
+            "publisherRegistration": {
+              "$ref": "#/components/schemas/StockAuthorityPublisherPending"
+            },
+            "replayed": {
+              "type": "boolean"
+            }
+          },
+          "required": [
+            "ready",
+            "admissionEnabled",
+            "admissionChanged",
+            "prepared",
+            "publisherRegistration"
+          ],
+          "additionalProperties": true
+        }
+      },
+      "required": [
+        "operation_id",
+        "preparation"
+      ],
+      "additionalProperties": false
+    },
+    "StockAuthorityAdmissionWrite": {
+      "type": "object",
+      "properties": {
+        "enabled": {
+          "type": "boolean",
+          "description": "Only false can execute in this cohort. true returns503; no flag/header/body enables checkout."
+        },
+        "expected_revision": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 9007199254740991
+        }
+      },
+      "required": [
+        "enabled",
+        "expected_revision"
+      ],
+      "additionalProperties": false
+    },
+    "StockAuthorityAdmissionResponse": {
+      "type": "object",
+      "properties": {
+        "operation_id": {
+          "type": "string"
+        },
+        "admission": {
+          "type": "object",
+          "properties": {
+            "enabled": {
+              "type": "boolean",
+              "enum": [
+                false
+              ]
+            },
+            "revision": {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 9007199254740991
+            },
+            "prepared": {
+              "type": "boolean"
+            },
+            "replayed": {
+              "type": "boolean"
+            }
+          },
+          "required": [
+            "enabled",
+            "revision"
+          ],
+          "additionalProperties": true
+        }
+      },
+      "required": [
+        "admission"
+      ],
+      "additionalProperties": false
+    },
+    "StockAuthorityProviderWrite": {
+      "type": "object",
+      "properties": {
+        "provider_id": {
+          "type": "string"
+        },
+        "expected_generation": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 9007199254740991
+        },
+        "origin": {
+          "type": "string",
+          "format": "uri",
+          "writeOnly": true,
+          "description": "Exact deployment-approved HTTPS origin; default-empty allowlist rejects configuration."
+        },
+        "bearer_token": {
+          "type": "string",
+          "writeOnly": true,
+          "minLength": 32,
+          "maxLength": 500,
+          "description": "Write-only credential, encrypted with existing backend AES-GCM vault. Never returned or fingerprinted publicly."
+        },
+        "capabilities": {
+          "$ref": "#/components/schemas/StockAuthorityProviderCapabilities"
+        }
+      },
+      "required": [
+        "expected_generation",
+        "origin",
+        "bearer_token",
+        "capabilities"
+      ],
+      "additionalProperties": false
+    },
+    "StockAuthorityProvider": {
+      "type": "object",
+      "properties": {
+        "providerId": {
+          "type": "string"
+        },
+        "generation": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 9007199254740991
+        },
+        "state": {
+          "type": "string",
+          "enum": [
+            "draft",
+            "enabled",
+            "disabled"
+          ]
+        },
+        "verified": {
+          "type": "boolean"
+        },
+        "configurationHash": {
+          "type": "string",
+          "pattern": "^[a-f0-9]{64}$",
+          "description": "Opaque encrypted-envelope revision digest, not a deterministic secret fingerprint."
+        },
+        "capabilities": {
+          "$ref": "#/components/schemas/StockAuthorityProviderCapabilities"
+        },
+        "replayed": {
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "providerId",
+        "generation",
+        "state"
+      ],
+      "additionalProperties": true
+    },
+    "StockAuthorityProviderResponse": {
+      "type": "object",
+      "properties": {
+        "operation_id": {
+          "type": "string"
+        },
+        "provider": {
+          "$ref": "#/components/schemas/StockAuthorityProvider"
+        }
+      },
+      "required": [
+        "provider"
+      ],
+      "additionalProperties": false
+    },
+    "StockAuthorityProvidersResponse": {
+      "type": "object",
+      "properties": {
+        "providers": {
+          "type": "array",
+          "items": {
+            "$ref": "#/components/schemas/StockAuthorityProvider"
+          }
+        },
+        "meta": {
+          "type": "object",
+          "properties": {
+            "limit": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 9007199254740991
+            },
+            "offset": {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 9007199254740991
+            }
+          },
+          "required": [
+            "limit",
+            "offset"
+          ],
+          "additionalProperties": false
+        }
+      },
+      "required": [
+        "providers"
+      ],
+      "additionalProperties": false
+    },
+    "StockAuthorityVerificationRequest": {
+      "type": "object",
+      "properties": {
+        "generation": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 9007199254740991
+        }
+      },
+      "required": [
+        "generation"
+      ],
+      "additionalProperties": false
+    },
+    "StockAuthorityVerificationResponse": {
+      "type": "object",
+      "properties": {
+        "operation_id": {
+          "type": "string"
+        },
+        "verification": {
+          "type": "object",
+          "properties": {
+            "operationId": {
+              "type": "string"
+            },
+            "state": {
+              "type": "string",
+              "enum": [
+                "queued",
+                "running",
+                "succeeded",
+                "failed"
+              ]
+            },
+            "replayed": {
+              "type": "boolean"
+            },
+            "background_enabled": {
+              "type": "boolean"
+            }
+          },
+          "required": [
+            "operationId",
+            "state",
+            "background_enabled"
+          ],
+          "additionalProperties": false
+        }
+      },
+      "required": [
+        "operation_id",
+        "verification"
+      ],
+      "additionalProperties": false
+    },
+    "StockAuthorityProviderStateRequest": {
+      "type": "object",
+      "properties": {
+        "generation": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 9007199254740991
+        },
+        "expected_state": {
+          "type": "string",
+          "enum": [
+            "draft",
+            "enabled",
+            "disabled"
+          ]
+        },
+        "enabled": {
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "generation",
+        "expected_state",
+        "enabled"
+      ],
+      "additionalProperties": false
+    },
+    "StockAuthorityBindingWrite": {
+      "type": "object",
+      "properties": {
+        "variant_id": {
+          "type": "string"
+        },
+        "location_id": {
+          "type": "string"
+        },
+        "provider_id": {
+          "type": "string"
+        },
+        "generation": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 9007199254740991
+        },
+        "external_item_ref": {
+          "type": "string",
+          "minLength": 1,
+          "description": "Exact opaque UTF-8 text <=1024bytes, no controls/invalidUnicode; never parsed, normalized or mapped by SKU."
+        },
+        "unit": {
+          "type": "string",
+          "enum": [
+            "each",
+            "m",
+            "m2",
+            "m3",
+            "kg",
+            "g",
+            "l",
+            "ml"
+          ]
+        },
+        "scale": {
+          "type": "integer",
+          "enum": [
+            1,
+            10,
+            100,
+            1000,
+            10000,
+            100000,
+            1000000
+          ]
+        },
+        "expected_revision": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 9007199254740991
+        },
+        "quantity_profile_revision": {
+          "type": "string",
+          "pattern": "^[a-f0-9]{64}$"
+        },
+        "quantity_policy_revision": {
+          "type": "string",
+          "pattern": "^[a-f0-9]{64}$"
+        },
+        "line_attribute_keys": {
+          "type": "array",
+          "default": [],
+          "maxItems": 16,
+          "uniqueItems": true,
+          "items": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 128
+          },
+          "description": "Exact property names on the original accepted Native checkout line. All selected keys are required. Internal, credential, contact and customer keys are rejected. Requires provider opaqueLineAttributes=true. Values remain opaque bounded JSON; no whole-cart or contact fallback."
+        }
+      },
+      "required": [
+        "variant_id",
+        "location_id",
+        "provider_id",
+        "generation",
+        "external_item_ref",
+        "unit",
+        "scale",
+        "expected_revision"
+      ],
+      "additionalProperties": false
+    },
+    "StockAuthorityBindingResponse": {
+      "type": "object",
+      "properties": {
+        "operation_id": {
+          "type": "string"
+        },
+        "binding": {
+          "type": "object",
+          "properties": {
+            "resourceType": {
+              "type": "string",
+              "enum": [
+                "binding"
+              ]
+            },
+            "variantId": {
+              "type": "string"
+            },
+            "locationId": {
+              "type": "string"
+            },
+            "revision": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 9007199254740991
+            },
+            "replayed": {
+              "type": "boolean"
+            }
+          },
+          "required": [
+            "resourceType",
+            "variantId",
+            "locationId",
+            "revision"
+          ],
+          "additionalProperties": false
+        }
+      },
+      "required": [
+        "operation_id",
+        "binding"
+      ],
+      "additionalProperties": false
+    },
+    "StockAuthorityBindingsResponse": {
+      "type": "object",
+      "properties": {
+        "bindings": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "variant_id": {
+                "type": "string"
+              },
+              "location_id": {
+                "type": "string"
+              },
+              "provider_id": {
+                "type": "string"
+              },
+              "generation": {
+                "type": "integer",
+                "minimum": 1,
+                "maximum": 9007199254740991
+              },
+              "external_item_ref": {
+                "type": "string"
+              },
+              "unit": {
+                "type": "string"
+              },
+              "scale": {
+                "type": "integer",
+                "minimum": 1,
+                "maximum": 9007199254740991
+              },
+              "revision": {
+                "type": "integer",
+                "minimum": 1,
+                "maximum": 9007199254740991
+              },
+              "updated_at": {
+                "type": "string",
+                "format": "date-time"
+              },
+              "quantity_profile_revision": {
+                "type": "string",
+                "nullable": true
+              },
+              "quantity_policy_revision": {
+                "type": "string",
+                "nullable": true
+              },
+              "quantity_policy": {
+                "type": "object",
+                "nullable": true
+              },
+              "line_attribute_keys": {
+                "type": "array",
+                "maxItems": 16,
+                "items": {
+                  "type": "string"
+                }
+              }
+            },
+            "required": [
+              "variant_id",
+              "location_id",
+              "provider_id",
+              "generation",
+              "external_item_ref",
+              "unit",
+              "scale",
+              "revision"
+            ],
+            "additionalProperties": true
+          }
+        },
+        "meta": {
+          "type": "object",
+          "properties": {
+            "limit": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 9007199254740991
+            },
+            "offset": {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 9007199254740991
+            }
+          },
+          "required": [
+            "limit",
+            "offset"
+          ],
+          "additionalProperties": false
+        }
+      },
+      "required": [
+        "bindings",
+        "meta"
+      ],
+      "additionalProperties": false
+    },
+    "StockAuthorityOperationResponse": {
+      "type": "object",
+      "properties": {
+        "operation": {
+          "type": "object",
+          "properties": {
+            "kind": {
+              "type": "string",
+              "enum": [
+                "configuration",
+                "verification",
+                "participant"
+              ]
+            },
+            "operation_id": {
+              "type": "string"
+            },
+            "command_kind": {
+              "type": "string"
+            },
+            "provider_id": {
+              "type": "string"
+            },
+            "generation": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 9007199254740991
+            },
+            "state": {
+              "type": "string"
+            },
+            "attempts": {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 9007199254740991
+            },
+            "error_code": {
+              "type": "string",
+              "nullable": true
+            },
+            "created_at": {
+              "type": "string"
+            },
+            "updated_at": {
+              "type": "string"
+            },
+            "result": {
+              "type": "object",
+              "description": "Only safe typed configuration result; binding result requires current Native products:manage."
+            }
+          },
+          "required": [
+            "kind",
+            "operation_id",
+            "state"
+          ],
+          "additionalProperties": true
+        }
+      },
+      "required": [
+        "operation"
+      ],
+      "additionalProperties": false
+    }
+  },
+  "operations": [
+    {
+      "method": "GET",
+      "path": "/stock_authority/capabilities.json",
+      "requestSchema": null,
+      "responseSchema": "StockAuthorityCapabilitiesResponse",
+      "successStatuses": [
+        200
+      ],
+      "scopeAlternatives": [
+        [
+          "admin:read"
+        ],
+        [
+          "admin:write"
+        ]
+      ],
+      "nativePermissions": [
+        "settings:manage"
+      ],
+      "readOnly": true,
+      "idempotencyRequired": false,
+      "openapi": {
+        "tags": [
+          "External inventory configuration"
+        ],
+        "summary": "Read Native stock configuration capabilities.json",
+        "x-shopiyz-execution-mode": "native",
+        "description": "Real configuration/kernel operation. Store checkout participation is unavailable/OFF in this cohort; no Native checkout completion or public proof claim. Requires current Native settings:manage; binding operations also products:manage. Only currently issuable admin:read/write token scopes are accepted.",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Current Native configuration/queued operation result.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/StockAuthorityCapabilitiesResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Authorization, source/revision, readiness or unavailable checkout participation.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/StockAuthorityError"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Authorization, source/revision, readiness or unavailable checkout participation.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/StockAuthorityError"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Authorization, source/revision, readiness or unavailable checkout participation.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/StockAuthorityError"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Authorization, source/revision, readiness or unavailable checkout participation.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/StockAuthorityError"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Authorization, source/revision, readiness or unavailable checkout participation.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/StockAuthorityError"
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "Authorization, source/revision, readiness or unavailable checkout participation.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/StockAuthorityError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/stock_authority/prepare.json",
+      "requestSchema": "StockAuthorityPrepareRequest",
+      "responseSchema": "StockAuthorityPrepareResponse",
+      "successStatuses": [
+        200
+      ],
+      "scopeAlternatives": [
+        [
+          "admin:write"
+        ]
+      ],
+      "nativePermissions": [
+        "settings:manage"
+      ],
+      "readOnly": false,
+      "idempotencyRequired": true,
+      "openapi": {
+        "tags": [
+          "External inventory configuration"
+        ],
+        "summary": "Apply Native stock configuration prepare.json",
+        "x-shopiyz-execution-mode": "native",
+        "description": "Real configuration/kernel operation. Store checkout participation is unavailable/OFF in this cohort; no Native checkout completion or public proof claim. Requires current Native settings:manage; binding operations also products:manage. Only currently issuable admin:read/write token scopes are accepted.",
+        "parameters": [
+          {
+            "in": "header",
+            "name": "Idempotency-Key",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "minLength": 8,
+              "maxLength": 180
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Current Native configuration/queued operation result.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/StockAuthorityPrepareResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Authorization, source/revision, readiness or unavailable checkout participation.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/StockAuthorityError"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Authorization, source/revision, readiness or unavailable checkout participation.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/StockAuthorityError"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Authorization, source/revision, readiness or unavailable checkout participation.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/StockAuthorityError"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Authorization, source/revision, readiness or unavailable checkout participation.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/StockAuthorityError"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Authorization, source/revision, readiness or unavailable checkout participation.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/StockAuthorityError"
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "Authorization, source/revision, readiness or unavailable checkout participation.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/StockAuthorityError"
+                }
+              }
+            }
+          }
+        },
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/StockAuthorityPrepareRequest"
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "method": "GET",
+      "path": "/stock_authority/admission.json",
+      "requestSchema": null,
+      "responseSchema": "StockAuthorityAdmissionResponse",
+      "successStatuses": [
+        200
+      ],
+      "scopeAlternatives": [
+        [
+          "admin:read"
+        ],
+        [
+          "admin:write"
+        ]
+      ],
+      "nativePermissions": [
+        "settings:manage"
+      ],
+      "readOnly": true,
+      "idempotencyRequired": false,
+      "openapi": {
+        "tags": [
+          "External inventory configuration"
+        ],
+        "summary": "Read Native stock configuration admission.json",
+        "x-shopiyz-execution-mode": "native",
+        "description": "Real configuration/kernel operation. Store checkout participation is unavailable/OFF in this cohort; no Native checkout completion or public proof claim. Requires current Native settings:manage; binding operations also products:manage. Only currently issuable admin:read/write token scopes are accepted.",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Current Native configuration/queued operation result.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/StockAuthorityAdmissionResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Authorization, source/revision, readiness or unavailable checkout participation.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/StockAuthorityError"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Authorization, source/revision, readiness or unavailable checkout participation.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/StockAuthorityError"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Authorization, source/revision, readiness or unavailable checkout participation.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/StockAuthorityError"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Authorization, source/revision, readiness or unavailable checkout participation.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/StockAuthorityError"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Authorization, source/revision, readiness or unavailable checkout participation.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/StockAuthorityError"
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "Authorization, source/revision, readiness or unavailable checkout participation.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/StockAuthorityError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/stock_authority/admission.json",
+      "requestSchema": "StockAuthorityAdmissionWrite",
+      "responseSchema": "StockAuthorityAdmissionResponse",
+      "successStatuses": [
+        200
+      ],
+      "scopeAlternatives": [
+        [
+          "admin:write"
+        ]
+      ],
+      "nativePermissions": [
+        "settings:manage"
+      ],
+      "readOnly": false,
+      "idempotencyRequired": true,
+      "openapi": {
+        "tags": [
+          "External inventory configuration"
+        ],
+        "summary": "Apply Native stock configuration admission.json",
+        "x-shopiyz-execution-mode": "native",
+        "description": "Real configuration/kernel operation. Store checkout participation is unavailable/OFF in this cohort; no Native checkout completion or public proof claim. Requires current Native settings:manage; binding operations also products:manage. Only currently issuable admin:read/write token scopes are accepted.",
+        "parameters": [
+          {
+            "in": "header",
+            "name": "Idempotency-Key",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "minLength": 8,
+              "maxLength": 180
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Current Native configuration/queued operation result.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/StockAuthorityAdmissionResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Authorization, source/revision, readiness or unavailable checkout participation.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/StockAuthorityError"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Authorization, source/revision, readiness or unavailable checkout participation.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/StockAuthorityError"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Authorization, source/revision, readiness or unavailable checkout participation.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/StockAuthorityError"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Authorization, source/revision, readiness or unavailable checkout participation.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/StockAuthorityError"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Authorization, source/revision, readiness or unavailable checkout participation.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/StockAuthorityError"
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "Authorization, source/revision, readiness or unavailable checkout participation.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/StockAuthorityError"
+                }
+              }
+            }
+          }
+        },
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/StockAuthorityAdmissionWrite"
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "method": "GET",
+      "path": "/stock_authority/providers.json",
+      "requestSchema": null,
+      "responseSchema": "StockAuthorityProvidersResponse",
+      "successStatuses": [
+        200
+      ],
+      "scopeAlternatives": [
+        [
+          "admin:read"
+        ],
+        [
+          "admin:write"
+        ]
+      ],
+      "nativePermissions": [
+        "settings:manage"
+      ],
+      "readOnly": true,
+      "idempotencyRequired": false,
+      "openapi": {
+        "tags": [
+          "External inventory configuration"
+        ],
+        "summary": "Read Native stock configuration providers.json",
+        "x-shopiyz-execution-mode": "native",
+        "description": "Real configuration/kernel operation. Store checkout participation is unavailable/OFF in this cohort; no Native checkout completion or public proof claim. Requires current Native settings:manage; binding operations also products:manage. Only currently issuable admin:read/write token scopes are accepted.",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Current Native configuration/queued operation result.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/StockAuthorityProvidersResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Authorization, source/revision, readiness or unavailable checkout participation.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/StockAuthorityError"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Authorization, source/revision, readiness or unavailable checkout participation.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/StockAuthorityError"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Authorization, source/revision, readiness or unavailable checkout participation.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/StockAuthorityError"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Authorization, source/revision, readiness or unavailable checkout participation.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/StockAuthorityError"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Authorization, source/revision, readiness or unavailable checkout participation.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/StockAuthorityError"
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "Authorization, source/revision, readiness or unavailable checkout participation.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/StockAuthorityError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/stock_authority/providers.json",
+      "requestSchema": "StockAuthorityProviderWrite",
+      "responseSchema": "StockAuthorityProviderResponse",
+      "successStatuses": [
+        201
+      ],
+      "scopeAlternatives": [
+        [
+          "admin:write"
+        ]
+      ],
+      "nativePermissions": [
+        "settings:manage"
+      ],
+      "readOnly": false,
+      "idempotencyRequired": true,
+      "openapi": {
+        "tags": [
+          "External inventory configuration"
+        ],
+        "summary": "Apply Native stock configuration providers.json",
+        "x-shopiyz-execution-mode": "native",
+        "description": "Real configuration/kernel operation. Store checkout participation is unavailable/OFF in this cohort; no Native checkout completion or public proof claim. Requires current Native settings:manage; binding operations also products:manage. Only currently issuable admin:read/write token scopes are accepted.",
+        "parameters": [
+          {
+            "in": "header",
+            "name": "Idempotency-Key",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "minLength": 8,
+              "maxLength": 180
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Current Native configuration/queued operation result.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/StockAuthorityProviderResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Authorization, source/revision, readiness or unavailable checkout participation.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/StockAuthorityError"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Authorization, source/revision, readiness or unavailable checkout participation.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/StockAuthorityError"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Authorization, source/revision, readiness or unavailable checkout participation.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/StockAuthorityError"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Authorization, source/revision, readiness or unavailable checkout participation.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/StockAuthorityError"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Authorization, source/revision, readiness or unavailable checkout participation.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/StockAuthorityError"
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "Authorization, source/revision, readiness or unavailable checkout participation.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/StockAuthorityError"
+                }
+              }
+            }
+          }
+        },
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/StockAuthorityProviderWrite"
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "method": "GET",
+      "path": "/stock_authority/providers/{provider_id}.json",
+      "requestSchema": null,
+      "responseSchema": "StockAuthorityProviderResponse",
+      "successStatuses": [
+        200
+      ],
+      "scopeAlternatives": [
+        [
+          "admin:read"
+        ],
+        [
+          "admin:write"
+        ]
+      ],
+      "nativePermissions": [
+        "settings:manage"
+      ],
+      "readOnly": true,
+      "idempotencyRequired": false,
+      "openapi": {
+        "tags": [
+          "External inventory configuration"
+        ],
+        "summary": "Read Native stock configuration {provider_id}.json",
+        "x-shopiyz-execution-mode": "native",
+        "description": "Real configuration/kernel operation. Store checkout participation is unavailable/OFF in this cohort; no Native checkout completion or public proof claim. Requires current Native settings:manage; binding operations also products:manage. Only currently issuable admin:read/write token scopes are accepted.",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "provider_id",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Current Native configuration/queued operation result.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/StockAuthorityProviderResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Authorization, source/revision, readiness or unavailable checkout participation.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/StockAuthorityError"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Authorization, source/revision, readiness or unavailable checkout participation.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/StockAuthorityError"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Authorization, source/revision, readiness or unavailable checkout participation.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/StockAuthorityError"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Authorization, source/revision, readiness or unavailable checkout participation.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/StockAuthorityError"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Authorization, source/revision, readiness or unavailable checkout participation.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/StockAuthorityError"
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "Authorization, source/revision, readiness or unavailable checkout participation.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/StockAuthorityError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "method": "PUT",
+      "path": "/stock_authority/providers/{provider_id}.json",
+      "requestSchema": "StockAuthorityProviderWrite",
+      "responseSchema": "StockAuthorityProviderResponse",
+      "successStatuses": [
+        200
+      ],
+      "scopeAlternatives": [
+        [
+          "admin:write"
+        ]
+      ],
+      "nativePermissions": [
+        "settings:manage"
+      ],
+      "readOnly": false,
+      "idempotencyRequired": true,
+      "openapi": {
+        "tags": [
+          "External inventory configuration"
+        ],
+        "summary": "Replace Native stock configuration {provider_id}.json",
+        "x-shopiyz-execution-mode": "native",
+        "description": "Real configuration/kernel operation. Store checkout participation is unavailable/OFF in this cohort; no Native checkout completion or public proof claim. Requires current Native settings:manage; binding operations also products:manage. Only currently issuable admin:read/write token scopes are accepted.",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "provider_id",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "in": "header",
+            "name": "Idempotency-Key",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "minLength": 8,
+              "maxLength": 180
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Current Native configuration/queued operation result.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/StockAuthorityProviderResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Authorization, source/revision, readiness or unavailable checkout participation.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/StockAuthorityError"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Authorization, source/revision, readiness or unavailable checkout participation.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/StockAuthorityError"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Authorization, source/revision, readiness or unavailable checkout participation.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/StockAuthorityError"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Authorization, source/revision, readiness or unavailable checkout participation.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/StockAuthorityError"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Authorization, source/revision, readiness or unavailable checkout participation.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/StockAuthorityError"
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "Authorization, source/revision, readiness or unavailable checkout participation.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/StockAuthorityError"
+                }
+              }
+            }
+          }
+        },
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/StockAuthorityProviderWrite"
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/stock_authority/providers/{provider_id}/verify.json",
+      "requestSchema": "StockAuthorityVerificationRequest",
+      "responseSchema": "StockAuthorityVerificationResponse",
+      "successStatuses": [
+        202
+      ],
+      "scopeAlternatives": [
+        [
+          "admin:write"
+        ]
+      ],
+      "nativePermissions": [
+        "settings:manage"
+      ],
+      "readOnly": false,
+      "idempotencyRequired": true,
+      "openapi": {
+        "tags": [
+          "External inventory configuration"
+        ],
+        "summary": "Apply Native stock configuration verify.json",
+        "x-shopiyz-execution-mode": "native",
+        "description": "Real configuration/kernel operation. Store checkout participation is unavailable/OFF in this cohort; no Native checkout completion or public proof claim. Requires current Native settings:manage; binding operations also products:manage. Only currently issuable admin:read/write token scopes are accepted.",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "provider_id",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "in": "header",
+            "name": "Idempotency-Key",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "minLength": 8,
+              "maxLength": 180
+            }
+          }
+        ],
+        "responses": {
+          "202": {
+            "description": "Current Native configuration/queued operation result.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/StockAuthorityVerificationResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Authorization, source/revision, readiness or unavailable checkout participation.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/StockAuthorityError"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Authorization, source/revision, readiness or unavailable checkout participation.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/StockAuthorityError"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Authorization, source/revision, readiness or unavailable checkout participation.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/StockAuthorityError"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Authorization, source/revision, readiness or unavailable checkout participation.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/StockAuthorityError"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Authorization, source/revision, readiness or unavailable checkout participation.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/StockAuthorityError"
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "Authorization, source/revision, readiness or unavailable checkout participation.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/StockAuthorityError"
+                }
+              }
+            }
+          }
+        },
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/StockAuthorityVerificationRequest"
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/stock_authority/providers/{provider_id}/state.json",
+      "requestSchema": "StockAuthorityProviderStateRequest",
+      "responseSchema": "StockAuthorityProviderResponse",
+      "successStatuses": [
+        200
+      ],
+      "scopeAlternatives": [
+        [
+          "admin:write"
+        ]
+      ],
+      "nativePermissions": [
+        "settings:manage"
+      ],
+      "readOnly": false,
+      "idempotencyRequired": true,
+      "openapi": {
+        "tags": [
+          "External inventory configuration"
+        ],
+        "summary": "Apply Native stock configuration state.json",
+        "x-shopiyz-execution-mode": "native",
+        "description": "Real configuration/kernel operation. Store checkout participation is unavailable/OFF in this cohort; no Native checkout completion or public proof claim. Requires current Native settings:manage; binding operations also products:manage. Only currently issuable admin:read/write token scopes are accepted.",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "provider_id",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "in": "header",
+            "name": "Idempotency-Key",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "minLength": 8,
+              "maxLength": 180
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Current Native configuration/queued operation result.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/StockAuthorityProviderResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Authorization, source/revision, readiness or unavailable checkout participation.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/StockAuthorityError"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Authorization, source/revision, readiness or unavailable checkout participation.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/StockAuthorityError"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Authorization, source/revision, readiness or unavailable checkout participation.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/StockAuthorityError"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Authorization, source/revision, readiness or unavailable checkout participation.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/StockAuthorityError"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Authorization, source/revision, readiness or unavailable checkout participation.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/StockAuthorityError"
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "Authorization, source/revision, readiness or unavailable checkout participation.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/StockAuthorityError"
+                }
+              }
+            }
+          }
+        },
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/StockAuthorityProviderStateRequest"
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "method": "GET",
+      "path": "/stock_authority/bindings.json",
+      "requestSchema": null,
+      "responseSchema": "StockAuthorityBindingsResponse",
+      "successStatuses": [
+        200
+      ],
+      "scopeAlternatives": [
+        [
+          "admin:read"
+        ],
+        [
+          "admin:write"
+        ]
+      ],
+      "nativePermissions": [
+        "settings:manage",
+        "products:manage"
+      ],
+      "readOnly": true,
+      "idempotencyRequired": false,
+      "openapi": {
+        "tags": [
+          "External inventory configuration"
+        ],
+        "summary": "Read Native stock configuration bindings.json",
+        "x-shopiyz-execution-mode": "native",
+        "description": "Real configuration/kernel operation. Store checkout participation is unavailable/OFF in this cohort; no Native checkout completion or public proof claim. Requires current Native settings:manage; binding operations also products:manage. Only currently issuable admin:read/write token scopes are accepted.",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Current Native configuration/queued operation result.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/StockAuthorityBindingsResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Authorization, source/revision, readiness or unavailable checkout participation.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/StockAuthorityError"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Authorization, source/revision, readiness or unavailable checkout participation.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/StockAuthorityError"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Authorization, source/revision, readiness or unavailable checkout participation.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/StockAuthorityError"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Authorization, source/revision, readiness or unavailable checkout participation.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/StockAuthorityError"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Authorization, source/revision, readiness or unavailable checkout participation.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/StockAuthorityError"
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "Authorization, source/revision, readiness or unavailable checkout participation.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/StockAuthorityError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/stock_authority/bindings.json",
+      "requestSchema": "StockAuthorityBindingWrite",
+      "responseSchema": "StockAuthorityBindingResponse",
+      "successStatuses": [
+        200
+      ],
+      "scopeAlternatives": [
+        [
+          "admin:write"
+        ]
+      ],
+      "nativePermissions": [
+        "settings:manage",
+        "products:manage"
+      ],
+      "readOnly": false,
+      "idempotencyRequired": true,
+      "openapi": {
+        "tags": [
+          "External inventory configuration"
+        ],
+        "summary": "Apply Native stock configuration bindings.json",
+        "x-shopiyz-execution-mode": "native",
+        "description": "Real configuration/kernel operation. Store checkout participation is unavailable/OFF in this cohort; no Native checkout completion or public proof claim. Requires current Native settings:manage; binding operations also products:manage. Only currently issuable admin:read/write token scopes are accepted.",
+        "parameters": [
+          {
+            "in": "header",
+            "name": "Idempotency-Key",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "minLength": 8,
+              "maxLength": 180
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Current Native configuration/queued operation result.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/StockAuthorityBindingResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Authorization, source/revision, readiness or unavailable checkout participation.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/StockAuthorityError"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Authorization, source/revision, readiness or unavailable checkout participation.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/StockAuthorityError"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Authorization, source/revision, readiness or unavailable checkout participation.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/StockAuthorityError"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Authorization, source/revision, readiness or unavailable checkout participation.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/StockAuthorityError"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Authorization, source/revision, readiness or unavailable checkout participation.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/StockAuthorityError"
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "Authorization, source/revision, readiness or unavailable checkout participation.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/StockAuthorityError"
+                }
+              }
+            }
+          }
+        },
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/StockAuthorityBindingWrite"
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "method": "GET",
+      "path": "/stock_authority/operations/{operation_id}.json",
+      "requestSchema": null,
+      "responseSchema": "StockAuthorityOperationResponse",
+      "successStatuses": [
+        200
+      ],
+      "scopeAlternatives": [
+        [
+          "admin:read"
+        ],
+        [
+          "admin:write"
+        ]
+      ],
+      "nativePermissions": [
+        "settings:manage"
+      ],
+      "readOnly": true,
+      "idempotencyRequired": false,
+      "openapi": {
+        "tags": [
+          "External inventory configuration"
+        ],
+        "summary": "Read Native stock configuration {operation_id}.json",
+        "x-shopiyz-execution-mode": "native",
+        "description": "Real configuration/kernel operation. Store checkout participation is unavailable/OFF in this cohort; no Native checkout completion or public proof claim. Requires current Native settings:manage; binding operations also products:manage. Only currently issuable admin:read/write token scopes are accepted.",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "operation_id",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Current Native configuration/queued operation result.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/StockAuthorityOperationResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Authorization, source/revision, readiness or unavailable checkout participation.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/StockAuthorityError"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Authorization, source/revision, readiness or unavailable checkout participation.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/StockAuthorityError"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Authorization, source/revision, readiness or unavailable checkout participation.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/StockAuthorityError"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Authorization, source/revision, readiness or unavailable checkout participation.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/StockAuthorityError"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Authorization, source/revision, readiness or unavailable checkout participation.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/StockAuthorityError"
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "Authorization, source/revision, readiness or unavailable checkout participation.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/StockAuthorityError"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  ]
+}
