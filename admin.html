@@ -4258,10 +4258,14 @@ curl -X GET <span class="token-string">"https://{store}.shopiyz.com/admin/api/v1
           navLinks.forEach((link) => {
             link.classList.toggle("active", link.getAttribute("href") === `#${id}`);
           });
-          topNavItems.forEach((item) => item.classList.remove("nav-open"));
-          const activeLink = navLinks.find((link) => link.getAttribute("href") === `#${id}`);
-          const activeItem = activeLink?.closest(".sidebar .nav-list > li");
-          if (activeItem && id !== "overview") activeItem.classList.add("nav-open");
+          // Keep filtered branches open while scrolling to a search result.
+          // Collapsing them here can remove the link before its click lands.
+          if (!document.getElementById("sectionFilter")?.value.trim()) {
+            topNavItems.forEach((item) => item.classList.remove("nav-open"));
+            const activeLink = navLinks.find((link) => link.getAttribute("href") === `#${id}`);
+            const activeItem = activeLink?.closest(".sidebar .nav-list > li");
+            if (activeItem && id !== "overview") activeItem.classList.add("nav-open");
+          }
         },
         { rootMargin: "-18% 0px -68% 0px", threshold: [0.05, 0.2, 0.5] }
       );
