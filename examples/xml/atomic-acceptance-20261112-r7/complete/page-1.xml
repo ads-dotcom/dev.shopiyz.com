@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ProductsFeed>
+  <Meta><NextURL>https://dev.shopiyz.com/examples/xml/atomic-acceptance-20261112-r7/complete/page-2.xml?snapshot=shopiyz-xml-api-example-catalog-v2</NextURL></Meta>
+  <Records>
+    <Product>
+      <Id>shopiyz-xml-api-fixture-20261112-fb27e9-a</Id>
+      <Name>Shopiyz XML API fixture A v2</Name>
+      <SKU>shopiyz-xml-api-fixture-20261112-fb27e9-a</SKU>
+      <Price>111</Price>
+      <StockQuantity>7</StockQuantity>
+      <Status>draft</Status>
+      <Description>Isolated API acceptance fixture. Archive after verification.</Description>
+    </Product>
+  </Records>
+</ProductsFeed>
