@@ -17,7 +17,7 @@ for(const[name,source,target]of files){
   await mkdir(path.join(root,prefix,'openapi'),{recursive:true});await writeFile(path.join(root,prefix,'openapi',target),bytes);
  }
 }
-for(const name of ['storefront-account-v2.md','customer-segments-native.md']){
+for(const name of ['storefront-account-v2.md','customer-segments-native.md','catalog-publication-metadata.md']){
  const source=path.join(app,'docs/api',name);
  const bytes=await readFile(source,'utf8').catch(()=>null);if(bytes===null)continue;
  for(const prefix of ['', 'public/']){

@@ -10,7 +10,7 @@ servers:
       store:
         default: development
         description: Store subdomain or custom store host.
-x-shopiyz-generated-at: "2026-11-12T06:31:04.164Z"
+x-shopiyz-generated-at: "2026-11-12T07:07:59.508Z"
 x-shopiyz-source: myshopiyz/src/lib/adminApiCatalog.ts
 x-shopiyz-base-path: /admin/api/v1
 x-shopiyz-summary:
@@ -357572,6 +357572,26 @@ components:
           type: string
         status:
           type: string
+        url:
+          type:
+            - string
+            - "null"
+          description: "Encoded relative resource address from the saved handle; null if absent or unsafe. This is not proof of public visibility or checkout eligibility."
+        sales_channels:
+          type:
+            - array
+            - "null"
+          items:
+            type: string
+          description: "Saved Native sales channels. Empty array means no configured channel; null means unavailable or malformed legacy data. No default online_store channel is inferred."
+        published_at:
+          type:
+            - string
+            - "null"
+          description: "Saved publication date; may be in the future and is not a public reachability proof."
+        published_scope:
+          type: string
+          description: "Legacy compatibility value web; use actual sales_channels and Native publication/access rules rather than interpreting this as channel membership."
         vendor:
           type:
             - string
@@ -357876,6 +357896,18 @@ components:
         slug:
           type: string
           example: office
+        url:
+          type:
+            - string
+            - "null"
+          readOnly: true
+          description: "Encoded relative address from the saved slug; null when absent or unsafe. Not a public visibility guarantee."
+        is_active:
+          type:
+            - boolean
+            - "null"
+          readOnly: true
+          description: "Actual Native active flag; null when unknown."
         body_html:
           type:
             - string
@@ -357891,19 +357923,24 @@ components:
             - automated
           example: manual
         status:
-          type: string
-          enum:
-            - draft
-            - active
-            - archived
+          type:
+            - string
+            - "null"
           example: active
+          description: "Saved collection status; not inferred from a URL or publication date."
         published:
           type: boolean
           example: true
         published_at:
-          type: string
-          format: date-time
-          example: "2026-07-10T00:00:00.000Z"
+          type:
+            - string
+            - "null"
+          description: "Saved publication date, including future dates; null when not saved."
+        publishedAt:
+          type:
+            - string
+            - "null"
+          description: "Existing collections-list alias for the same saved publication date."
         productIds:
           type: array
           items:
