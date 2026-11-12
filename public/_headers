@@ -137,3 +137,31 @@
   X-Inventory-Checkpoint: shopiyz-xml-api-example-stock-1
   Cache-Control: no-store
   X-Robots-Tag: noindex
+
+/examples/xml/atomic-acceptance-20261112-r6/baseline/*
+  Content-Type: application/xml; charset=utf-8
+  X-Catalog-Generation: shopiyz-xml-api-example-catalog-v1
+  X-Inventory-Checkpoint: shopiyz-xml-api-example-stock-1
+  Cache-Control: no-store
+  X-Robots-Tag: noindex
+
+/examples/xml/atomic-acceptance-20261112-r6/complete/*
+  Content-Type: application/xml; charset=utf-8
+  X-Catalog-Generation: shopiyz-xml-api-example-catalog-v2
+  X-Inventory-Checkpoint: shopiyz-xml-api-example-stock-1
+  Cache-Control: no-store
+  X-Robots-Tag: noindex
+
+/examples/xml/atomic-acceptance-20261112-r6/checkpoint/*
+  Content-Type: application/xml; charset=utf-8
+  X-Catalog-Generation: shopiyz-xml-api-example-catalog-v2
+  X-Inventory-Checkpoint: shopiyz-xml-api-example-stock-2
+  Cache-Control: no-store
+  X-Robots-Tag: noindex
+
+/examples/xml/atomic-acceptance-20261112-r6/incomplete/*
+  Content-Type: application/xml; charset=utf-8
+  X-Catalog-Generation: shopiyz-xml-api-example-catalog-incomplete
+  X-Inventory-Checkpoint: shopiyz-xml-api-example-stock-1
+  Cache-Control: no-store
+  X-Robots-Tag: noindex
