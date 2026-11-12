@@ -1,0 +1,934 @@
+{
+  "description": "Read-only Native value and loyalty workspace parity. Linked current Native staff required; no schema installation, financial adjustment, policy mutation or notification delivery.",
+  "schemas": {
+    "NativeCustomerCreditWallet": {
+      "type": "object",
+      "properties": {
+        "storeId": {
+          "type": "string"
+        },
+        "customerId": {
+          "type": "string"
+        },
+        "currency": {
+          "type": "string"
+        },
+        "balanceMinor": {
+          "type": "integer"
+        },
+        "reservedMinor": {
+          "type": "integer"
+        },
+        "availableMinor": {
+          "type": "integer"
+        },
+        "expiredMinor": {
+          "type": "integer"
+        },
+        "revision": {
+          "type": "integer"
+        },
+        "initialized": {
+          "type": "boolean"
+        },
+        "lots": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "id": {
+                "type": "string"
+              },
+              "remaining_minor": {
+                "type": "integer"
+              },
+              "reserved_minor": {
+                "type": "integer"
+              },
+              "expires_at": {
+                "type": [
+                  "string",
+                  "null"
+                ]
+              },
+              "created_at": {
+                "type": "string"
+              }
+            }
+          }
+        },
+        "history": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "id": {
+                "type": "string"
+              },
+              "operation": {
+                "type": "string"
+              },
+              "delta_minor": {
+                "type": "integer"
+              },
+              "reserved_delta_minor": {
+                "type": "integer"
+              },
+              "balance_after_minor": {
+                "type": "integer"
+              },
+              "order_id": {
+                "type": [
+                  "string",
+                  "null"
+                ]
+              },
+              "reference_id": {
+                "type": [
+                  "string",
+                  "null"
+                ]
+              },
+              "expires_at": {
+                "type": [
+                  "string",
+                  "null"
+                ]
+              },
+              "created_at": {
+                "type": "string"
+              }
+            }
+          }
+        },
+        "legacyHistory": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "id": {
+                "type": "string"
+              },
+              "type": {
+                "type": "string"
+              },
+              "amount": {
+                "type": "number"
+              },
+              "currency": {
+                "type": "string"
+              },
+              "balance_after": {
+                "type": "number"
+              },
+              "expires_at": {
+                "type": [
+                  "string",
+                  "null"
+                ]
+              },
+              "created_at": {
+                "type": "string"
+              },
+              "order_id": {
+                "type": [
+                  "string",
+                  "null"
+                ]
+              }
+            }
+          }
+        }
+      },
+      "required": [
+        "storeId",
+        "customerId",
+        "currency",
+        "balanceMinor",
+        "reservedMinor",
+        "availableMinor",
+        "expiredMinor",
+        "revision",
+        "initialized",
+        "lots",
+        "history",
+        "legacyHistory"
+      ],
+      "description": "Canonical Native wallet. Camel-case Minor fields and movement/lot *_minor fields are exact currency minor units; legacyHistory amount/balance_after retain their stored major-unit values. Reads do not initialize accounts or reconcile expiry."
+    },
+    "NativeCustomerCreditWalletResponse": {
+      "type": "object",
+      "properties": {
+        "wallet": {
+          "$ref": "#/components/schemas/NativeCustomerCreditWallet"
+        },
+        "actorId": {
+          "type": "string",
+          "description": "Current Native creator; rechecked before returning the read."
+        },
+        "expiryTimeZone": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "description": "Validated store IANA timezone, or null. No invented expiry timezone."
+        },
+        "permissions": {
+          "type": "object",
+          "properties": {
+            "credit": {
+              "type": "boolean"
+            },
+            "debit": {
+              "type": "boolean"
+            },
+            "refund": {
+              "type": "boolean"
+            }
+          },
+          "required": [
+            "credit",
+            "debit",
+            "refund"
+          ],
+          "additionalProperties": false,
+          "description": "Current Native panel permissions only; not token scopes or API money-command availability."
+        }
+      },
+      "required": [
+        "actorId",
+        "expiryTimeZone",
+        "wallet",
+        "permissions"
+      ]
+    },
+    "NativeMaskedGiftCard": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "storeId": {
+          "type": "string"
+        },
+        "code": {
+          "type": "string"
+        },
+        "status": {
+          "type": "string"
+        },
+        "currency": {
+          "type": "string"
+        },
+        "createdAt": {
+          "type": "string"
+        },
+        "updatedAt": {
+          "type": "string"
+        },
+        "lastCharacters": {
+          "type": "string"
+        },
+        "computedStatus": {
+          "type": "string"
+        },
+        "issueMethod": {
+          "type": "string"
+        },
+        "issuerName": {
+          "type": "string"
+        },
+        "initialValue": {
+          "type": "number"
+        },
+        "balance": {
+          "type": "number"
+        },
+        "recipientEmail": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "note": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "expiresAt": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "disabledAt": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "lastSentAt": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "recipientName": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "recipientMessage": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "orderId": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "orderNumber": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "customer": {
+          "type": [
+            "object",
+            "null"
+          ],
+          "properties": {
+            "id": {
+              "type": "string"
+            },
+            "name": {
+              "type": "string"
+            },
+            "email": {
+              "type": [
+                "string",
+                "null"
+              ]
+            },
+            "phone": {
+              "type": [
+                "string",
+                "null"
+              ]
+            }
+          }
+        }
+      },
+      "required": [
+        "id",
+        "storeId",
+        "code",
+        "status",
+        "initialValue",
+        "balance",
+        "currency",
+        "lastCharacters",
+        "computedStatus"
+      ],
+      "description": "Native masked projection; code contains at most the final four characters. InitialValue/balance retain the Native major-unit amount contract."
+    },
+    "NativeGiftCardDetail": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "storeId": {
+          "type": "string"
+        },
+        "code": {
+          "type": "string"
+        },
+        "status": {
+          "type": "string"
+        },
+        "currency": {
+          "type": "string"
+        },
+        "createdAt": {
+          "type": "string"
+        },
+        "updatedAt": {
+          "type": "string"
+        },
+        "lastCharacters": {
+          "type": "string"
+        },
+        "computedStatus": {
+          "type": "string"
+        },
+        "issueMethod": {
+          "type": "string"
+        },
+        "issuerName": {
+          "type": "string"
+        },
+        "initialValue": {
+          "type": "number"
+        },
+        "balance": {
+          "type": "number"
+        },
+        "recipientEmail": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "note": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "expiresAt": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "disabledAt": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "lastSentAt": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "recipientName": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "recipientMessage": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "orderId": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "orderNumber": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "customer": {
+          "type": [
+            "object",
+            "null"
+          ],
+          "properties": {
+            "id": {
+              "type": "string"
+            },
+            "name": {
+              "type": "string"
+            },
+            "email": {
+              "type": [
+                "string",
+                "null"
+              ]
+            },
+            "phone": {
+              "type": [
+                "string",
+                "null"
+              ]
+            }
+          }
+        },
+        "redemptionPolicy": {
+          "type": [
+            "object",
+            "null"
+          ],
+          "properties": {
+            "version": {
+              "type": "integer",
+              "enum": [
+                2
+              ]
+            },
+            "revision": {
+              "type": "string"
+            },
+            "redemptionMode": {
+              "type": "string",
+              "enum": [
+                "bearer",
+                "customer_bound"
+              ]
+            },
+            "boundCustomerId": {
+              "type": [
+                "string",
+                "null"
+              ]
+            },
+            "cardCurrency": {
+              "type": "string"
+            },
+            "cardExponent": {
+              "type": "integer"
+            },
+            "currencyMode": {
+              "type": "string",
+              "enum": [
+                "same_currency",
+                "cross_currency"
+              ]
+            },
+            "allowedCurrencies": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            },
+            "fxPolicy": {
+              "type": "string",
+              "enum": [
+                "manual_versioned"
+              ]
+            },
+            "effectiveAt": {
+              "type": "string"
+            }
+          },
+          "description": "Validated immutable Native policy v2, or null when no card policy is installed."
+        },
+        "transactions": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "id": {
+                "type": "string"
+              },
+              "giftCardId": {
+                "type": "string"
+              },
+              "type": {
+                "type": "string"
+              },
+              "amount": {
+                "type": "number"
+              },
+              "note": {
+                "type": [
+                  "string",
+                  "null"
+                ]
+              },
+              "createdAt": {
+                "type": "string"
+              },
+              "actorName": {
+                "type": "string"
+              }
+            }
+          }
+        },
+        "comments": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "id": {
+                "type": "string"
+              },
+              "giftCardId": {
+                "type": "string"
+              },
+              "message": {
+                "type": "string"
+              },
+              "createdAt": {
+                "type": "string"
+              },
+              "actorName": {
+                "type": "string"
+              }
+            }
+          }
+        },
+        "events": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "id": {
+                "type": "string"
+              },
+              "kind": {
+                "type": "string"
+              },
+              "detail": {
+                "type": [
+                  "string",
+                  "null"
+                ]
+              },
+              "createdAt": {
+                "type": "string"
+              },
+              "actorName": {
+                "type": "string"
+              }
+            }
+          }
+        },
+        "deliveries": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "id": {
+                "type": "string"
+              },
+              "status": {
+                "type": "string"
+              },
+              "recipient": {
+                "type": [
+                  "string",
+                  "null"
+                ]
+              },
+              "createdAt": {
+                "type": "string"
+              },
+              "updatedAt": {
+                "type": "string"
+              }
+            }
+          }
+        },
+        "historyPage": {
+          "type": "integer"
+        },
+        "historyHasMore": {
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "id",
+        "storeId",
+        "code",
+        "status",
+        "initialValue",
+        "balance",
+        "currency",
+        "lastCharacters",
+        "computedStatus",
+        "transactions",
+        "comments",
+        "events",
+        "deliveries",
+        "historyPage",
+        "historyHasMore"
+      ]
+    },
+    "NativeGiftCardListResponse": {
+      "type": "object",
+      "properties": {
+        "giftCards": {
+          "type": "array",
+          "items": {
+            "$ref": "#/components/schemas/NativeMaskedGiftCard"
+          }
+        },
+        "meta": {
+          "type": "object",
+          "properties": {
+            "total": {
+              "type": "integer"
+            },
+            "limit": {
+              "type": "integer"
+            },
+            "offset": {
+              "type": "integer"
+            }
+          }
+        },
+        "totals": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "currency": {
+                "type": "string"
+              },
+              "total": {
+                "type": "integer"
+              },
+              "balance": {
+                "type": "number"
+              },
+              "issued": {
+                "type": "number"
+              }
+            }
+          }
+        }
+      },
+      "required": [
+        "giftCards",
+        "meta",
+        "totals"
+      ]
+    },
+    "NativeGiftCardDetailResponse": {
+      "type": "object",
+      "properties": {
+        "giftCard": {
+          "$ref": "#/components/schemas/NativeGiftCardDetail"
+        }
+      },
+      "required": [
+        "giftCard"
+      ]
+    },
+    "NativeLoyaltyManagementResponse": {
+      "type": "object",
+      "properties": {
+        "policy": {
+          "type": [
+            "object",
+            "null"
+          ],
+          "properties": {
+            "store_id": {
+              "type": "string"
+            },
+            "enabled": {
+              "type": "integer"
+            },
+            "currency": {
+              "type": "string"
+            },
+            "earn_bps": {
+              "type": "integer"
+            },
+            "return_window_days": {
+              "type": "integer"
+            },
+            "effective_at": {
+              "type": "string"
+            },
+            "updated_at": {
+              "type": "string"
+            }
+          }
+        },
+        "balances": {
+          "type": "object",
+          "properties": {
+            "customers": {
+              "type": "integer"
+            },
+            "available_minor": {
+              "type": "integer"
+            },
+            "pending_minor": {
+              "type": "integer"
+            },
+            "reserved_minor": {
+              "type": "integer"
+            },
+            "debt_minor": {
+              "type": "integer"
+            }
+          }
+        },
+        "reconciliation": {
+          "type": "object",
+          "properties": {
+            "pending": {
+              "type": "integer"
+            }
+          }
+        },
+        "redemption": {
+          "type": "object",
+          "properties": {
+            "available": {
+              "type": "boolean"
+            },
+            "code": {
+              "type": "string"
+            },
+            "message": {
+              "type": "string"
+            }
+          },
+          "required": [
+            "available",
+            "code",
+            "message"
+          ]
+        },
+        "currency": {
+          "type": "string"
+        },
+        "pointMinorPerUnit": {
+          "type": "integer",
+          "enum": [
+            100
+          ]
+        }
+      },
+      "required": [
+        "policy",
+        "balances",
+        "reconciliation",
+        "redemption",
+        "currency",
+        "pointMinorPerUnit"
+      ]
+    }
+  },
+  "operations": [
+    {
+      "method": "GET",
+      "path": "/customers/{customer_id}/store_credit/native.json",
+      "responseSchema": "NativeCustomerCreditWalletResponse",
+      "scopeAlternatives": [
+        [
+          "admin:read"
+        ],
+        [
+          "admin:write"
+        ],
+        [
+          "customers:read"
+        ],
+        [
+          "customers:write"
+        ]
+      ],
+      "nativePermissions": [
+        "customers:manage"
+      ],
+      "readOnly": true,
+      "idempotencyRequired": false,
+      "queryParameters": [
+        "currency"
+      ]
+    },
+    {
+      "method": "GET",
+      "path": "/gift_cards/native.json",
+      "responseSchema": "NativeGiftCardListResponse",
+      "scopeAlternatives": [
+        [
+          "admin:read"
+        ],
+        [
+          "admin:write"
+        ],
+        [
+          "products:read"
+        ],
+        [
+          "products:write"
+        ]
+      ],
+      "nativePermissions": [
+        "products:manage"
+      ],
+      "readOnly": true,
+      "idempotencyRequired": false,
+      "queryParameters": [
+        "search",
+        "status",
+        "tab",
+        "currency",
+        "issueMethod",
+        "sort",
+        "limit",
+        "offset",
+        "balance",
+        "value",
+        "valueOperator",
+        "createdFrom",
+        "createdTo"
+      ]
+    },
+    {
+      "method": "GET",
+      "path": "/gift_cards/{gift_card_id}/native.json",
+      "responseSchema": "NativeGiftCardDetailResponse",
+      "scopeAlternatives": [
+        [
+          "admin:read"
+        ],
+        [
+          "admin:write"
+        ],
+        [
+          "products:read"
+        ],
+        [
+          "products:write"
+        ]
+      ],
+      "nativePermissions": [
+        "products:manage"
+      ],
+      "readOnly": true,
+      "idempotencyRequired": false,
+      "queryParameters": [
+        "page"
+      ]
+    },
+    {
+      "method": "GET",
+      "path": "/loyalty/native/settings.json",
+      "responseSchema": "NativeLoyaltyManagementResponse",
+      "scopeAlternatives": [
+        [
+          "admin:read"
+        ],
+        [
+          "admin:write"
+        ],
+        [
+          "settings:read"
+        ],
+        [
+          "settings:write"
+        ]
+      ],
+      "nativePermissions": [
+        "settings:manage"
+      ],
+      "readOnly": true,
+      "idempotencyRequired": false,
+      "queryParameters": []
+    }
+  ]
+}

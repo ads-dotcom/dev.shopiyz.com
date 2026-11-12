@@ -10,16 +10,16 @@ servers:
       store:
         default: development
         description: Store subdomain or custom store host.
-x-shopiyz-generated-at: "2026-11-11T14:10:11.473Z"
+x-shopiyz-generated-at: "2026-11-12T06:31:04.164Z"
 x-shopiyz-source: myshopiyz/src/lib/adminApiCatalog.ts
 x-shopiyz-base-path: /admin/api/v1
 x-shopiyz-summary:
   sections: 14
-  resources: 577
-  operations: 2252
-  registeredOperations: 2479
-  implementedOperations: 1767
-  capabilities: 1068
+  resources: 580
+  operations: 2257
+  registeredOperations: 2484
+  implementedOperations: 1772
+  capabilities: 1071
 paths:
   /abandoned_carts/customer_target_set.json:
     post:
@@ -98069,6 +98069,164 @@ paths:
       security:
         - ShopiyzAccessToken: []
         - ShopiyzBearerAuth: []
+  /customers/{customer_id}/store_credit/native.json:
+    get:
+      operationId: getNativeCustomerStoreCredit
+      tags:
+        - "Customers / Native"
+      summary: "Read the Native wallet with actual held, available and expired minor units; no financial writes."
+      description: |-
+        Read the Native wallet with actual held, available and expired minor units; no financial writes.. Risk R0; confirmation none; step-up none.
+        Capability: customers.native. Risk: R0. Confirmation: none. Step-up: none.
+      x-shopiyz-capability: customers.native
+      x-shopiyz-risk: R0
+      x-shopiyz-confirmation: none
+      x-shopiyz-step-up: none
+      x-shopiyz-operation-kind: read
+      x-shopiyz-read-only: true
+      x-shopiyz-scope-alternatives: [["admin:read"],["admin:write"],["customers:read"],["customers:write"]]
+      x-shopiyz-scope-matching: "any group, all scopes within that group"
+      x-shopiyz-native-permissions: ["customers:manage"]
+      x-shopiyz-native-query-parameters: [{"name":"currency","in":"query","required":false,"type":"string","description":"Canonical Native currency; use the resource guide for exact window and cursor bounds."}]
+      x-shopiyz-rate-limit-group: customers
+      x-shopiyz-rate-limit-cost: 1
+      x-shopiyz-rate-limit-bucket: 40
+      x-shopiyz-rate-limit-restore-rate: 2
+      x-shopiyz-rate-limit-scope: store_token
+      x-shopiyz-rate-limit-algorithm: leaky_bucket
+      x-shopiyz-rate-limit-headers:
+        - X-Shopiyz-Api-Call-Limit
+        - X-Shopiyz-Api-Call-Remaining
+        - X-Shopiyz-Api-Call-Restore-Rate
+        - X-Shopiyz-Api-Call-Reset
+        - X-Shopiyz-Shop-Api-Call-Limit
+        - X-Shopiyz-Api-Bucket-Size
+        - X-Shopiyz-Api-Restore-Rate
+        - X-Shopiyz-Api-Cost
+        - X-Shopiyz-RateLimit-Remaining
+        - X-Shopiyz-API-Limit
+        - X-Shopiyz-API-Remaining
+        - X-Shopiyz-API-Retry-After
+        - X-Request-Id
+      x-shopiyz-implemented: true
+      x-shopiyz-execution-mode: native
+      x-shopiyz-preview-required: false
+      x-shopiyz-rollback-supported: false
+      x-ai-safe: true
+      x-ai-readonly: true
+      x-ai-requires-confirmation: false
+      x-ai-destructive: false
+      x-ai-idempotency-required: false
+      x-ai-human-summary: "Reads Read the Native wallet with actual held, available and expired minor units; no financial writes. without changing store data."
+      x-ai-before-call:
+        - "Verify the caller has a valid store context and read scope."
+        - "Use filters and pagination before broad reads."
+      x-operation-kind: query
+      x-risk: R0
+      x-confirmation: none
+      x-step-up: none
+      x-idempotency: none
+      x-preview-supported: false
+      x-rollback-supported: false
+      x-required-roles:
+        - merchant_staff
+      x-required-scopes:
+        - "admin:read"
+        - "admin:write"
+        - "customers:read"
+        - "customers:write"
+      x-audit-event: customers.native
+      x-response-schema: "#/components/schemas/NativeCustomerCreditWalletResponse"
+      x-required-headers:
+        -
+          name: X-Shopiyz-Access-Token
+          required: true
+          description: "Admin API access token. Authorization: Bearer is accepted by clients that prefer bearer syntax."
+          example: "shpat_••••••••••••"
+        -
+          name: Authorization
+          required: false
+          description: "Bearer token alternative: Authorization: Bearer <token>."
+          example: "Bearer shpat_••••••••••••"
+      parameters:
+        - name: customer_id
+          in: path
+          required: true
+          description: "Customer identifier."
+          schema:
+            type: string
+          example: customer_123
+        - name: currency
+          in: query
+          required: false
+          description: "Canonical Native currency; use the resource guide for exact window and cursor bounds."
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Successful response
+          headers:
+            X-Shopiyz-Api-Call-Limit:
+              $ref: "#/components/headers/XShopiyzApiCallLimit"
+            X-Shopiyz-Api-Bucket-Size:
+              $ref: "#/components/headers/XShopiyzApiBucketSize"
+            X-Shopiyz-Api-Restore-Rate:
+              $ref: "#/components/headers/XShopiyzApiRestoreRate"
+            X-Shopiyz-Api-Cost:
+              $ref: "#/components/headers/XShopiyzApiCost"
+            X-Shopiyz-RateLimit-Remaining:
+              $ref: "#/components/headers/XShopiyzRateLimitRemaining"
+            X-Shopiyz-API-Limit:
+              $ref: "#/components/headers/XShopiyzAPILimit"
+            X-Shopiyz-API-Remaining:
+              $ref: "#/components/headers/XShopiyzAPIRemaining"
+            X-Shopiyz-API-Restore-Rate:
+              $ref: "#/components/headers/XShopiyzAPIRestoreRate"
+            X-Shopiyz-API-Retry-After:
+              $ref: "#/components/headers/XShopiyzAPIRetryAfter"
+            X-Request-Id:
+              $ref: "#/components/headers/XRequestId"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/NativeCustomerCreditWalletResponse"
+        "400":
+          $ref: "#/components/responses/BadRequest"
+        "401":
+          $ref: "#/components/responses/Unauthorized"
+        "403":
+          $ref: "#/components/responses/Forbidden"
+        "404":
+          $ref: "#/components/responses/NotFound"
+        "409":
+          $ref: "#/components/responses/Conflict"
+        "422":
+          $ref: "#/components/responses/UnprocessableEntity"
+        "429":
+          $ref: "#/components/responses/TooManyRequests"
+        "500":
+          $ref: "#/components/responses/InternalServerError"
+        "413":
+          description: Runtime error declared by the source registry.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AdminApiError'
+        "428":
+          description: Runtime error declared by the source registry.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AdminApiError'
+        "503":
+          description: Runtime error declared by the source registry.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AdminApiError'
+      security:
+        - ShopiyzAccessToken: []
+        - ShopiyzBearerAuth: []
   /customers/{customer_id}/subscriptions.json:
     post:
       operationId: postCustomersCustomerIdSubscriptions
@@ -151687,6 +151845,164 @@ paths:
       security:
         - ShopiyzAccessToken: []
         - ShopiyzBearerAuth: []
+  /gift_cards/{gift_card_id}/native.json:
+    get:
+      operationId: getNativeGiftCard
+      tags:
+        - "Gift Cards / Native"
+      summary: "Read masked Native gift-card policy and paginated history."
+      description: |-
+        Read masked Native gift-card policy and paginated history.. Risk R0; confirmation none; step-up none.
+        Capability: gift_cards.native. Risk: R0. Confirmation: none. Step-up: none.
+      x-shopiyz-capability: gift_cards.native
+      x-shopiyz-risk: R0
+      x-shopiyz-confirmation: none
+      x-shopiyz-step-up: none
+      x-shopiyz-operation-kind: read
+      x-shopiyz-read-only: true
+      x-shopiyz-scope-alternatives: [["admin:read"],["admin:write"],["products:read"],["products:write"]]
+      x-shopiyz-scope-matching: "any group, all scopes within that group"
+      x-shopiyz-native-permissions: ["products:manage"]
+      x-shopiyz-native-query-parameters: [{"name":"page","in":"query","required":false,"type":"string","description":"Canonical Native page; use the resource guide for exact window and cursor bounds."}]
+      x-shopiyz-rate-limit-group: admin_api_global
+      x-shopiyz-rate-limit-cost: 1
+      x-shopiyz-rate-limit-bucket: 40
+      x-shopiyz-rate-limit-restore-rate: 2
+      x-shopiyz-rate-limit-scope: store_token
+      x-shopiyz-rate-limit-algorithm: leaky_bucket
+      x-shopiyz-rate-limit-headers:
+        - X-Shopiyz-Api-Call-Limit
+        - X-Shopiyz-Api-Call-Remaining
+        - X-Shopiyz-Api-Call-Restore-Rate
+        - X-Shopiyz-Api-Call-Reset
+        - X-Shopiyz-Shop-Api-Call-Limit
+        - X-Shopiyz-Api-Bucket-Size
+        - X-Shopiyz-Api-Restore-Rate
+        - X-Shopiyz-Api-Cost
+        - X-Shopiyz-RateLimit-Remaining
+        - X-Shopiyz-API-Limit
+        - X-Shopiyz-API-Remaining
+        - X-Shopiyz-API-Retry-After
+        - X-Request-Id
+      x-shopiyz-implemented: true
+      x-shopiyz-execution-mode: native
+      x-shopiyz-preview-required: false
+      x-shopiyz-rollback-supported: false
+      x-ai-safe: true
+      x-ai-readonly: true
+      x-ai-requires-confirmation: false
+      x-ai-destructive: false
+      x-ai-idempotency-required: false
+      x-ai-human-summary: "Reads Read masked Native gift-card policy and paginated history. without changing store data."
+      x-ai-before-call:
+        - "Verify the caller has a valid store context and read scope."
+        - "Use filters and pagination before broad reads."
+      x-operation-kind: query
+      x-risk: R0
+      x-confirmation: none
+      x-step-up: none
+      x-idempotency: none
+      x-preview-supported: false
+      x-rollback-supported: false
+      x-required-roles:
+        - merchant_staff
+      x-required-scopes:
+        - "admin:read"
+        - "admin:write"
+        - "products:read"
+        - "products:write"
+      x-audit-event: gift_cards.native
+      x-response-schema: "#/components/schemas/NativeGiftCardDetailResponse"
+      x-required-headers:
+        -
+          name: X-Shopiyz-Access-Token
+          required: true
+          description: "Admin API access token. Authorization: Bearer is accepted by clients that prefer bearer syntax."
+          example: "shpat_••••••••••••"
+        -
+          name: Authorization
+          required: false
+          description: "Bearer token alternative: Authorization: Bearer <token>."
+          example: "Bearer shpat_••••••••••••"
+      parameters:
+        - name: gift_card_id
+          in: path
+          required: true
+          description: "Gift Card Id path parameter."
+          schema:
+            type: string
+          example: gift_card_123
+        - name: page
+          in: query
+          required: false
+          description: "Canonical Native page; use the resource guide for exact window and cursor bounds."
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Successful response
+          headers:
+            X-Shopiyz-Api-Call-Limit:
+              $ref: "#/components/headers/XShopiyzApiCallLimit"
+            X-Shopiyz-Api-Bucket-Size:
+              $ref: "#/components/headers/XShopiyzApiBucketSize"
+            X-Shopiyz-Api-Restore-Rate:
+              $ref: "#/components/headers/XShopiyzApiRestoreRate"
+            X-Shopiyz-Api-Cost:
+              $ref: "#/components/headers/XShopiyzApiCost"
+            X-Shopiyz-RateLimit-Remaining:
+              $ref: "#/components/headers/XShopiyzRateLimitRemaining"
+            X-Shopiyz-API-Limit:
+              $ref: "#/components/headers/XShopiyzAPILimit"
+            X-Shopiyz-API-Remaining:
+              $ref: "#/components/headers/XShopiyzAPIRemaining"
+            X-Shopiyz-API-Restore-Rate:
+              $ref: "#/components/headers/XShopiyzAPIRestoreRate"
+            X-Shopiyz-API-Retry-After:
+              $ref: "#/components/headers/XShopiyzAPIRetryAfter"
+            X-Request-Id:
+              $ref: "#/components/headers/XRequestId"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/NativeGiftCardDetailResponse"
+        "400":
+          $ref: "#/components/responses/BadRequest"
+        "401":
+          $ref: "#/components/responses/Unauthorized"
+        "403":
+          $ref: "#/components/responses/Forbidden"
+        "404":
+          $ref: "#/components/responses/NotFound"
+        "409":
+          $ref: "#/components/responses/Conflict"
+        "422":
+          $ref: "#/components/responses/UnprocessableEntity"
+        "429":
+          $ref: "#/components/responses/TooManyRequests"
+        "500":
+          $ref: "#/components/responses/InternalServerError"
+        "413":
+          description: Runtime error declared by the source registry.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AdminApiError'
+        "428":
+          description: Runtime error declared by the source registry.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AdminApiError'
+        "503":
+          description: Runtime error declared by the source registry.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AdminApiError'
+      security:
+        - ShopiyzAccessToken: []
+        - ShopiyzBearerAuth: []
   /gift_cards/{gift_card_id}/resend.json:
     post:
       operationId: resendGiftCardRuntime
@@ -152264,6 +152580,229 @@ paths:
           $ref: "#/components/responses/TooManyRequests"
         "500":
           $ref: "#/components/responses/InternalServerError"
+      security:
+        - ShopiyzAccessToken: []
+        - ShopiyzBearerAuth: []
+  /gift_cards/native.json:
+    get:
+      operationId: getNativeGiftCards
+      tags:
+        - "Gift Cards / Native"
+      summary: "List the same masked Native gift-card workspace as the panel."
+      description: |-
+        List the same masked Native gift-card workspace as the panel.. Risk R0; confirmation none; step-up none.
+        Capability: gift_cards.native. Risk: R0. Confirmation: none. Step-up: none.
+      x-shopiyz-capability: gift_cards.native
+      x-shopiyz-risk: R0
+      x-shopiyz-confirmation: none
+      x-shopiyz-step-up: none
+      x-shopiyz-operation-kind: read
+      x-shopiyz-read-only: true
+      x-shopiyz-scope-alternatives: [["admin:read"],["admin:write"],["products:read"],["products:write"]]
+      x-shopiyz-scope-matching: "any group, all scopes within that group"
+      x-shopiyz-native-permissions: ["products:manage"]
+      x-shopiyz-native-query-parameters: [{"name":"search","in":"query","required":false,"type":"string","description":"Canonical Native search; use the resource guide for exact window and cursor bounds."},{"name":"status","in":"query","required":false,"type":"string","description":"Canonical Native status; use the resource guide for exact window and cursor bounds."},{"name":"tab","in":"query","required":false,"type":"string","description":"Canonical Native tab; use the resource guide for exact window and cursor bounds."},{"name":"currency","in":"query","required":false,"type":"string","description":"Canonical Native currency; use the resource guide for exact window and cursor bounds."},{"name":"issueMethod","in":"query","required":false,"type":"string","description":"Canonical Native issueMethod; use the resource guide for exact window and cursor bounds."},{"name":"sort","in":"query","required":false,"type":"string","description":"Canonical Native sort; use the resource guide for exact window and cursor bounds."},{"name":"limit","in":"query","required":false,"type":"string","description":"Canonical Native limit; use the resource guide for exact window and cursor bounds."},{"name":"offset","in":"query","required":false,"type":"string","description":"Canonical Native offset; use the resource guide for exact window and cursor bounds."},{"name":"balance","in":"query","required":false,"type":"string","description":"Canonical Native balance; use the resource guide for exact window and cursor bounds."},{"name":"value","in":"query","required":false,"type":"string","description":"Canonical Native value; use the resource guide for exact window and cursor bounds."},{"name":"valueOperator","in":"query","required":false,"type":"string","description":"Canonical Native valueOperator; use the resource guide for exact window and cursor bounds."},{"name":"createdFrom","in":"query","required":false,"type":"string","description":"Canonical Native createdFrom; use the resource guide for exact window and cursor bounds."},{"name":"createdTo","in":"query","required":false,"type":"string","description":"Canonical Native createdTo; use the resource guide for exact window and cursor bounds."}]
+      x-shopiyz-rate-limit-group: admin_api_global
+      x-shopiyz-rate-limit-cost: 1
+      x-shopiyz-rate-limit-bucket: 40
+      x-shopiyz-rate-limit-restore-rate: 2
+      x-shopiyz-rate-limit-scope: store_token
+      x-shopiyz-rate-limit-algorithm: leaky_bucket
+      x-shopiyz-rate-limit-headers:
+        - X-Shopiyz-Api-Call-Limit
+        - X-Shopiyz-Api-Call-Remaining
+        - X-Shopiyz-Api-Call-Restore-Rate
+        - X-Shopiyz-Api-Call-Reset
+        - X-Shopiyz-Shop-Api-Call-Limit
+        - X-Shopiyz-Api-Bucket-Size
+        - X-Shopiyz-Api-Restore-Rate
+        - X-Shopiyz-Api-Cost
+        - X-Shopiyz-RateLimit-Remaining
+        - X-Shopiyz-API-Limit
+        - X-Shopiyz-API-Remaining
+        - X-Shopiyz-API-Retry-After
+        - X-Request-Id
+      x-shopiyz-implemented: true
+      x-shopiyz-execution-mode: native
+      x-shopiyz-preview-required: false
+      x-shopiyz-rollback-supported: false
+      x-ai-safe: true
+      x-ai-readonly: true
+      x-ai-requires-confirmation: false
+      x-ai-destructive: false
+      x-ai-idempotency-required: false
+      x-ai-human-summary: "Reads List the same masked Native gift-card workspace as the panel. without changing store data."
+      x-ai-before-call:
+        - "Verify the caller has a valid store context and read scope."
+        - "Use filters and pagination before broad reads."
+      x-operation-kind: query
+      x-risk: R0
+      x-confirmation: none
+      x-step-up: none
+      x-idempotency: none
+      x-preview-supported: false
+      x-rollback-supported: false
+      x-required-roles:
+        - merchant_staff
+      x-required-scopes:
+        - "admin:read"
+        - "admin:write"
+        - "products:read"
+        - "products:write"
+      x-audit-event: gift_cards.native
+      x-response-schema: "#/components/schemas/NativeGiftCardListResponse"
+      x-required-headers:
+        -
+          name: X-Shopiyz-Access-Token
+          required: true
+          description: "Admin API access token. Authorization: Bearer is accepted by clients that prefer bearer syntax."
+          example: "shpat_••••••••••••"
+        -
+          name: Authorization
+          required: false
+          description: "Bearer token alternative: Authorization: Bearer <token>."
+          example: "Bearer shpat_••••••••••••"
+      parameters:
+        - name: balance
+          in: query
+          required: false
+          description: "Canonical Native balance; use the resource guide for exact window and cursor bounds."
+          schema:
+            type: string
+        - name: createdFrom
+          in: query
+          required: false
+          description: "Canonical Native createdFrom; use the resource guide for exact window and cursor bounds."
+          schema:
+            type: string
+        - name: createdTo
+          in: query
+          required: false
+          description: "Canonical Native createdTo; use the resource guide for exact window and cursor bounds."
+          schema:
+            type: string
+        - name: currency
+          in: query
+          required: false
+          description: "Canonical Native currency; use the resource guide for exact window and cursor bounds."
+          schema:
+            type: string
+        - name: issueMethod
+          in: query
+          required: false
+          description: "Canonical Native issueMethod; use the resource guide for exact window and cursor bounds."
+          schema:
+            type: string
+        - name: limit
+          in: query
+          required: false
+          description: "Canonical Native limit; use the resource guide for exact window and cursor bounds."
+          schema:
+            type: string
+        - name: offset
+          in: query
+          required: false
+          description: "Canonical Native offset; use the resource guide for exact window and cursor bounds."
+          schema:
+            type: string
+        - name: search
+          in: query
+          required: false
+          description: "Canonical Native search; use the resource guide for exact window and cursor bounds."
+          schema:
+            type: string
+        - name: sort
+          in: query
+          required: false
+          description: "Canonical Native sort; use the resource guide for exact window and cursor bounds."
+          schema:
+            type: string
+        - name: status
+          in: query
+          required: false
+          description: "Canonical Native status; use the resource guide for exact window and cursor bounds."
+          schema:
+            type: string
+        - name: tab
+          in: query
+          required: false
+          description: "Canonical Native tab; use the resource guide for exact window and cursor bounds."
+          schema:
+            type: string
+        - name: value
+          in: query
+          required: false
+          description: "Canonical Native value; use the resource guide for exact window and cursor bounds."
+          schema:
+            type: string
+        - name: valueOperator
+          in: query
+          required: false
+          description: "Canonical Native valueOperator; use the resource guide for exact window and cursor bounds."
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Successful response
+          headers:
+            X-Shopiyz-Api-Call-Limit:
+              $ref: "#/components/headers/XShopiyzApiCallLimit"
+            X-Shopiyz-Api-Bucket-Size:
+              $ref: "#/components/headers/XShopiyzApiBucketSize"
+            X-Shopiyz-Api-Restore-Rate:
+              $ref: "#/components/headers/XShopiyzApiRestoreRate"
+            X-Shopiyz-Api-Cost:
+              $ref: "#/components/headers/XShopiyzApiCost"
+            X-Shopiyz-RateLimit-Remaining:
+              $ref: "#/components/headers/XShopiyzRateLimitRemaining"
+            X-Shopiyz-API-Limit:
+              $ref: "#/components/headers/XShopiyzAPILimit"
+            X-Shopiyz-API-Remaining:
+              $ref: "#/components/headers/XShopiyzAPIRemaining"
+            X-Shopiyz-API-Restore-Rate:
+              $ref: "#/components/headers/XShopiyzAPIRestoreRate"
+            X-Shopiyz-API-Retry-After:
+              $ref: "#/components/headers/XShopiyzAPIRetryAfter"
+            X-Request-Id:
+              $ref: "#/components/headers/XRequestId"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/NativeGiftCardListResponse"
+        "400":
+          $ref: "#/components/responses/BadRequest"
+        "401":
+          $ref: "#/components/responses/Unauthorized"
+        "403":
+          $ref: "#/components/responses/Forbidden"
+        "404":
+          $ref: "#/components/responses/NotFound"
+        "409":
+          $ref: "#/components/responses/Conflict"
+        "422":
+          $ref: "#/components/responses/UnprocessableEntity"
+        "429":
+          $ref: "#/components/responses/TooManyRequests"
+        "500":
+          $ref: "#/components/responses/InternalServerError"
+        "413":
+          description: Runtime error declared by the source registry.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AdminApiError'
+        "428":
+          description: Runtime error declared by the source registry.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AdminApiError'
+        "503":
+          description: Runtime error declared by the source registry.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AdminApiError'
       security:
         - ShopiyzAccessToken: []
         - ShopiyzBearerAuth: []
@@ -165254,6 +165793,150 @@ paths:
       security:
         - ShopiyzAccessToken: []
         - ShopiyzBearerAuth: []
+  /loyalty/native/settings.json:
+    get:
+      operationId: getNativeLoyaltySettings
+      tags:
+        - "Other Admin API / Native"
+      summary: "Read current Native loyalty policy, wallet totals and reconciliation readiness without running reconciliation."
+      description: |-
+        Read current Native loyalty policy, wallet totals and reconciliation readiness without running reconciliation.. Risk R0; confirmation none; step-up none.
+        Capability: loyalty.native. Risk: R0. Confirmation: none. Step-up: none.
+      x-shopiyz-capability: loyalty.native
+      x-shopiyz-risk: R0
+      x-shopiyz-confirmation: none
+      x-shopiyz-step-up: none
+      x-shopiyz-operation-kind: read
+      x-shopiyz-read-only: true
+      x-shopiyz-scope-alternatives: [["admin:read"],["admin:write"],["settings:read"],["settings:write"]]
+      x-shopiyz-scope-matching: "any group, all scopes within that group"
+      x-shopiyz-native-permissions: ["settings:manage"]
+      x-shopiyz-native-query-parameters: []
+      x-shopiyz-rate-limit-group: admin_api_global
+      x-shopiyz-rate-limit-cost: 1
+      x-shopiyz-rate-limit-bucket: 40
+      x-shopiyz-rate-limit-restore-rate: 2
+      x-shopiyz-rate-limit-scope: store_token
+      x-shopiyz-rate-limit-algorithm: leaky_bucket
+      x-shopiyz-rate-limit-headers:
+        - X-Shopiyz-Api-Call-Limit
+        - X-Shopiyz-Api-Call-Remaining
+        - X-Shopiyz-Api-Call-Restore-Rate
+        - X-Shopiyz-Api-Call-Reset
+        - X-Shopiyz-Shop-Api-Call-Limit
+        - X-Shopiyz-Api-Bucket-Size
+        - X-Shopiyz-Api-Restore-Rate
+        - X-Shopiyz-Api-Cost
+        - X-Shopiyz-RateLimit-Remaining
+        - X-Shopiyz-API-Limit
+        - X-Shopiyz-API-Remaining
+        - X-Shopiyz-API-Retry-After
+        - X-Request-Id
+      x-shopiyz-implemented: true
+      x-shopiyz-execution-mode: native
+      x-shopiyz-preview-required: false
+      x-shopiyz-rollback-supported: false
+      x-ai-safe: true
+      x-ai-readonly: true
+      x-ai-requires-confirmation: false
+      x-ai-destructive: false
+      x-ai-idempotency-required: false
+      x-ai-human-summary: "Reads Read current Native loyalty policy, wallet totals and reconciliation readiness without running reconciliation. without changing store data."
+      x-ai-before-call:
+        - "Verify the caller has a valid store context and read scope."
+        - "Use filters and pagination before broad reads."
+      x-operation-kind: configuration
+      x-risk: R0
+      x-confirmation: none
+      x-step-up: none
+      x-idempotency: none
+      x-preview-supported: false
+      x-rollback-supported: false
+      x-required-roles:
+        - merchant_staff
+      x-required-scopes:
+        - "admin:read"
+        - "admin:write"
+        - "settings:read"
+        - "settings:write"
+      x-audit-event: loyalty.native
+      x-response-schema: "#/components/schemas/NativeLoyaltyManagementResponse"
+      x-required-headers:
+        -
+          name: X-Shopiyz-Access-Token
+          required: true
+          description: "Admin API access token. Authorization: Bearer is accepted by clients that prefer bearer syntax."
+          example: "shpat_••••••••••••"
+        -
+          name: Authorization
+          required: false
+          description: "Bearer token alternative: Authorization: Bearer <token>."
+          example: "Bearer shpat_••••••••••••"
+      responses:
+        "200":
+          description: Successful response
+          headers:
+            X-Shopiyz-Api-Call-Limit:
+              $ref: "#/components/headers/XShopiyzApiCallLimit"
+            X-Shopiyz-Api-Bucket-Size:
+              $ref: "#/components/headers/XShopiyzApiBucketSize"
+            X-Shopiyz-Api-Restore-Rate:
+              $ref: "#/components/headers/XShopiyzApiRestoreRate"
+            X-Shopiyz-Api-Cost:
+              $ref: "#/components/headers/XShopiyzApiCost"
+            X-Shopiyz-RateLimit-Remaining:
+              $ref: "#/components/headers/XShopiyzRateLimitRemaining"
+            X-Shopiyz-API-Limit:
+              $ref: "#/components/headers/XShopiyzAPILimit"
+            X-Shopiyz-API-Remaining:
+              $ref: "#/components/headers/XShopiyzAPIRemaining"
+            X-Shopiyz-API-Restore-Rate:
+              $ref: "#/components/headers/XShopiyzAPIRestoreRate"
+            X-Shopiyz-API-Retry-After:
+              $ref: "#/components/headers/XShopiyzAPIRetryAfter"
+            X-Request-Id:
+              $ref: "#/components/headers/XRequestId"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/NativeLoyaltyManagementResponse"
+        "400":
+          $ref: "#/components/responses/BadRequest"
+        "401":
+          $ref: "#/components/responses/Unauthorized"
+        "403":
+          $ref: "#/components/responses/Forbidden"
+        "404":
+          $ref: "#/components/responses/NotFound"
+        "409":
+          $ref: "#/components/responses/Conflict"
+        "422":
+          $ref: "#/components/responses/UnprocessableEntity"
+        "429":
+          $ref: "#/components/responses/TooManyRequests"
+        "500":
+          $ref: "#/components/responses/InternalServerError"
+        "413":
+          description: Runtime error declared by the source registry.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AdminApiError'
+        "428":
+          description: Runtime error declared by the source registry.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AdminApiError'
+        "503":
+          description: Runtime error declared by the source registry.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AdminApiError'
+      security:
+        - ShopiyzAccessToken: []
+        - ShopiyzBearerAuth: []
   /loyalty/points.json:
     get:
       operationId: getLoyaltyPoints
@@ -175408,9 +176091,9 @@ paths:
       operationId: validateMenuLive
       tags:
         - "Online Store / Menus"
-      summary: "Validate menu links and tree."
+      summary: "Validate hierarchy and nonempty URL fields; returns201 without fetching targets or proving storefront visibility."
       description: |-
-        Validate menu links and tree.. Risk R1; confirmation preview; step-up none.
+        Validate hierarchy and nonempty URL fields; returns201 without fetching targets or proving storefront visibility.. Risk R1; confirmation preview; step-up none.
         Capability: content.menus.validate. Risk: R1. Confirmation: preview. Step-up: none.
       x-shopiyz-capability: content.menus.validate
       x-shopiyz-risk: R1
@@ -175447,7 +176130,7 @@ paths:
       x-ai-requires-confirmation: true
       x-ai-destructive: false
       x-ai-idempotency-required: true
-      x-ai-human-summary: "Changes store data through Validate menu links and tree.; confirmation policy is preview."
+      x-ai-human-summary: "Changes store data through Validate hierarchy and nonempty URL fields; returns201 without fetching targets or proving storefront visibility.; confirmation policy is preview."
       x-ai-before-call:
         - "Show the merchant a concise summary of the intended change."
         - "Call the matching preview endpoint first when available."
@@ -175504,8 +176187,8 @@ paths:
             schema:
               $ref: "#/components/schemas/MenuRequest"
       responses:
-        "2XX":
-          description: Successful response; exact status is not yet verified.
+        "201":
+          description: Successful response
           headers:
             X-Shopiyz-Api-Call-Limit:
               $ref: "#/components/headers/XShopiyzApiCallLimit"
@@ -353365,6 +354048,187 @@ paths:
       security:
         - ShopiyzAccessToken: []
         - ShopiyzBearerAuth: []
+  /xml/jobs/{job_id}/cancel.json:
+    post:
+      operationId: cancelXmlJob
+      tags:
+        - "Other Admin API / Xml"
+      summary: "Cancel the same-store XML queue job through its Native executor and report atomic publication settlement. Does not undo an applied catalog; unknown outcomes remain protected."
+      description: |-
+        Cancel the same-store XML queue job through its Native executor and report atomic publication settlement. Does not undo an applied catalog; unknown outcomes remain protected.. Risk R3; confirmation approval; step-up none.
+        Capability: integrations.xml. Risk: R3. Confirmation: approval. Step-up: none.
+      x-shopiyz-capability: integrations.xml
+      x-shopiyz-risk: R3
+      x-shopiyz-confirmation: approval
+      x-shopiyz-step-up: none
+      x-shopiyz-operation-kind: write
+      x-shopiyz-read-only: false
+      x-shopiyz-scope-alternatives: [["admin:write"]]
+      x-shopiyz-scope-matching: "any group, all scopes within that group"
+      x-shopiyz-native-permissions: []
+      x-shopiyz-native-query-parameters: []
+      x-shopiyz-rate-limit-group: bulk_jobs
+      x-shopiyz-rate-limit-cost: 10
+      x-shopiyz-rate-limit-bucket: 40
+      x-shopiyz-rate-limit-restore-rate: 2
+      x-shopiyz-rate-limit-scope: store_token
+      x-shopiyz-rate-limit-algorithm: leaky_bucket
+      x-shopiyz-rate-limit-headers:
+        - X-Shopiyz-Api-Call-Limit
+        - X-Shopiyz-Api-Call-Remaining
+        - X-Shopiyz-Api-Call-Restore-Rate
+        - X-Shopiyz-Api-Call-Reset
+        - X-Shopiyz-Shop-Api-Call-Limit
+        - X-Shopiyz-Api-Bucket-Size
+        - X-Shopiyz-Api-Restore-Rate
+        - X-Shopiyz-Api-Cost
+        - X-Shopiyz-RateLimit-Remaining
+        - X-Shopiyz-API-Limit
+        - X-Shopiyz-API-Remaining
+        - X-Shopiyz-API-Retry-After
+        - X-Request-Id
+      x-shopiyz-implemented: true
+      x-shopiyz-execution-mode: native
+      x-shopiyz-preview-required: true
+      x-shopiyz-rollback-supported: false
+      x-ai-safe: false
+      x-ai-readonly: false
+      x-ai-requires-confirmation: true
+      x-ai-destructive: true
+      x-ai-idempotency-required: true
+      x-ai-human-summary: "Changes store data through Cancel the same-store XML queue job through its Native executor and report atomic publication settlement. Does not undo an applied catalog; unknown outcomes remain protected.; confirmation policy is approval."
+      x-ai-before-call:
+        - "Show the merchant a concise summary of the intended change."
+        - "Call the matching preview endpoint first when available."
+        - "Send a stable Idempotency-Key for retries."
+      x-operation-kind: mutation
+      x-risk: R3
+      x-confirmation: preview
+      x-step-up: none
+      x-idempotency: required
+      x-preview-supported: true
+      x-rollback-supported: false
+      x-required-roles:
+        - merchant_staff
+      x-required-scopes:
+        - "admin:write"
+      x-audit-event: integrations.xml
+      x-request-schema: "#/components/schemas/NativeXmlJobCancellationRequest"
+      x-response-schema: "#/components/schemas/NativeXmlJobCancellationResponse"
+      x-required-headers:
+        -
+          name: X-Shopiyz-Access-Token
+          required: true
+          description: "Admin API access token. Authorization: Bearer is accepted by clients that prefer bearer syntax."
+          example: "shpat_••••••••••••"
+        -
+          name: Authorization
+          required: false
+          description: "Bearer token alternative: Authorization: Bearer <token>."
+          example: "Bearer shpat_••••••••••••"
+        -
+          name: Idempotency-Key
+          required: true
+          description: "Required for retry-safe write/delete/job operations marked as idempotent."
+          example: order-cancel-ord_1001-20260710
+        -
+          name: X-Shopiyz-Xml-Authority
+          required: true
+          example: external
+          description: "Required with value external for authoritative XML-engine commands. Legacy unenrolled mirror CRUD remains compatible."
+      parameters:
+        - name: job_id
+          in: path
+          required: true
+          description: "Asynchronous job identifier."
+          schema:
+            type: string
+          example: job_123
+        - name: Idempotency-Key
+          in: header
+          required: true
+          description: "Required for retry-safe write/delete/job operations marked as idempotent."
+          schema:
+            type: string
+          example: order-cancel-ord_1001-20260710
+        - name: X-Shopiyz-Xml-Authority
+          in: header
+          required: true
+          description: "Required with value external for authoritative XML-engine commands. Legacy unenrolled mirror CRUD remains compatible."
+          schema:
+            type: string
+          example: external
+      requestBody:
+        required: false
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/NativeXmlJobCancellationRequest"
+      responses:
+        "200":
+          description: Successful response
+          headers:
+            X-Shopiyz-Api-Call-Limit:
+              $ref: "#/components/headers/XShopiyzApiCallLimit"
+            X-Shopiyz-Api-Bucket-Size:
+              $ref: "#/components/headers/XShopiyzApiBucketSize"
+            X-Shopiyz-Api-Restore-Rate:
+              $ref: "#/components/headers/XShopiyzApiRestoreRate"
+            X-Shopiyz-Api-Cost:
+              $ref: "#/components/headers/XShopiyzApiCost"
+            X-Shopiyz-RateLimit-Remaining:
+              $ref: "#/components/headers/XShopiyzRateLimitRemaining"
+            X-Shopiyz-API-Limit:
+              $ref: "#/components/headers/XShopiyzAPILimit"
+            X-Shopiyz-API-Remaining:
+              $ref: "#/components/headers/XShopiyzAPIRemaining"
+            X-Shopiyz-API-Restore-Rate:
+              $ref: "#/components/headers/XShopiyzAPIRestoreRate"
+            X-Shopiyz-API-Retry-After:
+              $ref: "#/components/headers/XShopiyzAPIRetryAfter"
+            X-Request-Id:
+              $ref: "#/components/headers/XRequestId"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/NativeXmlJobCancellationResponse"
+        "400":
+          $ref: "#/components/responses/BadRequest"
+        "401":
+          $ref: "#/components/responses/Unauthorized"
+        "403":
+          $ref: "#/components/responses/Forbidden"
+        "404":
+          $ref: "#/components/responses/NotFound"
+        "409":
+          $ref: "#/components/responses/Conflict"
+        "422":
+          $ref: "#/components/responses/UnprocessableEntity"
+        "429":
+          $ref: "#/components/responses/TooManyRequests"
+        "500":
+          $ref: "#/components/responses/InternalServerError"
+        "413":
+          description: Runtime error declared by the source registry.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AdminApiError'
+        "428":
+          description: Runtime error declared by the source registry.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AdminApiError'
+        "503":
+          description: Runtime error declared by the source registry.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AdminApiError'
+      security:
+        - ShopiyzAccessToken: []
+        - ShopiyzBearerAuth: []
 components:
   securitySchemes:
     ShopiyzAccessToken:
@@ -359888,6 +360752,40 @@ components:
         payload:
           type: object
           additionalProperties: true
+          properties:
+            seo:
+              type: object
+              description: "Page SEO patch. Omitted fields and saved extensions survive draft saves. Restore uses the selected revision snapshot; publication still requires Native approval and generation guards. Canonical and robots are saved metadata, not proof of public URL or theme-head behavior."
+              additionalProperties: true
+              properties:
+                title:
+                  type:
+                    - string
+                    - "null"
+                  maxLength: 240
+                description:
+                  type:
+                    - string
+                    - "null"
+                  maxLength: 1000
+                canonical_url:
+                  type:
+                    - string
+                    - "null"
+                  maxLength: 2000
+                  description: "Single-root path or HTTP(S) URL without credentials; empty or null clears."
+                canonicalUrl:
+                  type:
+                    - string
+                    - "null"
+                  maxLength: 2000
+                  description: "Input alias of canonical_url. Conflicting aliases return422."
+                robots:
+                  type:
+                    - string
+                    - "null"
+                  maxLength: 1000
+                  description: "Stored robots metadata; empty or null clears."
         note:
           type: string
         body:
@@ -366301,6 +367199,624 @@ components:
       required:
         - operation
       additionalProperties: false
+    NativeXmlJobCancellationRequest:
+      type: object
+      additionalProperties: false
+      properties:
+        {}
+    NativeXmlCancelledQueueJob:
+      type: object
+      additionalProperties: false
+      required:
+        - id
+        - store_id
+        - status
+        - processed_items
+        - failed_items
+      properties:
+        id:
+          type: string
+        store_id:
+          type: string
+        status:
+          type: string
+          enum:
+            - cancelled
+        processed_items:
+          type: integer
+          minimum: 0
+        failed_items:
+          type: integer
+          minimum: 0
+    NativeXmlJobCancellationResponse:
+      type: object
+      additionalProperties: false
+      required:
+        - authority
+        - job
+        - atomic_cancellation
+      properties:
+        authority:
+          type: string
+          enum:
+            - external
+        job:
+          $ref: "#/components/schemas/NativeXmlCancelledQueueJob"
+        atomic_cancellation:
+          type: object
+          additionalProperties: false
+          required:
+            - state
+            - applied
+            - cache_settled
+          properties:
+            state:
+              type: string
+              enum:
+                - cancelled
+                - applied
+                - not_atomic
+                - not_staged
+                - verification_unavailable
+                - unverified
+            applied:
+              type:
+                - boolean
+                - "null"
+              description: "True only for a proved applied atomic catalog; false only for a fenced non-applied cancellation. Null means no authoritative atomic outcome."
+            cache_settled:
+              type: boolean
+              description: "Verified applied/aborted cache outcome; false keeps an unknown publication protected."
+    NativeCustomerCreditWallet:
+      type: object
+      properties:
+        storeId:
+          type: string
+        customerId:
+          type: string
+        currency:
+          type: string
+        balanceMinor:
+          type: integer
+        reservedMinor:
+          type: integer
+        availableMinor:
+          type: integer
+        expiredMinor:
+          type: integer
+        revision:
+          type: integer
+        initialized:
+          type: boolean
+        lots:
+          type: array
+          items:
+            type: object
+            properties:
+              id:
+                type: string
+              remaining_minor:
+                type: integer
+              reserved_minor:
+                type: integer
+              expires_at:
+                type:
+                  - string
+                  - "null"
+              created_at:
+                type: string
+        history:
+          type: array
+          items:
+            type: object
+            properties:
+              id:
+                type: string
+              operation:
+                type: string
+              delta_minor:
+                type: integer
+              reserved_delta_minor:
+                type: integer
+              balance_after_minor:
+                type: integer
+              order_id:
+                type:
+                  - string
+                  - "null"
+              reference_id:
+                type:
+                  - string
+                  - "null"
+              expires_at:
+                type:
+                  - string
+                  - "null"
+              created_at:
+                type: string
+        legacyHistory:
+          type: array
+          items:
+            type: object
+            properties:
+              id:
+                type: string
+              type:
+                type: string
+              amount:
+                type: number
+              currency:
+                type: string
+              balance_after:
+                type: number
+              expires_at:
+                type:
+                  - string
+                  - "null"
+              created_at:
+                type: string
+              order_id:
+                type:
+                  - string
+                  - "null"
+      required:
+        - storeId
+        - customerId
+        - currency
+        - balanceMinor
+        - reservedMinor
+        - availableMinor
+        - expiredMinor
+        - revision
+        - initialized
+        - lots
+        - history
+        - legacyHistory
+      description: "Canonical Native wallet. Camel-case Minor fields and movement/lot *_minor fields are exact currency minor units; legacyHistory amount/balance_after retain their stored major-unit values. Reads do not initialize accounts or reconcile expiry."
+    NativeCustomerCreditWalletResponse:
+      type: object
+      properties:
+        wallet:
+          $ref: "#/components/schemas/NativeCustomerCreditWallet"
+        actorId:
+          type: string
+          description: "Current Native creator; rechecked before returning the read."
+        expiryTimeZone:
+          type:
+            - string
+            - "null"
+          description: "Validated store IANA timezone, or null. No invented expiry timezone."
+        permissions:
+          type: object
+          properties:
+            credit:
+              type: boolean
+            debit:
+              type: boolean
+            refund:
+              type: boolean
+          required:
+            - credit
+            - debit
+            - refund
+          additionalProperties: false
+          description: "Current Native panel permissions only; not token scopes or API money-command availability."
+      required:
+        - actorId
+        - expiryTimeZone
+        - wallet
+        - permissions
+    NativeMaskedGiftCard:
+      type: object
+      properties:
+        id:
+          type: string
+        storeId:
+          type: string
+        code:
+          type: string
+        status:
+          type: string
+        currency:
+          type: string
+        createdAt:
+          type: string
+        updatedAt:
+          type: string
+        lastCharacters:
+          type: string
+        computedStatus:
+          type: string
+        issueMethod:
+          type: string
+        issuerName:
+          type: string
+        initialValue:
+          type: number
+        balance:
+          type: number
+        recipientEmail:
+          type:
+            - string
+            - "null"
+        note:
+          type:
+            - string
+            - "null"
+        expiresAt:
+          type:
+            - string
+            - "null"
+        disabledAt:
+          type:
+            - string
+            - "null"
+        lastSentAt:
+          type:
+            - string
+            - "null"
+        recipientName:
+          type:
+            - string
+            - "null"
+        recipientMessage:
+          type:
+            - string
+            - "null"
+        orderId:
+          type:
+            - string
+            - "null"
+        orderNumber:
+          type:
+            - string
+            - "null"
+        customer:
+          type:
+            - object
+            - "null"
+          properties:
+            id:
+              type: string
+            name:
+              type: string
+            email:
+              type:
+                - string
+                - "null"
+            phone:
+              type:
+                - string
+                - "null"
+      required:
+        - id
+        - storeId
+        - code
+        - status
+        - initialValue
+        - balance
+        - currency
+        - lastCharacters
+        - computedStatus
+      description: "Native masked projection; code contains at most the final four characters. InitialValue/balance retain the Native major-unit amount contract."
+    NativeGiftCardDetail:
+      type: object
+      properties:
+        id:
+          type: string
+        storeId:
+          type: string
+        code:
+          type: string
+        status:
+          type: string
+        currency:
+          type: string
+        createdAt:
+          type: string
+        updatedAt:
+          type: string
+        lastCharacters:
+          type: string
+        computedStatus:
+          type: string
+        issueMethod:
+          type: string
+        issuerName:
+          type: string
+        initialValue:
+          type: number
+        balance:
+          type: number
+        recipientEmail:
+          type:
+            - string
+            - "null"
+        note:
+          type:
+            - string
+            - "null"
+        expiresAt:
+          type:
+            - string
+            - "null"
+        disabledAt:
+          type:
+            - string
+            - "null"
+        lastSentAt:
+          type:
+            - string
+            - "null"
+        recipientName:
+          type:
+            - string
+            - "null"
+        recipientMessage:
+          type:
+            - string
+            - "null"
+        orderId:
+          type:
+            - string
+            - "null"
+        orderNumber:
+          type:
+            - string
+            - "null"
+        customer:
+          type:
+            - object
+            - "null"
+          properties:
+            id:
+              type: string
+            name:
+              type: string
+            email:
+              type:
+                - string
+                - "null"
+            phone:
+              type:
+                - string
+                - "null"
+        redemptionPolicy:
+          type:
+            - object
+            - "null"
+          properties:
+            version:
+              type: integer
+              enum:
+                - 2
+            revision:
+              type: string
+            redemptionMode:
+              type: string
+              enum:
+                - bearer
+                - customer_bound
+            boundCustomerId:
+              type:
+                - string
+                - "null"
+            cardCurrency:
+              type: string
+            cardExponent:
+              type: integer
+            currencyMode:
+              type: string
+              enum:
+                - same_currency
+                - cross_currency
+            allowedCurrencies:
+              type: array
+              items:
+                type: string
+            fxPolicy:
+              type: string
+              enum:
+                - manual_versioned
+            effectiveAt:
+              type: string
+          description: "Validated immutable Native policy v2, or null when no card policy is installed."
+        transactions:
+          type: array
+          items:
+            type: object
+            properties:
+              id:
+                type: string
+              giftCardId:
+                type: string
+              type:
+                type: string
+              amount:
+                type: number
+              note:
+                type:
+                  - string
+                  - "null"
+              createdAt:
+                type: string
+              actorName:
+                type: string
+        comments:
+          type: array
+          items:
+            type: object
+            properties:
+              id:
+                type: string
+              giftCardId:
+                type: string
+              message:
+                type: string
+              createdAt:
+                type: string
+              actorName:
+                type: string
+        events:
+          type: array
+          items:
+            type: object
+            properties:
+              id:
+                type: string
+              kind:
+                type: string
+              detail:
+                type:
+                  - string
+                  - "null"
+              createdAt:
+                type: string
+              actorName:
+                type: string
+        deliveries:
+          type: array
+          items:
+            type: object
+            properties:
+              id:
+                type: string
+              status:
+                type: string
+              recipient:
+                type:
+                  - string
+                  - "null"
+              createdAt:
+                type: string
+              updatedAt:
+                type: string
+        historyPage:
+          type: integer
+        historyHasMore:
+          type: boolean
+      required:
+        - id
+        - storeId
+        - code
+        - status
+        - initialValue
+        - balance
+        - currency
+        - lastCharacters
+        - computedStatus
+        - transactions
+        - comments
+        - events
+        - deliveries
+        - historyPage
+        - historyHasMore
+    NativeGiftCardListResponse:
+      type: object
+      properties:
+        giftCards:
+          type: array
+          items:
+            $ref: "#/components/schemas/NativeMaskedGiftCard"
+        meta:
+          type: object
+          properties:
+            total:
+              type: integer
+            limit:
+              type: integer
+            offset:
+              type: integer
+        totals:
+          type: array
+          items:
+            type: object
+            properties:
+              currency:
+                type: string
+              total:
+                type: integer
+              balance:
+                type: number
+              issued:
+                type: number
+      required:
+        - giftCards
+        - meta
+        - totals
+    NativeGiftCardDetailResponse:
+      type: object
+      properties:
+        giftCard:
+          $ref: "#/components/schemas/NativeGiftCardDetail"
+      required:
+        - giftCard
+    NativeLoyaltyManagementResponse:
+      type: object
+      properties:
+        policy:
+          type:
+            - object
+            - "null"
+          properties:
+            store_id:
+              type: string
+            enabled:
+              type: integer
+            currency:
+              type: string
+            earn_bps:
+              type: integer
+            return_window_days:
+              type: integer
+            effective_at:
+              type: string
+            updated_at:
+              type: string
+        balances:
+          type: object
+          properties:
+            customers:
+              type: integer
+            available_minor:
+              type: integer
+            pending_minor:
+              type: integer
+            reserved_minor:
+              type: integer
+            debt_minor:
+              type: integer
+        reconciliation:
+          type: object
+          properties:
+            pending:
+              type: integer
+        redemption:
+          type: object
+          properties:
+            available:
+              type: boolean
+            code:
+              type: string
+            message:
+              type: string
+          required:
+            - available
+            - code
+            - message
+        currency:
+          type: string
+        pointMinorPerUnit:
+          type: integer
+          enum:
+            - 100
+      required:
+        - policy
+        - balances
+        - reconciliation
+        - redemption
+        - currency
+        - pointMinorPerUnit
 security:
   - ShopiyzAccessToken: []
   - ShopiyzBearerAuth: []

@@ -63,17 +63,23 @@ test('download and public mirror match the exact reviewed Core collection hash',
     assert.equal(createHash('sha256').update(bytes).digest('hex'), createHash('sha256').update(sourceBytes).digest('hex'));
   }
   assert.equal(collection.info.schema, 'https://schema.getpostman.com/json/collection/v2.1.0/collection.json');
-  assert.equal(all.length, 316);
+  assert.equal(all.length, 321);
 });
 
-test('all 69 Native, 107 Storefront and 71 Account methods map exactly once', () => {
+test('every documented Postman placeholder has a declared collection variable',()=>{
+  const defined=new Set((collection.variable||[]).map(variable=>variable.key));
+  const used=[...JSON.stringify(collection).matchAll(/\{\{([A-Za-z0-9_]+)\}\}/g)].map(match=>match[1]);
+  assert.deepEqual([...new Set(used)].filter(name=>!defined.has(name)),[]);
+});
+
+test('all 74 Native, 107 Storefront and 71 Account methods map exactly once', () => {
   const nativeKeys = Object.keys(native).map(key => {
     const separator = key.indexOf(' ');
     return `${key.slice(0, separator)} ${canonical('/admin/api/v1' + key.slice(separator + 1))}`;
   });
   const storefrontKeys = contractKeys(storefront, '/api/storefront/v1');
   const accountKeys = contractKeys(account);
-  assert.equal(nativeKeys.length, 69);
+  assert.equal(nativeKeys.length, 74);
   assert.equal(storefrontKeys.length, 107);
   assert.equal(accountKeys.length, 71);
   for (const key of [...nativeKeys, ...storefrontKeys, ...accountKeys]) {
@@ -138,7 +144,7 @@ test('download is visible and guide-relative schema attachments preserve source 
   for (const prefix of ['', 'public/']) {
     const html = fs.readFileSync(path.join(root, prefix, 'openapi/index.html'), 'utf8');
     assert(html.includes('href="/postman/shopiyz-api.postman_collection.json" download'));
-    assert(html.includes('316 seçili istek'));
+    assert(html.includes('321 seçili istek'));
     assert(html.includes('href="/guides/postman-compatibility-aliases.md"'));
     for (const name of ['storefront-account-v2-openapi.yaml', 'customer-segments-native-schemas.json']) {
       assert.deepEqual(fs.readFileSync(path.join(root, prefix, 'guides', name)), fs.readFileSync(path.join(app, 'docs/api', name)));

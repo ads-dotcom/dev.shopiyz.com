@@ -1,0 +1,203 @@
+{
+  "description": "Monotonic same-store XML job cancellation through the existing Native queue and engine; no import restart, source fetching, configuration mutation or fabricated rollback.",
+  "schemas": {
+    "NativeXmlJobCancellationRequest": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {}
+    },
+    "NativeXmlCancelledQueueJob": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "store_id",
+        "status",
+        "processed_items",
+        "failed_items"
+      ],
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "store_id": {
+          "type": "string"
+        },
+        "status": {
+          "type": "string",
+          "enum": [
+            "cancelled"
+          ]
+        },
+        "processed_items": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "failed_items": {
+          "type": "integer",
+          "minimum": 0
+        }
+      }
+    },
+    "NativeXmlJobCancellationResponse": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "authority",
+        "job",
+        "atomic_cancellation"
+      ],
+      "properties": {
+        "authority": {
+          "type": "string",
+          "enum": [
+            "external"
+          ]
+        },
+        "job": {
+          "$ref": "#/components/schemas/NativeXmlCancelledQueueJob"
+        },
+        "atomic_cancellation": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "state",
+            "applied",
+            "cache_settled"
+          ],
+          "properties": {
+            "state": {
+              "type": "string",
+              "enum": [
+                "cancelled",
+                "applied",
+                "not_atomic",
+                "not_staged",
+                "verification_unavailable",
+                "unverified"
+              ]
+            },
+            "applied": {
+              "type": [
+                "boolean",
+                "null"
+              ],
+              "description": "True only for a proved applied atomic catalog; false only for a fenced non-applied cancellation. Null means no authoritative atomic outcome."
+            },
+            "cache_settled": {
+              "type": "boolean",
+              "description": "Verified applied/aborted cache outcome; false keeps an unknown publication protected."
+            }
+          }
+        }
+      }
+    }
+  },
+  "operations": [
+    {
+      "method": "POST",
+      "path": "/xml/jobs/{job_id}/cancel.json",
+      "requestSchema": "NativeXmlJobCancellationRequest",
+      "responseSchema": "NativeXmlJobCancellationResponse",
+      "scopeAlternatives": [
+        [
+          "admin:write"
+        ]
+      ],
+      "nativePermissions": [],
+      "readOnly": false,
+      "idempotencyRequired": true,
+      "openapi": {
+        "operationId": "cancelXmlJob",
+        "tags": [
+          "integrations.xml"
+        ],
+        "summary": "Cancel a same-store Native XML job.",
+        "description": "Requires external authority and a stable Idempotency-Key. Send an empty JSON object. This command does not restart failed work, change the profile or undo a catalog already applied. Unknown atomic outcomes remain protected until verified. The response reports queue cancellation separately from atomic publication settlement.",
+        "security": [
+          {
+            "adminToken": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "job_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "pattern": "^[a-zA-Z0-9_-]{1,160}$"
+            },
+            "description": "Same-store Sync job identifier returned by the Native XML import operation."
+          },
+          {
+            "$ref": "#/components/parameters/IdempotencyKey"
+          },
+          {
+            "name": "X-Shopiyz-Xml-Authority",
+            "in": "header",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "enum": [
+                "external"
+              ]
+            },
+            "example": "external"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Native cancellation acknowledgement; an applied catalog is never rolled back.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/NativeXmlJobCancellationResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Native authorization, validation, queue, revision or protected settlement error"
+          },
+          "401": {
+            "description": "Native authorization, validation, queue, revision or protected settlement error"
+          },
+          "403": {
+            "description": "Native authorization, validation, queue, revision or protected settlement error"
+          },
+          "404": {
+            "description": "Native authorization, validation, queue, revision or protected settlement error"
+          },
+          "409": {
+            "description": "Native authorization, validation, queue, revision or protected settlement error"
+          },
+          "413": {
+            "description": "Native authorization, validation, queue, revision or protected settlement error"
+          },
+          "415": {
+            "description": "Native authorization, validation, queue, revision or protected settlement error"
+          },
+          "422": {
+            "description": "Native authorization, validation, queue, revision or protected settlement error"
+          },
+          "428": {
+            "description": "Native authorization, validation, queue, revision or protected settlement error"
+          },
+          "429": {
+            "description": "Native authorization, validation, queue, revision or protected settlement error"
+          },
+          "500": {
+            "description": "Native authorization, validation, queue, revision or protected settlement error"
+          },
+          "502": {
+            "description": "Native authorization, validation, queue, revision or protected settlement error"
+          },
+          "503": {
+            "description": "Native authorization, validation, queue, revision or protected settlement error"
+          }
+        }
+      }
+    }
+  ]
+}

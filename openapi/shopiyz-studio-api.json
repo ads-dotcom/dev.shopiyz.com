@@ -2422,7 +2422,7 @@
     "/templates/{template}/resources/{resource}": {
       "get": {
         "operationId": "resources",
-        "summary": "Ürün, koleksiyon veya sayfa referanslarını ara",
+        "summary": "Ürün, koleksiyon, sayfa, görsel, font ve rozet referanslarını ara",
         "parameters": [
           {
             "name": "storeId",
@@ -2482,7 +2482,16 @@
             "in": "path",
             "required": true,
             "schema": {
-              "type": "string"
+              "type": "string",
+              "enum": [
+                "products",
+                "collections",
+                "pages",
+                "images",
+                "fonts",
+                "badgegroups",
+                "badgereferences"
+              ]
             }
           },
           {
@@ -3468,7 +3477,7 @@
     "/templates/{template}/media": {
       "post": {
         "operationId": "media",
-        "summary": "Tek görseli native medya hizmetine yükle",
+        "summary": "Tek görsel veya fontu native medya hizmetine yükle",
         "parameters": [
           {
             "name": "storeId",
@@ -5019,7 +5028,7 @@
           "files": {
             "type": "string",
             "format": "binary",
-            "description": "Tek native desteklenen raster görsel; en fazla 20 MB."
+            "description": "Tek dosya. PNG, JPEG, WebP, GIF veya AVIF görsel için en fazla 20 MB. WOFF2, WOFF, TTF veya OTF font için en fazla 10 MB. Dosya içeriği native medya hizmetinde doğrulanır."
           },
           "storeId": {
             "type": "string"

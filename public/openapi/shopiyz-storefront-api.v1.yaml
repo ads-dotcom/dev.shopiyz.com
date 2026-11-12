@@ -20631,7 +20631,30 @@
             "properties": {
               "page": {
                 "type": "object",
-                "additionalProperties": true
+                "additionalProperties": true,
+                "properties": {
+                  "seo": {
+                    "type": "object",
+                    "description": "Saved page SEO metadata; these values do not establish public URL reachability or active theme HTML-head behavior.",
+                    "properties": {
+                      "title": {
+                        "type": "string"
+                      },
+                      "description": {
+                        "type": "string"
+                      },
+                      "canonical_url": {
+                        "type": "string",
+                        "description": "Optional saved canonical path or URL. Legacy canonicalUrl is projected with this canonical key."
+                      },
+                      "robots": {
+                        "type": "string",
+                        "description": "Optional saved robots metadata."
+                      }
+                    },
+                    "additionalProperties": false
+                  }
+                }
               }
             }
           }

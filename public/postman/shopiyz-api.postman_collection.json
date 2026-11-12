@@ -15076,6 +15076,289 @@
           "response": []
         }
       ]
+    },
+    {
+      "name": "Native XML cancellation",
+      "item": [
+        {
+          "name": "Cancel a same-store Native XML job.",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{admin_token}}",
+                "type": "text"
+              },
+              {
+                "key": "Idempotency-Key",
+                "value": "{{operation_key}}",
+                "type": "text",
+                "disabled": false
+              },
+              {
+                "key": "X-Shopiyz-Xml-Authority",
+                "value": "external",
+                "type": "text",
+                "disabled": false
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/admin/api/v1/xml/jobs/{{job_id}}/cancel.json",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "admin",
+                "api",
+                "v1",
+                "xml",
+                "jobs",
+                "{{job_id}}",
+                "cancel.json"
+              ]
+            },
+            "description": "Cancel a same-store Native XML job.",
+            "body": {
+              "mode": "raw",
+              "raw": "{}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Native value management reads",
+      "item": [
+        {
+          "name": "Read the Native wallet with actual held, available and expired minor units; no financial writes.",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{admin_token}}",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/admin/api/v1/customers/{{customer_id}}/store_credit/native.json",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "admin",
+                "api",
+                "v1",
+                "customers",
+                "{{customer_id}}",
+                "store_credit",
+                "native.json"
+              ],
+              "query": [
+                {
+                  "key": "currency",
+                  "value": "{{currency}}",
+                  "disabled": true
+                }
+              ]
+            },
+            "description": "Read the Native wallet with actual held, available and expired minor units; no financial writes."
+          },
+          "response": []
+        },
+        {
+          "name": "List the same masked Native gift-card workspace as the panel.",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{admin_token}}",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/admin/api/v1/gift_cards/native.json",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "admin",
+                "api",
+                "v1",
+                "gift_cards",
+                "native.json"
+              ],
+              "query": [
+                {
+                  "key": "search",
+                  "value": "{{search}}",
+                  "disabled": true
+                },
+                {
+                  "key": "status",
+                  "value": "{{status}}",
+                  "disabled": true
+                },
+                {
+                  "key": "tab",
+                  "value": "{{tab}}",
+                  "disabled": true
+                },
+                {
+                  "key": "currency",
+                  "value": "{{currency}}",
+                  "disabled": true
+                },
+                {
+                  "key": "issueMethod",
+                  "value": "{{issueMethod}}",
+                  "disabled": true
+                },
+                {
+                  "key": "sort",
+                  "value": "{{sort}}",
+                  "disabled": true
+                },
+                {
+                  "key": "limit",
+                  "value": "{{limit}}",
+                  "disabled": true
+                },
+                {
+                  "key": "offset",
+                  "value": "{{offset}}",
+                  "disabled": true
+                },
+                {
+                  "key": "balance",
+                  "value": "{{balance}}",
+                  "disabled": true
+                },
+                {
+                  "key": "value",
+                  "value": "{{value}}",
+                  "disabled": true
+                },
+                {
+                  "key": "valueOperator",
+                  "value": "{{valueOperator}}",
+                  "disabled": true
+                },
+                {
+                  "key": "createdFrom",
+                  "value": "{{createdFrom}}",
+                  "disabled": true
+                },
+                {
+                  "key": "createdTo",
+                  "value": "{{createdTo}}",
+                  "disabled": true
+                }
+              ]
+            },
+            "description": "List the same masked Native gift-card workspace as the panel."
+          },
+          "response": []
+        },
+        {
+          "name": "Read masked Native gift-card policy and paginated history.",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{admin_token}}",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/admin/api/v1/gift_cards/{{gift_card_id}}/native.json",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "admin",
+                "api",
+                "v1",
+                "gift_cards",
+                "{{gift_card_id}}",
+                "native.json"
+              ],
+              "query": [
+                {
+                  "key": "page",
+                  "value": "{{page}}",
+                  "disabled": true
+                }
+              ]
+            },
+            "description": "Read masked Native gift-card policy and paginated history."
+          },
+          "response": []
+        },
+        {
+          "name": "Read current Native loyalty policy, wallet totals and reconciliation readiness without running reconciliation.",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{admin_token}}",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/admin/api/v1/loyalty/native/settings.json",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "admin",
+                "api",
+                "v1",
+                "loyalty",
+                "native",
+                "settings.json"
+              ]
+            },
+            "description": "Read current Native loyalty policy, wallet totals and reconciliation readiness without running reconciliation."
+          },
+          "response": []
+        }
+      ]
     }
   ],
   "variable": [
@@ -15874,6 +16157,61 @@
     {
       "key": "stock_binding_revision",
       "value": ""
+    },
+    {
+      "key": "balance",
+      "value": "",
+      "type": "string"
+    },
+    {
+      "key": "createdFrom",
+      "value": "",
+      "type": "string"
+    },
+    {
+      "key": "createdTo",
+      "value": "",
+      "type": "string"
+    },
+    {
+      "key": "currency",
+      "value": "",
+      "type": "string"
+    },
+    {
+      "key": "gift_card_id",
+      "value": "",
+      "type": "string"
+    },
+    {
+      "key": "issueMethod",
+      "value": "",
+      "type": "string"
+    },
+    {
+      "key": "job_id",
+      "value": "",
+      "type": "string"
+    },
+    {
+      "key": "search",
+      "value": "",
+      "type": "string"
+    },
+    {
+      "key": "tab",
+      "value": "",
+      "type": "string"
+    },
+    {
+      "key": "value",
+      "value": "",
+      "type": "string"
+    },
+    {
+      "key": "valueOperator",
+      "value": "",
+      "type": "string"
     }
   ]
 }

@@ -167,6 +167,17 @@ profiles continue to require the exact-unit contract. Explicit untracked creatio
 retains its legacy quantity metadata; it does not allocate location stock or
 create a stock movement.
 
+`POST /menus/{menu_id}/validate.json` returns 201 for the Native structural validation result. It checks hierarchy and nonempty URL fields; it does not fetch link targets or certify that a published page is visible on the storefront.
+
+## Native value management reads
+
+The [Native credit, gift-card and loyalty guide](native-value-resources.md)
+describes the canonical wallet, masked card workspace/history and loyalty
+management projections. These read-only routes require a linked current Native
+creator, preserve held/expired amounts and never initialize or reconcile
+financial state. Existing compatibility mutations keep their separate execution
+semantics; these reads do not claim mutation parity.
+
 ## Native content workflows
 
 `GET /content/workflows/{kind}/{resource_id}.json` supports `kind=page|blog-post`. It returns the publication head, revisions, comments/schedules and current permissions. POST the same route with `ContentWorkflowActionRequest` for `start`, `save-draft`, `submit`, `approve`, `reject`, `schedule-preview`, `schedule`, `cancel-schedule`, `comment`, `restore`, `publish` or `unpublish`.
@@ -174,6 +185,22 @@ create a stock movement.
 The token must have content/admin scope and an active `created_by_user_id` with current store membership and native content permissions. Token scope does not replace the native role check. Scheduled publication resolves that publisher's current membership in the actual store account and fences its role, permissions and store access again in the publication transaction; revoked or downgraded authority cannot rely on an older schedule. Preserve `expectedSourceUpdatedAt`, `expectedGeneration` and the exact `revisionId` required by the selected action. Current-revision approval, self-approval restrictions and stale-generation rejection remain native rules. Schedule requests use `publishAt`, or `publishLocal` plus `timezone` where supported.
 
 `GET /content/workflows/{kind}/{resource_id}/revisions/{revision_id}.json?compareTo=<another-id>` returns JSON preview data and an optional field diff. It does not execute supplied HTML. Publish/unpublish can return `cache_followup_status=pending`; publication facts are native, while cache follow-up is separately observable.
+
+For page drafts, `payload.seo` supports `title`, `description`, `canonical_url`
+(`canonicalUrl` is an input alias) and `robots`. Omitted metadata is preserved
+from the current draft, including existing extension fields. An empty string
+or null clears canonical/robots; conflicting canonical aliases return422.
+New canonical values must be a single-root relative path or an HTTP(S) URL
+without credentials. Values have bounded lengths and reject control characters.
+Restore takes the selected revision's SEO snapshot; publication retains that
+snapshot through its normal approval, generation and publication-ticket guards.
+Draft changes do not alter the currently published page.
+
+Published page JSON exposes optional `page.seo.canonical_url` and
+`page.seo.robots` when stored as text. This is saved metadata: it does not prove
+that the URL is reachable, change locale routing, or establish that the active
+theme applies these values to its HTML head. The presentation SEO contract and
+public HTML need their own acceptance checks.
 
 Menu writes, native banner settings and supported theme settings accept their documented optional timestamp revision guards. Preserve menu hierarchy on reorder; deleting a page, menu or theme continues to use its existing archive/visibility semantics.
 
@@ -203,6 +230,34 @@ An authorized external XML import initializes its optional Native XML schema pre
 After a timeout, read `GET /xml/feeds/{feed_id}/operations/{operation_key}.json` with the original URL-encoded key and the same writer token. States are `admitted`, `preparing`, `staged`, `applied` or `rejected`. `reconciliationPending=true` means queue evidence could not be refreshed and the last observed state is returned. This read never requeues a request, and `replayAuthorized=false` does not authorize a new key for an uncertain operation. Durable native follow-ups retry affected-product stock alerts and cache invalidation after the atomic commit.
 
 Before the live catalog transaction, the native writer establishes a durable per-store API cache barrier. During the critical pending barrier, Admin catalog source reads return 503 with `code=xml_catalog_read_retry` and `Retry-After: 1`. A source response spanning a barrier epoch change is also rejected, preventing an aggregate from combining old product rows with new variants or images. XML state and operation recovery reads remain available. A completed commit publishes its cache epoch; delayed fills from an older epoch cannot become reachable. Definite aborts retain the advanced epoch, and unknown outcomes retain the pending barrier until durable reconciliation. Ordinary cache hits still require no catalog-database read.
+
+### Cancel a Native XML job
+
+Use `POST /xml/jobs/{job_id}/cancel.json` with an empty JSON object,
+`admin:write`, `X-Shopiyz-Xml-Authority: external` and the original stable
+`Idempotency-Key`. The `job_id` is the same-store Sync job ID returned by the
+import operation. Configuration revision is not required because cancellation
+changes no profile settings. Request bodies larger than 1024 bytes and caller
+supplied actor, publication proof or connection fields are rejected.
+
+The command uses the same Native queue and XML engine executor as the panel.
+It resolves the exact job, including older jobs outside the recent list, and
+rejects another store or connector before any job action. It never resumes a
+job or restarts an import. Retry an uncertain cancellation with the original
+key and identical request bytes; the saved HTTP result is returned unchanged.
+A different body with that key conflicts. Current token scope and explicit
+external authority are checked on replay.
+
+`job.status=cancelled` describes the queue acknowledgement. Check
+`atomic_cancellation` separately: `applied=true` means a whole catalog already
+committed and is retained; `applied=false` means Native cancellation fenced its
+unapplied atomic transaction. `applied=null` means an authoritative atomic
+outcome could not be proved, including old engine acknowledgements and jobs
+without atomic staging. `cache_settled=false` never authorizes publishing or
+clearing an unknown pending catalog barrier. The Native durable follow-up
+retries a verified abort's cache settlement without replaying catalog writes.
+Cancellation retains staged diagnostics and job history under the normal
+retention rules; it does not roll back an already applied catalog.
 
 ## Webhook verification and recovery
 
