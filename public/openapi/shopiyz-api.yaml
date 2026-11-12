@@ -10,16 +10,16 @@ servers:
       store:
         default: development
         description: Store subdomain or custom store host.
-x-shopiyz-generated-at: "2026-11-12T07:07:59.508Z"
+x-shopiyz-generated-at: "2026-11-12T09:59:09.692Z"
 x-shopiyz-source: myshopiyz/src/lib/adminApiCatalog.ts
 x-shopiyz-base-path: /admin/api/v1
 x-shopiyz-summary:
   sections: 14
-  resources: 580
-  operations: 2257
-  registeredOperations: 2484
-  implementedOperations: 1772
-  capabilities: 1071
+  resources: 581
+  operations: 2261
+  registeredOperations: 2488
+  implementedOperations: 1776
+  capabilities: 1072
 paths:
   /abandoned_carts/customer_target_set.json:
     post:
@@ -158981,6 +158981,624 @@ paths:
           $ref: "#/components/responses/TooManyRequests"
         "500":
           $ref: "#/components/responses/InternalServerError"
+      security:
+        - ShopiyzAccessToken: []
+        - ShopiyzBearerAuth: []
+  /inventory/native/purchase_orders.json:
+    get:
+      operationId: listNativeInventoryPurchaseOrders
+      tags:
+        - "Inventory / Native Operations"
+      summary: "Read canonical Native purchase orders and active locations without stock writes or schema installation."
+      description: |-
+        Read canonical Native purchase orders and active locations without stock writes or schema installation.. Risk R0; confirmation none; step-up none.
+        Capability: inventory.native_operations. Risk: R0. Confirmation: none. Step-up: none.
+      x-shopiyz-capability: inventory.native_operations
+      x-shopiyz-risk: R0
+      x-shopiyz-confirmation: none
+      x-shopiyz-step-up: none
+      x-shopiyz-operation-kind: read
+      x-shopiyz-read-only: true
+      x-shopiyz-scope-alternatives: [["admin:read"],["admin:write"],["products:read"],["products:write"]]
+      x-shopiyz-scope-matching: "any group, all scopes within that group"
+      x-shopiyz-native-permissions: ["products:manage"]
+      x-shopiyz-native-query-parameters: [{"name":"offset","in":"query","required":false,"type":"string","description":"Canonical Native offset; use the resource guide for exact window and cursor bounds."},{"name":"status","in":"query","required":false,"type":"string","description":"Canonical Native status; use the resource guide for exact window and cursor bounds."}]
+      x-shopiyz-rate-limit-group: orders
+      x-shopiyz-rate-limit-cost: 1
+      x-shopiyz-rate-limit-bucket: 40
+      x-shopiyz-rate-limit-restore-rate: 2
+      x-shopiyz-rate-limit-scope: store_token
+      x-shopiyz-rate-limit-algorithm: leaky_bucket
+      x-shopiyz-rate-limit-headers:
+        - X-Shopiyz-Api-Call-Limit
+        - X-Shopiyz-Api-Call-Remaining
+        - X-Shopiyz-Api-Call-Restore-Rate
+        - X-Shopiyz-Api-Call-Reset
+        - X-Shopiyz-Shop-Api-Call-Limit
+        - X-Shopiyz-Api-Bucket-Size
+        - X-Shopiyz-Api-Restore-Rate
+        - X-Shopiyz-Api-Cost
+        - X-Shopiyz-RateLimit-Remaining
+        - X-Shopiyz-API-Limit
+        - X-Shopiyz-API-Remaining
+        - X-Shopiyz-API-Retry-After
+        - X-Request-Id
+      x-shopiyz-implemented: true
+      x-shopiyz-execution-mode: native
+      x-shopiyz-preview-required: false
+      x-shopiyz-rollback-supported: false
+      x-ai-safe: true
+      x-ai-readonly: true
+      x-ai-requires-confirmation: false
+      x-ai-destructive: false
+      x-ai-idempotency-required: false
+      x-ai-human-summary: "Reads Read canonical Native purchase orders and active locations without stock writes or schema installation. without changing store data."
+      x-ai-before-call:
+        - "Verify the caller has a valid store context and read scope."
+        - "Use filters and pagination before broad reads."
+      x-operation-kind: query
+      x-risk: R0
+      x-confirmation: none
+      x-step-up: none
+      x-idempotency: none
+      x-preview-supported: false
+      x-rollback-supported: false
+      x-required-roles:
+        - merchant_staff
+      x-required-scopes:
+        - "admin:read"
+        - "admin:write"
+        - "products:read"
+        - "products:write"
+      x-audit-event: inventory.native_operations
+      x-response-schema: "#/components/schemas/NativeInventoryListResponse"
+      x-required-headers:
+        -
+          name: X-Shopiyz-Access-Token
+          required: true
+          description: "Admin API access token. Authorization: Bearer is accepted by clients that prefer bearer syntax."
+          example: "shpat_••••••••••••"
+        -
+          name: Authorization
+          required: false
+          description: "Bearer token alternative: Authorization: Bearer <token>."
+          example: "Bearer shpat_••••••••••••"
+      parameters:
+        - name: offset
+          in: query
+          required: false
+          description: "Canonical Native offset; use the resource guide for exact window and cursor bounds."
+          schema:
+            type: string
+        - name: status
+          in: query
+          required: false
+          description: "Canonical Native status; use the resource guide for exact window and cursor bounds."
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Successful response
+          headers:
+            X-Shopiyz-Api-Call-Limit:
+              $ref: "#/components/headers/XShopiyzApiCallLimit"
+            X-Shopiyz-Api-Bucket-Size:
+              $ref: "#/components/headers/XShopiyzApiBucketSize"
+            X-Shopiyz-Api-Restore-Rate:
+              $ref: "#/components/headers/XShopiyzApiRestoreRate"
+            X-Shopiyz-Api-Cost:
+              $ref: "#/components/headers/XShopiyzApiCost"
+            X-Shopiyz-RateLimit-Remaining:
+              $ref: "#/components/headers/XShopiyzRateLimitRemaining"
+            X-Shopiyz-API-Limit:
+              $ref: "#/components/headers/XShopiyzAPILimit"
+            X-Shopiyz-API-Remaining:
+              $ref: "#/components/headers/XShopiyzAPIRemaining"
+            X-Shopiyz-API-Restore-Rate:
+              $ref: "#/components/headers/XShopiyzAPIRestoreRate"
+            X-Shopiyz-API-Retry-After:
+              $ref: "#/components/headers/XShopiyzAPIRetryAfter"
+            X-Request-Id:
+              $ref: "#/components/headers/XRequestId"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/NativeInventoryListResponse"
+        "400":
+          $ref: "#/components/responses/BadRequest"
+        "401":
+          $ref: "#/components/responses/Unauthorized"
+        "403":
+          $ref: "#/components/responses/Forbidden"
+        "404":
+          $ref: "#/components/responses/NotFound"
+        "409":
+          $ref: "#/components/responses/Conflict"
+        "422":
+          $ref: "#/components/responses/UnprocessableEntity"
+        "429":
+          $ref: "#/components/responses/TooManyRequests"
+        "500":
+          $ref: "#/components/responses/InternalServerError"
+        "413":
+          description: Runtime error declared by the source registry.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AdminApiError'
+        "428":
+          description: Runtime error declared by the source registry.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AdminApiError'
+        "503":
+          description: Runtime error declared by the source registry.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AdminApiError'
+      security:
+        - ShopiyzAccessToken: []
+        - ShopiyzBearerAuth: []
+  /inventory/native/purchase_orders/{document_id}.json:
+    get:
+      operationId: getNativeInventoryPurchaseOrder
+      tags:
+        - "Inventory / Native Operations"
+      summary: "Read one canonical Native purchase order, count or measured lines and saved events."
+      description: |-
+        Read one canonical Native purchase order, count or measured lines and saved events.. Risk R0; confirmation none; step-up none.
+        Capability: inventory.native_operations. Risk: R0. Confirmation: none. Step-up: none.
+      x-shopiyz-capability: inventory.native_operations
+      x-shopiyz-risk: R0
+      x-shopiyz-confirmation: none
+      x-shopiyz-step-up: none
+      x-shopiyz-operation-kind: read
+      x-shopiyz-read-only: true
+      x-shopiyz-scope-alternatives: [["admin:read"],["admin:write"],["products:read"],["products:write"]]
+      x-shopiyz-scope-matching: "any group, all scopes within that group"
+      x-shopiyz-native-permissions: ["products:manage"]
+      x-shopiyz-native-query-parameters: []
+      x-shopiyz-rate-limit-group: orders
+      x-shopiyz-rate-limit-cost: 1
+      x-shopiyz-rate-limit-bucket: 40
+      x-shopiyz-rate-limit-restore-rate: 2
+      x-shopiyz-rate-limit-scope: store_token
+      x-shopiyz-rate-limit-algorithm: leaky_bucket
+      x-shopiyz-rate-limit-headers:
+        - X-Shopiyz-Api-Call-Limit
+        - X-Shopiyz-Api-Call-Remaining
+        - X-Shopiyz-Api-Call-Restore-Rate
+        - X-Shopiyz-Api-Call-Reset
+        - X-Shopiyz-Shop-Api-Call-Limit
+        - X-Shopiyz-Api-Bucket-Size
+        - X-Shopiyz-Api-Restore-Rate
+        - X-Shopiyz-Api-Cost
+        - X-Shopiyz-RateLimit-Remaining
+        - X-Shopiyz-API-Limit
+        - X-Shopiyz-API-Remaining
+        - X-Shopiyz-API-Retry-After
+        - X-Request-Id
+      x-shopiyz-implemented: true
+      x-shopiyz-execution-mode: native
+      x-shopiyz-preview-required: false
+      x-shopiyz-rollback-supported: false
+      x-ai-safe: true
+      x-ai-readonly: true
+      x-ai-requires-confirmation: false
+      x-ai-destructive: false
+      x-ai-idempotency-required: false
+      x-ai-human-summary: "Reads Read one canonical Native purchase order, count or measured lines and saved events. without changing store data."
+      x-ai-before-call:
+        - "Verify the caller has a valid store context and read scope."
+        - "Use filters and pagination before broad reads."
+      x-operation-kind: query
+      x-risk: R0
+      x-confirmation: none
+      x-step-up: none
+      x-idempotency: none
+      x-preview-supported: false
+      x-rollback-supported: false
+      x-required-roles:
+        - merchant_staff
+      x-required-scopes:
+        - "admin:read"
+        - "admin:write"
+        - "products:read"
+        - "products:write"
+      x-audit-event: inventory.native_operations
+      x-response-schema: "#/components/schemas/NativeInventoryDetailResponse"
+      x-required-headers:
+        -
+          name: X-Shopiyz-Access-Token
+          required: true
+          description: "Admin API access token. Authorization: Bearer is accepted by clients that prefer bearer syntax."
+          example: "shpat_••••••••••••"
+        -
+          name: Authorization
+          required: false
+          description: "Bearer token alternative: Authorization: Bearer <token>."
+          example: "Bearer shpat_••••••••••••"
+      parameters:
+        - name: document_id
+          in: path
+          required: true
+          description: "Legal document identifier."
+          schema:
+            type: string
+          example: document_123
+      responses:
+        "200":
+          description: Successful response
+          headers:
+            X-Shopiyz-Api-Call-Limit:
+              $ref: "#/components/headers/XShopiyzApiCallLimit"
+            X-Shopiyz-Api-Bucket-Size:
+              $ref: "#/components/headers/XShopiyzApiBucketSize"
+            X-Shopiyz-Api-Restore-Rate:
+              $ref: "#/components/headers/XShopiyzApiRestoreRate"
+            X-Shopiyz-Api-Cost:
+              $ref: "#/components/headers/XShopiyzApiCost"
+            X-Shopiyz-RateLimit-Remaining:
+              $ref: "#/components/headers/XShopiyzRateLimitRemaining"
+            X-Shopiyz-API-Limit:
+              $ref: "#/components/headers/XShopiyzAPILimit"
+            X-Shopiyz-API-Remaining:
+              $ref: "#/components/headers/XShopiyzAPIRemaining"
+            X-Shopiyz-API-Restore-Rate:
+              $ref: "#/components/headers/XShopiyzAPIRestoreRate"
+            X-Shopiyz-API-Retry-After:
+              $ref: "#/components/headers/XShopiyzAPIRetryAfter"
+            X-Request-Id:
+              $ref: "#/components/headers/XRequestId"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/NativeInventoryDetailResponse"
+        "400":
+          $ref: "#/components/responses/BadRequest"
+        "401":
+          $ref: "#/components/responses/Unauthorized"
+        "403":
+          $ref: "#/components/responses/Forbidden"
+        "404":
+          $ref: "#/components/responses/NotFound"
+        "409":
+          $ref: "#/components/responses/Conflict"
+        "422":
+          $ref: "#/components/responses/UnprocessableEntity"
+        "429":
+          $ref: "#/components/responses/TooManyRequests"
+        "500":
+          $ref: "#/components/responses/InternalServerError"
+        "413":
+          description: Runtime error declared by the source registry.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AdminApiError'
+        "428":
+          description: Runtime error declared by the source registry.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AdminApiError'
+        "503":
+          description: Runtime error declared by the source registry.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AdminApiError'
+      security:
+        - ShopiyzAccessToken: []
+        - ShopiyzBearerAuth: []
+  /inventory/native/transfers.json:
+    get:
+      operationId: listNativeInventoryTransfers
+      tags:
+        - "Inventory / Native Operations"
+      summary: "Read canonical Native inventory transfer documents and active locations without stock writes or schema installation."
+      description: |-
+        Read canonical Native inventory transfer documents and active locations without stock writes or schema installation.. Risk R0; confirmation none; step-up none.
+        Capability: inventory.native_operations. Risk: R0. Confirmation: none. Step-up: none.
+      x-shopiyz-capability: inventory.native_operations
+      x-shopiyz-risk: R0
+      x-shopiyz-confirmation: none
+      x-shopiyz-step-up: none
+      x-shopiyz-operation-kind: read
+      x-shopiyz-read-only: true
+      x-shopiyz-scope-alternatives: [["admin:read"],["admin:write"],["products:read"],["products:write"]]
+      x-shopiyz-scope-matching: "any group, all scopes within that group"
+      x-shopiyz-native-permissions: ["products:manage"]
+      x-shopiyz-native-query-parameters: [{"name":"offset","in":"query","required":false,"type":"string","description":"Canonical Native offset; use the resource guide for exact window and cursor bounds."},{"name":"status","in":"query","required":false,"type":"string","description":"Canonical Native status; use the resource guide for exact window and cursor bounds."}]
+      x-shopiyz-rate-limit-group: products
+      x-shopiyz-rate-limit-cost: 1
+      x-shopiyz-rate-limit-bucket: 40
+      x-shopiyz-rate-limit-restore-rate: 2
+      x-shopiyz-rate-limit-scope: store_token
+      x-shopiyz-rate-limit-algorithm: leaky_bucket
+      x-shopiyz-rate-limit-headers:
+        - X-Shopiyz-Api-Call-Limit
+        - X-Shopiyz-Api-Call-Remaining
+        - X-Shopiyz-Api-Call-Restore-Rate
+        - X-Shopiyz-Api-Call-Reset
+        - X-Shopiyz-Shop-Api-Call-Limit
+        - X-Shopiyz-Api-Bucket-Size
+        - X-Shopiyz-Api-Restore-Rate
+        - X-Shopiyz-Api-Cost
+        - X-Shopiyz-RateLimit-Remaining
+        - X-Shopiyz-API-Limit
+        - X-Shopiyz-API-Remaining
+        - X-Shopiyz-API-Retry-After
+        - X-Request-Id
+      x-shopiyz-implemented: true
+      x-shopiyz-execution-mode: native
+      x-shopiyz-preview-required: false
+      x-shopiyz-rollback-supported: false
+      x-ai-safe: true
+      x-ai-readonly: true
+      x-ai-requires-confirmation: false
+      x-ai-destructive: false
+      x-ai-idempotency-required: false
+      x-ai-human-summary: "Reads Read canonical Native inventory transfer documents and active locations without stock writes or schema installation. without changing store data."
+      x-ai-before-call:
+        - "Verify the caller has a valid store context and read scope."
+        - "Use filters and pagination before broad reads."
+      x-operation-kind: query
+      x-risk: R0
+      x-confirmation: none
+      x-step-up: none
+      x-idempotency: none
+      x-preview-supported: false
+      x-rollback-supported: false
+      x-required-roles:
+        - merchant_staff
+      x-required-scopes:
+        - "admin:read"
+        - "admin:write"
+        - "products:read"
+        - "products:write"
+      x-audit-event: inventory.native_operations
+      x-response-schema: "#/components/schemas/NativeInventoryListResponse"
+      x-required-headers:
+        -
+          name: X-Shopiyz-Access-Token
+          required: true
+          description: "Admin API access token. Authorization: Bearer is accepted by clients that prefer bearer syntax."
+          example: "shpat_••••••••••••"
+        -
+          name: Authorization
+          required: false
+          description: "Bearer token alternative: Authorization: Bearer <token>."
+          example: "Bearer shpat_••••••••••••"
+      parameters:
+        - name: offset
+          in: query
+          required: false
+          description: "Canonical Native offset; use the resource guide for exact window and cursor bounds."
+          schema:
+            type: string
+        - name: status
+          in: query
+          required: false
+          description: "Canonical Native status; use the resource guide for exact window and cursor bounds."
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Successful response
+          headers:
+            X-Shopiyz-Api-Call-Limit:
+              $ref: "#/components/headers/XShopiyzApiCallLimit"
+            X-Shopiyz-Api-Bucket-Size:
+              $ref: "#/components/headers/XShopiyzApiBucketSize"
+            X-Shopiyz-Api-Restore-Rate:
+              $ref: "#/components/headers/XShopiyzApiRestoreRate"
+            X-Shopiyz-Api-Cost:
+              $ref: "#/components/headers/XShopiyzApiCost"
+            X-Shopiyz-RateLimit-Remaining:
+              $ref: "#/components/headers/XShopiyzRateLimitRemaining"
+            X-Shopiyz-API-Limit:
+              $ref: "#/components/headers/XShopiyzAPILimit"
+            X-Shopiyz-API-Remaining:
+              $ref: "#/components/headers/XShopiyzAPIRemaining"
+            X-Shopiyz-API-Restore-Rate:
+              $ref: "#/components/headers/XShopiyzAPIRestoreRate"
+            X-Shopiyz-API-Retry-After:
+              $ref: "#/components/headers/XShopiyzAPIRetryAfter"
+            X-Request-Id:
+              $ref: "#/components/headers/XRequestId"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/NativeInventoryListResponse"
+        "400":
+          $ref: "#/components/responses/BadRequest"
+        "401":
+          $ref: "#/components/responses/Unauthorized"
+        "403":
+          $ref: "#/components/responses/Forbidden"
+        "404":
+          $ref: "#/components/responses/NotFound"
+        "409":
+          $ref: "#/components/responses/Conflict"
+        "422":
+          $ref: "#/components/responses/UnprocessableEntity"
+        "429":
+          $ref: "#/components/responses/TooManyRequests"
+        "500":
+          $ref: "#/components/responses/InternalServerError"
+        "413":
+          description: Runtime error declared by the source registry.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AdminApiError'
+        "428":
+          description: Runtime error declared by the source registry.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AdminApiError'
+        "503":
+          description: Runtime error declared by the source registry.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AdminApiError'
+      security:
+        - ShopiyzAccessToken: []
+        - ShopiyzBearerAuth: []
+  /inventory/native/transfers/{document_id}.json:
+    get:
+      operationId: getNativeInventoryTransfer
+      tags:
+        - "Inventory / Native Operations"
+      summary: "Read one canonical Native inventory transfer, lines and saved events."
+      description: |-
+        Read one canonical Native inventory transfer, lines and saved events.. Risk R0; confirmation none; step-up none.
+        Capability: inventory.native_operations. Risk: R0. Confirmation: none. Step-up: none.
+      x-shopiyz-capability: inventory.native_operations
+      x-shopiyz-risk: R0
+      x-shopiyz-confirmation: none
+      x-shopiyz-step-up: none
+      x-shopiyz-operation-kind: read
+      x-shopiyz-read-only: true
+      x-shopiyz-scope-alternatives: [["admin:read"],["admin:write"],["products:read"],["products:write"]]
+      x-shopiyz-scope-matching: "any group, all scopes within that group"
+      x-shopiyz-native-permissions: ["products:manage"]
+      x-shopiyz-native-query-parameters: []
+      x-shopiyz-rate-limit-group: products
+      x-shopiyz-rate-limit-cost: 1
+      x-shopiyz-rate-limit-bucket: 40
+      x-shopiyz-rate-limit-restore-rate: 2
+      x-shopiyz-rate-limit-scope: store_token
+      x-shopiyz-rate-limit-algorithm: leaky_bucket
+      x-shopiyz-rate-limit-headers:
+        - X-Shopiyz-Api-Call-Limit
+        - X-Shopiyz-Api-Call-Remaining
+        - X-Shopiyz-Api-Call-Restore-Rate
+        - X-Shopiyz-Api-Call-Reset
+        - X-Shopiyz-Shop-Api-Call-Limit
+        - X-Shopiyz-Api-Bucket-Size
+        - X-Shopiyz-Api-Restore-Rate
+        - X-Shopiyz-Api-Cost
+        - X-Shopiyz-RateLimit-Remaining
+        - X-Shopiyz-API-Limit
+        - X-Shopiyz-API-Remaining
+        - X-Shopiyz-API-Retry-After
+        - X-Request-Id
+      x-shopiyz-implemented: true
+      x-shopiyz-execution-mode: native
+      x-shopiyz-preview-required: false
+      x-shopiyz-rollback-supported: false
+      x-ai-safe: true
+      x-ai-readonly: true
+      x-ai-requires-confirmation: false
+      x-ai-destructive: false
+      x-ai-idempotency-required: false
+      x-ai-human-summary: "Reads Read one canonical Native inventory transfer, lines and saved events. without changing store data."
+      x-ai-before-call:
+        - "Verify the caller has a valid store context and read scope."
+        - "Use filters and pagination before broad reads."
+      x-operation-kind: query
+      x-risk: R0
+      x-confirmation: none
+      x-step-up: none
+      x-idempotency: none
+      x-preview-supported: false
+      x-rollback-supported: false
+      x-required-roles:
+        - merchant_staff
+      x-required-scopes:
+        - "admin:read"
+        - "admin:write"
+        - "products:read"
+        - "products:write"
+      x-audit-event: inventory.native_operations
+      x-response-schema: "#/components/schemas/NativeInventoryDetailResponse"
+      x-required-headers:
+        -
+          name: X-Shopiyz-Access-Token
+          required: true
+          description: "Admin API access token. Authorization: Bearer is accepted by clients that prefer bearer syntax."
+          example: "shpat_••••••••••••"
+        -
+          name: Authorization
+          required: false
+          description: "Bearer token alternative: Authorization: Bearer <token>."
+          example: "Bearer shpat_••••••••••••"
+      parameters:
+        - name: document_id
+          in: path
+          required: true
+          description: "Legal document identifier."
+          schema:
+            type: string
+          example: document_123
+      responses:
+        "200":
+          description: Successful response
+          headers:
+            X-Shopiyz-Api-Call-Limit:
+              $ref: "#/components/headers/XShopiyzApiCallLimit"
+            X-Shopiyz-Api-Bucket-Size:
+              $ref: "#/components/headers/XShopiyzApiBucketSize"
+            X-Shopiyz-Api-Restore-Rate:
+              $ref: "#/components/headers/XShopiyzApiRestoreRate"
+            X-Shopiyz-Api-Cost:
+              $ref: "#/components/headers/XShopiyzApiCost"
+            X-Shopiyz-RateLimit-Remaining:
+              $ref: "#/components/headers/XShopiyzRateLimitRemaining"
+            X-Shopiyz-API-Limit:
+              $ref: "#/components/headers/XShopiyzAPILimit"
+            X-Shopiyz-API-Remaining:
+              $ref: "#/components/headers/XShopiyzAPIRemaining"
+            X-Shopiyz-API-Restore-Rate:
+              $ref: "#/components/headers/XShopiyzAPIRestoreRate"
+            X-Shopiyz-API-Retry-After:
+              $ref: "#/components/headers/XShopiyzAPIRetryAfter"
+            X-Request-Id:
+              $ref: "#/components/headers/XRequestId"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/NativeInventoryDetailResponse"
+        "400":
+          $ref: "#/components/responses/BadRequest"
+        "401":
+          $ref: "#/components/responses/Unauthorized"
+        "403":
+          $ref: "#/components/responses/Forbidden"
+        "404":
+          $ref: "#/components/responses/NotFound"
+        "409":
+          $ref: "#/components/responses/Conflict"
+        "422":
+          $ref: "#/components/responses/UnprocessableEntity"
+        "429":
+          $ref: "#/components/responses/TooManyRequests"
+        "500":
+          $ref: "#/components/responses/InternalServerError"
+        "413":
+          description: Runtime error declared by the source registry.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AdminApiError'
+        "428":
+          description: Runtime error declared by the source registry.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AdminApiError'
+        "503":
+          description: Runtime error declared by the source registry.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AdminApiError'
       security:
         - ShopiyzAccessToken: []
         - ShopiyzBearerAuth: []
@@ -367854,6 +368472,221 @@ components:
         - redemption
         - currency
         - pointMinorPerUnit
+    NativeInventoryDocument:
+      type: object
+      required:
+        - id
+        - store_id
+        - supplier_name
+        - reference
+        - note
+        - expected_at
+        - status
+        - revision
+        - actor_id
+        - created_at
+        - updated_at
+      properties:
+        id:
+          type: string
+        store_id:
+          type: string
+        supplier_name:
+          type: string
+        reference:
+          type: string
+        note:
+          type: string
+        status:
+          type: string
+        actor_id:
+          type: string
+        created_at:
+          type: string
+        updated_at:
+          type: string
+        currency:
+          type: string
+        destination_location_id:
+          type: string
+        expected_at:
+          type:
+            - string
+            - "null"
+        source_location_id:
+          type:
+            - string
+            - "null"
+        purchase_order_id:
+          type:
+            - string
+            - "null"
+        revision:
+          type: integer
+          minimum: 1
+      additionalProperties: true
+    NativeInventoryLine:
+      type: object
+      required:
+        - id
+        - store_id
+        - variant_id
+        - product_id
+        - title
+        - sku
+      properties:
+        id:
+          type: string
+        store_id:
+          type: string
+        variant_id:
+          type: string
+        product_id:
+          type: string
+        title:
+          type: string
+        purchase_order_id:
+          type: string
+        transfer_id:
+          type: string
+        unit:
+          type: string
+        profile_revision:
+          type: string
+        policy_revision:
+          type: string
+        sku:
+          type:
+            - string
+            - "null"
+        quantity:
+          type: integer
+        shipped:
+          type: integer
+        accepted:
+          type: integer
+        rejected:
+          type: integer
+        cancelled:
+          type: integer
+        unshipped_cancelled:
+          type: integer
+        overage:
+          type: integer
+        quantity_units:
+          type: integer
+        received_units:
+          type: integer
+        scale:
+          type: integer
+        unit_cost:
+          type: number
+      additionalProperties: true
+      oneOf:
+        -
+          required:
+            - quantity
+        -
+          required:
+            - quantity_units
+            - received_units
+            - unit
+            - scale
+            - profile_revision
+            - policy_revision
+    NativeInventoryEvent:
+      type: object
+      required:
+        - id
+        - action
+        - actor_id
+        - note
+        - details_json
+        - created_at
+      properties:
+        id:
+          type: string
+        action:
+          type: string
+        actor_id:
+          type: string
+        note:
+          type: string
+        details_json:
+          type: string
+        created_at:
+          type: string
+      additionalProperties: true
+    NativeInventoryLocation:
+      type: object
+      required:
+        - id
+        - name
+        - is_default
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        is_default:
+          type: integer
+          enum:
+            - 0
+            - 1
+      additionalProperties: true
+    NativeInventoryListResponse:
+      type: object
+      required:
+        - documents
+        - locations
+        - meta
+      properties:
+        documents:
+          type: array
+          items:
+            $ref: "#/components/schemas/NativeInventoryDocument"
+        locations:
+          type: array
+          items:
+            $ref: "#/components/schemas/NativeInventoryLocation"
+        meta:
+          type: object
+          required:
+            - offset
+            - limit
+            - total
+          properties:
+            offset:
+              type: integer
+              minimum: 0
+              maximum: 100000
+            limit:
+              const: 50
+            total:
+              type: integer
+              minimum: 0
+          additionalProperties: false
+      additionalProperties: false
+    NativeInventoryDetailResponse:
+      type: object
+      required:
+        - document
+        - lines
+        - events
+      properties:
+        document:
+          $ref: "#/components/schemas/NativeInventoryDocument"
+        lines:
+          type: array
+          items:
+            $ref: "#/components/schemas/NativeInventoryLine"
+        events:
+          type: array
+          items:
+            $ref: "#/components/schemas/NativeInventoryEvent"
+        measured:
+          const: true
+      additionalProperties: false
 security:
   - ShopiyzAccessToken: []
   - ShopiyzBearerAuth: []

@@ -17,7 +17,7 @@ for(const[name,source,target]of files){
   await mkdir(path.join(root,prefix,'openapi'),{recursive:true});await writeFile(path.join(root,prefix,'openapi',target),bytes);
  }
 }
-for(const name of ['storefront-account-v2.md','customer-segments-native.md','catalog-publication-metadata.md']){
+for(const name of ['storefront-account-v2.md','customer-segments-native.md','catalog-publication-metadata.md','text-search.md','banner-authoring.md','native-inventory-reads.md','xml-import-retry.md']){
  const source=path.join(app,'docs/api',name);
  const bytes=await readFile(source,'utf8').catch(()=>null);if(bytes===null)continue;
  for(const prefix of ['', 'public/']){
@@ -28,6 +28,7 @@ for(const[source,target]of[
  [path.join(app,'docs/api/Shopiyz-Admin-Storefront.postman_collection.json'),'postman/shopiyz-api.postman_collection.json'],
  [path.join(app,'docs/api/storefront-account-v2-openapi.yaml'),'guides/storefront-account-v2-openapi.yaml'],
  [path.join(app,'docs/api/customer-segments-native-schemas.json'),'guides/customer-segments-native-schemas.json'],
+ [path.join(app,'docs/api/native-inventory-read-schemas.json'),'guides/native-inventory-read-schemas.json'],
 ]){
  const bytes=await readFile(source);
  for(const prefix of ['', 'public/']){

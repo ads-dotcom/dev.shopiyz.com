@@ -1,0 +1,418 @@
+{
+  "description": "Read the same Native inventory documents as the panel. Current token creator and products:manage required. No installer, stock mutation, receipt replay, provider request or publication.",
+  "schemas": {
+    "NativeInventoryDocument": {
+      "type": "object",
+      "required": [
+        "id",
+        "store_id",
+        "supplier_name",
+        "reference",
+        "note",
+        "expected_at",
+        "status",
+        "revision",
+        "actor_id",
+        "created_at",
+        "updated_at"
+      ],
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "store_id": {
+          "type": "string"
+        },
+        "supplier_name": {
+          "type": "string"
+        },
+        "reference": {
+          "type": "string"
+        },
+        "note": {
+          "type": "string"
+        },
+        "status": {
+          "type": "string"
+        },
+        "actor_id": {
+          "type": "string"
+        },
+        "created_at": {
+          "type": "string"
+        },
+        "updated_at": {
+          "type": "string"
+        },
+        "currency": {
+          "type": "string"
+        },
+        "destination_location_id": {
+          "type": "string"
+        },
+        "expected_at": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "source_location_id": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "purchase_order_id": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "revision": {
+          "type": "integer",
+          "minimum": 1
+        }
+      },
+      "additionalProperties": true
+    },
+    "NativeInventoryLine": {
+      "type": "object",
+      "required": [
+        "id",
+        "store_id",
+        "variant_id",
+        "product_id",
+        "title",
+        "sku"
+      ],
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "store_id": {
+          "type": "string"
+        },
+        "variant_id": {
+          "type": "string"
+        },
+        "product_id": {
+          "type": "string"
+        },
+        "title": {
+          "type": "string"
+        },
+        "purchase_order_id": {
+          "type": "string"
+        },
+        "transfer_id": {
+          "type": "string"
+        },
+        "unit": {
+          "type": "string"
+        },
+        "profile_revision": {
+          "type": "string"
+        },
+        "policy_revision": {
+          "type": "string"
+        },
+        "sku": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "quantity": {
+          "type": "integer"
+        },
+        "shipped": {
+          "type": "integer"
+        },
+        "accepted": {
+          "type": "integer"
+        },
+        "rejected": {
+          "type": "integer"
+        },
+        "cancelled": {
+          "type": "integer"
+        },
+        "unshipped_cancelled": {
+          "type": "integer"
+        },
+        "overage": {
+          "type": "integer"
+        },
+        "quantity_units": {
+          "type": "integer"
+        },
+        "received_units": {
+          "type": "integer"
+        },
+        "scale": {
+          "type": "integer"
+        },
+        "unit_cost": {
+          "type": "number"
+        }
+      },
+      "additionalProperties": true,
+      "oneOf": [
+        {
+          "required": [
+            "quantity"
+          ]
+        },
+        {
+          "required": [
+            "quantity_units",
+            "received_units",
+            "unit",
+            "scale",
+            "profile_revision",
+            "policy_revision"
+          ]
+        }
+      ]
+    },
+    "NativeInventoryEvent": {
+      "type": "object",
+      "required": [
+        "id",
+        "action",
+        "actor_id",
+        "note",
+        "details_json",
+        "created_at"
+      ],
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "action": {
+          "type": "string"
+        },
+        "actor_id": {
+          "type": "string"
+        },
+        "note": {
+          "type": "string"
+        },
+        "details_json": {
+          "type": "string"
+        },
+        "created_at": {
+          "type": "string"
+        }
+      },
+      "additionalProperties": true
+    },
+    "NativeInventoryLocation": {
+      "type": "object",
+      "required": [
+        "id",
+        "name",
+        "is_default"
+      ],
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "name": {
+          "type": "string"
+        },
+        "is_default": {
+          "type": "integer",
+          "enum": [
+            0,
+            1
+          ]
+        }
+      },
+      "additionalProperties": true
+    },
+    "NativeInventoryListResponse": {
+      "type": "object",
+      "required": [
+        "documents",
+        "locations",
+        "meta"
+      ],
+      "properties": {
+        "documents": {
+          "type": "array",
+          "items": {
+            "$ref": "#/components/schemas/NativeInventoryDocument"
+          }
+        },
+        "locations": {
+          "type": "array",
+          "items": {
+            "$ref": "#/components/schemas/NativeInventoryLocation"
+          }
+        },
+        "meta": {
+          "type": "object",
+          "required": [
+            "offset",
+            "limit",
+            "total"
+          ],
+          "properties": {
+            "offset": {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 100000
+            },
+            "limit": {
+              "const": 50
+            },
+            "total": {
+              "type": "integer",
+              "minimum": 0
+            }
+          },
+          "additionalProperties": false
+        }
+      },
+      "additionalProperties": false
+    },
+    "NativeInventoryDetailResponse": {
+      "type": "object",
+      "required": [
+        "document",
+        "lines",
+        "events"
+      ],
+      "properties": {
+        "document": {
+          "$ref": "#/components/schemas/NativeInventoryDocument"
+        },
+        "lines": {
+          "type": "array",
+          "items": {
+            "$ref": "#/components/schemas/NativeInventoryLine"
+          }
+        },
+        "events": {
+          "type": "array",
+          "items": {
+            "$ref": "#/components/schemas/NativeInventoryEvent"
+          }
+        },
+        "measured": {
+          "const": true
+        }
+      },
+      "additionalProperties": false
+    }
+  },
+  "operations": [
+    {
+      "method": "GET",
+      "path": "/inventory/native/transfers.json",
+      "responseSchema": "NativeInventoryListResponse",
+      "scopeAlternatives": [
+        [
+          "admin:read"
+        ],
+        [
+          "admin:write"
+        ],
+        [
+          "products:read"
+        ],
+        [
+          "products:write"
+        ]
+      ],
+      "nativePermissions": [
+        "products:manage"
+      ],
+      "readOnly": true,
+      "idempotencyRequired": false,
+      "queryParameters": [
+        "offset",
+        "status"
+      ]
+    },
+    {
+      "method": "GET",
+      "path": "/inventory/native/transfers/{document_id}.json",
+      "responseSchema": "NativeInventoryDetailResponse",
+      "scopeAlternatives": [
+        [
+          "admin:read"
+        ],
+        [
+          "admin:write"
+        ],
+        [
+          "products:read"
+        ],
+        [
+          "products:write"
+        ]
+      ],
+      "nativePermissions": [
+        "products:manage"
+      ],
+      "readOnly": true,
+      "idempotencyRequired": false,
+      "queryParameters": []
+    },
+    {
+      "method": "GET",
+      "path": "/inventory/native/purchase_orders.json",
+      "responseSchema": "NativeInventoryListResponse",
+      "scopeAlternatives": [
+        [
+          "admin:read"
+        ],
+        [
+          "admin:write"
+        ],
+        [
+          "products:read"
+        ],
+        [
+          "products:write"
+        ]
+      ],
+      "nativePermissions": [
+        "products:manage"
+      ],
+      "readOnly": true,
+      "idempotencyRequired": false,
+      "queryParameters": [
+        "offset",
+        "status"
+      ]
+    },
+    {
+      "method": "GET",
+      "path": "/inventory/native/purchase_orders/{document_id}.json",
+      "responseSchema": "NativeInventoryDetailResponse",
+      "scopeAlternatives": [
+        [
+          "admin:read"
+        ],
+        [
+          "admin:write"
+        ],
+        [
+          "products:read"
+        ],
+        [
+          "products:write"
+        ]
+      ],
+      "nativePermissions": [
+        "products:manage"
+      ],
+      "readOnly": true,
+      "idempotencyRequired": false,
+      "queryParameters": []
+    }
+  ]
+}

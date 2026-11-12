@@ -15359,6 +15359,169 @@
           "response": []
         }
       ]
+    },
+    {
+      "name": "Native inventory document reads",
+      "item": [
+        {
+          "name": "List Native transfers",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{admin_token}}",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/admin/api/v1/inventory/native/transfers.json",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "admin",
+                "api",
+                "v1",
+                "inventory",
+                "native",
+                "transfers.json"
+              ],
+              "query": [
+                {
+                  "key": "offset",
+                  "value": "0",
+                  "disabled": true
+                },
+                {
+                  "key": "status",
+                  "value": "draft",
+                  "disabled": true
+                }
+              ]
+            },
+            "description": "Canonical Native inventory data. Linked active creator with products:manage; no stock writes or schema installation. Legacy compatibility records are separate."
+          },
+          "response": []
+        },
+        {
+          "name": "Get Native transfers",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{admin_token}}",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/admin/api/v1/inventory/native/transfers/{{inventory_document_id}}.json",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "admin",
+                "api",
+                "v1",
+                "inventory",
+                "native",
+                "transfers",
+                "{{inventory_document_id}}.json"
+              ]
+            },
+            "description": "Canonical Native inventory data. Linked active creator with products:manage; no stock writes or schema installation. Legacy compatibility records are separate."
+          },
+          "response": []
+        },
+        {
+          "name": "List Native purchase orders",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{admin_token}}",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/admin/api/v1/inventory/native/purchase_orders.json",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "admin",
+                "api",
+                "v1",
+                "inventory",
+                "native",
+                "purchase_orders.json"
+              ],
+              "query": [
+                {
+                  "key": "offset",
+                  "value": "0",
+                  "disabled": true
+                },
+                {
+                  "key": "status",
+                  "value": "draft",
+                  "disabled": true
+                }
+              ]
+            },
+            "description": "Canonical Native inventory data. Linked active creator with products:manage; no stock writes or schema installation. Legacy compatibility records are separate."
+          },
+          "response": []
+        },
+        {
+          "name": "Get Native purchase orders",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{admin_token}}",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/admin/api/v1/inventory/native/purchase_orders/{{inventory_document_id}}.json",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "admin",
+                "api",
+                "v1",
+                "inventory",
+                "native",
+                "purchase_orders",
+                "{{inventory_document_id}}.json"
+              ]
+            },
+            "description": "Canonical Native inventory data. Linked active creator with products:manage; no stock writes or schema installation. Legacy compatibility records are separate."
+          },
+          "response": []
+        }
+      ]
     }
   ],
   "variable": [
@@ -16212,6 +16375,10 @@
       "key": "valueOperator",
       "value": "",
       "type": "string"
+    },
+    {
+      "key": "inventory_document_id",
+      "value": ""
     }
   ]
 }
