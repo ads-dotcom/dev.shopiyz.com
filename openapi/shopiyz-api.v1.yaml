@@ -10,7 +10,7 @@ servers:
       store:
         default: development
         description: Store subdomain or custom store host.
-x-shopiyz-generated-at: "2026-11-12T09:59:09.692Z"
+x-shopiyz-generated-at: "2026-11-12T13:16:23.391Z"
 x-shopiyz-source: myshopiyz/src/lib/adminApiCatalog.ts
 x-shopiyz-base-path: /admin/api/v1
 x-shopiyz-summary:
@@ -227639,7 +227639,7 @@ paths:
         - "Customers / Privacy Requests"
       summary: "Privacy request oluşturma."
       description: |-
-        Privacy request oluşturma.. Risk R4; confirmation typed; step-up mfa.
+        Records and returns a compatibility request only. The requested Native business effect is not executed by this route. Use the documented canonical Native domain workflows.
         Capability: customers.privacy.requests_create. Risk: R4. Confirmation: typed. Step-up: mfa.
       x-shopiyz-capability: customers.privacy.requests_create
       x-shopiyz-risk: R4
@@ -227668,15 +227668,15 @@ paths:
         - X-Shopiyz-API-Retry-After
         - X-Request-Id
       x-shopiyz-implemented: true
-      x-shopiyz-execution-mode: catalogued
+      x-shopiyz-execution-mode: record_only
       x-shopiyz-preview-required: true
-      x-shopiyz-rollback-supported: true
+      x-shopiyz-rollback-supported: false
       x-ai-safe: false
       x-ai-readonly: false
       x-ai-requires-confirmation: true
       x-ai-destructive: false
       x-ai-idempotency-required: true
-      x-ai-human-summary: "Changes store data through Privacy request oluşturma.; confirmation policy is typed."
+      x-ai-human-summary: "Records a compatibility request; no Native business effect is applied."
       x-ai-before-call:
         - "Show the merchant a concise summary of the intended change."
         - "Call the matching preview endpoint first when available."
@@ -227688,7 +227688,7 @@ paths:
       x-step-up: required
       x-idempotency: required
       x-preview-supported: true
-      x-rollback-supported: true
+      x-rollback-supported: false
       x-required-roles:
         - merchant_staff
       x-required-scopes:
@@ -227977,7 +227977,7 @@ paths:
         - "Customers / Privacy Requests"
       summary: "Onay; 2FA gerekebilir."
       description: |-
-        Onay; 2FA gerekebilir.. Risk R4; confirmation typed; step-up mfa.
+        Records and returns a compatibility request only. The requested Native business effect is not executed by this route. Use the documented canonical Native domain workflows.
         Capability: customers.privacy.requests_approve. Risk: R4. Confirmation: typed. Step-up: mfa.
       x-shopiyz-capability: customers.privacy.requests_approve
       x-shopiyz-risk: R4
@@ -228006,15 +228006,15 @@ paths:
         - X-Shopiyz-API-Retry-After
         - X-Request-Id
       x-shopiyz-implemented: true
-      x-shopiyz-execution-mode: catalogued
+      x-shopiyz-execution-mode: record_only
       x-shopiyz-preview-required: true
-      x-shopiyz-rollback-supported: true
+      x-shopiyz-rollback-supported: false
       x-ai-safe: false
       x-ai-readonly: false
       x-ai-requires-confirmation: true
       x-ai-destructive: false
       x-ai-idempotency-required: true
-      x-ai-human-summary: "Changes store data through Onay; 2FA gerekebilir.; confirmation policy is typed."
+      x-ai-human-summary: "Records a compatibility request; no Native business effect is applied."
       x-ai-before-call:
         - "Show the merchant a concise summary of the intended change."
         - "Call the matching preview endpoint first when available."
@@ -228026,7 +228026,7 @@ paths:
       x-step-up: required
       x-idempotency: required
       x-preview-supported: true
-      x-rollback-supported: true
+      x-rollback-supported: false
       x-required-roles:
         - merchant_staff
       x-required-scopes:
@@ -228126,7 +228126,7 @@ paths:
         - "Customers / Privacy Requests"
       summary: "Red nedeni ile."
       description: |-
-        Red nedeni ile.. Risk R3; confirmation approval; step-up conditional.
+        Records and returns a compatibility request only. The requested Native business effect is not executed by this route. Use the documented canonical Native domain workflows.
         Capability: customers.privacy.requests_reject. Risk: R3. Confirmation: approval. Step-up: conditional.
       x-shopiyz-capability: customers.privacy.requests_reject
       x-shopiyz-risk: R3
@@ -228155,15 +228155,15 @@ paths:
         - X-Shopiyz-API-Retry-After
         - X-Request-Id
       x-shopiyz-implemented: true
-      x-shopiyz-execution-mode: catalogued
+      x-shopiyz-execution-mode: record_only
       x-shopiyz-preview-required: true
-      x-shopiyz-rollback-supported: true
+      x-shopiyz-rollback-supported: false
       x-ai-safe: false
       x-ai-readonly: false
       x-ai-requires-confirmation: true
       x-ai-destructive: false
       x-ai-idempotency-required: true
-      x-ai-human-summary: "Changes store data through Red nedeni ile.; confirmation policy is approval."
+      x-ai-human-summary: "Records a compatibility request; no Native business effect is applied."
       x-ai-before-call:
         - "Show the merchant a concise summary of the intended change."
         - "Call the matching preview endpoint first when available."
@@ -228174,7 +228174,7 @@ paths:
       x-step-up: optional
       x-idempotency: required
       x-preview-supported: true
-      x-rollback-supported: true
+      x-rollback-supported: false
       x-required-roles:
         - merchant_staff
       x-required-scopes:
@@ -229514,7 +229514,7 @@ paths:
         - "Other Admin API / Privacy"
       summary: "Create an idempotent GDPR/privacy request."
       description: |-
-        Create an idempotent GDPR/privacy request.. Risk R5; confirmation typed; step-up mfa.
+        Records and returns a compatibility request only. The requested Native business effect is not executed by this route. Use the documented canonical Native domain workflows.
         Capability: privacy. Risk: R5. Confirmation: typed. Step-up: mfa.
       x-shopiyz-capability: privacy
       x-shopiyz-risk: R5
@@ -229543,15 +229543,15 @@ paths:
         - X-Shopiyz-API-Retry-After
         - X-Request-Id
       x-shopiyz-implemented: true
-      x-shopiyz-execution-mode: catalogued
+      x-shopiyz-execution-mode: record_only
       x-shopiyz-preview-required: true
-      x-shopiyz-rollback-supported: true
+      x-shopiyz-rollback-supported: false
       x-ai-safe: false
       x-ai-readonly: false
       x-ai-requires-confirmation: true
       x-ai-destructive: true
       x-ai-idempotency-required: true
-      x-ai-human-summary: "Changes store data through Create an idempotent GDPR/privacy request.; confirmation policy is typed."
+      x-ai-human-summary: "Records a compatibility request; no Native business effect is applied."
       x-ai-before-call:
         - "Show the merchant a concise summary of the intended change."
         - "Call the matching preview endpoint first when available."
@@ -229563,7 +229563,7 @@ paths:
       x-step-up: required
       x-idempotency: required
       x-preview-supported: true
-      x-rollback-supported: true
+      x-rollback-supported: false
       x-required-roles:
         - merchant_staff
       x-required-scopes:
@@ -229785,7 +229785,7 @@ paths:
         - "Other Admin API / Privacy"
       summary: "Approve a privacy request."
       description: |-
-        Approve a privacy request.. Risk R5; confirmation typed; step-up mfa.
+        Records and returns a compatibility request only. The requested Native business effect is not executed by this route. Use the documented canonical Native domain workflows.
         Capability: privacy. Risk: R5. Confirmation: typed. Step-up: mfa.
       x-shopiyz-capability: privacy
       x-shopiyz-risk: R5
@@ -229814,15 +229814,15 @@ paths:
         - X-Shopiyz-API-Retry-After
         - X-Request-Id
       x-shopiyz-implemented: true
-      x-shopiyz-execution-mode: catalogued
+      x-shopiyz-execution-mode: record_only
       x-shopiyz-preview-required: true
-      x-shopiyz-rollback-supported: true
+      x-shopiyz-rollback-supported: false
       x-ai-safe: false
       x-ai-readonly: false
       x-ai-requires-confirmation: true
       x-ai-destructive: true
       x-ai-idempotency-required: true
-      x-ai-human-summary: "Changes store data through Approve a privacy request.; confirmation policy is typed."
+      x-ai-human-summary: "Records a compatibility request; no Native business effect is applied."
       x-ai-before-call:
         - "Show the merchant a concise summary of the intended change."
         - "Call the matching preview endpoint first when available."
@@ -229834,7 +229834,7 @@ paths:
       x-step-up: required
       x-idempotency: required
       x-preview-supported: true
-      x-rollback-supported: true
+      x-rollback-supported: false
       x-required-roles:
         - merchant_staff
       x-required-scopes:
@@ -229934,7 +229934,7 @@ paths:
         - "Other Admin API / Privacy"
       summary: "Complete a privacy request."
       description: |-
-        Complete a privacy request.. Risk R5; confirmation typed; step-up mfa.
+        Records and returns a compatibility request only. The requested Native business effect is not executed by this route. Use the documented canonical Native domain workflows.
         Capability: privacy. Risk: R5. Confirmation: typed. Step-up: mfa.
       x-shopiyz-capability: privacy
       x-shopiyz-risk: R5
@@ -229963,15 +229963,15 @@ paths:
         - X-Shopiyz-API-Retry-After
         - X-Request-Id
       x-shopiyz-implemented: true
-      x-shopiyz-execution-mode: catalogued
+      x-shopiyz-execution-mode: record_only
       x-shopiyz-preview-required: true
-      x-shopiyz-rollback-supported: true
+      x-shopiyz-rollback-supported: false
       x-ai-safe: false
       x-ai-readonly: false
       x-ai-requires-confirmation: true
       x-ai-destructive: true
       x-ai-idempotency-required: true
-      x-ai-human-summary: "Changes store data through Complete a privacy request.; confirmation policy is typed."
+      x-ai-human-summary: "Records a compatibility request; no Native business effect is applied."
       x-ai-before-call:
         - "Show the merchant a concise summary of the intended change."
         - "Call the matching preview endpoint first when available."
@@ -229983,7 +229983,7 @@ paths:
       x-step-up: required
       x-idempotency: required
       x-preview-supported: true
-      x-rollback-supported: true
+      x-rollback-supported: false
       x-required-roles:
         - merchant_staff
       x-required-scopes:

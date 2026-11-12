@@ -31,3 +31,21 @@ atomic source must retain the previously published catalog. Normal job
 cancellation is a separate, authorized command. Before changing the profile,
 require the cancellation API's exact own-job acknowledgement, `applied: false`
 and `cache_settled: true`; publication cannot be inferred from a queue status.
+
+Atomic staging preparation is also asynchronous. The private Sync callback may
+return HTTP200 with `success: true`, `done: false`, `preparing: true`, the exact
+unchanged Sync cursor and a zero-scanned/zero-failed batch. This acknowledges a
+bounded preparation step only. It never acknowledges the Engine's pending
+commands, advances a source cursor or proves catalog publication. Public import
+admission remains HTTP202 and publication still requires the same Native
+completion receipt.
+
+Preparation creates at most 128 schema objects per step. Its durable progress and
+lease are stored with the original run; source and baseline rows are copied in
+one transaction after all temporary tables exist, before temporary triggers are
+installed. Between steps a 95 second pause lets the existing 90 second Engine lease
+expire without clearing it. The same immutable command manifest is verified
+again before work resumes. A committed step with a lost response is recovered
+from its stored cursor; its DDL and snapshot are not blindly repeated. Existing
+configuration, cancellation, schema, inventory and final publication guards
+remain in force. Partial preparation never changes the live catalog.
